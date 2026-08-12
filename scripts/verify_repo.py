@@ -28,6 +28,8 @@ SCHEMAS = ROOT / "schemas"
 
 REQUIRED_REPO_FILES = [
     "README.md",
+    "AGENTS.md",
+    "CLAUDE.md",
     "CONTRIBUTING.md",
     "LICENSE",
     ".claude-plugin/marketplace.json",
