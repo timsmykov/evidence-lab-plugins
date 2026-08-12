@@ -1,0 +1,10 @@
+[
+  { "query": "Проверь эту таблицу перед отправкой научному руководителю", "should_trigger": true },
+  { "query": "Что здесь не выдержит проверки?", "should_trigger": true },
+  { "query": "Review this artefact for gaps before I send it", "should_trigger": true },
+  { "query": "Найди слабые места в готовом своде", "should_trigger": true },
+  { "query": "Собери таблицу по этим материалам", "should_trigger": false, "note": "артефакта ещё нет — это example-procedure" },
+  { "query": "Перепиши этот раздел, чтобы читалось лучше", "should_trigger": false, "note": "редактирование, а не проверка" },
+  { "query": "Как тебе вообще эта работа, нормальная?", "should_trigger": false, "note": "субъективная оценка вместо проверки по признакам" },
+  { "query": "Проверь, компилируется ли этот код", "should_trigger": false, "note": "другой домен" }
+]

@@ -1,0 +1,9 @@
+{
+  "name": "__PLUGIN__",
+  "description": "REPLACE ME: what class of work this plugin covers, for whom, and what it deliberately does not do. Written for a routing agent — concrete task words, not marketing.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Evidence Lab"
+  },
+  "keywords": ["research"]
+}

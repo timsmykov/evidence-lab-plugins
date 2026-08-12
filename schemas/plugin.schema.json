@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evidence-lab-plugins/schemas/plugin.schema.json",
+  "title": "Claude Code plugin manifest",
+  "description": "Native Claude Code plugin manifest. Keys mirror the format used by the official marketplace; unknown keys are rejected so that local metadata stays in meta.json.",
+  "type": "object",
+  "required": ["name", "description", "version", "author"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$",
+      "description": "Must equal the plugin directory name."
+    },
+    "description": {
+      "type": "string",
+      "minLength": 60,
+      "maxLength": 1024,
+      "description": "What the plugin does and when to reach for it. Written for a routing agent, not for marketing."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version. Bump on every content change (CI enforces)."
+    },
+    "author": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "url": { "type": "string" }
+      }
+    },
+    "keywords": { "type": "array", "items": { "type": "string" } },
+    "homepage": { "type": "string" },
+    "repository": { "type": "string" },
+    "license": { "type": "string" }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "status": "reference",
+  "category": "research",
+  "risk_level": "team_safe",
+  "owner": "Тим",
+  "reviewer": "Тим",
+  "provenance": {
+    "origin": "Собран как эталон формы вместе с каркасом репозитория; предметного знания не несёт.",
+    "evidence": [
+      "docs/architecture.md — решения по структуре плагина",
+      "Официальный маркетплейс плагинов Claude Code — формат plugin.json, skills/, commands/, agents/, evals/"
+    ],
+    "added_at": "2026-08-12"
+  },
+  "skills": [
+    {
+      "name": "example-procedure",
+      "summary": "Сквозная процедура с точкой подтверждения человеком и детерминированной сборкой таблицы.",
+      "deterministic_parts": ["scripts/build_table.py"]
+    },
+    {
+      "name": "example-checklist",
+      "summary": "Проверка готового артефакта по формализованным признакам перед передачей дальше."
+    }
+  ],
+  "portable_to": ["claude", "codex"]
+}

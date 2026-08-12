@@ -1,0 +1,8 @@
+{
+  "name": "evidence-lab-plugins",
+  "description": "Evidence Lab plugin marketplace: domain plugins that bundle research skills, commands and subagents into installable units.",
+  "owner": {
+    "name": "Evidence Lab"
+  },
+  "plugins": []
+}

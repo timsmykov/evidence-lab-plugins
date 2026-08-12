@@ -1,0 +1,53 @@
+name: verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install --quiet jsonschema
+
+      - name: Marketplace is generated, not hand-edited
+        run: python3 scripts/build_marketplace.py --check
+
+      - name: Verify repository
+        run: python3 scripts/verify_repo.py
+
+      - name: Scaffolder works and the gate rejects an unfilled plugin
+        run: |
+          python3 scripts/new_plugin.py ci-smoke-plugin --skill ci-smoke-skill --owner CI --reviewer CI
+          test -f plugins/ci-smoke-plugin/.claude-plugin/plugin.json
+          test -f plugins/ci-smoke-plugin/skills/ci-smoke-skill/SKILL.md
+          test -f plugins/ci-smoke-plugin/skills/ci-smoke-skill/evals/trigger_eval.json
+          if python3 scripts/verify_repo.py > /dev/null 2>&1; then
+            echo "FAIL: verifier accepted a plugin full of placeholders"
+            rm -rf plugins/ci-smoke-plugin
+            exit 1
+          fi
+          rm -rf plugins/ci-smoke-plugin
+
+      - name: Deterministic script is reproducible
+        run: |
+          cd plugins/example-domain/skills/example-procedure
+          cat > /tmp/extracted.json <<'JSON'
+          {"features": ["year"], "documents": [{"id": "d1", "source": "a.pdf", "values": {"year": "2024"}}], "unreadable": []}
+          JSON
+          python3 scripts/build_table.py /tmp/extracted.json --out /tmp/first.md
+          python3 scripts/build_table.py /tmp/extracted.json --out /tmp/second.md
+          cmp /tmp/first.md /tmp/second.md
+
+      - name: Portable export runs
+        run: python3 scripts/export_portable.py --include-reference

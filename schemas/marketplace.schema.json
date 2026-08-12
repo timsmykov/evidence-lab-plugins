@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evidence-lab-plugins/schemas/marketplace.schema.json",
+  "title": "Claude Code plugin marketplace",
+  "description": "Generated file. Do not edit by hand — scripts/build_marketplace.py rebuilds it from plugins/ and CI fails when the committed copy drifts.",
+  "type": "object",
+  "required": ["name", "description", "owner", "plugins"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "owner": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "url": { "type": "string" }
+      }
+    },
+    "plugins": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "description", "version", "author", "source", "category"],
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+          "author": { "type": "object" },
+          "source": {
+            "type": "string",
+            "pattern": "^\\./plugins/[a-z0-9-]+$",
+            "description": "Relative path inside this repository — the monorepo marketplace form."
+          },
+          "category": { "type": "string" },
+          "keywords": { "type": "array", "items": { "type": "string" } },
+          "homepage": { "type": "string" }
+        }
+      }
+    }
+  }
+}

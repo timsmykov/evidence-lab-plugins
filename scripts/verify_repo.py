@@ -1,0 +1,322 @@
+#!/usr/bin/env python3
+"""Repository gate: structure, schemas, routing evals, privacy, version discipline.
+
+Run locally before opening a pull request:
+
+    python3 scripts/verify_repo.py
+
+CI runs the same command. If a rule is too broad, narrow the rule here in a
+reviewed change — do not delete the check.
+"""
+from __future__ import annotations
+
+import json
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+try:
+    from jsonschema import Draft202012Validator
+except ImportError:  # pragma: no cover - CI installs it
+    print("FAIL: jsonschema is required (pip install jsonschema)")
+    raise SystemExit(1)
+
+ROOT = Path(__file__).resolve().parent.parent
+PLUGINS = ROOT / "plugins"
+SCHEMAS = ROOT / "schemas"
+
+REQUIRED_REPO_FILES = [
+    "README.md",
+    "CONTRIBUTING.md",
+    "LICENSE",
+    ".claude-plugin/marketplace.json",
+    "docs/architecture.md",
+    "docs/authoring.md",
+    "docs/review-checklist.md",
+    "docs/sanitization-policy.md",
+    "docs/release-process.md",
+    "schemas/plugin.schema.json",
+    "schemas/meta.schema.json",
+    "schemas/eval.schema.json",
+    "schemas/marketplace.schema.json",
+    "templates/plugin/.claude-plugin/plugin.json",
+    "templates/plugin/meta.json",
+    "templates/plugin/skills/__SKILL__/SKILL.md",
+    "templates/plugin/skills/__SKILL__/evals/trigger_eval.json",
+]
+
+REQUIRED_PLUGIN_FILES = ["README.md", "CHANGELOG.md", "meta.json", ".claude-plugin/plugin.json"]
+
+# Anything matching these must never reach a shared plugin. Ported from the
+# ai-agent-skills verifier and trimmed to what actually bites us.
+PRIVATE_PATTERNS = {
+    "private_host_path": re.compile(r"/root/(?:\.hermes|hermes-workspace|\.ssh|\.config|\.claude)", re.I),
+    "ip_address": re.compile(r"\b(?!(?:127\.0\.0\.1|0\.0\.0\.0)\b)(?:\d{1,3}\.){3}\d{1,3}\b"),
+    "token": re.compile(
+        r"\b(?:ghp_[A-Za-z0-9_]{20,}|gho_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,}"
+        r"|sk-[A-Za-z0-9_\-]{20,}|xox[baprs]-[A-Za-z0-9_\-]{20,})\b"
+    ),
+    "notion_id": re.compile(r"(?:notion\.so|notion\.com)/[A-Za-z0-9_-]*[0-9a-f]{32}", re.I),
+    "bare_uuid": re.compile(r"\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b", re.I),
+    "email": re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}"),
+}
+# Files where a contact address is legitimate.
+EMAIL_ALLOWED = {"LICENSE", "SECURITY.md"}
+
+# Scaffolded plugins must be filled in before they can be merged.
+PLACEHOLDER_PATTERN = re.compile(r"REPLACE ME|__PLUGIN__|__SKILL__|__OWNER__|__REVIEWER__")
+
+SCANNED_SUFFIXES = {".md", ".json", ".py", ".sh", ".yml", ".yaml", ".txt", ".csv"}
+BANNED_NAMES = {"__pycache__", ".DS_Store", ".env"}
+BANNED_SUFFIXES = {".pyc", ".pyo"}
+
+errors: list[str] = []
+warnings: list[str] = []
+
+
+def fail(msg: str) -> None:
+    errors.append(msg)
+
+
+def warn(msg: str) -> None:
+    warnings.append(msg)
+
+
+def load_json(path: Path):
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        fail(f"{path.relative_to(ROOT)}: invalid JSON ({exc})")
+        return None
+
+
+def validate(instance, schema_name: str, label: str) -> None:
+    schema = json.loads((SCHEMAS / schema_name).read_text(encoding="utf-8"))
+    for err in sorted(Draft202012Validator(schema).iter_errors(instance), key=lambda e: e.path):
+        location = "/".join(str(p) for p in err.path) or "<root>"
+        fail(f"{label}: {location}: {err.message}")
+
+
+def parse_frontmatter(text: str) -> dict:
+    """Minimal YAML frontmatter reader: top-level scalars, folded block scalars."""
+    if not text.startswith("---"):
+        return {}
+    end = text.find("\n---", 3)
+    if end == -1:
+        return {}
+    block = text[3:end]
+    fields: dict[str, str] = {}
+    key = None
+    for line in block.splitlines():
+        match = re.match(r"^([A-Za-z_-]+):\s*(.*)$", line)
+        if match:
+            key = match.group(1)
+            fields[key] = match.group(2).strip().strip("\"'")
+        elif key and line.strip():
+            fields[key] += " " + line.strip().strip("\"'")
+    return fields
+
+
+# --------------------------------------------------------------------------- repo
+
+
+def check_repo_files() -> None:
+    for rel in REQUIRED_REPO_FILES:
+        if not (ROOT / rel).exists():
+            fail(f"missing required file: {rel}")
+
+
+def check_marketplace() -> None:
+    path = ROOT / ".claude-plugin" / "marketplace.json"
+    if not path.exists():
+        return
+    data = load_json(path)
+    if data is None:
+        return
+    validate(data, "marketplace.schema.json", "marketplace.json")
+    for entry in data.get("plugins", []):
+        source = Path(entry.get("source", "").lstrip("./"))
+        if not (ROOT / source).is_dir():
+            fail(f"marketplace.json: entry {entry.get('name')} points at missing {source}")
+
+
+# ------------------------------------------------------------------------- plugin
+
+
+def check_skill(plugin: str, skill_dir: Path, declared: dict) -> None:
+    label = f"{plugin}/{skill_dir.name}"
+    skill_md = skill_dir / "SKILL.md"
+    if not skill_md.exists():
+        fail(f"{label}: missing SKILL.md")
+        return
+
+    fm = parse_frontmatter(skill_md.read_text(encoding="utf-8"))
+    if fm.get("name") != skill_dir.name:
+        fail(f"{label}: SKILL.md name '{fm.get('name')}' does not match directory")
+    description = fm.get("description", "")
+    if len(description) < 80:
+        fail(f"{label}: description is {len(description)} chars; needs >= 80 with explicit triggers")
+    if not re.search(r"\b(use|activates?|trigger|when)\b", description, re.I):
+        warn(f"{label}: description does not say when to load the skill")
+
+    if skill_dir.name not in declared:
+        fail(f"{label}: skill is on disk but absent from meta.json")
+
+    evals = skill_dir / "evals" / "trigger_eval.json"
+    if not evals.exists():
+        fail(f"{label}: missing evals/trigger_eval.json — routing is untested")
+        return
+    cases = load_json(evals)
+    if cases is None:
+        return
+    validate(cases, "eval.schema.json", f"{label}/evals")
+    negatives = sum(1 for c in cases if isinstance(c, dict) and c.get("should_trigger") is False)
+    if negatives < 3:
+        fail(f"{label}: only {negatives} negative eval case(s); need >= 3 near-misses")
+
+    for script in (skill_dir / "scripts").glob("*"):
+        if script.suffix in {".py", ".sh"} and not script.stat().st_mode & 0o111:
+            warn(f"{label}: {script.name} is not executable")
+
+
+def check_markdown_agents(plugin_dir: Path, plugin: str) -> None:
+    for command in (plugin_dir / "commands").glob("*.md"):
+        fm = parse_frontmatter(command.read_text(encoding="utf-8"))
+        if not fm.get("description"):
+            fail(f"{plugin}/commands/{command.name}: missing description in frontmatter")
+    for agent in (plugin_dir / "agents").glob("*.md"):
+        fm = parse_frontmatter(agent.read_text(encoding="utf-8"))
+        if not fm.get("name") or not fm.get("description"):
+            fail(f"{plugin}/agents/{agent.name}: frontmatter needs name and description")
+
+
+def check_plugin(plugin_dir: Path) -> None:
+    plugin = plugin_dir.name
+    for rel in REQUIRED_PLUGIN_FILES:
+        if not (plugin_dir / rel).exists():
+            fail(f"{plugin}: missing {rel}")
+    manifest_path = plugin_dir / ".claude-plugin" / "plugin.json"
+    meta_path = plugin_dir / "meta.json"
+    if not manifest_path.exists() or not meta_path.exists():
+        return
+
+    manifest, meta = load_json(manifest_path), load_json(meta_path)
+    if manifest is None or meta is None:
+        return
+    validate(manifest, "plugin.schema.json", f"{plugin}/plugin.json")
+    validate(meta, "meta.schema.json", f"{plugin}/meta.json")
+
+    if manifest.get("name") != plugin:
+        fail(f"{plugin}: plugin.json name '{manifest.get('name')}' does not match directory")
+    if meta.get("status") == "production":
+        if meta.get("owner") == meta.get("reviewer"):
+            fail(f"{plugin}: production plugin needs a reviewer different from the owner")
+        if not meta.get("provenance", {}).get("reviewed_at"):
+            fail(f"{plugin}: production plugin needs provenance.reviewed_at")
+
+    declared = {s["name"]: s for s in meta.get("skills", []) if isinstance(s, dict)}
+    skills_dir = plugin_dir / "skills"
+    on_disk = {d.name for d in skills_dir.iterdir() if d.is_dir()} if skills_dir.is_dir() else set()
+    if not on_disk:
+        fail(f"{plugin}: a plugin must ship at least one skill")
+    for missing in sorted(set(declared) - on_disk):
+        fail(f"{plugin}: meta.json declares skill '{missing}' with no directory")
+    for name in sorted(on_disk):
+        check_skill(plugin, skills_dir / name, declared)
+
+    check_markdown_agents(plugin_dir, plugin)
+
+
+# ------------------------------------------------------------------- hygiene/git
+
+
+def check_hygiene() -> None:
+    for path in ROOT.rglob("*"):
+        rel = path.relative_to(ROOT)
+        if rel.parts and rel.parts[0] == ".git":
+            continue
+        if path.name in BANNED_NAMES or path.suffix in BANNED_SUFFIXES:
+            fail(f"remove generated/private artefact: {rel}")
+            continue
+        if not path.is_file() or path.suffix not in SCANNED_SUFFIXES:
+            continue
+        if rel.parts and rel.parts[0] == "templates":
+            continue  # placeholders are not real content
+        text = path.read_text(encoding="utf-8", errors="replace")
+        if rel.parts and rel.parts[0] == "plugins":
+            placeholder = PLACEHOLDER_PATTERN.search(text)
+            if placeholder:
+                fail(f"{rel}: unfilled scaffold placeholder '{placeholder.group(0)}'")
+        for label, pattern in PRIVATE_PATTERNS.items():
+            if label == "email" and path.name in EMAIL_ALLOWED:
+                continue
+            if label == "bare_uuid" and rel.parts[0] == "scripts":
+                continue
+            match = pattern.search(text)
+            if match:
+                fail(f"{rel}: {label} leaked ({match.group(0)[:40]})")
+
+
+def changed_plugins() -> set[str]:
+    """Plugins touched relative to origin/main, when that ref exists."""
+    for base in ("origin/main", "main"):
+        try:
+            out = subprocess.run(
+                ["git", "diff", "--name-only", f"{base}...HEAD"],
+                cwd=ROOT, capture_output=True, text=True, check=True,
+            ).stdout
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            continue
+        return {
+            Path(line).parts[1]
+            for line in out.splitlines()
+            if line.startswith("plugins/") and len(Path(line).parts) > 1
+        }
+    return set()
+
+
+def check_version_bump() -> None:
+    touched = changed_plugins()
+    if not touched:
+        return
+    for name in sorted(touched):
+        plugin_dir = PLUGINS / name
+        manifest = plugin_dir / ".claude-plugin" / "plugin.json"
+        if not manifest.exists():
+            continue
+        try:
+            previous = subprocess.run(
+                ["git", "show", f"origin/main:plugins/{name}/.claude-plugin/plugin.json"],
+                cwd=ROOT, capture_output=True, text=True, check=True,
+            ).stdout
+        except subprocess.CalledProcessError:
+            continue  # new plugin
+        old = json.loads(previous).get("version")
+        new = load_json(manifest).get("version")
+        if old == new:
+            fail(f"{name}: content changed but version stayed {old}; bump it and update CHANGELOG.md")
+
+
+def main() -> int:
+    check_repo_files()
+    check_marketplace()
+    if PLUGINS.is_dir():
+        for plugin_dir in sorted(p for p in PLUGINS.iterdir() if p.is_dir()):
+            check_plugin(plugin_dir)
+    check_hygiene()
+    check_version_bump()
+
+    for message in warnings:
+        print(f"WARN: {message}")
+    for message in errors:
+        print(f"FAIL: {message}")
+    if errors:
+        print(f"\n{len(errors)} error(s), {len(warnings)} warning(s)")
+        return 1
+    print(f"OK: repository verified ({len(warnings)} warning(s))")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evidence-lab-plugins/schemas/eval.schema.json",
+  "title": "Skill trigger evaluation set",
+  "description": "Routing test for one skill: which requests must load it and which must not. Mirrors the format used by official Anthropic plugins.",
+  "type": "array",
+  "minItems": 8,
+  "items": {
+    "type": "object",
+    "required": ["query", "should_trigger"],
+    "additionalProperties": false,
+    "properties": {
+      "query": { "type": "string", "minLength": 10 },
+      "should_trigger": { "type": "boolean" },
+      "note": { "type": "string", "description": "Why this case is interesting. Use it for near-misses." }
+    }
+  }
+}
