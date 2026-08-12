@@ -1,58 +1,64 @@
 # Evidence Lab Plugins
 
-Маркетплейс доменных плагинов для научной работы. Плагин — устанавливаемая единица: несколько скиллов одной предметной области плюс команды, субагенты и проверки маршрутизации.
+A marketplace of domain plugins for research work. A plugin is the installable unit: several skills from one subject area, plus the commands, subagents and routing checks that go with them.
 
-Репозиторий приватный и рассчитан на внутренний обмен внутри команды. Дистрибуция в изолированные клиентские инстансы — отдельная задача, сюда пока не входит.
+The repository is private and scoped to sharing inside the team. Distribution into isolated client instances is separate work and deliberately out of scope here.
 
-## Три уровня
+## Three levels
 
-| Уровень | Что это | Где живёт |
+| Level | What it is | Where it lives |
 |---|---|---|
-| Скилл | одна повторяемая процедура: `SKILL.md` плюс `scripts/`, `templates/`, `references/`, `evals/` | `plugins/<плагин>/skills/<скилл>/` |
-| Плагин | доменный набор скиллов с общей командой и рецензентом; единица установки и версионирования | `plugins/<плагин>/` |
-| Маркетплейс | витрина плагинов и гейт качества | `.claude-plugin/marketplace.json` |
+| Skill | one repeatable procedure: `SKILL.md` plus `scripts/`, `templates/`, `references/`, `evals/` | `plugins/<plugin>/skills/<skill>/` |
+| Plugin | a domain bundle of skills with a shared command and reviewer; the unit of installation and versioning | `plugins/<plugin>/` |
+| Marketplace | the shop window and the quality gate | `.claude-plugin/marketplace.json` |
 
-Формат нативный для Claude Code, поэтому установка не требует своего установщика:
+The format is native to Claude Code, so installation needs no installer of ours:
 
 ```
 /plugin marketplace add timsmykov/evidence-lab-plugins
-/plugin install <плагин>@evidence-lab-plugins
+/plugin install <plugin>@evidence-lab-plugins
 ```
 
-Для Codex и ChatGPT скиллы выкладываются плоско: `python3 scripts/export_portable.py`.
+For Codex and ChatGPT the skills are flattened: `python3 scripts/export_portable.py`.
 
-## Быстрый старт для автора плагина
+## Language policy
+
+English first. Skills, plugin manifests, documentation and commit messages are written in English, because the primary reader of a skill is a routing agent and the registry has to stay portable across runtimes.
+
+One exception, on purpose: routing evals keep Russian queries alongside English ones. The team asks for work in Russian, so a skill that only triggers on English phrasing is broken in practice. Test both.
+
+## Quick start for a plugin author
 
 ```bash
-python3 scripts/new_plugin.py systematic-review --skill screening --owner Тим --reviewer Миша
-# заполнить SKILL.md, evals и meta.json
+python3 scripts/new_plugin.py systematic-review --skill screening --owner Tim --reviewer Misha
+# fill in SKILL.md, the eval set and meta.json
 python3 scripts/build_marketplace.py
 python3 scripts/verify_repo.py
 ```
 
-Дальше — ветка, PR, ревью, merge. Прямые пуши в `main` запрещены.
+Then branch, pull request, review, merge. Direct pushes to `main` are rejected.
 
-## Что проверяет гейт
+## What the gate enforces
 
-`scripts/verify_repo.py` падает, если: манифест плагина не по схеме; имя не совпадает с каталогом; скилл не описан в `meta.json`; у скилла нет `evals/trigger_eval.json` или в нём меньше трёх отрицательных кейсов; описание скилла короче 80 символов; у production-плагина ревьюер совпадает с владельцем; содержимое плагина изменилось без бампа версии; в файлы просочились приватные пути, адреса, токены или идентификаторы.
+`scripts/verify_repo.py` fails when: a plugin manifest breaks the schema; a name does not match its directory; a skill on disk is missing from `meta.json`; a skill has no `evals/trigger_eval.json` or fewer than three negative cases; a skill description is shorter than 80 characters; a production plugin has the same person as owner and reviewer; plugin content changed without a version bump; scaffold placeholders were left unfilled; private paths, addresses, tokens or identifiers leaked into a file.
 
-`scripts/build_marketplace.py --check` падает, если витрина разошлась с содержимым `plugins/`.
+`scripts/build_marketplace.py --check` fails when the shop window has drifted from `plugins/`.
 
-## Карта репозитория
+## Repository map
 
-| Путь | Назначение |
+| Path | Purpose |
 |---|---|
-| `plugins/` | плагины; `example-domain` — эталон формы, в витрину не попадает |
-| `templates/plugin/` | шаблон для скаффолдинга |
-| `schemas/` | схемы `plugin.json`, `meta.json`, evals и витрины |
-| `scripts/` | генератор витрины, верификатор, скаффолдер, портируемый экспорт |
-| `docs/` | архитектура, правила авторства, чеклист ревью, приватность, релизы |
+| `plugins/` | the plugins; `example-domain` is the reference implementation and stays out of the shop window |
+| `templates/plugin/` | scaffolding template |
+| `schemas/` | schemas for `plugin.json`, `meta.json`, evals and the marketplace |
+| `scripts/` | marketplace generator, verifier, scaffolder, portable export |
+| `docs/` | architecture, authoring rules, review checklist, privacy, releases |
 
-## Документация
+## Documentation
 
-- [Архитектура и принятые решения](docs/architecture.md)
-- [Как писать скиллы и плагины](docs/authoring.md)
-- [Чеклист ревью](docs/review-checklist.md)
-- [Политика приватности содержимого](docs/sanitization-policy.md)
-- [Версии и релизы](docs/release-process.md)
-- [Как предложить плагин](CONTRIBUTING.md)
+- [Architecture and decisions](docs/architecture.md)
+- [Authoring skills and plugins](docs/authoring.md)
+- [Review checklist](docs/review-checklist.md)
+- [Content privacy policy](docs/sanitization-policy.md)
+- [Versions and releases](docs/release-process.md)
+- [How to propose a plugin](CONTRIBUTING.md)

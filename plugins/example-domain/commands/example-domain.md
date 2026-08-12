@@ -1,15 +1,15 @@
 ---
 description: Reference entry point — run the example-domain procedure over a folder of documents
-argument-hint: путь к каталогу с документами
+argument-hint: path to the directory of documents
 allowed-tools: ["Read", "Write", "Glob", "Grep", "Bash", "Skill", "AskUserQuestion"]
 ---
 
 # /example-domain
 
-Точка входа для человека. Команда не пересказывает скилл, а запускает его с нужными параметрами и собирает результат.
+The human entry point. The command does not restate the skill; it launches the skill with the right parameters and collects the result.
 
-1. Если путь не передан аргументом — спроси, где лежат документы.
-2. Загрузи скилл `example-domain:example-procedure` и выполни процедуру.
-3. На шаге подтверждения признаков остановись и спроси пользователя через `AskUserQuestion`.
-4. После сборки `summary.md` вызови субагента `example-domain-critic` и приложи его замечания.
-5. Верни путь к `summary.md`, охват и список замечаний одним сообщением.
+1. If no path was passed as an argument, ask where the documents are.
+2. Load the `example-domain:example-procedure` skill and run the procedure.
+3. At the feature confirmation step, stop and ask the user via `AskUserQuestion`.
+4. After `summary.md` is assembled, invoke the `example-domain-critic` subagent and attach its findings.
+5. Return the path to `summary.md`, the coverage figures and the findings in one message.

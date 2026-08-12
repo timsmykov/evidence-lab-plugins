@@ -1,12 +1,12 @@
 # Changelog — example-domain
 
-Формат: [Keep a Changelog](https://keepachangelog.com/ru/1.1.0/), версии по [SemVer](https://semver.org/lang/ru/).
+Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versions follow [SemVer](https://semver.org/).
 
-MAJOR — процедура изменилась так, что прошлые результаты невоспроизводимы.
-MINOR — добавлен скилл, команда или шаг.
-PATCH — правки формулировок, шаблонов, evals без смены процедуры.
+MAJOR — the procedure changed such that earlier results are no longer reproducible.
+MINOR — a skill, command or step was added.
+PATCH — wording, templates, evals; the procedure is unchanged.
 
 ## [0.1.0] — 2026-08-12
 
 ### Added
-- Эталонная структура плагина: скиллы `example-procedure` и `example-checklist`, команда `/example-domain`, субагент-рецензент, evals и детерминированный скрипт сборки таблицы.
+- Reference plugin structure: the `example-procedure` and `example-checklist` skills, the `/example-domain` command, a reviewer subagent, eval sets and a deterministic table builder.

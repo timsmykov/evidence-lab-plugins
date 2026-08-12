@@ -1,12 +1,12 @@
 # Changelog — __PLUGIN__
 
-Формат: [Keep a Changelog](https://keepachangelog.com/ru/1.1.0/), версии по [SemVer](https://semver.org/lang/ru/).
+Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versions follow [SemVer](https://semver.org/).
 
-MAJOR — процедура изменилась так, что прошлые результаты невоспроизводимы.
-MINOR — добавлен скилл, команда или шаг.
-PATCH — правки формулировок, шаблонов, evals без смены процедуры.
+MAJOR — the procedure changed such that earlier results are no longer reproducible.
+MINOR — a skill, command or step was added.
+PATCH — wording, templates, evals; the procedure is unchanged.
 
 ## [0.1.0] — __DATE__
 
 ### Added
-- Первая версия: скилл `__SKILL__`.
+- First version: the `__SKILL__` skill.

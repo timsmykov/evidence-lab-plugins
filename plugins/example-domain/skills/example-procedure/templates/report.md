@@ -1,18 +1,18 @@
-# Свод по набору документов
+# Summary over a document set
 
-**Запрос:** …
-**Дата прогона:** …
-**Утверждённые признаки:** … (кто и когда подтвердил)
+**Request:** …
+**Run date:** …
+**Approved features:** … (who confirmed them, and when)
 
-<!-- сюда вставляется вывод scripts/build_table.py -->
+<!-- output of scripts/build_table.py goes here -->
 
-## Как проверить
+## How to verify
 
-| Утверждение | Источник | Как перепроверить |
+| Claim | Source | How to recheck |
 |---|---|---|
 | … | … | … |
 
-## Что осталось за границей
+## Left out of scope
 
-- Документы, которые не удалось прочитать: …
-- Признаки, которые обсуждались и были отклонены: …
+- Documents that could not be read: …
+- Features that were discussed and rejected: …

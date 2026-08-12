@@ -67,6 +67,13 @@ EMAIL_ALLOWED = {"LICENSE", "SECURITY.md"}
 # Scaffolded plugins must be filled in before they can be merged.
 PLACEHOLDER_PATTERN = re.compile(r"REPLACE ME|__PLUGIN__|__SKILL__|__OWNER__|__REVIEWER__")
 
+# English-first: the registry has to stay portable and readable to a routing
+# agent. Two deliberate exceptions — the team asks in Russian, so eval sets and
+# the trigger phrases inside a SKILL.md frontmatter must carry Russian too.
+CYRILLIC_PATTERN = re.compile(r"[А-Яа-яЁё]")
+CYRILLIC_ALLOWED_PARTS = ("evals",)
+SELF = Path(__file__).resolve()
+
 SCANNED_SUFFIXES = {".md", ".json", ".py", ".sh", ".yml", ".yaml", ".txt", ".csv"}
 BANNED_NAMES = {"__pycache__", ".DS_Store", ".env"}
 BANNED_SUFFIXES = {".pyc", ".pyo"}
@@ -96,6 +103,14 @@ def validate(instance, schema_name: str, label: str) -> None:
     for err in sorted(Draft202012Validator(schema).iter_errors(instance), key=lambda e: e.path):
         location = "/".join(str(p) for p in err.path) or "<root>"
         fail(f"{label}: {location}: {err.message}")
+
+
+def strip_frontmatter(text: str) -> str:
+    """Body of a SKILL.md without its frontmatter — trigger phrases may be bilingual."""
+    if not text.startswith("---"):
+        return text
+    end = text.find("\n---", 3)
+    return text[end:] if end != -1 else text
 
 
 def parse_frontmatter(text: str) -> dict:
@@ -234,8 +249,8 @@ def check_plugin(plugin_dir: Path) -> None:
 def check_hygiene() -> None:
     for path in ROOT.rglob("*"):
         rel = path.relative_to(ROOT)
-        if rel.parts and rel.parts[0] == ".git":
-            continue
+        if rel.parts and rel.parts[0] in {".git", "dist"}:
+            continue  # dist/ is build output, rebuilt by export_portable.py
         if path.name in BANNED_NAMES or path.suffix in BANNED_SUFFIXES:
             fail(f"remove generated/private artefact: {rel}")
             continue
@@ -248,6 +263,15 @@ def check_hygiene() -> None:
             placeholder = PLACEHOLDER_PATTERN.search(text)
             if placeholder:
                 fail(f"{rel}: unfilled scaffold placeholder '{placeholder.group(0)}'")
+        if path.resolve() != SELF and not any(part in CYRILLIC_ALLOWED_PARTS for part in rel.parts):
+            body = strip_frontmatter(text) if path.name == "SKILL.md" else text
+            cyrillic = CYRILLIC_PATTERN.search(body)
+            if cyrillic:
+                line = body[: cyrillic.start()].count("\n") + 1
+                fail(
+                    f"{rel}:~{line}: non-English content (registry is English-first; "
+                    "exceptions: eval sets and SKILL.md trigger phrases)"
+                )
         for label, pattern in PRIVATE_PATTERNS.items():
             if label == "email" and path.name in EMAIL_ALLOWED:
                 continue

@@ -8,9 +8,9 @@ reviewer can rebuild the table without rerunning the model.
 Input format:
 
     {
-      "features": ["год", "метод", "выборка"],
+      "features": ["year", "design", "sample"],
       "documents": [
-        {"id": "doc-01", "source": "smith2024.pdf", "values": {"год": "2024", ...}}
+        {"id": "doc-01", "source": "smith2024.pdf", "values": {"year": "2024", ...}}
       ],
       "unreadable": [{"source": "scan_07.pdf", "reason": "no text layer"}]
     }
@@ -41,7 +41,7 @@ def render(data: dict) -> str:
     if not features:
         raise ValueError("features must not be empty — the confirmed feature set is the contract")
 
-    header = ["Документ", *features]
+    header = ["Document", *features]
     lines = [
         "| " + " | ".join(header) + " |",
         "|" + "|".join(["---"] * len(header)) + "|",
@@ -60,15 +60,15 @@ def render(data: dict) -> str:
     coverage = f"{filled}/{total_cells}" if total_cells else "0/0"
 
     out = [
-        "## Свод",
+        "## Summary",
         "",
         *lines,
         "",
-        "## Охват",
+        "## Coverage",
         "",
-        f"- Обработано документов: {len(documents)}",
-        f"- Заполнено значений: {coverage}",
-        f"- Не удалось прочитать: {len(unreadable)}",
+        f"- Documents processed: {len(documents)}",
+        f"- Values filled: {coverage}",
+        f"- Could not be read: {len(unreadable)}",
     ]
     for item in unreadable:
         out.append(f"  - {escape(item.get('source'))} — {escape(item.get('reason'))}")

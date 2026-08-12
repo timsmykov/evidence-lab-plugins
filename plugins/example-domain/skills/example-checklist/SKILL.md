@@ -1,51 +1,51 @@
 ---
 name: example-checklist
 description:
-  "Reference skill: checks a finished artefact against formal criteria before it
-  goes to a supervisor or a client. Loads on 'проверь эту таблицу перед отправкой',
-  'что здесь не выдержит проверки', 'review this artefact for gaps'. Does NOT load
-  when the artefact still has to be produced (use example-procedure), when the ask
-  is to rewrite the text rather than check it, or when someone wants a subjective
-  opinion on quality. Ships as a format example: it shows why a plugin bundles
-  several skills instead of shipping one."
+  "Reference skill: checks a finished artefact against formal criteria before it goes
+  to a supervisor or a client. Loads on 'review this artefact for gaps', 'what won't
+  survive scrutiny here', 'проверь эту таблицу перед отправкой'. Does NOT load when
+  the artefact still has to be produced (use example-procedure), when the ask is to
+  rewrite the text rather than check it, or when someone wants a subjective opinion
+  on quality. Ships as a format example: it shows why a plugin bundles several skills
+  instead of shipping one."
 ---
 
 # example-checklist
 
-Второй скилл того же домена. Он существует, чтобы показать, зачем плагин вообще нужен: производящая процедура и проверяющая процедура — это разные скиллы, но одна предметная область, один словарь и один набор шаблонов.
+The second skill in the same domain. It exists to show why a plugin is needed at all: producing and checking are different procedures, but one subject area, one vocabulary and one set of templates.
 
-## Когда применяется
+## When it applies
 
-- Артефакт готов и его нужно проверить по формализованным признакам перед передачей дальше.
+- The artefact is finished and has to be checked against formal criteria before it is handed on.
 
-## Когда не применяется
+## When it does not apply
 
-- Артефакта ещё нет — сначала `example-procedure`.
-- Просят переписать текст, а не найти в нём дыры.
-- Ждут субъективной оценки «хорошо или плохо» — этот скилл проверяет по признакам, а не по вкусу.
+- The artefact does not exist yet — start with `example-procedure`.
+- The ask is to rewrite the text, not to find holes in it.
+- Someone wants a subjective "is this good" verdict — this skill checks against criteria, not taste.
 
-## Процедура
+## Procedure
 
-1. Прочитай артефакт и восстанови, из чего он собран: какие входные данные, какие признаки, какой охват заявлен.
-2. Пройди по признакам ниже и на каждый дай вердикт с местом в артефакте.
-3. Верни список проблем по убыванию серьёзности. Если проблем нет — скажи это прямо, не придумывая замечания ради объёма.
+1. Read the artefact and reconstruct how it was built: what the inputs were, which features were used, what coverage is claimed.
+2. Work through the criteria below and give a verdict on each, anchored to a place in the artefact.
+3. Return findings ordered by severity. If there are none, say so plainly — do not manufacture findings for volume.
 
-## Признаки проверки
+## Criteria
 
-| Признак | Что ищем |
+| Criterion | What to look for |
 |---|---|
-| Прослеживаемость | каждое утверждение сводится к конкретному источнику |
-| Честный охват | сказано, что не вошло и почему; недоступное названо недоступным |
-| Пропуски | пустые значения показаны как пустые, а не заполнены правдоподобным текстом |
-| Подмена | вывод модели не подан как результат данных |
-| Воспроизводимость | по описанию можно повторить прогон и получить тот же результат |
+| Traceability | every claim reduces to a specific source |
+| Honest coverage | what was left out and why; the unreachable is named as unreachable |
+| Gaps | empty values are shown as empty, not filled with plausible text |
+| Substitution | a model conclusion is not presented as a result derived from data |
+| Reproducibility | the description is enough to repeat the run and get the same result |
 
-## Гейты качества
+## Quality gates
 
-- Каждое замечание указывает на место в артефакте.
-- Замечания не выдумываются: «чисто» — допустимый вердикт.
-- Серьёзность различается: то, что развалит защиту, и то, что стоит поправить, не смешиваются в один список.
+- Every finding points at a place in the artefact.
+- Findings are not invented: "clean" is a valid verdict.
+- Severity is differentiated: what would sink a defence and what is worth tidying do not go in one list.
 
-## Границы
+## Boundaries
 
-- Не проверяет фактическую верность источников — только внутреннюю состоятельность артефакта.
+- Does not verify that the sources are factually correct — only that the artefact holds together internally.

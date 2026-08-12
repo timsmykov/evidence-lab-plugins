@@ -1,19 +1,19 @@
-# REPLACE ME: название результата
+# REPLACE ME: name of the deliverable
 
-**Запрос:** …
-**Дата прогона:** …
-**Охват источников:** … (перечислить базы и явно указать недоступные)
+**Request:** …
+**Run date:** …
+**Source coverage:** … (list the databases and name the unreachable ones explicitly)
 
-## Результат
+## Result
 
 …
 
-## Как проверить
+## How to verify
 
-| Утверждение | Источник | Как перепроверить |
+| Claim | Source | How to recheck |
 |---|---|---|
 | … | … | … |
 
-## Что осталось за границей
+## Left out of scope
 
 …

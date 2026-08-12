@@ -3,7 +3,7 @@
   { "query": "REPLACE ME: the same job described in different words", "should_trigger": true },
   { "query": "REPLACE ME: the job named by its artefact instead of its action", "should_trigger": true },
   { "query": "REPLACE ME: the job stated as a problem, not a request", "should_trigger": true },
-  { "query": "REPLACE ME: the job in English, if the team works bilingually", "should_trigger": true },
+  { "query": "REPLACE ME: the same request in Russian — the team asks in Russian", "should_trigger": true },
   { "query": "REPLACE ME: near miss handled by another skill in this plugin", "should_trigger": false, "note": "belongs to <other-skill>" },
   { "query": "REPLACE ME: superficially similar request from a different domain", "should_trigger": false },
   { "query": "REPLACE ME: a question about the method rather than a request to run it", "should_trigger": false, "note": "explaining is not doing" }

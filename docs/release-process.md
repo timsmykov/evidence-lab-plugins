@@ -1,34 +1,34 @@
-# Версии и релизы
+# Versions and releases
 
-## Версионируется плагин, а не репозиторий
+## The plugin is versioned, not the repository
 
-У каждого плагина своя версия в `.claude-plugin/plugin.json` по SemVer:
+Each plugin carries its own version in `.claude-plugin/plugin.json`, following SemVer:
 
-- **MAJOR** — процедура изменилась так, что прошлые результаты невоспроизводимы.
-- **MINOR** — добавлен скилл, команда, шаг.
-- **PATCH** — формулировки, шаблоны, evals без смены процедуры.
+- **MAJOR** — the procedure changed such that earlier results are no longer reproducible.
+- **MINOR** — a skill, command or step was added.
+- **PATCH** — wording, templates, evals; the procedure is unchanged.
 
-CI сравнивает содержимое плагина с `origin/main` и падает, если файлы изменились, а версия осталась прежней. Это защита от тихой правки процедуры, после которой два прогона нельзя сравнить.
+CI diffs plugin content against `origin/main` and fails when files changed while the version stayed put. This guards against a quiet edit to a procedure, after which two runs can no longer be compared.
 
-## Ход изменения
+## Flow of a change
 
-1. Ветка `plugin/<имя>` или `fix/<что>`.
-2. Правки, бамп версии, запись в `CHANGELOG.md` плагина.
-3. `python3 scripts/build_marketplace.py` — витрина пересобирается.
-4. `python3 scripts/verify_repo.py` — гейт зелёный.
-5. PR с выводом верификатора и реальным прогоном.
-6. Ревью по чеклисту, merge.
+1. Branch `plugin/<name>` or `fix/<what>`.
+2. Edits, version bump, entry in the plugin's `CHANGELOG.md`.
+3. `python3 scripts/build_marketplace.py` — the shop window is rebuilt.
+4. `python3 scripts/verify_repo.py` — the gate is green.
+5. Pull request with the verifier output and a real run.
+6. Review against the checklist, merge.
 
-`main` защищён: прямые пуши, force-push и удаление ветки запрещены.
+`main` is protected: direct pushes, force pushes and branch deletion are rejected.
 
-## Статусы
+## Statuses
 
-`draft` — предложено, не проверено. `review` — на ревью. `production` — прошло ревью и отработало на реальной задаче; требует ревьюера, отличного от владельца, и проставленного `reviewed_at`. `reference` — эталон формы, в витрину не попадает. `deprecated` — выведено из употребления, остаётся в репозитории ради истории.
+`draft` — proposed, unverified. `review` — under review. `production` — reviewed and used on a real task; requires a reviewer distinct from the owner and a `reviewed_at` date. `reference` — a format exemplar, excluded from the shop window. `deprecated` — retired, kept in the repository for the record.
 
-## Теги
+## Tags
 
-Значимые версии помечаются тегом `<плагин>@<версия>`, например `systematic-review@1.2.0`. Тег ставится после merge, на коммит в `main`.
+Meaningful versions are tagged `<plugin>@<version>`, e.g. `systematic-review@1.2.0`. The tag is applied after merge, on a commit in `main`.
 
-## Если гейт падает
+## When the gate fails
 
-Чинить причину. Если правило действительно слишком широкое — сузить его отдельным изменением с обоснованием в PR. Удалять проверку, чтобы пройти CI, запрещено: гейт, который можно отключить в момент неудобства, не гейт.
+Fix the cause. If a rule really is too broad, narrow it in a separate change with the reasoning in the pull request. Deleting a check to get CI green is not allowed: a gate that can be switched off the moment it is inconvenient is not a gate.

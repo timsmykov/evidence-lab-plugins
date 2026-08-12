@@ -1,43 +1,44 @@
-# Чеклист ревью
+# Review checklist
 
-Ревьюер проверяет не текст, а работоспособность. Порядок пунктов — по убыванию того, как часто на них ломается.
+The reviewer checks whether it works, not whether it reads well. The order below follows how often each item is what actually breaks.
 
-## Воспроизводимость
+## Reproducibility
 
-- [ ] В PR приложен реальный прогон: вход, артефакт, что оказалось не так.
-- [ ] Детерминированные шаги вынесены в `scripts/` и запускаются отдельно от агента.
-- [ ] Повторный запуск на тех же входных данных даёт тот же артефакт.
+- [ ] The pull request carries a real run: input, artefact, what came out wrong.
+- [ ] Deterministic steps sit in `scripts/` and run without the agent.
+- [ ] A rerun on the same input produces the same artefact.
 
-## Происхождение
+## Provenance
 
-- [ ] `meta.json` → `provenance.origin` называет чью-то практику, а не общие соображения.
-- [ ] `provenance.evidence` ведёт на материал, который можно открыть.
-- [ ] Процедура проверена хотя бы на двух разных случаях, а не на одном.
+- [ ] `meta.json` → `provenance.origin` names someone's practice, not general reasoning.
+- [ ] `provenance.evidence` points at material that can be opened.
+- [ ] The procedure was tried on two different cases, not one.
 
-## Маршрутизация
+## Routing
 
-- [ ] Описание называет конкретные формулировки запуска, включая разговорные.
-- [ ] Отрицательные кейсы взяты из соседних скиллов, а не выдуманы.
-- [ ] Ни один кейс из evals не пересекается с другим скиллом этого плагина по смыслу.
+- [ ] The description names concrete launch phrasings, including colloquial ones.
+- [ ] Both English and Russian queries are covered.
+- [ ] Negative cases come from neighbouring skills rather than being invented.
+- [ ] No eval case overlaps in meaning with another skill in this plugin.
 
-## Решения человека
+## Human decisions
 
-- [ ] Есть явная точка подтверждения, если процедура выбирает критерии или границы.
-- [ ] Скилл не выдаёт гипотезу модели за результат данных.
-- [ ] Пропуски отображаются как пропуски.
+- [ ] There is an explicit confirmation point wherever the procedure chooses criteria or boundaries.
+- [ ] The skill does not present a model hypothesis as a result derived from data.
+- [ ] Gaps are rendered as gaps.
 
-## Границы и приватность
+## Boundaries and privacy
 
-- [ ] Раздел «чего не делает» написан честно и конкретно.
-- [ ] Нет клиентских документов, персональных данных, приватных путей и адресов.
-- [ ] `risk_level` соответствует содержимому.
+- [ ] The "what it does not do" section is honest and specific.
+- [ ] No client documents, personal data, private paths or addresses.
+- [ ] `risk_level` matches the contents.
 
-## Формальности
+## Formalities
 
-- [ ] `verify_repo.py` зелёный, вывод приложен.
-- [ ] Версия сбамплена, `CHANGELOG.md` обновлён.
-- [ ] Для `status: production` ревьюер отличается от владельца, проставлен `reviewed_at`.
+- [ ] `verify_repo.py` is green and its output is attached.
+- [ ] Version bumped, `CHANGELOG.md` updated.
+- [ ] For `status: production`: reviewer differs from owner, `reviewed_at` is set.
 
-## Вердикт
+## Verdict
 
-Замечания — по убыванию серьёзности, каждое с местом в файлах. «Чисто» — допустимый вердикт; придумывать замечания ради объёма не надо.
+Findings ordered by severity, each anchored to a place in the files. "Clean" is a valid verdict; do not manufacture findings for volume.
