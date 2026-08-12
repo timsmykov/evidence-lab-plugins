@@ -9,9 +9,9 @@ A skill is written after the work has been done by hand at least once. The order
 The `description` in the frontmatter is read by a router, not by a person. It has to answer two things: what the skill produces, and on which phrasings to load it. Take real phrasings — the ones people actually use, including the clumsy ones. Name the neighbouring requests that must *not* load it.
 
 Bad: "Helps you work with academic sources."
-Good: "Builds a summary table over a set of documents. Loads on 'build a summary table', 'structure this collection', and on the Russian phrasings the team actually uses for the same job. Does not load when new sources have to be found, or when a finished artefact needs checking."
+Good: "Builds a summary table over a set of documents. Loads on 'build a summary table', 'structure this collection', 'pull these files into one comparable table'. Does not load when new sources have to be found, or when a finished artefact needs checking."
 
-The description is the one place where the English-first rule bends: put the real Russian trigger phrases in there, because that is what the router has to match. Everything below the frontmatter stays English.
+Write the phrasings in English. The registry is English-only and the verifier enforces it; if a skill ever needs a translated description for a Russian-speaking user, that goes in a separate `*.ru.md` companion file.
 
 ## Split the model from the script
 
@@ -29,7 +29,7 @@ The "what it does not do" section matters more than the feature list. It is what
 
 ## Evals
 
-At least eight cases, at least three of them negative. Take the negatives from neighbouring skills in the same plugin — that is where confusion is most likely. Keep a mix of English and Russian queries: the team asks in Russian, and routing has to survive that.
+At least eight cases, at least three of them negative. Take the negatives from neighbouring skills in the same plugin — that is where confusion is most likely. Vary the phrasing instead of the language: the same job asked as a request, as a problem, and by naming the artefact rather than the action.
 
 One useful case type: a question *about* the method instead of a request to run it ("explain how a summary table differs from a comparison matrix" — must not load).
 

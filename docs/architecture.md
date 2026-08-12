@@ -26,7 +26,7 @@ What people work out stays inside their personal instances and never reaches the
 
 **No shared skills yet.** There is deliberately no `shared/` directory. Claude Code requires a skill to sit physically inside the plugin, so reuse means a copy. Building a vendoring mechanism before the first real duplicate exists is premature. When that duplicate shows up, the copy will be made by a script that records source and version — not by hand.
 
-**English first, bilingual routing.** Skills, manifests and docs are English so the registry stays portable and reads well to a routing agent. Eval sets keep Russian queries alongside English ones, because that is how the team actually asks, and a skill that only triggers in English is broken where it is used.
+**English only.** Skills, manifests, eval sets and docs are English so the registry stays portable and reads well to a routing agent. The verifier fails on Cyrillic anywhere in the tree. Localization, when it is genuinely needed, is an explicit companion file (`*.ru.md`, `*.ru.json`) beside the English original — never a bilingual file, because mixed-language prose is what makes a registry unportable one paragraph at a time.
 
 ## What the gate enforces
 
