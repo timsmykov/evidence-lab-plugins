@@ -17,7 +17,7 @@ The reviewer checks whether it works, not whether it reads well. The order below
 ## Routing
 
 - [ ] The description names concrete launch phrasings, including colloquial ones.
-- [ ] Both English and Russian queries are covered.
+- [ ] Phrasings vary in form — request, problem statement, artefact name — not just wording.
 - [ ] Negative cases come from neighbouring skills rather than being invented.
 - [ ] No eval case overlaps in meaning with another skill in this plugin.
 
@@ -31,6 +31,7 @@ The reviewer checks whether it works, not whether it reads well. The order below
 
 - [ ] The "what it does not do" section is honest and specific.
 - [ ] No client documents, personal data, private paths or addresses.
+- [ ] Everything is in English; any translation lives in a separate `*.ru.md` companion.
 - [ ] `risk_level` matches the contents.
 
 ## Formalities

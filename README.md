@@ -23,9 +23,9 @@ For Codex and ChatGPT the skills are flattened: `python3 scripts/export_portable
 
 ## Language policy
 
-English first. Skills, plugin manifests, documentation and commit messages are written in English, because the primary reader of a skill is a routing agent and the registry has to stay portable across runtimes.
+English, everywhere. Skills, plugin manifests, eval sets, documentation and commit messages are written in English, because the primary reader of a skill is a routing agent and the registry has to stay portable across runtimes.
 
-One exception, on purpose: routing evals keep Russian queries alongside English ones. The team asks for work in Russian, so a skill that only triggers on English phrasing is broken in practice. Test both.
+The verifier enforces this: any Cyrillic text fails the build. If a skill ever needs a localized companion — a translated description or summary for a Russian-speaking user — it goes in an explicitly named `*.ru.md` / `*.ru.json` file next to the English original, never inline.
 
 ## Quick start for a plugin author
 

@@ -3,11 +3,11 @@ name: example-procedure
 description:
   "Reference skill: turns a folder of source documents into a reviewed summary table
   with an explicit human confirmation step. Loads on requests like 'build a summary
-  table from these documents', 'structure this collection', 'собери сводную таблицу
-  по этим материалам'. Does NOT load for finding new sources, for checking a finished
-  artefact (use example-checklist), or for questions about the method itself. Ships
-  as a format example — it demonstrates the split between model reasoning and
-  deterministic scripting, not a real research methodology."
+  table from these documents', 'structure this collection', 'pull these files into
+  one comparable table'. Does NOT load for finding new sources, for checking a
+  finished artefact (use example-checklist), or for questions about the method
+  itself. Ships as a format example — it demonstrates the split between model
+  reasoning and deterministic scripting, not a real research methodology."
 ---
 
 # example-procedure

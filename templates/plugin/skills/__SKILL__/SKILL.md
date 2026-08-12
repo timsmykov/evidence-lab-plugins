@@ -3,9 +3,8 @@ name: __SKILL__
 description:
   "REPLACE ME with 2-4 sentences a router can act on. State what the skill produces,
   then name the concrete phrasings that should load it — 'screen these abstracts',
-  'build a PRISMA flow', 'проверь этот корпус на пропущенные ключевые работы'. Cover
-  both English and Russian, since the team asks in both. Then name the near misses
-  that must NOT load it. Write triggers, not marketing."
+  'build a PRISMA flow', 'check this corpus for missing seminal papers'. Then name
+  the near misses that must NOT load it. Write triggers, not marketing."
 ---
 
 # __SKILL__

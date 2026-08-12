@@ -6,6 +6,11 @@ MAJOR — the procedure changed such that earlier results are no longer reproduc
 MINOR — a skill, command or step was added.
 PATCH — wording, templates, evals; the procedure is unchanged.
 
+## [0.1.2] — 2026-08-12
+
+### Changed
+- Removed the remaining Russian trigger phrases and eval queries. The registry is English-only; the verifier now fails on Cyrillic anywhere, and translations belong in a separate `*.ru.md` companion file.
+
 ## [0.1.1] — 2026-08-12
 
 ### Changed

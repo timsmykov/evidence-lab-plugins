@@ -3,7 +3,7 @@ name: example-checklist
 description:
   "Reference skill: checks a finished artefact against formal criteria before it goes
   to a supervisor or a client. Loads on 'review this artefact for gaps', 'what won't
-  survive scrutiny here', 'проверь эту таблицу перед отправкой'. Does NOT load when
+  survive scrutiny here', 'check this table before I send it'. Does NOT load when
   the artefact still has to be produced (use example-procedure), when the ask is to
   rewrite the text rather than check it, or when someone wants a subjective opinion
   on quality. Ships as a format example: it shows why a plugin bundles several skills
