@@ -56,6 +56,7 @@ Then branch, pull request, review, merge. Direct pushes to `main` are rejected.
 
 ## Documentation
 
+- [AGENTS.md](AGENTS.md) — the instruction an agent reads before touching this repository
 - [Architecture and decisions](docs/architecture.md)
 - [Authoring skills and plugins](docs/authoring.md)
 - [Review checklist](docs/review-checklist.md)
