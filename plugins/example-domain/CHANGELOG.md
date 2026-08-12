@@ -6,6 +6,11 @@ MAJOR — the procedure changed such that earlier results are no longer reproduc
 MINOR — a skill, command or step was added.
 PATCH — wording, templates, evals; the procedure is unchanged.
 
+## [0.1.1] — 2026-08-12
+
+### Changed
+- Translated to English in line with the registry's English-first policy. Trigger phrases in the skill descriptions and the eval sets keep their Russian queries — routing is tested in both languages.
+
 ## [0.1.0] — 2026-08-12
 
 ### Added
