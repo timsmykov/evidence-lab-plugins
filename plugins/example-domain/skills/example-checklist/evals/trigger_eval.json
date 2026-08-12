@@ -1,10 +1,10 @@
 [
-  { "query": "Проверь эту таблицу перед отправкой научному руководителю", "should_trigger": true },
-  { "query": "Что здесь не выдержит проверки?", "should_trigger": true },
   { "query": "Review this artefact for gaps before I send it", "should_trigger": true },
-  { "query": "Найди слабые места в готовом своде", "should_trigger": true },
-  { "query": "Собери таблицу по этим материалам", "should_trigger": false, "note": "артефакта ещё нет — это example-procedure" },
-  { "query": "Перепиши этот раздел, чтобы читалось лучше", "should_trigger": false, "note": "редактирование, а не проверка" },
-  { "query": "Как тебе вообще эта работа, нормальная?", "should_trigger": false, "note": "субъективная оценка вместо проверки по признакам" },
-  { "query": "Проверь, компилируется ли этот код", "should_trigger": false, "note": "другой домен" }
+  { "query": "What won't survive scrutiny here?", "should_trigger": true },
+  { "query": "Find the weak spots in this finished summary", "should_trigger": true },
+  { "query": "Проверь эту таблицу перед отправкой научному руководителю", "should_trigger": true, "note": "the team asks in Russian" },
+  { "query": "Build a summary table from these materials", "should_trigger": false, "note": "no artefact yet — that is example-procedure" },
+  { "query": "Rewrite this section so it reads better", "should_trigger": false, "note": "editing, not checking" },
+  { "query": "So what do you think, is this work any good?", "should_trigger": false, "note": "subjective opinion instead of criteria-based checking" },
+  { "query": "Check whether this code compiles", "should_trigger": false, "note": "different domain" }
 ]

@@ -6,8 +6,8 @@ allowed-tools: ["Read", "Write", "Glob", "Grep", "Bash", "Skill", "AskUserQuesti
 
 # /__PLUGIN__
 
-Точка входа для человека. Команда не дублирует скилл, а запускает его с нужными параметрами и собирает результат.
+The human entry point. The command does not restate the skill; it launches the skill with the right parameters and collects the result.
 
-1. Загрузи скилл `__PLUGIN__:__SKILL__`.
-2. REPLACE ME: что уточнить у пользователя, прежде чем начинать.
-3. REPLACE ME: что вернуть и куда сохранить.
+1. Load the `__PLUGIN__:__SKILL__` skill.
+2. REPLACE ME: what to clarify with the user before starting.
+3. REPLACE ME: what to return and where to save it.

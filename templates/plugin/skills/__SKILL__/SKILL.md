@@ -1,48 +1,49 @@
 ---
 name: __SKILL__
 description:
-  "REPLACE ME with 2-4 sentences a router can act on. Say what the skill produces,
+  "REPLACE ME with 2-4 sentences a router can act on. State what the skill produces,
   then name the concrete phrasings that should load it — 'screen these abstracts',
-  'build a PRISMA flow', 'check this corpus for missing seminal papers'. Then name
-  the near misses that must NOT load it. Do not write marketing; write triggers."
+  'build a PRISMA flow', 'проверь этот корпус на пропущенные ключевые работы'. Cover
+  both English and Russian, since the team asks in both. Then name the near misses
+  that must NOT load it. Write triggers, not marketing."
 ---
 
 # __SKILL__
 
 REPLACE ME: one paragraph on the job this skill does and the decision it supports.
 
-## Когда применяется
+## When it applies
 
-- REPLACE ME: конкретная ситуация.
+- REPLACE ME: a concrete situation.
 
-## Когда не применяется
+## When it does not apply
 
-- REPLACE ME: соседняя задача, которая решается другим скиллом или вручную.
+- REPLACE ME: the adjacent job that another skill or a human handles.
 
-## Что делает человек, а что инструмент
+## Who does what
 
-Модель понимает запрос, ищет и рассуждает. Повторяемый артефакт производит детерминированный скрипт. Если шаг обязан давать одинаковый результат при повторе — он принадлежит `scripts/`, а не тексту промпта.
+The model understands the request, searches and reasons. The repeatable artefact is produced by a deterministic script. If a step must return the same result on a rerun, it belongs in `scripts/`, not in prompt text.
 
-| Шаг | Кто выполняет | Артефакт |
+| Step | Who runs it | Artefact |
 |---|---|---|
-| REPLACE ME | модель / скрипт / исследователь | REPLACE ME |
+| REPLACE ME | model / script / researcher | REPLACE ME |
 
-## Процедура
+## Procedure
 
 1. REPLACE ME.
 2. REPLACE ME.
-3. REPLACE ME — точка подтверждения человеком: что именно исследователь должен утвердить, прежде чем работа пойдёт дальше.
+3. REPLACE ME — the confirmation point: state exactly what the researcher has to approve before the work continues.
 
-## Формат результата
+## Output format
 
-REPLACE ME. Используй `templates/report.md`.
+REPLACE ME. Use `templates/report.md`.
 
-## Гейты качества
+## Quality gates
 
-- У каждого утверждения есть источник; ненайденное названо ненайденным.
-- Охват источников показан явно, включая ошибки доступа.
-- Промежуточные артефакты сохранены — результат можно перепроверить, а не только принять на веру.
+- Every claim traces to a source; what was not found is named as not found.
+- Source coverage is shown explicitly, including access failures.
+- Intermediate artefacts are kept, so the result can be rechecked rather than taken on trust.
 
-## Границы
+## Boundaries
 
-- REPLACE ME: чего скилл не гарантирует (полнота закрытых баз, юридическая оценка, авторство выводов).
+- REPLACE ME: what the skill does not guarantee (coverage of paywalled databases, legal assessment, authorship of conclusions).

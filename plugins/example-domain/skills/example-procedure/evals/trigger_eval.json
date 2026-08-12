@@ -1,11 +1,11 @@
 [
-  { "query": "Собери сводную таблицу по этим материалам в папке", "should_trigger": true },
-  { "query": "Структурируй эту подборку документов по общим признакам", "should_trigger": true },
   { "query": "Build a summary table from the documents in this folder", "should_trigger": true },
-  { "query": "У меня 30 файлов и я не понимаю, что в них общего — сведи это в таблицу", "should_trigger": true },
-  { "query": "Нужен свод по этим источникам с одинаковыми колонками", "should_trigger": true },
-  { "query": "Проверь готовую таблицу перед отправкой руководителю", "should_trigger": false, "note": "это example-checklist" },
-  { "query": "Найди новые публикации по этой теме за последний год", "should_trigger": false, "note": "поиск источников, а не обработка имеющихся" },
-  { "query": "Объясни, чем сводная таблица отличается от матрицы сравнения", "should_trigger": false, "note": "вопрос о методе, а не запрос на выполнение" },
-  { "query": "Сделай presentation по результатам квартала", "should_trigger": false, "note": "другой домен" }
+  { "query": "Structure this collection of documents by shared features", "should_trigger": true },
+  { "query": "I have 30 files and I can't see what they have in common — pull it into a table", "should_trigger": true },
+  { "query": "Собери сводную таблицу по этим материалам в папке", "should_trigger": true, "note": "the team asks in Russian" },
+  { "query": "Нужен свод по этим источникам с одинаковыми колонками", "should_trigger": true, "note": "bilingual routing" },
+  { "query": "Check the finished table before I send it to my supervisor", "should_trigger": false, "note": "that is example-checklist" },
+  { "query": "Find new publications on this topic from the last year", "should_trigger": false, "note": "source discovery, not processing what is on hand" },
+  { "query": "Explain how a summary table differs from a comparison matrix", "should_trigger": false, "note": "a question about the method, not a request to run it" },
+  { "query": "Make a presentation about the quarterly results", "should_trigger": false, "note": "different domain" }
 ]

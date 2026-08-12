@@ -1,21 +1,21 @@
-# Метод: example-procedure
+# Method: example-procedure
 
-Файл загружается только по явной ссылке из `SKILL.md`. Здесь лежит то, что нужно редко: обоснование метода, стандарты, разбор спорных мест.
+This file is loaded only when `SKILL.md` explicitly points at it. Keep here what is needed rarely: the method rationale, standards, contested points.
 
-## Откуда взята процедура
+## Where the procedure comes from
 
-Ниоткуда — это эталон формы. В настоящем плагине на этом месте стоит конкретика: чья практика, какой разбор, какой реальный прогон лёг в основу. Скилл без такого происхождения — чья-то догадка, оформленная как метод.
+Nowhere — this is a format exemplar. In a real plugin this slot holds specifics: whose practice, which debrief, which real run it was derived from. A skill without that provenance is somebody's guess dressed as a method.
 
-## Почему подтверждение признаков вынесено в отдельный шаг
+## Why feature confirmation is its own step
 
-Набор признаков определяет, что вообще попадёт в результат. Если его выбирает модель и сразу же по нему извлекает данные, ошибка выбора становится невидимой: таблица выглядит полной, потому что заполнена по тем колонкам, которые модель сама и придумала. Подтверждение разрывает эту петлю.
+The feature set determines what can appear in the result at all. If the model picks it and immediately extracts against it, an error in the choice becomes invisible: the table looks complete because it is complete with respect to the columns the model invented. Confirmation breaks that loop.
 
-## Почему сборка таблицы отдана скрипту
+## Why table assembly is given to a script
 
-Три причины. Результат сравним между прогонами. Ревьюер может пересобрать таблицу, не запуская модель. Ошибка форматирования чинится один раз в коде, а не каждый раз в промпте.
+Three reasons. Results become comparable across runs. A reviewer can rebuild the table without invoking the model. A formatting bug is fixed once in code instead of every time in a prompt.
 
-## Частые ошибки
+## Common failure modes
 
-- Пропуск заполняется правдоподобным значением вместо `null`.
-- Нечитаемые файлы молча выпадают из охвата.
-- Признаки переопределяются по ходу извлечения, и половина таблицы собрана по одному набору, половина по другому.
+- A gap is filled with a plausible value instead of `null`.
+- Unreadable files quietly drop out of the reported coverage.
+- Features are redefined mid-extraction, so half the table is built on one set and half on another.

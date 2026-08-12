@@ -1,37 +1,39 @@
-# Архитектура
+# Architecture
 
-## Задача
+## The problem
 
-Наработки участников остаются в личных инстансах и не попадают в общий контур. Когда пользовательские инстансы станут изолированными, нынешний способ «зайти и посмотреть, что человек настроил» исчезнет совсем. Нужен явный механизм: единый формат, версии, происхождение и процесс предложение → ревью → публикация.
+What people work out stays inside their personal instances and never reaches the shared contour. Once user instances are isolated, today's workaround — opening someone's instance and reading their setup — disappears entirely. What is needed is an explicit mechanism: one format, versions, provenance, and a propose → review → publish process.
 
-## Три уровня и почему их три
+## Three levels, and why three
 
-**Скилл** — атом: одна повторяемая процедура. Его можно перенести в другой рантайм, потому что это `SKILL.md` плюс файлы рядом, без внешних зависимостей.
+**Skill** — the atom: one repeatable procedure. It ports to another runtime because it is a `SKILL.md` plus the files next to it, with no external wiring.
 
-**Плагин** — доменный набор. Он существует, потому что научная работа не разбивается на изолированные процедуры: систематический обзор — это протокол поиска, скрининг, PRISMA и таблица доказательств, у которых общий словарь, общие шаблоны и общий рецензент. Клиенту ставится «плагин для обзоров», а не семь скиллов, которые он должен собрать сам. Плагин — единица установки и версионирования.
+**Plugin** — the domain bundle. It exists because research work does not decompose into isolated procedures: a systematic review is a search protocol, screening, PRISMA and an evidence table, sharing a vocabulary, templates and a reviewer. A client installs "the review plugin", not seven skills they are expected to assemble themselves. The plugin is the unit of installation and versioning.
 
-**Маркетплейс** — репозиторий целиком: витрина, гейт, политика.
+**Marketplace** — the repository as a whole: shop window, gate, policy.
 
-## Принятые решения
+## Decisions
 
-**Нативный формат Claude Code, а не свой.** Структура `.claude-plugin/plugin.json`, `skills/`, `commands/`, `agents/` — та же, что у официального маркетплейса. Плата — чужие правила именования. Выигрыш — установка работает из коробки (`/plugin marketplace add`), не нужен свой установщик, и формат обновляется без нас.
+**The native Claude Code format, not our own.** The `.claude-plugin/plugin.json`, `skills/`, `commands/`, `agents/` layout is the one the official marketplace uses. The cost is somebody else's naming rules. The gain is that installation works out of the box (`/plugin marketplace add`), we ship no installer, and the format evolves without us.
 
-**Витрина генерируется, а не пишется руками.** `marketplace.json` собирается из `plugins/` скриптом, CI падает при расхождении. Ровно здесь такие каталоги обычно и гниют: плагин добавили, витрину забыли, дальше никто не верит ни тому, ни другому.
+**The shop window is generated, not written.** `marketplace.json` is rebuilt from `plugins/` by a script, and CI fails on drift. This is precisely where catalogues like this rot: the plugin lands, the window is forgotten, and after that nobody trusts either one.
 
-**Метаданные реестра вынесены в `meta.json`.** Provenance, владелец, ревьюер, статус, класс риска — это наши поля, а не поля Claude Code. Если сложить их в `plugin.json`, мы окажемся в конфликте с апстримом при первом же ужесточении схемы. Цена решения — второй файл на плагин.
+**Registry metadata lives in `meta.json`.** Provenance, owner, reviewer, status, risk class are our fields, not Claude Code's. Putting them in `plugin.json` would put us in conflict with upstream the first time the schema tightens. The price is a second file per plugin.
 
-**Evals лежат внутри скилла.** Формат `{query, should_trigger}` взят у официальных плагинов. Это тест маршрутизации: какие формулировки обязаны загрузить скилл и какие — обязаны не загрузить. Минимум три отрицательных кейса, потому что ложное срабатывание в наборе из десяти скиллов ломает работу заметнее, чем пропуск.
+**Evals live inside the skill.** The `{query, should_trigger}` format is taken from the official plugins. It is a routing test: which phrasings must load the skill and which must not. At least three negatives, because in a set of ten skills a false trigger breaks the session more visibly than a miss.
 
-**Детерминированные шаги — в `scripts/`.** Модель понимает запрос, ищет и рассуждает; повторяемый артефакт делает скрипт. Это принцип из разбора продукта 12 июля: требовать от модели побайтово одинаковых таблиц, ссылок и схем — неверная постановка задачи. Практическое следствие: если шаг обязан давать один и тот же результат при повторе, он принадлежит коду, а не промпту.
+**Deterministic steps go into `scripts/`.** The model understands the request, searches and reasons; the repeatable artefact is produced by code. This is the principle from the 12 July product debrief: demanding byte-identical tables, citations and diagrams from a generative model is the wrong problem statement. The practical rule: if a step must return the same thing on a rerun, it belongs in code, not in a prompt.
 
-**Общих скиллов пока нет.** Каталога `shared/` в репозитории нет намеренно. Claude Code требует, чтобы скилл лежал физически внутри плагина, поэтому переиспользование означает копию. Заводить механизм вендоринга до появления первого настоящего дубликата — преждевременно. Когда дубликат появится, копию будет делать скрипт с записью источника и версии, а не человек руками.
+**No shared skills yet.** There is deliberately no `shared/` directory. Claude Code requires a skill to sit physically inside the plugin, so reuse means a copy. Building a vendoring mechanism before the first real duplicate exists is premature. When that duplicate shows up, the copy will be made by a script that records source and version — not by hand.
 
-## Что проверяет гейт
+**English first, bilingual routing.** Skills, manifests and docs are English so the registry stays portable and reads well to a routing agent. Eval sets keep Russian queries alongside English ones, because that is how the team actually asks, and a skill that only triggers in English is broken where it is used.
 
-Схемы манифестов; совпадение имён с каталогами; полноту `meta.json`; наличие и состав evals; длину и триггерность описаний; ревьюера, отличного от владельца, для production; бамп версии при изменении содержимого; отсутствие приватных путей, адресов, токенов и идентификаторов.
+## What the gate enforces
 
-Правила sanitization портированы из реестра `ai-agent-skills`, где они уже отработали на живом материале.
+Manifest schemas; names matching directories; completeness of `meta.json`; presence and composition of eval sets; description length and trigger wording; a reviewer distinct from the owner for production; a version bump when plugin content changes; unfilled scaffold placeholders; and the absence of private paths, addresses, tokens and identifiers.
 
-## Границы
+The sanitization rules are ported from the `ai-agent-skills` registry, where they already ran against live material.
 
-Каталог решает внутренний обмен внутри команды. Доставка плагинов в изолированные пользовательские инстансы, их версионирование на стороне клиента и откат — отдельная работа, которая упирается в задачу про границы памяти и изоляцию. Здесь этого нет и не должно быть.
+## Boundaries
+
+This catalogue solves sharing inside the team. Delivering plugins into isolated user instances, versioning them client-side and rolling them back is separate work that depends on the memory-isolation task. It is not here, and it should not be.

@@ -1,31 +1,31 @@
-# Приватность содержимого
+# Content privacy
 
-Каталог общий, а материал в него приходит из личных инстансов и клиентских задач. Поэтому граница проводится на входе, а не после инцидента.
+The catalogue is shared, and the material entering it comes from personal instances and client work. So the boundary is drawn on the way in, not after an incident.
 
-## Что не попадает в репозиторий никогда
+## Never enters the repository
 
-- Токены, ключи, пароли, строки подключения.
-- Приватные пути хостов, имена внутренних серверов, IP-адреса.
-- Персональные данные: адреса почты, телефоны, ФИО студентов и клиентов.
-- Содержимое клиентских и студенческих документов, включая фрагменты в примерах.
-- Идентификаторы внутренних систем: ссылки на приватные страницы, UUID записей.
+- Tokens, keys, passwords, connection strings.
+- Private host paths, internal server names, IP addresses.
+- Personal data: email addresses, phone numbers, names of students and clients.
+- The contents of client and student documents, including fragments used as examples.
+- Internal system identifiers: links to private pages, record UUIDs.
 
-## Что попадает после обработки
+## Enters after processing
 
-- Процедура, выведенная из клиентской работы, — при условии, что предметика обобщена и узнаваемые детали заменены.
-- Примеры — синтетические или обезличенные до неузнаваемости. «Обезличенный» значит, что человека нельзя восстановить по совокупности деталей, а не что вычеркнута фамилия.
-- Скриншоты — только если на них нет чужих данных; по умолчанию не берём.
+- A procedure derived from client work, provided the subject matter is generalized and recognizable detail is replaced.
+- Examples — synthetic, or anonymized past recognition. "Anonymized" means the person cannot be reconstructed from the combination of details, not that a surname was struck out.
+- Screenshots — only when they carry nobody else's data; the default is no.
 
-## Как это проверяется
+## How this is checked
 
-`scripts/verify_repo.py` ищет приватные пути, IP, токены, адреса почты, ссылки на приватные страницы и голые UUID. Гейт грубый и иногда срабатывает ложно. Правильная реакция — сузить правило отдельным ревьюируемым изменением, а не удалить проверку и не обойти её.
+`scripts/verify_repo.py` looks for private paths, IPs, tokens, email addresses, links to private pages and bare UUIDs. The gate is blunt and will occasionally fire on something harmless. The correct response is to narrow the rule in a reviewed change — not to delete the check and not to work around it.
 
-Адрес почты допускается только в `LICENSE` и `SECURITY.md`.
+Email addresses are allowed only in `LICENSE` and `SECURITY.md`.
 
-## Класс риска
+## Risk class
 
-`team_safe` — можно делиться внутри команды целиком. `internal_only` — плагин завязан на внутреннюю инфраструктуру; такой не выгружается портируемым экспортом и не уходит наружу ни в каком виде.
+`team_safe` — shareable across the team as is. `internal_only` — the plugin depends on internal infrastructure; it is excluded from the portable export and does not leave the team in any form.
 
-## Если утечка уже случилась
+## If something has already leaked
 
-Удаления файла недостаточно — история остаётся. Порядок: отозвать утёкший секрет, затем чистить историю, затем разбирать, как правило пропустило.
+Deleting the file is not enough — history keeps it. The order is: revoke the leaked secret, then clean history, then work out how the rule missed it.

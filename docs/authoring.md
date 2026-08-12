@@ -1,38 +1,42 @@
-# Как писать скиллы и плагины
+# Authoring skills and plugins
 
-## Начни не с текста, а с прогона
+## Start from a run, not from a text
 
-Скилл пишется после того, как работа сделана руками хотя бы раз. Порядок: сделать → заметить, что повторяется → выписать процедуру → проверить её на втором случае → оформить. Обратный порядок даёт правдоподобный текст, который разваливается на первой реальной задаче.
+A skill is written after the work has been done by hand at least once. The order is: do it → notice what repeats → write the procedure down → test it on a second case → package it. The reverse order produces plausible prose that falls apart on the first real task.
 
-## Описание — это маршрутизация
+## The description is routing
 
-`description` во фронтматтере читает роутер, а не человек. Оно должно отвечать на два вопроса: что скилл производит и по каким формулировкам его грузить. Формулировки бери настоящие — те, которыми люди правда просят, включая кривые. Отдельно назови соседние запросы, по которым грузить не надо.
+The `description` in the frontmatter is read by a router, not by a person. It has to answer two things: what the skill produces, and on which phrasings to load it. Take real phrasings — the ones people actually use, including the clumsy ones. Name the neighbouring requests that must *not* load it.
 
-Плохо: «Помогает работать с научными источниками».
-Хорошо: «Собирает сводную таблицу по набору документов. Грузится на "собери свод по этим материалам", "структурируй подборку", "build a summary table". Не грузится, когда надо найти новые источники или проверить готовый артефакт».
+Bad: "Helps you work with academic sources."
+Good: "Builds a summary table over a set of documents. Loads on 'build a summary table', 'structure this collection', and on the Russian phrasings the team actually uses for the same job. Does not load when new sources have to be found, or when a finished artefact needs checking."
 
-## Разделяй модель и скрипт
+The description is the one place where the English-first rule bends: put the real Russian trigger phrases in there, because that is what the router has to match. Everything below the frontmatter stays English.
 
-Спроси про каждый шаг: обязан ли он давать одинаковый результат при повторе? Если да — это `scripts/`. Форматирование ссылок, дедупликация, сборка таблиц, подстановка в шаблон, рендер схем — код. Понимание запроса, поиск, интерпретация, выбор существенного — модель.
+## Split the model from the script
 
-Скрипт должен запускаться отдельно от агента: ревьюер обязан иметь возможность пересобрать артефакт, не запуская модель.
+Ask of every step: must it return the same result on a rerun? If yes, it is `scripts/`. Citation formatting, deduplication, table assembly, template filling, diagram rendering — code. Understanding the request, searching, interpreting, deciding what matters — the model.
 
-## Ставь точку подтверждения
+The script has to run standalone, without the agent: a reviewer must be able to rebuild the artefact without invoking a model.
 
-В любой процедуре есть решение, которое принимает исследователь, а не агент: набор признаков, критерии включения, границы темы. Такое решение выносится в явную остановку. Без неё гипотеза модели незаметно становится результатом.
+## Put in a confirmation point
 
-## Пиши границы честно
+Every procedure contains a decision that belongs to the researcher, not the agent: the feature set, the inclusion criteria, the boundaries of the topic. Make that decision an explicit stop. Without it the model's hypothesis quietly becomes the result.
 
-Раздел «чего не делает» важнее списка возможностей. Он не даёт продавать плагин как универсальную замену другим инструментам и снимает половину будущих претензий.
+## Write the boundaries honestly
+
+The "what it does not do" section matters more than the feature list. It is what stops the plugin being sold as a universal replacement for other tools, and it removes half the future complaints.
 
 ## Evals
 
-Минимум восемь кейсов, из них минимум три отрицательных. Отрицательные бери из соседних скиллов того же плагина — там, где путаница вероятнее всего. Полезный тип кейса: вопрос о методе вместо запроса на выполнение («объясни, чем свод отличается от матрицы» — грузить не надо).
+At least eight cases, at least three of them negative. Take the negatives from neighbouring skills in the same plugin — that is where confusion is most likely. Keep a mix of English and Russian queries: the team asks in Russian, and routing has to survive that.
 
-## Что попадает в references
+One useful case type: a question *about* the method instead of a request to run it ("explain how a summary table differs from a comparison matrix" — must not load).
 
-`SKILL.md` — то, что нужно всегда. `references/` — то, что нужно редко: разбор метода, стандарты, длинные примеры, частые ошибки. Агент не должен читать это по умолчанию, а `SKILL.md` не должен разрастаться до размеров, при которых его перестают читать целиком.
+## What goes into references
+
+`SKILL.md` holds what is always needed. `references/` holds what is rarely needed: the method rationale, standards, long examples, common failure modes. The agent should not read those by default, and `SKILL.md` should not grow to the size where people stop reading it whole.
 
 ## Provenance
 
-В `meta.json` заполняется всегда: чья практика, какой прогон, какие материалы. Это не бюрократия — через полгода это единственный способ понять, можно ли доверять процедуре и у кого спросить.
+Always filled in `meta.json`: whose practice, which run, which materials. This is not bureaucracy — six months on it is the only way to tell whether the procedure can be trusted and who to ask about it.

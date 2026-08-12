@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Scaffold a new plugin from templates/plugin.
 
-    python3 scripts/new_plugin.py systematic-review --skill screening --owner Тим
+    python3 scripts/new_plugin.py systematic-review --skill screening --owner Tim
 
 Creates plugins/<name>/ with one skill, a command, a subagent and an eval set,
 all wired to pass verify_repo.py once you replace the placeholder prose.

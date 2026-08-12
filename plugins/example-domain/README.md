@@ -1,22 +1,22 @@
 # example-domain
 
-Эталонная реализация доменного плагина. Она существует, чтобы показать форму целиком: два скилла, команда-вход, субагент-рецензент, детерминированный скрипт и наборы evals. Предметной ценности не несёт и в маркетплейс не попадает — `status: reference` исключает её из витрины.
+The reference implementation of a domain plugin. It exists to show the whole shape: two skills, an entry command, a reviewer subagent, a deterministic script and eval sets. It carries no subject-matter value and never reaches the shop window — `status: reference` keeps it out.
 
-Когда делаешь настоящий плагин, копируй не этот каталог, а шаблон: `python3 scripts/new_plugin.py <имя> --skill <скилл> --owner <владелец>`. Сюда возвращайся, чтобы посмотреть, как выглядит заполненный результат.
+When you build a real plugin, copy the template rather than this directory: `python3 scripts/new_plugin.py <name> --skill <skill> --owner <owner>`. Come back here to see what a filled-in result looks like.
 
-## Что здесь показано
+## What is demonstrated here
 
-| Элемент | Файл | Зачем |
+| Element | File | Why |
 |---|---|---|
-| Манифест плагина | `.claude-plugin/plugin.json` | Нативный формат Claude Code: имя, описание, версия, автор |
-| Метаданные реестра | `meta.json` | Provenance, владелец, ревьюер, статус, класс риска |
-| Скилл-процедура | `skills/example-procedure/SKILL.md` | Разделение работы модели и детерминированного шага |
-| Детерминированная часть | `skills/example-procedure/scripts/build_table.py` | Повторяемый артефакт делает скрипт, а не промпт |
-| Скилл-проверка | `skills/example-checklist/SKILL.md` | Второй скилл в том же домене — ради чего плагин вообще нужен |
-| Маршрутизация | `skills/*/evals/trigger_eval.json` | Что скилл обязан подхватить и что обязан пропустить |
-| Команда | `commands/example-domain.md` | Точка входа для человека |
-| Рецензент | `agents/example-domain-critic.md` | Свежий контекст, задача — сломать результат, а не подтвердить |
+| Plugin manifest | `.claude-plugin/plugin.json` | Native Claude Code format: name, description, version, author |
+| Registry metadata | `meta.json` | Provenance, owner, reviewer, status, risk class |
+| Procedure skill | `skills/example-procedure/SKILL.md` | The split between model reasoning and a deterministic step |
+| Deterministic part | `skills/example-procedure/scripts/build_table.py` | The repeatable artefact is built by code, not by a prompt |
+| Checking skill | `skills/example-checklist/SKILL.md` | A second skill in the same domain — the reason a plugin exists at all |
+| Routing | `skills/*/evals/trigger_eval.json` | What the skill must catch and what it must let pass |
+| Command | `commands/example-domain.md` | The human entry point |
+| Reviewer | `agents/example-domain-critic.md` | Fresh context, tasked with breaking the result rather than confirming it |
 
-## Чего здесь нет
+## What is not here
 
-Нет реальной методики, нет источников, нет предметных гейтов качества. Всё это появляется в настоящих плагинах и берётся из чьей-то практики — см. `provenance` в `meta.json`.
+No real methodology, no sources, no subject-matter quality gates. All of that appears in real plugins and comes from someone's practice — see `provenance` in `meta.json`.

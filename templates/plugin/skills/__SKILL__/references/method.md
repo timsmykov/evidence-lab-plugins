@@ -1,15 +1,15 @@
-# Метод: __SKILL__
+# Method: __SKILL__
 
-Этот файл загружается только тогда, когда `SKILL.md` явно на него ссылается. Держи здесь то, что нужно редко: разбор метода, стандарты, спорные места, примеры разбора.
+This file is loaded only when `SKILL.md` explicitly points at it. Keep here what is needed rarely: the method rationale, standards, contested points, worked examples.
 
-## Откуда взята процедура
+## Where the procedure comes from
 
-REPLACE ME: чья практика, какой разбор, какой реальный прогон. Без этого скилл — чья-то догадка.
+REPLACE ME: whose practice, which debrief, which real run. Without this the skill is somebody's guess dressed as a method.
 
-## Правила и стандарты
+## Rules and standards
 
-REPLACE ME: PRISMA, ГОСТ, требования вуза, редакционные правила журнала.
+REPLACE ME: PRISMA, GOST, university requirements, journal editorial rules.
 
-## Частые ошибки
+## Common failure modes
 
-REPLACE ME: что регулярно ломается в этой работе у людей и у агента.
+REPLACE ME: what regularly breaks in this work, for people and for the agent.
