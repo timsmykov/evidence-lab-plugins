@@ -1,0 +1,37 @@
+[
+  {
+    "query": "Choose and run the statistical test for this completed experiment.",
+    "should_trigger": true
+  },
+  {
+    "query": "Check assumptions, estimate the effect size, and report uncertainty for these data.",
+    "should_trigger": true
+  },
+  {
+    "query": "Analyze this observational dataset with an explicit model and diagnostics.",
+    "should_trigger": true
+  },
+  {
+    "query": "Compare these groups and explain the result without relying on p-values alone.",
+    "should_trigger": true
+  },
+  {
+    "query": "Prepare a reproducible statistical analysis and bounded results narrative.",
+    "should_trigger": true
+  },
+  {
+    "query": "Calculate the required sample size before data collection.",
+    "should_trigger": false,
+    "note": "Handled by statistical-power."
+  },
+  {
+    "query": "Profile this unfamiliar dataset before choosing any model.",
+    "should_trigger": false,
+    "note": "Handled by exploratory-data-analysis."
+  },
+  {
+    "query": "Design the randomization and treatment allocation schedule.",
+    "should_trigger": false,
+    "note": "Handled by experimental-design."
+  }
+]

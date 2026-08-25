@@ -1,0 +1,37 @@
+[
+  {
+    "query": "Calculate the sample size needed for the planned two-group study.",
+    "should_trigger": true
+  },
+  {
+    "query": "Estimate the minimum detectable effect for this fixed sample size.",
+    "should_trigger": true
+  },
+  {
+    "query": "Build a power curve for the proposed experimental design.",
+    "should_trigger": true
+  },
+  {
+    "query": "Run simulation-based power for this clustered design.",
+    "should_trigger": true
+  },
+  {
+    "query": "Determine sensitivity given alpha, sample size, and the smallest effect of interest.",
+    "should_trigger": true
+  },
+  {
+    "query": "Analyze the observed treatment effect after data collection.",
+    "should_trigger": false,
+    "note": "Handled by statistical-analysis."
+  },
+  {
+    "query": "Choose the experimental layout and randomize the samples.",
+    "should_trigger": false,
+    "note": "Handled by experimental-design."
+  },
+  {
+    "query": "Inspect distributions and missing values in the raw dataset.",
+    "should_trigger": false,
+    "note": "Handled by exploratory-data-analysis."
+  }
+]

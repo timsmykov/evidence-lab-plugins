@@ -1,0 +1,37 @@
+[
+  {
+    "query": "Prepare an evidence-bounded peer-review draft for this authorized manuscript.",
+    "should_trigger": true
+  },
+  {
+    "query": "Audit the claims, methods, statistics, reporting, and reproducibility of this paper.",
+    "should_trigger": true
+  },
+  {
+    "query": "Build a claim-evidence matrix and reviewer comments for this confidential submission.",
+    "should_trigger": true
+  },
+  {
+    "query": "Review this protocol constructively and identify major and minor issues.",
+    "should_trigger": true
+  },
+  {
+    "query": "Help plan a point-by-point response to reviewer concerns using the actual evidence.",
+    "should_trigger": true
+  },
+  {
+    "query": "Polish the language of my manuscript without evaluating the research.",
+    "should_trigger": false,
+    "note": "Handled by writing-skill."
+  },
+  {
+    "query": "Search for all papers relevant to this research question.",
+    "should_trigger": false,
+    "note": "Handled by literature-review."
+  },
+  {
+    "query": "Select and run the appropriate statistical analysis on my dataset.",
+    "should_trigger": false,
+    "note": "Handled by statistical-analysis."
+  }
+]

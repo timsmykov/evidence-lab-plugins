@@ -4,5 +4,24 @@
   "owner": {
     "name": "Evidence Lab"
   },
-  "plugins": []
+  "plugins": [
+    {
+      "name": "research-core",
+      "description": "Core, cross-disciplinary research workflows for literature discovery and citations, study planning, exploratory analysis, statistics, uncertainty, critical review, scientific figures, and evidence-bounded writing. Use for ordinary research work before a domain-specific plugin is needed. It does not provide clinical decisions, laboratory control, domain pipelines, or a dedicated PDF extraction backend.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Evidence Lab"
+      },
+      "source": "./plugins/research-core",
+      "category": "research",
+      "keywords": [
+        "research",
+        "evidence",
+        "literature",
+        "statistics",
+        "writing",
+        "reproducibility"
+      ]
+    }
+  ]
 }

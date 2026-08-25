@@ -1,0 +1,37 @@
+[
+  {
+    "query": "Profile this CSV for missingness, distributions, outliers, and possible leakage.",
+    "should_trigger": true
+  },
+  {
+    "query": "Perform a bounded first-pass analysis of these research data files.",
+    "should_trigger": true
+  },
+  {
+    "query": "Inspect this dataset and produce a data-quality map before modeling.",
+    "should_trigger": true
+  },
+  {
+    "query": "Show me what is unusual in this table without silently cleaning it.",
+    "should_trigger": true
+  },
+  {
+    "query": "Create a reproducible EDA report over these authorized local files.",
+    "should_trigger": true
+  },
+  {
+    "query": "Test the pre-specified treatment effect and report the effect size.",
+    "should_trigger": false,
+    "note": "Handled by statistical-analysis."
+  },
+  {
+    "query": "Determine how many participants the planned study requires.",
+    "should_trigger": false,
+    "note": "Handled by statistical-power."
+  },
+  {
+    "query": "Rewrite the results section based on the supplied analysis.",
+    "should_trigger": false,
+    "note": "Handled by writing-skill."
+  }
+]
