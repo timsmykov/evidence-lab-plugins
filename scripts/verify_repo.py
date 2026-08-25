@@ -15,6 +15,7 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+from urllib.parse import unquote
 
 try:
     from jsonschema import Draft202012Validator
@@ -50,8 +51,7 @@ REQUIRED_REPO_FILES = [
 
 REQUIRED_PLUGIN_FILES = ["README.md", "CHANGELOG.md", "meta.json", ".claude-plugin/plugin.json"]
 
-# Anything matching these must never reach a shared plugin. Ported from the
-# ai-agent-skills verifier and trimmed to what actually bites us.
+# Anything matching these must never reach a shared plugin.
 PRIVATE_PATTERNS = {
     "private_host_path": re.compile(r"/root/(?:\.hermes|hermes-workspace|\.ssh|\.config|\.claude)", re.I),
     "ip_address": re.compile(r"\b(?!(?:127\.0\.0\.1|0\.0\.0\.0)\b)(?:\d{1,3}\.){3}\d{1,3}\b"),
@@ -77,9 +77,10 @@ CYRILLIC_PATTERN = re.compile(r"[А-Яа-яЁё]")
 LOCALIZED_SUFFIXES = (".ru.md", ".ru.json")
 SELF = Path(__file__).resolve()
 
-SCANNED_SUFFIXES = {".md", ".json", ".py", ".sh", ".yml", ".yaml", ".txt", ".csv"}
-BANNED_NAMES = {"__pycache__", ".DS_Store", ".env"}
+SCANNED_SUFFIXES = {".md", ".json", ".py", ".sh", ".yml", ".yaml", ".txt", ".csv", ".bib", ".mplstyle"}
+BANNED_NAMES = {"__pycache__", ".pytest_cache", ".DS_Store", ".env"}
 BANNED_SUFFIXES = {".pyc", ".pyo"}
+MARKDOWN_LINK = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
 
 errors: list[str] = []
 warnings: list[str] = []
@@ -172,6 +173,11 @@ def check_skill(plugin: str, skill_dir: Path, declared: dict) -> None:
 
     if skill_dir.name not in declared:
         fail(f"{label}: skill is on disk but absent from meta.json")
+    else:
+        for rel in declared[skill_dir.name].get("deterministic_parts", []):
+            target = skill_dir / rel
+            if not target.is_file():
+                fail(f"{label}: deterministic part does not exist: {rel}")
 
     evals = skill_dir / "evals" / "trigger_eval.json"
     if not evals.exists():
@@ -186,7 +192,8 @@ def check_skill(plugin: str, skill_dir: Path, declared: dict) -> None:
         fail(f"{label}: only {negatives} negative eval case(s); need >= 3 near-misses")
 
     for script in (skill_dir / "scripts").glob("*"):
-        if script.suffix in {".py", ".sh"} and not script.stat().st_mode & 0o111:
+        is_entrypoint = script.suffix == ".sh" or (script.suffix == ".py" and not script.name.startswith("_"))
+        if is_entrypoint and not script.stat().st_mode & 0o111:
             warn(f"{label}: {script.name} is not executable")
 
 
@@ -241,6 +248,23 @@ def check_plugin(plugin_dir: Path) -> None:
 # ------------------------------------------------------------------- hygiene/git
 
 
+def check_markdown_links(path: Path, text: str) -> None:
+    in_fence = False
+    for line_number, line in enumerate(text.splitlines(), 1):
+        if line.lstrip().startswith(("```", "~~~")):
+            in_fence = not in_fence
+            continue
+        if in_fence:
+            continue
+        for raw_target in MARKDOWN_LINK.findall(line):
+            target = raw_target.strip().strip("<>").split("#", 1)[0]
+            if not target or "://" in target or target.startswith(("mailto:", "#")):
+                continue
+            resolved = (path.parent / unquote(target)).resolve()
+            if not resolved.exists():
+                fail(f"{path.relative_to(ROOT)}:{line_number}: broken relative link ({raw_target})")
+
+
 def check_hygiene() -> None:
     for path in ROOT.rglob("*"):
         rel = path.relative_to(ROOT)
@@ -254,6 +278,8 @@ def check_hygiene() -> None:
         if rel.parts and rel.parts[0] == "templates":
             continue  # placeholders are not real content
         text = path.read_text(encoding="utf-8", errors="replace")
+        if path.suffix == ".md":
+            check_markdown_links(path, text)
         if rel.parts and rel.parts[0] == "plugins":
             placeholder = PLACEHOLDER_PATTERN.search(text)
             if placeholder:

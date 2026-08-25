@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Flatten plugin skills into a portable layout for non-Claude runtimes.
 
-Claude Code installs plugins whole. Codex and ChatGPT load one skill directory
-at a time, so this writes dist/portable/<plugin>__<skill>/ with SKILL.md and
-its supporting files. Plugins marked internal_only are skipped; reference
-plugins are skipped unless --include-reference is given.
+Claude Code installs plugins whole. Other runtimes load one skill directory at
+a time, so this writes dist/portable/<plugin>__<skill>/ with SKILL.md and its
+supporting files. A plugin is exported only when meta.json explicitly lists the
+requested runtime in portable_to. internal_only plugins are always skipped;
+reference plugins are skipped unless --include-reference is given.
 """
 from __future__ import annotations
 
@@ -20,6 +21,12 @@ DIST = ROOT / "dist" / "portable"
 
 def main() -> int:
     ap = argparse.ArgumentParser()
+    ap.add_argument(
+        "--runtime",
+        choices=("codex", "chatgpt", "hermes"),
+        default="codex",
+        help="export only plugins verified for this runtime (default: codex)",
+    )
     ap.add_argument("--include-reference", action="store_true")
     args = ap.parse_args()
 
@@ -36,6 +43,9 @@ def main() -> int:
         if meta.get("risk_level") == "internal_only":
             skipped.append(f"{plugin_dir.name} (internal_only)")
             continue
+        if args.runtime not in meta.get("portable_to", []):
+            skipped.append(f"{plugin_dir.name} (not verified for {args.runtime})")
+            continue
         if meta.get("status") in {"reference", "deprecated"} and not args.include_reference:
             skipped.append(f"{plugin_dir.name} ({meta.get('status')})")
             continue
@@ -47,7 +57,7 @@ def main() -> int:
             shutil.rmtree(target / "evals", ignore_errors=True)
             exported += 1
 
-    print(f"exported {exported} skill(s) to {DIST.relative_to(ROOT)}")
+    print(f"exported {exported} skill(s) for {args.runtime} to {DIST.relative_to(ROOT)}")
     for item in skipped:
         print(f"skipped {item}")
     return 0

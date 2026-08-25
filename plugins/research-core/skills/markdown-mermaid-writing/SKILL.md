@@ -1,6 +1,6 @@
 ---
 name: markdown-mermaid-writing
-description: Comprehensive markdown and Mermaid diagram writing skill. Use when creating any scientific document, report, analysis, or visualization. Establishes text-based diagrams as the default documentation standard with full style guides (markdown + mermaid), 24 diagram type references, and 9 document templates.
+description: Create versionable Mermaid diagrams and apply consistent Markdown structure to research artefacts. Use for workflows, timelines, concept maps, architectures, screening flows, and other structural diagrams; use scientific-visualization for data-derived charts and writing-skill for prose drafting.
 allowed-tools: Read Write Edit Bash
 license: Apache-2.0
 metadata:
@@ -15,8 +15,7 @@ metadata:
 
 ## Overview
 
-This skill teaches you — and enforces a standard for — creating scientific documentation
-using **markdown with embedded Mermaid diagrams as the default and canonical format**.
+This skill creates structural diagrams as Markdown-native Mermaid source and applies a consistent layout to research artefacts. It owns diagram structure, not general prose drafting or data visualization.
 
 The core bet: a relationship expressed as a Mermaid diagram inside a `.md` file is more
 valuable than any image. It is text, so it diffs cleanly in git. It requires no build step.
@@ -36,15 +35,11 @@ converted to a polished image later — but the text version remains the source 
 
 Use this skill when:
 
-- Creating **any scientific document** — reports, analyses, manuscripts, methods sections
-- Writing **any documentation** — READMEs, how-tos, decision records, project docs
-- Producing **any diagram** — workflows, data pipelines, architectures, timelines, relationships
-- Generating **any output that will be version-controlled** — if it's going into git, it should be markdown
-- Working with **any other skill** — this skill defines the documentation layer that wraps every other output
-- Someone asks you to "add a diagram" or "visualize the relationship" — Mermaid first, always
+- Producing structural diagrams such as workflows, screening flows, architectures, timelines, concept maps, or relationships
+- Making an existing research artefact consistently structured and versionable in Markdown
+- Someone asks to add a text-native diagram that must remain editable in git
 
-Do NOT start with Python matplotlib, seaborn, or AI image generation for structural or relational diagrams.
-Those are Phase 2 and Phase 3 — only used when Mermaid cannot express what's needed (e.g., scatter plots with real data, photorealistic images).
+Do not use this skill for general prose drafting, manuscript authorship, data-derived charts, or decorative image generation. Route those jobs to `writing-skill` or `scientific-visualization`.
 
 ## 🎨 The Source Format Philosophy
 
@@ -61,34 +56,33 @@ Those are Phase 2 and Phase 3 — only used when Mermaid cannot express what's n
 | Accessible (screen readers) | ✅ accTitle/accDescr | ⚠️ needs alt text |
 | Convertible to image later | ✅ anytime | — already image |
 
-### The three-phase workflow
+### Diagram routing
 
 ```mermaid
 flowchart LR
-    accTitle: Three-Phase Documentation Workflow
-    accDescr: Phase 1 Mermaid in markdown is always required and is the source of truth. Phases 2 and 3 are optional downstream conversions for polished output.
+    accTitle: Research Figure Routing
+    accDescr: Structural relationships route to Mermaid while quantitative evidence routes to scientific visualization.
 
-    p1["📄 Phase 1<br/>Mermaid in Markdown<br/>(ALWAYS — source of truth)"]
-    p2["🐍 Phase 2<br/>Python Generated<br/>(optional — data charts)"]
-    p3["🎨 Phase 3<br/>AI Generated Visuals<br/>(optional — polish)"]
+    need["Figure needed"]
+    structure["Structural relationship"]
+    data["Quantitative evidence"]
+    p1["Mermaid in Markdown"]
+    p2["scientific-visualization"]
     out["📊 Final Deliverable"]
 
-    p1 --> out
-    p1 -.->|"when needed"| p2
-    p1 -.->|"when needed"| p3
-    p2 --> out
-    p3 --> out
+    need --> structure --> p1 --> out
+    need --> data --> p2 --> out
 
     classDef required fill:#dbeafe,stroke:#2563eb,stroke-width:2px,color:#1e3a5f
     classDef optional fill:#fef9c3,stroke:#ca8a04,stroke-width:2px,color:#713f12
     classDef output fill:#dcfce7,stroke:#16a34a,stroke-width:2px,color:#14532d
 
     class p1 required
-    class p2,p3 optional
+    class p2 optional
     class out output
 ```
 
-**Phase 1 is mandatory.** Even if you proceed to Phase 2 or 3, the Mermaid source stays committed.
+Keep Mermaid source with the artefact whenever Mermaid is the selected representation.
 
 ### What Mermaid can express
 
@@ -129,23 +123,7 @@ Mermaid covers 24 diagram types. Almost every scientific relationship fits one:
 
 ## 🔧 Core workflow
 
-### Step 1: Identify the document type
-
-Check if a template exists before writing from scratch:
-
-| Document type | Template |
-| ------------------------------ | ----------------------------------------------- |
-| Pull request record | `templates/pull_request.md` |
-| Issue / bug / feature request | `templates/issue.md` |
-| Sprint / project board | `templates/kanban.md` |
-| Architecture decision (ADR) | `templates/decision_record.md` |
-| Presentation / briefing | `templates/presentation.md` |
-| Research paper / analysis | `templates/research_paper.md` |
-| Project documentation | `templates/project_documentation.md` |
-| How-to / tutorial | `templates/how_to_guide.md` |
-| Status report | `templates/status_report.md` |
-
-### Step 2: Read the style guide
+### Step 1: Read the style guide
 
 Before writing any `.md` file: read `references/markdown_style_guide.md`.
 
@@ -159,7 +137,7 @@ Key rules to internalize:
 - **Tables over prose** for comparisons, configurations, structured data
 - **Diagrams over walls of text** — if it describes flow, structure, or relationships, add Mermaid
 
-### Step 3: Pick the diagram type and read its guide
+### Step 2: Pick the diagram type and read its guide
 
 Before creating any Mermaid diagram: read `references/mermaid_style_guide.md`.
 
@@ -177,13 +155,13 @@ accDescr: One or two sentences explaining what this diagram shows.
 - **One emoji per node max** — at the start of the label
 - **`snake_case` node IDs** — match the label
 
-### Step 4: Write the document
+### Step 3: Place the diagram in context
 
-Start from the template. Apply the markdown style guide. Place diagrams inline with related text — not in a separate "Figures" section.
+Apply the Markdown style guide and place the diagram beside the text it explains. Include a short prose interpretation and preserve the underlying evidence boundary.
 
-### Step 5: Commit as text
+### Step 4: Validate and preserve the source
 
-The `.md` file with embedded Mermaid is what gets committed. If you also generated a PNG or AI image, those are supplementary — the markdown is the source.
+Check syntax in the target renderer when possible. Commit the `.md` file with embedded Mermaid as the editable source; any rendered image is supplementary.
 
 ---
 
@@ -254,7 +232,6 @@ Literature review produces summaries with lots of relationship data. Use this sk
 
 Before finalizing any document from any skill, apply this skill's checklist:
 
-- [ ] Does the document use a template? If so, did I start from the right one?
 - [ ] Are all diagrams in Mermaid with `accTitle` + `accDescr`?
 - [ ] No `%%{init}`, no inline `style`, only `classDef`?
 - [ ] Are all external claims cited with `[^N]`?
@@ -278,10 +255,6 @@ Each file contains: production-quality exemplar, tips specific to that type, and
 
 `references/diagrams/` — architecture, block, c4, class, complex\_examples, er, flowchart, gantt, git\_graph, kanban, mindmap, packet, pie, quadrant, radar, requirement, sankey, sequence, state, timeline, treemap, user\_journey, xy\_chart, zenuml
 
-### Document templates (9 types)
-
-`templates/` — decision\_record, how\_to\_guide, issue, kanban, presentation, project\_documentation, pull\_request, research\_paper, status\_report
-
 ### Examples
 
 `assets/examples/example-research-report.md` — a complete scientific research report demonstrating proper heading hierarchy, multiple diagram types (flowchart, sequence, gantt), tables, footnote citations, collapsible sections, and all style guide rules applied.
@@ -290,7 +263,7 @@ Each file contains: production-quality exemplar, tips specific to that type, and
 
 ## 📝 Attribution
 
-All style guides, diagram type guides, and document templates in this skill are ported from the `SuperiorByteWorks-LLC/agent-project` repository under the Apache-2.0 License.
+The style guides, diagram type guides, and example in this skill are adapted from the `SuperiorByteWorks-LLC/agent-project` repository under the Apache-2.0 License.
 
 - **Source**: https://github.com/SuperiorByteWorks-LLC/agent-project
 - **Author**: Clayton Young / Superior Byte Works, LLC (@borealBytes)

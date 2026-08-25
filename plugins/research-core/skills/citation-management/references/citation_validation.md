@@ -755,35 +755,18 @@ title = {Study of H\textsubscript{2}O}  % H₂O
 
 1. **Identify the missing fields** by scanning the BibTeX entry for empty or absent `volume`, `pages`, `number`, `doi` fields.
 
-2. **Search for the missing metadata using web search** (parallel-web skill):
-   ```bash
-   # Search by author + title to find complete citation info
-   parallel-cli search "AUTHOR_NAME PAPER_TITLE JOURNAL volume pages DOI" \
-     --json --max-results 10 \
-     -o sources/search_citation_CITATIONKEY.json
-   ```
+2. **Use authoritative metadata sources first**:
+   - Query Crossref, OpenAlex, PubMed, or the relevant primary database through `paper-lookup` or `database-lookup`.
+   - If a DOI or other identifier is known, resolve it through the documented registry or publisher endpoint.
+   - Use an available web-retrieval tool only as a fallback and record the source URL and access date.
 
-3. **If DOI is known, extract from DOI resolver page**:
-   ```bash
-   parallel-cli extract "https://doi.org/DOI_HERE" --json \
-     --objective "extract volume, issue number, page range, publication date" \
-     -o sources/extract_doi_CITATIONKEY.json
-   ```
-
-4. **If DOI is unknown, search for it**:
-   ```bash
-   parallel-cli search "AUTHOR_NAME PAPER_TITLE JOURNAL_NAME DOI" \
-     --json --max-results 10 \
-     -o sources/search_find_doi_CITATIONKEY.json
-   ```
-
-5. **Try alternative metadata sources**:
+3. **Try alternative metadata sources**:
    - CrossRef API (via DOI): Most reliable for volume/pages
    - PubMed (via PMID): Good for biomedical papers
    - Google Scholar: Fallback for hard-to-find papers
    - Publisher website: Last resort
 
-6. **Update the BibTeX entry** with the found metadata and log:
+4. **Update the BibTeX entry** with the found metadata and log:
    ```
    [HH:MM:SS] METADATA ENRICHED: [CitationKey] - added volume, pages, doi ✅
    ```

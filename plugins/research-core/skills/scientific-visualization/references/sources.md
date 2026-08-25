@@ -1,6 +1,6 @@
 # Sources and Version Snapshot
 
-Research refreshed 2026-07-23 with `parallel-cli search` and `parallel-cli extract`. API and publisher requirements below use current official project, standards-body, publisher, or journal sources only. “Accessed” is 2026-07-23 unless another date is stated.
+Research refreshed 2026-07-23 using official project, standards-body, publisher, and journal sources. “Accessed” is 2026-07-23 unless another date is stated.
 
 ## Tested direct package snapshot
 

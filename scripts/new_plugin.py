@@ -9,6 +9,7 @@ all wired to pass verify_repo.py once you replace the placeholder prose.
 from __future__ import annotations
 
 import argparse
+import re
 import shutil
 import sys
 from datetime import date
@@ -19,6 +20,7 @@ TEMPLATE = ROOT / "templates" / "plugin"
 PLUGINS = ROOT / "plugins"
 
 PLACEHOLDERS = ("__PLUGIN__", "__SKILL__", "__OWNER__", "__REVIEWER__", "__DATE__")
+NAME_RE = re.compile(r"^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$")
 
 
 def render(text: str, values: dict[str, str]) -> str:
@@ -27,13 +29,25 @@ def render(text: str, values: dict[str, str]) -> str:
     return text
 
 
+def validate_name(value: str, label: str) -> None:
+    if not NAME_RE.fullmatch(value):
+        raise ValueError(f"{label} must be kebab-case using lowercase letters, digits, and hyphens")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("name", help="plugin name, kebab-case")
     ap.add_argument("--skill", required=True, help="name of the first skill, kebab-case")
     ap.add_argument("--owner", required=True)
-    ap.add_argument("--reviewer", default="__REVIEWER__")
+    ap.add_argument("--reviewer", required=True)
     args = ap.parse_args()
+
+    try:
+        validate_name(args.name, "plugin name")
+        validate_name(args.skill, "skill name")
+    except ValueError as exc:
+        print(f"FAIL: {exc}")
+        return 2
 
     target = PLUGINS / args.name
     if target.exists():

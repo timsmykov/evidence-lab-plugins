@@ -22,7 +22,7 @@ The following skills are adapted from K-Dense-AI/scientific-agent-skills at comm
 
 Upstream repository: https://github.com/K-Dense-AI/scientific-agent-skills
 
-Upstream repository code is primarily MIT-licensed; copyright and license terms are preserved in `LICENSES/K-Dense-MIT.txt`. The bundled `markdown-mermaid-writing` skill declares Apache-2.0 and retains its author, source, contributor, and license metadata in `SKILL.md`.
+Upstream repository code is primarily MIT-licensed; copyright and license terms are preserved in `LICENSES/K-Dense-MIT.txt`. The bundled `markdown-mermaid-writing` skill declares Apache-2.0, retains its author, source, contributor, and license metadata in `SKILL.md`, and ships the full text at `LICENSES/Apache-2.0.txt`.
 
 ## Evidence Lab Writing Skill
 

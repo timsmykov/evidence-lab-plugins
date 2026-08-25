@@ -24,7 +24,7 @@ Email addresses are allowed only in `LICENSE` and `SECURITY.md`.
 
 ## Risk class
 
-`team_safe` — shareable across the team as is. `internal_only` — the plugin depends on internal infrastructure; it is excluded from the portable export and does not leave the team in any form.
+`team_safe` — shareable across the team as is. `internal_only` — the plugin depends on internal infrastructure; it is excluded from every portable export and does not leave the team in any form. A `team_safe` plugin is exported to a non-Claude runtime only when that runtime is explicitly listed in `meta.json` → `portable_to`.
 
 ## If something has already leaked
 

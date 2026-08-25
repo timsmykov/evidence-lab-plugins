@@ -26,13 +26,13 @@ What people work out stays inside their personal instances and never reaches the
 
 **No shared skills yet.** There is deliberately no `shared/` directory. Claude Code requires a skill to sit physically inside the plugin, so reuse means a copy. Building a vendoring mechanism before the first real duplicate exists is premature. When that duplicate shows up, the copy will be made by a script that records source and version — not by hand.
 
-**English only.** Skills, manifests, eval sets and docs are English so the registry stays portable and reads well to a routing agent. The verifier fails on Cyrillic anywhere in the tree. Localization, when it is genuinely needed, is an explicit companion file (`*.ru.md`, `*.ru.json`) beside the English original — never a bilingual file, because mixed-language prose is what makes a registry unportable one paragraph at a time.
+**English entrypoints.** Skills, manifests, eval sets and repository docs are English so the registry stays portable and reads well to a routing agent. Localization, when it is genuinely needed, lives in an explicitly named file (`*.ru.md`, `*.ru.json`) routed from the English `SKILL.md`. Mixed-language entrypoints are rejected.
 
 ## What the gate enforces
 
 Manifest schemas; names matching directories; completeness of `meta.json`; presence and composition of eval sets; description length and trigger wording; a reviewer distinct from the owner for production; a version bump when plugin content changes; unfilled scaffold placeholders; and the absence of private paths, addresses, tokens and identifiers.
 
-The sanitization rules are ported from the `ai-agent-skills` registry, where they already ran against live material.
+The sanitization gate checks shared plugin material for private paths, addresses, tokens, internal identifiers, and misplaced localized prose before publication.
 
 ## Boundaries
 

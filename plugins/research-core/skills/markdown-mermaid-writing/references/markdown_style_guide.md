@@ -38,39 +38,6 @@
 
 ---
 
-## 🗂️ Everything is Code
-
-Everything is code. PRs, issues, kanban boards — they're all markdown files in your repo, not data trapped in a platform's database.
-
-### Why this matters
-
-- **Portable** — GitHub → GitLab → Gitea → anywhere. Your project management data isn't locked into any vendor. Switch platforms and your issues, PR records, and boards come with you — they're just files.
-- **AI-native** — Agents can read every issue, PR record, and kanban board with local file access. No API tokens, no rate limits, no platform-specific queries. `grep` beats `gh api` every time.
-- **Auditable** — Project management changes go through the same PR review process as code changes. Every board update, every issue status change — it's all in git history with attribution and timestamps.
-
-### How it works
-
-| What                 | Where it lives                                            | What GitHub does                                                                                                                                                   |
-| -------------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Pull requests**    | `docs/project/pr/pr-NNNNNNNN-short-description.md`        | GitHub PR is a thin pointer — humans go there to comment on diffs, approve, and watch CI. The record of what changed, why, and what was learned lives in the file. |
-| **Issues**           | `docs/project/issues/issue-NNNNNNNN-short-description.md` | GitHub Issues is a notification and comment layer. Bug reports, feature requests, investigation logs, and resolutions live in the file.                            |
-| **Kanban boards**    | `docs/project/kanban/{scope}-{id}-short-description.md`   | No external board tool needed. Modify the board in your branch, merge it with your PR. The board evolves with the codebase.                                        |
-| **Decision records** | `docs/decisions/NNN-{slug}.md`                            | Not tracked in GitHub at all — purely repo-native.                                                                                                                 |
-
-### The rule
-
-> 📌 **Don't capture information in GitHub's UI that should be captured in a file.** Approve PRs in GitHub. Watch CI in GitHub. Comment in GitHub. But the actual content — the description, the investigation, the decision — lives in a committed file. If it's worth writing down, it's worth committing.
-
-### Templates for tracked documents
-
-- [Pull request record](../templates/pull_request.md) — the PR description IS this file
-- [Issue record](../templates/issue.md) — bug reports and feature requests as repo files
-- [Kanban board](../templates/kanban.md) — sprint/project boards that merge with your code
-
-See [File conventions](#file-conventions-for-tracked-documents) for directory structure and naming.
-
----
-
 ## Document Structure
 
 ### Title and metadata
@@ -195,7 +162,7 @@ See the [Mermaid Style Guide](mermaid_style_guide.md) for diagram conventions.
 ```
 
 - **Meaningful link text** — `[Mermaid Style Guide]` not `[click here]` or `[link]`
-- **Relative paths** for internal links — `[Guide](./README.md)` not absolute URLs
+- **Relative paths** for internal links — resolve them from the file containing the link
 - **Full URLs** for external links — always `https://`
 
 ### Footnote citations
@@ -603,49 +570,6 @@ for refresh token details.
 - [ ] Consistent whitespace (no trailing spaces, no double blanks)
 - [ ] Parallel grammatical structure in lists
 - [ ] Renders correctly in GitHub light and dark mode
-
----
-
-## Templates
-
-Templates provide pre-built structures for common document types. Copy the template, fill in your content, and follow this style guide for formatting. Every template enforces the principles above — citations, diagrams, collapsible depth, and self-answering structure.
-
-| Document type                   | Template                                                                | Best for                                                                                              |
-| ------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| Presentation / briefing         | [presentation.md](../templates/presentation.md)                   | Slide-deck-style documents with speaker notes, structured sections, and visual flow                   |
-| Research paper / analysis       | [research_paper.md](../templates/research_paper.md)               | Data-driven analysis, literature reviews, methodology + findings with heavy citations                 |
-| Project documentation           | [project_documentation.md](../templates/project_documentation.md) | Software/product docs — architecture, getting started, API reference, contribution guide              |
-| Decision record (ADR/RFC)       | [decision_record.md](../templates/decision_record.md)             | Recording why a decision was made — context, options evaluated, outcome, consequences                 |
-| How-to / tutorial guide         | [how_to_guide.md](../templates/how_to_guide.md)                   | Step-by-step instructions with prerequisites, verification steps, and troubleshooting                 |
-| Status report / executive brief | [status_report.md](../templates/status_report.md)                 | Progress updates, risk summaries, decisions needed — for leadership and stakeholders                  |
-| Pull request record             | [pull_request.md](../templates/pull_request.md)                   | PR documentation with change inventory, testing evidence, rollback plan, and review notes             |
-| Issue record                    | [issue.md](../templates/issue.md)                                 | Bug reports (reproduction steps, root cause) and feature requests (acceptance criteria, user stories) |
-| Kanban board                    | [kanban.md](../templates/kanban.md)                               | Sprint/release/project work tracking with visual board, WIP limits, metrics, and blocked items        |
-
-### File conventions for tracked documents
-
-Some templates produce documents that accumulate over time. Use these directory conventions:
-
-| Document type    | Directory              | Naming pattern                              | Example                                                                 |
-| ---------------- | ---------------------- | ------------------------------------------- | ----------------------------------------------------------------------- |
-| Pull requests    | `docs/project/pr/`     | `pr-NNNNNNNN-short-description.md`          | `docs/project/pr/pr-00000123-fix-auth-timeout.md`                       |
-| Issues           | `docs/project/issues/` | `issue-NNNNNNNN-short-description.md`       | `docs/project/issues/issue-00000456-add-export-filter.md`               |
-| Kanban boards    | `docs/project/kanban/` | `{scope}-{identifier}-short-description.md` | `docs/project/kanban/sprint-2026-w07-agentic-template-modernization.md` |
-| Decision records | `docs/decisions/`      | `NNN-{slug}.md`                             | `docs/decisions/001-use-postgresql.md`                                  |
-| Status reports   | `docs/status/`         | `status-{date}.md`                          | `docs/status/status-2026-02-14.md`                                      |
-
-### Choosing a template
-
-- **Presenting to people?** → Presentation
-- **Publishing analysis or research?** → Research paper
-- **Documenting a codebase or product?** → Project documentation
-- **Recording why you chose X over Y?** → Decision record
-- **Teaching someone how to do something?** → How-to guide
-- **Updating leadership on progress?** → Status report
-- **Documenting a PR for posterity?** → Pull request record
-- **Tracking a bug or requesting a feature?** → Issue record
-- **Managing work items for a sprint or project?** → Kanban board
-- **None of these fit?** → Start from this style guide's rules directly — no template required
 
 ---
 

@@ -14,3 +14,5 @@ PATCH — wording, templates, evals; the procedure is unchanged.
 - Evidence Lab `writing-skill` as the single general writing foundation with an academic/research mode; the overlapping upstream `scientific-writing` skill is deliberately omitted.
 - Routing evals for every skill, third-party notices, and explicit researcher confirmation points.
 - `liteparse` is deliberately omitted pending a separate parser comparison.
+- Human-facing navigation grouped by research job, with explicit routing boundaries and readiness gates.
+- Repository hygiene adaptations remove broken upstream project templates and undeclared runtime dependencies.

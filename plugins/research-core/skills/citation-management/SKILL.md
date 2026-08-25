@@ -2,7 +2,7 @@
 name: citation-management
 description: Comprehensive citation management for academic research. Search OpenAlex, PubMed, and Google Scholar for papers, extract accurate metadata, validate citations, and generate properly formatted BibTeX entries. This skill should be used when you need to find papers, verify citation information, convert DOIs to BibTeX, or ensure reference accuracy in scientific writing.
 allowed-tools: Read Write Edit Bash WebSearch WebFetch
-license: MIT License
+license: MIT
 metadata:
   version: "2.0"
   skill-author: K-Dense Inc.
@@ -95,7 +95,7 @@ from different sources deduplicate against each other.
 
 APIs routinely return incomplete records. Run this **after** extraction and **before**
 formatting. Any `@article` missing `volume`, `pages`, or `doi` is incomplete: fill the
-gap with `WebSearch`/`WebFetch` (or the parallel-web skill, when it is available), then
+gap with an available web-retrieval tool or documented source API, then
 log what was found and where. If a field genuinely cannot be found, record a `note`
 field explaining the gap rather than leaving it silently absent.
 

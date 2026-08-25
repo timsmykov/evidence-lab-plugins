@@ -1,7 +1,7 @@
 ---
 name: statistical-analysis
-description: Guided statistical analysis for research data - test selection, assumption checking, effect sizes, power analysis, Bayesian alternatives, and APA-formatted reporting. Use whenever a user wants to compare groups, test a hypothesis, analyze experimental or survey data, check statistical assumptions, compute required sample sizes, or write up results - even if they never name a specific test. Covers t-tests, ANOVA, chi-square, correlation, regression, non-parametric and Bayesian methods. For low-level model APIs, see the statsmodels and pymc skills.
-license: MIT license
+description: Guided statistical analysis for research data - test selection, assumption checking, effect sizes, power analysis, Bayesian alternatives, and APA-formatted reporting. Use whenever a user wants to compare groups, test a hypothesis, analyze experimental or survey data, check statistical assumptions, compute required sample sizes, or write up results - even if they never name a specific test. Covers t-tests, ANOVA, chi-square, correlation, regression, non-parametric and Bayesian methods. Low-level model implementation requires an explicitly selected and approved library workflow.
+license: MIT
 metadata:
   version: "1.1"
   skill-author: K-Dense Inc.
@@ -49,7 +49,7 @@ uv pip install "pymc>=5.0" "arviz>=1.0"
 - **ArviZ 1.x**: `az.summary()` now defaults to **89% intervals** (`eti89` columns) and the width parameter is `ci_prob` (not `hdi_prob`). To report a conventional 95% credible interval, pass `az.summary(trace, ci_prob=0.95)`.
 - **One-sided Bayes Factors are gone from Pingouin**: `pg.ttest(..., alternative='greater')` silently drops the `BF10` column, and `pg.bayesfactor_ttest` raises on one-sided alternatives. For one-sided Bayesian tests, use PyMC directly (compute the posterior probability of the directional hypothesis) or JASP/R's BayesFactor.
 
-For model-specific APIs (OLS, GLM, ARIMA), see the **statsmodels** skill. For PyMC workflows, see the **pymc** skill.
+For model-specific APIs (OLS, GLM, ARIMA) or PyMC workflows, select and document an approved library implementation before execution; this bundle does not ship library-specific skills.
 
 ---
 

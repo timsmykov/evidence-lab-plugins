@@ -8,5 +8,5 @@
   "keywords": ["research", "evidence", "literature", "statistics", "writing", "reproducibility"],
   "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
   "repository": "https://github.com/timsmykov/evidence-lab-plugins",
-  "license": "MIT"
+  "license": "MIT AND Apache-2.0"
 }

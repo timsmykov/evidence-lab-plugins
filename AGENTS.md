@@ -33,10 +33,11 @@ Then open a pull request. Direct pushes to `main` are rejected; `verify` must be
 
 Do not try to work around these. If a rule is genuinely wrong, narrow it in a separate reviewed change.
 
-- **English only.** Cyrillic anywhere fails the build. A translation goes in a companion `*.ru.md` / `*.ru.json` file beside the English original, never inline.
+- **English entrypoints.** Cyrillic outside an explicitly named `*.ru.md` / `*.ru.json` localization file fails the build. Localized references are routed from an English `SKILL.md`, never mixed inline.
 - **Every skill needs `evals/trigger_eval.json`** with at least 8 cases and at least 3 negatives. Negatives come from neighbouring skills in the same plugin.
 - **Descriptions are routing, not marketing.** At least 80 characters, naming the phrasings that load the skill and the near misses that must not.
 - **`meta.json` lists every skill on disk**, and `provenance` names whose practice the procedure came from.
+- **Declared deterministic parts exist**, and relative Markdown links resolve inside the repository.
 - **Version bumps are mandatory** when plugin content changes; update the plugin's `CHANGELOG.md` in the same commit.
 - **No placeholders in `plugins/`.** `REPLACE ME` and `__SKILL__` left in a plugin fail the build.
 - **No private data.** Tokens, IPs, private host paths, email addresses, client or student document contents, internal page links, bare UUIDs.
@@ -56,4 +57,5 @@ The full guidance is in `docs/authoring.md`. The three things that matter most:
 - Do not delete or loosen a check in `scripts/verify_repo.py` to get CI green.
 - Do not add a `shared/` skills directory — reuse is deliberately deferred until a real duplicate exists (see `docs/architecture.md`).
 - Do not commit `dist/`; it is build output.
+- Do not export a plugin to Codex, ChatGPT, or Hermes unless that runtime is explicitly listed in `meta.json` → `portable_to`.
 - Do not mark a plugin `production` because it looks finished. That status means it ran on a real task.

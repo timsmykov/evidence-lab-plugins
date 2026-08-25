@@ -6,7 +6,7 @@ Machine-readable ledger: `assets/source_ledger.csv`.
 
 ## Search boundary
 
-Research used `parallel-cli` search against official or primary domains with focused queries for:
+Source research used focused searches against official or primary domains for:
 
 - NIH rigor, reproducibility, and the 2026 replication initiative;
 - Cochrane PICO and the original well-built clinical-question article;

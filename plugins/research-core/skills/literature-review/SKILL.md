@@ -2,7 +2,7 @@
 name: literature-review
 description: Plan and conduct reproducible literature reviews with explicit search boundaries, documented screening decisions, structured evidence extraction, quality appraisal, synthesis, and verified citations. Use for systematic, scoping, rapid, or narrative reviews; use paper-lookup for a bounded paper search and writing-skill only after the evidence set is stable.
 allowed-tools: Read Write Edit Bash
-license: MIT license
+license: MIT
 metadata:
   version: "1.7"
   skill-author: K-Dense Inc.

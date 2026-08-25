@@ -2,7 +2,7 @@
 name: scientific-critical-thinking
 description: Audit scientific claims, assumptions, causal language, bias, confounding, and evidence quality without drafting a formal referee report. Use for critical appraisal, evidence grading, or teaching claim evaluation; use peer-review for a manuscript review and statistical-analysis for new calculations.
 allowed-tools: Read Write Edit
-license: MIT license
+license: MIT
 metadata:
   version: "1.2"
   skill-author: K-Dense Inc.

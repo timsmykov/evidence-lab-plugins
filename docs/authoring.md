@@ -11,7 +11,7 @@ The `description` in the frontmatter is read by a router, not by a person. It ha
 Bad: "Helps you work with academic sources."
 Good: "Builds a summary table over a set of documents. Loads on 'build a summary table', 'structure this collection', 'pull these files into one comparable table'. Does not load when new sources have to be found, or when a finished artefact needs checking."
 
-Write the phrasings in English. The registry is English-only and the verifier enforces it; if a skill ever needs a translated description for a Russian-speaking user, that goes in a separate `*.ru.md` companion file.
+Write routing phrasings in English. The verifier enforces English entrypoints; Russian-language guidance belongs in an explicitly named `*.ru.md` reference routed from the English `SKILL.md`.
 
 ## Split the model from the script
 

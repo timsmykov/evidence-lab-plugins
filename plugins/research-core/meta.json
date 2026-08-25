@@ -45,7 +45,7 @@
     },
     {
       "name": "markdown-mermaid-writing",
-      "summary": "Creates versionable Markdown documents and Mermaid diagrams from reusable templates and style rules.",
+      "summary": "Creates versionable structural diagrams and consistent Markdown layouts using Mermaid and focused style rules.",
       "deterministic_parts": []
     },
     {

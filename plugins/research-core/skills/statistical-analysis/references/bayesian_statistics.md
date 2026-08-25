@@ -205,7 +205,7 @@ import pingouin as pg
 result = pg.ttest(group1, group2, correction=False)
 bf10 = result['BF10'].values[0]
 
-# Rigorous Bayes Factors: BayesFactor (R), JASP, or PyMC model comparison (see pymc skill)
+# Rigorous Bayes Factors: BayesFactor (R), JASP, or an explicitly approved model-comparison workflow
 ```
 
 ---
