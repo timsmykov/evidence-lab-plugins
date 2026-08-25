@@ -38,6 +38,10 @@ jobs:
             exit 1
           fi
           rm -rf plugins/ci-smoke-plugin
+          if python3 scripts/new_plugin.py ../outside --skill unsafe --owner CI --reviewer CI; then
+            echo "FAIL: scaffolder accepted a path-like plugin name"
+            exit 1
+          fi
 
       - name: Deterministic script is reproducible
         run: |
@@ -50,4 +54,7 @@ jobs:
           cmp /tmp/first.md /tmp/second.md
 
       - name: Portable export runs
-        run: python3 scripts/export_portable.py --include-reference
+        run: |
+          python3 scripts/export_portable.py --runtime codex --include-reference
+          test -d dist/portable/example-domain__example-procedure
+          test ! -d dist/portable/research-core__writing-skill

@@ -1,0 +1,37 @@
+[
+  {
+    "query": "Create a truthful publication-ready figure from these research data.",
+    "should_trigger": true
+  },
+  {
+    "query": "Audit this chart for misleading scales, missing uncertainty, and inaccessible color.",
+    "should_trigger": true
+  },
+  {
+    "query": "Build a multi-panel scientific visualization with documented transformations.",
+    "should_trigger": true
+  },
+  {
+    "query": "Export this figure at the required physical size and verify the rendered artifact.",
+    "should_trigger": true
+  },
+  {
+    "query": "Show missingness and confidence intervals honestly in the plot.",
+    "should_trigger": true
+  },
+  {
+    "query": "Create a Mermaid diagram of the research workflow.",
+    "should_trigger": false,
+    "note": "Handled by markdown-mermaid-writing."
+  },
+  {
+    "query": "Run the hypothesis test and calculate the effect size.",
+    "should_trigger": false,
+    "note": "Handled by statistical-analysis."
+  },
+  {
+    "query": "Write the figure caption and discussion paragraph only.",
+    "should_trigger": false,
+    "note": "Handled by writing-skill."
+  }
+]

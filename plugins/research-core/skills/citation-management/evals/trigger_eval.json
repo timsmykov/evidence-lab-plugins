@@ -1,0 +1,37 @@
+[
+  {
+    "query": "Find the correct metadata for these DOIs and export clean BibTeX entries.",
+    "should_trigger": true
+  },
+  {
+    "query": "Deduplicate this reference list and verify that every citation resolves.",
+    "should_trigger": true
+  },
+  {
+    "query": "Search PubMed and OpenAlex for the missing citation details in my bibliography.",
+    "should_trigger": true
+  },
+  {
+    "query": "My references have inconsistent author names and years; normalize them.",
+    "should_trigger": true
+  },
+  {
+    "query": "Build a checked citation library from this list of papers.",
+    "should_trigger": true
+  },
+  {
+    "query": "Find recent papers about battery recycling and summarize the evidence.",
+    "should_trigger": false,
+    "note": "Handled by paper-lookup or literature-review."
+  },
+  {
+    "query": "Rewrite this discussion section in clearer academic English.",
+    "should_trigger": false,
+    "note": "Handled by writing-skill."
+  },
+  {
+    "query": "Review whether the methods and statistics in this manuscript are sound.",
+    "should_trigger": false,
+    "note": "Handled by peer-review."
+  }
+]

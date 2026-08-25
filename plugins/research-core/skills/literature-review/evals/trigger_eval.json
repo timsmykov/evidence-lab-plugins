@@ -1,0 +1,37 @@
+[
+  {
+    "query": "Conduct a systematic literature review with documented inclusion criteria.",
+    "should_trigger": true
+  },
+  {
+    "query": "Build a reproducible search ledger, screening log, and evidence table for this question.",
+    "should_trigger": true
+  },
+  {
+    "query": "Prepare a scoping review across several databases and show the coverage limits.",
+    "should_trigger": true
+  },
+  {
+    "query": "Synthesize this body of literature and preserve the study selection trail.",
+    "should_trigger": true
+  },
+  {
+    "query": "Create the review protocol and PRISMA counts for this research topic.",
+    "should_trigger": true
+  },
+  {
+    "query": "Look up the DOI and abstract for these three known paper titles.",
+    "should_trigger": false,
+    "note": "Handled by paper-lookup."
+  },
+  {
+    "query": "Fix and deduplicate the BibTeX file I already have.",
+    "should_trigger": false,
+    "note": "Handled by citation-management."
+  },
+  {
+    "query": "Write a polished literature-review paragraph from the supplied evidence table.",
+    "should_trigger": false,
+    "note": "Handled by writing-skill."
+  }
+]

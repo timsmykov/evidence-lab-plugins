@@ -1,0 +1,37 @@
+[
+  {
+    "query": "Find papers on this topic across PubMed, OpenAlex, and arXiv with provenance.",
+    "should_trigger": true
+  },
+  {
+    "query": "Look up this DOI and return the abstract and available open-access full text.",
+    "should_trigger": true
+  },
+  {
+    "query": "Find who cites this paper and preserve stable scholarly identifiers.",
+    "should_trigger": true
+  },
+  {
+    "query": "Search for relevant preprints and deduplicate the results by identifier.",
+    "should_trigger": true
+  },
+  {
+    "query": "Retrieve a reproducible list of publications for this narrow query.",
+    "should_trigger": true
+  },
+  {
+    "query": "Conduct full screening and synthesis for a systematic review.",
+    "should_trigger": false,
+    "note": "Handled by literature-review."
+  },
+  {
+    "query": "Normalize and export these references as BibTeX.",
+    "should_trigger": false,
+    "note": "Handled by citation-management."
+  },
+  {
+    "query": "Query a named non-literature scientific database endpoint.",
+    "should_trigger": false,
+    "note": "Handled by database-lookup."
+  }
+]

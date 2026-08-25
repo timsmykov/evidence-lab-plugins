@@ -1,0 +1,37 @@
+[
+  {
+    "query": "Turn this observation into testable hypotheses and rival explanations.",
+    "should_trigger": true
+  },
+  {
+    "query": "Build a prediction-versus-rival matrix for these candidate mechanisms.",
+    "should_trigger": true
+  },
+  {
+    "query": "Help operationalize this research question without treating ideas as findings.",
+    "should_trigger": true
+  },
+  {
+    "query": "Draft a preregistration-ready hypothesis and falsification plan from these notes.",
+    "should_trigger": true
+  },
+  {
+    "query": "What alternative explanations and discriminating tests follow from this result?",
+    "should_trigger": true
+  },
+  {
+    "query": "Search the literature to determine what has already been published.",
+    "should_trigger": false,
+    "note": "Handled by literature-review or paper-lookup."
+  },
+  {
+    "query": "Choose and run the statistical test on this completed dataset.",
+    "should_trigger": false,
+    "note": "Handled by statistical-analysis."
+  },
+  {
+    "query": "Design the randomization and blocking schedule for the experiment.",
+    "should_trigger": false,
+    "note": "Handled by experimental-design."
+  }
+]

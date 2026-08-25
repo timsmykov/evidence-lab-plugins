@@ -1,0 +1,37 @@
+[
+  {
+    "query": "Query the named public database API and return the records with endpoint provenance.",
+    "should_trigger": true
+  },
+  {
+    "query": "Look up this compound in PubChem and preserve the exact query parameters.",
+    "should_trigger": true
+  },
+  {
+    "query": "Retrieve the current ClinicalTrials.gov records for this intervention reproducibly.",
+    "should_trigger": true
+  },
+  {
+    "query": "I need a paginated API lookup with counts reconciled against the source.",
+    "should_trigger": true
+  },
+  {
+    "query": "Get this database-backed scientific fact from the authoritative endpoint, not memory.",
+    "should_trigger": true
+  },
+  {
+    "query": "Find peer-reviewed papers that discuss this mechanism.",
+    "should_trigger": false,
+    "note": "Handled by paper-lookup."
+  },
+  {
+    "query": "Conduct a systematic review with screening criteria and an evidence table.",
+    "should_trigger": false,
+    "note": "Handled by literature-review."
+  },
+  {
+    "query": "Analyze the CSV I already downloaded from the database.",
+    "should_trigger": false,
+    "note": "Handled by exploratory-data-analysis."
+  }
+]

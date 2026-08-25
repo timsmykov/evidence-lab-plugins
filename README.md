@@ -19,13 +19,17 @@ The format is native to Claude Code, so installation needs no installer of ours:
 /plugin install <plugin>@evidence-lab-plugins
 ```
 
-For Codex and ChatGPT the skills are flattened: `python3 scripts/export_portable.py`.
+For non-Claude runtimes, export only plugins explicitly verified for that runtime:
+
+```bash
+python3 scripts/export_portable.py --runtime codex
+```
 
 ## Language policy
 
-English, everywhere. Skills, plugin manifests, eval sets, documentation and commit messages are written in English, because the primary reader of a skill is a routing agent and the registry has to stay portable across runtimes.
+English entrypoints, manifests, eval sets, documentation and commit messages are written in English, because the primary reader of a skill is a routing agent and the registry has to stay portable across runtimes.
 
-The verifier enforces this: any Cyrillic text fails the build. If a skill ever needs a localized companion — a translated description or summary for a Russian-speaking user — it goes in an explicitly named `*.ru.md` / `*.ru.json` file next to the English original, never inline.
+The verifier enforces this: Cyrillic outside explicitly named `*.ru.md` / `*.ru.json` localization files fails the build. A localized reference is routed from an English `SKILL.md`; mixed-language entrypoints are not allowed.
 
 ## Quick start for a plugin author
 
@@ -53,6 +57,14 @@ Then branch, pull request, review, merge. Direct pushes to `main` are rejected.
 | `schemas/` | schemas for `plugin.json`, `meta.json`, evals and the marketplace |
 | `scripts/` | marketplace generator, verifier, scaffolder, portable export |
 | `docs/` | architecture, authoring rules, review checklist, privacy, releases |
+
+## Published plugins
+
+| Plugin | Status | Purpose |
+|---|---|---|
+| [`research-core`](plugins/research-core/README.md) | draft | Cross-disciplinary source, design, analysis, review, visualization, and writing workflows. |
+
+`example-domain` is a non-published reference fixture for authors and CI. It is intentionally kept because it proves the scaffold, deterministic-script, critic-agent, and portable-export paths without depending on a live plugin.
 
 ## Documentation
 
