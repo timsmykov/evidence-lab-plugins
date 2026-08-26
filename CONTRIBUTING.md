@@ -24,7 +24,10 @@ python3 scripts/new_pack.py <name> --layer <core|workflow|domain|local> --skill 
 Fill in `SKILL.md`, `meta.json` (especially `provenance`), the eval set and, where there are deterministic steps, `scripts/`. Before opening the pull request:
 
 ```bash
-python3 scripts/build_marketplace.py
+python3 scripts/build_adapters.py --check
+python3 scripts/test_agent_first.py
+python3 scripts/test_bootstrap.py
+python3 scripts/test_normalization.py
 python3 scripts/verify_repo.py
 ```
 
