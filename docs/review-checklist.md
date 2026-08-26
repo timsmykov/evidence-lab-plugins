@@ -27,6 +27,8 @@ The reviewer checks whether it works, not whether it reads well. The order below
 - [ ] There is an explicit confirmation point wherever the procedure chooses criteria or boundaries.
 - [ ] The skill does not present a model hypothesis as a result derived from data.
 - [ ] Gaps are rendered as gaps.
+- [ ] Reconciliation keeps installed extras by default and requires a separate approval for removal.
+- [ ] Failed or interrupted lifecycle work reports exact host readback; downgrade limitations remain `partial`.
 
 ## Boundaries and privacy
 

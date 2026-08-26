@@ -1,5 +1,11 @@
 # Changelog — Evidence Lab Core
 
+## [0.7.0] — 2026-08-26
+
+### Added
+- Deterministic reconciliation with exact add, update, retain, and removal-candidate diffs.
+- Stale-plan rejection, pre-change snapshots, interrupted-run recovery, separately approved removal, and exact restore readback.
+
 ## [0.6.0] — 2026-08-26
 
 ### Changed

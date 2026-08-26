@@ -316,7 +316,7 @@ normalization changes require deterministic schema tests plus quality evals.
 - [x] T5 (P1) Add free-text normalization eval suite and injection cases.
 - [x] T6 (P2) Produce scenario-to-capability coverage and pack-boundary report.
 - [x] T7 (P2) Implement approved pack splits/additions with provenance and evals.
-- [ ] T8 (P1) Implement reconcile/update/retained-extra/remove/restore lifecycle.
+- [x] T8 (P1) Implement reconcile/update/retained-extra/remove/restore lifecycle.
 - [ ] T9 (P1) Add release-lock builder, hashes, CI, and immutable snapshot tags.
 - [ ] T10 (P1) Complete public-source sanitization and clean-user host acceptance.
 - [ ] T11 (P2) Finalize RU/EN application-facing installation and recovery copy.

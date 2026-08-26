@@ -36,6 +36,8 @@ suggest normalized values for free text, but it cannot select a pack directly.
 declared field, `contains_all` requires every listed value within a field, and
 `none` excludes a match.
 
+For an existing workspace, selection feeds a reconciliation plan instead of a clean-install plan. The plan hashes live installed readback, separates add/update/retain/remove-candidate groups, and keeps extras by default. Additions and updates share one approval; removal requires a second approval. The state records the old release ref and exact pre-change pack snapshot so a failed or interrupted run can be inspected and restored without claiming success before exact readback.
+
 ## Repository flow
 
 ```text
@@ -50,18 +52,22 @@ Generated artifacts are committed so repository marketplaces work directly, but 
 
 ## Current decomposition
 
-- Evidence Lab Core: onboarding, selection, paper lookup, citations, critical thinking.
-- Full Research Cycle: hypotheses, design, literature review, writing, diagrams, peer review.
-- Data and PDF: document conversion, public databases, exploratory analysis.
-- Quantitative Sciences: statistics, power, uncertainty, units, scientific visualization.
+- Evidence Lab Core: onboarding, selection, installation lifecycle, paper lookup, citations, critical thinking.
+- Research Design and Literature Publication: focused study-design and manuscript workflows.
+- Document Evidence and Structured Data Analysis: focused document conversion and dataset/database workflows.
+- Quantitative Sciences and Life Sciences: discipline-specific methods and checks.
+- Full Research Cycle and Data and PDF: compatibility aggregates that depend on the focused packs.
+- Publication Monitoring, Systematic Review, Qualitative Research, and Research Images: reviewed draft additions awaiting representative real-task evidence.
 
-This is the first real decomposition, not the final catalog. New packs must be justified by tested user routes rather than by a desire to fill the taxonomy.
+Further splits or additions must be justified by tested user routes rather than by a desire to mirror a taxonomy.
 
 ## Invariants
 
 - Shared skills are authored once.
 - Every adapter exposes the same ID, version, description, author, license, and skill tree.
 - Dependencies are resolved before a plan is shown.
+- A changed profile, release ref, or installed snapshot invalidates an unexecuted reconcile plan.
+- Reconciliation never removes an extra pack without a separate confirmation.
 - Partial installation must not be recorded as ready.
 - A runtime is not supported until its adapter and representative behavior pass.
 - Provenance, licensing, deterministic scripts, and negative routing evals survive every split.
