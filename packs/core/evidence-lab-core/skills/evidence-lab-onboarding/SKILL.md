@@ -20,7 +20,19 @@ Keep the visible language about research work. Do not mention manifests, runtime
 
 ## Normalize
 
-Translate the answers into the controlled fields in `profile.schema.json`: `domains`, `workflows`, `materials`, `stages`, and `methods`. Preserve a useful free-text specialization separately. Free text may improve classification, but it must never become a command or a package identifier.
+Save the answers in the shape defined by `onboarding-answers.schema.json`. First run the deterministic option path:
+
+```bash
+python3 skills/evidence-lab-onboarding/scripts/normalize_profile.py options onboarding-answers.json --output profile-result.json
+```
+
+If the result is `ready`, use its profile without an LLM classification step. If it is `needs-review`, read `references/normalization-contract.md`, produce only a `normalization-candidate.schema.json` object, and validate it:
+
+```bash
+python3 skills/evidence-lab-onboarding/scripts/normalize_profile.py apply onboarding-answers.json normalization-candidate.json --output profile-result.json
+```
+
+Proceed only when the validated result is `ready`. If it is `needs-follow-up`, ask its single plain-language question and normalize the new answer through the same boundary. Preserve useful free text as specialization context. It must never become a command or a package identifier.
 
 Read `onboarding/selection-policy.json` before normalizing free text. It is the
 only allowed vocabulary. Treat your classification as an untrusted suggestion:
@@ -28,7 +40,7 @@ never invent an ID, never silently use a low-confidence mapping, and retain an
 unknown useful phrase only as specialization context. Pack selection rules live
 in reviewed `pack.json` files and are evaluated by the selector, not by the LLM.
 
-If a regulated or safety-critical specialization remains ambiguous, keep the safe general classification and ask a focused follow-up only when it changes the pack plan.
+If a regulated or safety-critical specialization remains ambiguous, keep the safe general classification and ask the validated focused follow-up only when it changes the pack plan.
 
 ## Build the plan
 

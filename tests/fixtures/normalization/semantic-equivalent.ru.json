@@ -1,0 +1,23 @@
+{
+  "id": "russian-semantic-equivalent",
+  "answers": {
+    "schema_version": 1,
+    "locale": "ru",
+    "answers": [
+      {"question_id": "domains", "selected_option_ids": ["physics"], "free_text": "Также проектирую механические системы."},
+      {"question_id": "materials", "selected_option_ids": ["papers"], "free_text": "Работаю с формулами и строю математические модели."}
+    ]
+  },
+  "candidate": {
+    "schema_version": 1,
+    "mappings": [
+      {"source_question_id": "domains", "field": "domains", "value": "engineering", "confidence": 0.94, "rationale": "Проектирование механических систем относится к инженерным наукам."},
+      {"source_question_id": "materials", "field": "methods", "value": "formulas", "confidence": 0.98, "rationale": "Исследователь явно работает с формулами."},
+      {"source_question_id": "materials", "field": "methods", "value": "mathematical-models", "confidence": 0.97, "rationale": "Исследователь явно строит математические модели."}
+    ],
+    "unresolved_question_ids": [],
+    "follow_up_question": null
+  },
+  "expected_status": "ready",
+  "expected_values": {"domains": ["engineering", "physics"], "materials": ["papers"], "methods": ["formulas", "mathematical-models"]}
+}

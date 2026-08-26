@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://evidence-lab.dev/schemas/normalization-result.schema.json",
+  "title": "Validated Evidence Lab normalization result",
+  "type": "object",
+  "required": ["schema_version", "status", "profile", "mappings", "unmapped", "follow_up_question"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "status": {"enum": ["ready", "needs-review", "needs-follow-up"]},
+    "profile": {"type": "object"},
+    "mappings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_question_id", "source", "field", "value", "confidence", "rationale"],
+        "additionalProperties": false,
+        "properties": {
+          "source_question_id": {"type": "string"},
+          "source": {"enum": ["option", "llm"]},
+          "field": {"enum": ["domains", "workflows", "materials", "stages", "methods"]},
+          "value": {"type": "string"},
+          "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+          "rationale": {"type": "string", "minLength": 3, "maxLength": 500}
+        }
+      }
+    },
+    "unmapped": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_question_id", "text", "reason"],
+        "additionalProperties": false,
+        "properties": {
+          "source_question_id": {"type": "string"},
+          "text": {"type": "string"},
+          "reason": {"enum": ["free-text-needs-review", "low-confidence", "explicitly-unresolved", "unclassified"]}
+        }
+      }
+    },
+    "follow_up_question": {"type": ["string", "null"]}
+  }
+}

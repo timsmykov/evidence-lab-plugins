@@ -1,0 +1,21 @@
+{
+  "id": "mixed-language-free-text",
+  "answers": {
+    "schema_version": 1,
+    "locale": "ru",
+    "answers": [
+      {"question_id": "domains", "selected_option_ids": [], "free_text": "Работаю in applied statistics для engineering systems."}
+    ]
+  },
+  "candidate": {
+    "schema_version": 1,
+    "mappings": [
+      {"source_question_id": "domains", "field": "domains", "value": "statistics", "confidence": 0.95, "rationale": "В ответе прямо указана прикладная статистика."},
+      {"source_question_id": "domains", "field": "domains", "value": "engineering", "confidence": 0.9, "rationale": "В ответе прямо указаны инженерные системы."}
+    ],
+    "unresolved_question_ids": [],
+    "follow_up_question": null
+  },
+  "expected_status": "ready",
+  "expected_values": {"domains": ["engineering", "statistics"]}
+}

@@ -1,5 +1,11 @@
 # Changelog — Evidence Lab Core
 
+## [0.5.0] — 2026-08-26
+
+### Added
+- Deterministic option normalization and a schema-bounded validator for untrusted free-text classification candidates.
+- Confidence gating, focused follow-up behavior, prompt-injection fixtures, and Russian/English semantic parity tests.
+
 ## [0.4.0] — 2026-08-26
 
 ### Changed
