@@ -8,7 +8,7 @@
     {
       "name": "evidence-lab-core",
       "description": "Agent-first research foundations, fast researcher onboarding, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "author": {
         "name": "Evidence Lab"
       },
@@ -26,7 +26,7 @@
     {
       "name": "quantitative-sciences",
       "description": "Statistical analysis, power and sample-size planning, uncertainty and units, and publication-grade scientific visualization for quantitative research.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Evidence Lab"
       },
@@ -42,7 +42,7 @@
     {
       "name": "data-and-pdf",
       "description": "Document conversion, reproducible public-database retrieval, and exploratory analysis for papers, PDFs, tables, and structured research datasets.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Evidence Lab"
       },
@@ -57,7 +57,7 @@
     {
       "name": "full-research-cycle",
       "description": "A complete research workflow from testable hypotheses and study design through literature synthesis, manuscript writing, diagrams, and evidence-bounded peer review.",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "author": {
         "name": "Evidence Lab"
       },

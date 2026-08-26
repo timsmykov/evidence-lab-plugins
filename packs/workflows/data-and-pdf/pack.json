@@ -1,13 +1,34 @@
 {
   "id": "data-and-pdf",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "layer": "workflow",
   "display_name": "Data and PDF",
   "description": "Document conversion, reproducible public-database retrieval, and exploratory analysis for papers, PDFs, tables, and structured research datasets.",
   "category": "Research",
   "author": {"name": "Evidence Lab"},
   "capabilities": ["document-conversion", "database-lookup", "exploratory-data-analysis"],
-  "selection": {"always": false, "domains": [], "workflows": ["collect-and-compare-data", "analyze-data"], "materials": ["papers", "pdf", "tables", "datasets"], "stages": [], "methods": []},
+  "selection": {
+    "always": false,
+    "rules": [
+      {
+        "id": "data-materials",
+        "priority": 300,
+        "when": {"any": {"materials": ["pdf", "tables", "datasets"]}},
+        "reason": "The frequent materials need document conversion or structured-data inspection."
+      },
+      {
+        "id": "data-collection-with-sources",
+        "priority": 200,
+        "when": {
+          "all": {
+            "workflows": ["collect-and-compare-data", "analyze-data"],
+            "materials": ["papers", "pdf", "tables", "datasets"]
+          }
+        },
+        "reason": "The requested data workflow has a supported source or data material."
+      }
+    ]
+  },
   "dependencies": ["evidence-lab-core"],
   "conflicts": [],
   "runtimes": ["claude-code", "codex"],

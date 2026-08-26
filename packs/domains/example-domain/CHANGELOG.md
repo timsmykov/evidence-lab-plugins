@@ -6,6 +6,11 @@ MAJOR — the procedure changed such that earlier results are no longer reproduc
 MINOR — a skill, command or step was added.
 PATCH — wording, templates, evals; the procedure is unchanged.
 
+## [0.1.3] — 2026-08-26
+
+### Changed
+- Updated the reference pack to the Selection Policy v1 rule contract.
+
 ## [0.1.2] — 2026-08-12
 
 ### Changed

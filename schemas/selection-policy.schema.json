@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://evidence-lab.dev/schemas/selection-policy.schema.json",
+  "title": "Evidence Lab Selection Policy",
+  "type": "object",
+  "required": ["schema_version", "profile_fields", "normalization", "ordering"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "profile_fields": {
+      "type": "object",
+      "required": ["domains", "workflows", "materials", "stages", "methods"],
+      "additionalProperties": false,
+      "properties": {
+        "domains": {"$ref": "#/$defs/vocabulary"},
+        "workflows": {"$ref": "#/$defs/vocabulary"},
+        "materials": {"$ref": "#/$defs/vocabulary"},
+        "stages": {"$ref": "#/$defs/vocabulary"},
+        "methods": {"$ref": "#/$defs/vocabulary"}
+      }
+    },
+    "normalization": {
+      "type": "object",
+      "required": ["minimum_confidence", "low_confidence_action", "unknown_value_action"],
+      "additionalProperties": false,
+      "properties": {
+        "minimum_confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "low_confidence_action": {"enum": ["ask-follow-up", "leave-unmapped"]},
+        "unknown_value_action": {"const": "leave-unmapped"}
+      }
+    },
+    "ordering": {
+      "type": "object",
+      "required": ["layers", "within_layer"],
+      "additionalProperties": false,
+      "properties": {
+        "layers": {
+          "type": "array",
+          "items": {"enum": ["core", "workflow", "domain", "local"]},
+          "minItems": 4,
+          "maxItems": 4,
+          "uniqueItems": true
+        },
+        "within_layer": {"const": "pack-id"}
+      }
+    }
+  },
+  "$defs": {
+    "vocabulary": {
+      "type": "object",
+      "required": ["values"],
+      "additionalProperties": false,
+      "properties": {
+        "values": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"}
+        }
+      }
+    }
+  }
+}

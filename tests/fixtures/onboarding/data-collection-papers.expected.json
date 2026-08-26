@@ -1,0 +1,7 @@
+{
+  "pack_ids": ["evidence-lab-core", "data-and-pdf"],
+  "rule_ids": {
+    "evidence-lab-core": ["required-foundation"],
+    "data-and-pdf": ["data-collection-with-sources"]
+  }
+}

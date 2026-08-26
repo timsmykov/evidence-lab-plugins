@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "domains": ["physics"],
+  "workflows": [],
+  "materials": ["papers"],
+  "stages": ["planning"],
+  "methods": ["mathematical-models"],
+  "locale": "en"
+}

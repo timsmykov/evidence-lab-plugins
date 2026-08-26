@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "domains": ["social-sciences"],
+  "workflows": ["analyze-data"],
+  "materials": ["qualitative-text"],
+  "stages": ["active-research"],
+  "methods": [],
+  "locale": "en"
+}

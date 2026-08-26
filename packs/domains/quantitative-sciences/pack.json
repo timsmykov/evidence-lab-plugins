@@ -1,13 +1,29 @@
 {
   "id": "quantitative-sciences",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "layer": "domain",
   "display_name": "Quantitative Sciences",
   "description": "Statistical analysis, power and sample-size planning, uncertainty and units, and publication-grade scientific visualization for quantitative research.",
   "category": "Research",
   "author": {"name": "Evidence Lab"},
   "capabilities": ["statistical-analysis", "statistical-power", "uncertainty-and-units", "scientific-visualization"],
-  "selection": {"always": false, "domains": ["mathematics", "statistics", "physics", "engineering", "data-science"], "workflows": ["analyze-data"], "materials": [], "stages": [], "methods": ["statistics", "code", "formulas", "mathematical-models"]},
+  "selection": {
+    "always": false,
+    "rules": [
+      {
+        "id": "quantitative-domain",
+        "priority": 300,
+        "when": {"any": {"domains": ["mathematics", "statistics", "physics", "engineering"]}},
+        "reason": "The research domain commonly requires quantitative scientific methods."
+      },
+      {
+        "id": "quantitative-method",
+        "priority": 250,
+        "when": {"any": {"methods": ["statistics", "code", "formulas", "mathematical-models"]}},
+        "reason": "The stated methods require quantitative analysis or mathematical checks."
+      }
+    ]
+  },
   "dependencies": ["evidence-lab-core"],
   "conflicts": [],
   "runtimes": ["claude-code", "codex"],

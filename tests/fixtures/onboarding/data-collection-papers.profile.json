@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "domains": [],
+  "workflows": ["collect-and-compare-data"],
+  "materials": ["papers"],
+  "stages": ["active-research"],
+  "methods": [],
+  "locale": "en"
+}

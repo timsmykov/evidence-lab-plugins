@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "profile_fields": {
+    "domains": {
+      "values": [
+        "life-sciences",
+        "physics",
+        "engineering",
+        "mathematics",
+        "statistics",
+        "social-sciences",
+        "humanities",
+        "interdisciplinary"
+      ]
+    },
+    "workflows": {
+      "values": [
+        "full-research-cycle",
+        "monitor-publications",
+        "literature-review",
+        "collect-and-compare-data",
+        "analyze-data",
+        "prepare-publication",
+        "quality-review"
+      ]
+    },
+    "materials": {
+      "values": ["papers", "pdf", "tables", "datasets", "qualitative-text", "images"]
+    },
+    "stages": {
+      "values": ["planning", "active-research", "writing", "systematic-review", "supervision", "unknown"]
+    },
+    "methods": {
+      "values": ["statistics", "code", "formulas", "mathematical-models"]
+    }
+  },
+  "normalization": {
+    "minimum_confidence": 0.75,
+    "low_confidence_action": "ask-follow-up",
+    "unknown_value_action": "leave-unmapped"
+  },
+  "ordering": {
+    "layers": ["core", "workflow", "domain", "local"],
+    "within_layer": "pack-id"
+  }
+}

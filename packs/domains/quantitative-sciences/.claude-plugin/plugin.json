@@ -1,7 +1,7 @@
 {
   "name": "quantitative-sciences",
   "description": "Statistical analysis, power and sample-size planning, uncertainty and units, and publication-grade scientific visualization for quantitative research.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "Evidence Lab"
   },

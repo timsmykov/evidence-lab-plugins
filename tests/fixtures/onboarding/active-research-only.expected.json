@@ -1,0 +1,4 @@
+{
+  "pack_ids": ["evidence-lab-core"],
+  "rule_ids": {"evidence-lab-core": ["required-foundation"]}
+}

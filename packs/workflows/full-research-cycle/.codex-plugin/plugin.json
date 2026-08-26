@@ -1,7 +1,7 @@
 {
   "name": "full-research-cycle",
   "description": "A complete research workflow from testable hypotheses and study design through literature synthesis, manuscript writing, diagrams, and evidence-bounded peer review.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "Evidence Lab"
   },

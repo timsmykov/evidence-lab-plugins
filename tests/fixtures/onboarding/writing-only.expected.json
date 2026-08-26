@@ -1,0 +1,7 @@
+{
+  "pack_ids": ["evidence-lab-core", "full-research-cycle"],
+  "rule_ids": {
+    "evidence-lab-core": ["required-foundation"],
+    "full-research-cycle": ["full-cycle-writing-stage"]
+  }
+}

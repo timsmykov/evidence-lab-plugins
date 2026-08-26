@@ -1,5 +1,11 @@
 # Changelog — Evidence Lab Core
 
+## [0.4.0] — 2026-08-26
+
+### Changed
+- Added Selection Policy v1 as the controlled vocabulary and matching contract.
+- Replaced implicit broad matching with stable, explainable rule IDs.
+
 ## [0.3.0] — 2026-08-26
 
 ### Added

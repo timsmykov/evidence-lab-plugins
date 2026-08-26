@@ -29,6 +29,10 @@ chat onboarding
 
 Free text may help normalize a profile. It never becomes an executable package name or installation command.
 
+Selection Policy owns the allowed profile vocabulary, matching semantics, and
+ordering contract. Reviewed rules in each `pack.json` select packs. The LLM may
+suggest normalized values for free text, but it cannot select a pack directly.
+
 ## Repository flow
 
 ```text
