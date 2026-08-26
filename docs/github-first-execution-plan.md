@@ -314,7 +314,7 @@ normalization changes require deterministic schema tests plus quality evals.
 - [x] T3 (P1) Add positive/negative/boundary selector fixtures and drift gates.
 - [x] T4 (P1) Define normalization input/result schemas and deterministic validator.
 - [x] T5 (P1) Add free-text normalization eval suite and injection cases.
-- [ ] T6 (P2) Produce scenario-to-capability coverage and pack-boundary report.
+- [x] T6 (P2) Produce scenario-to-capability coverage and pack-boundary report.
 - [ ] T7 (P2) Implement approved pack splits/additions with provenance and evals.
 - [ ] T8 (P1) Implement reconcile/update/retained-extra/remove/restore lifecycle.
 - [ ] T9 (P1) Add release-lock builder, hashes, CI, and immutable snapshot tags.

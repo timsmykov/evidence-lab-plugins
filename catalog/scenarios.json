@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "baseline_pack": "evidence-lab-core",
+  "scenarios": [
+    {
+      "id": "general-paper-lookup",
+      "segment": "Cross-disciplinary researcher checking one paper",
+      "research_goal": "Find a paper, verify its metadata, and manage its citation.",
+      "profile": {"schema_version": 1, "domains": ["interdisciplinary"], "workflows": [], "materials": ["papers"], "stages": ["active-research"], "methods": []},
+      "required_capabilities": ["paper-lookup", "citation-management", "critical-thinking"],
+      "optional_capabilities": [],
+      "expected_selected_packs": ["evidence-lab-core"],
+      "expected_missing_capabilities": []
+    },
+    {
+      "id": "pdf-evidence-extraction",
+      "segment": "Humanities researcher extracting evidence from PDFs",
+      "research_goal": "Convert PDF source documents and inspect their evidence reproducibly.",
+      "profile": {"schema_version": 1, "domains": ["humanities"], "workflows": [], "materials": ["papers", "pdf"], "stages": ["active-research"], "methods": []},
+      "required_capabilities": ["paper-lookup", "citation-management", "document-conversion", "critical-thinking"],
+      "optional_capabilities": [],
+      "expected_selected_packs": ["evidence-lab-core", "data-and-pdf"],
+      "expected_missing_capabilities": []
+    },
+    {
+      "id": "structured-data-analysis",
+      "segment": "Social-science researcher analysing a structured dataset",
+      "research_goal": "Inspect a dataset, document data quality, and perform exploratory analysis.",
+      "profile": {"schema_version": 1, "domains": ["social-sciences"], "workflows": ["analyze-data"], "materials": ["tables", "datasets"], "stages": ["active-research"], "methods": []},
+      "required_capabilities": ["exploratory-data-analysis", "database-lookup", "critical-thinking"],
+      "optional_capabilities": [],
+      "expected_selected_packs": ["evidence-lab-core", "data-and-pdf"],
+      "expected_missing_capabilities": []
+    },
+    {
+      "id": "mathematical-model-review",
+      "segment": "Mathematician checking formulas and a mathematical model",
+      "research_goal": "Check a mathematical model, its assumptions, units, and uncertainty.",
+      "profile": {"schema_version": 1, "domains": ["mathematics"], "workflows": ["quality-review"], "materials": ["papers"], "stages": ["active-research"], "methods": ["formulas", "mathematical-models"]},
+      "required_capabilities": ["uncertainty-and-units", "statistical-analysis", "critical-thinking", "peer-review"],
+      "optional_capabilities": ["statistical-power"],
+      "expected_selected_packs": ["evidence-lab-core", "full-research-cycle", "quantitative-sciences"],
+      "expected_missing_capabilities": []
+    },
+    {
+      "id": "full-cycle-quantitative-paper",
+      "segment": "Physics and engineering researcher preparing a paper",
+      "research_goal": "Run the complete research cycle and prepare a quantitative publication.",
+      "profile": {"schema_version": 1, "domains": ["physics", "engineering", "statistics"], "workflows": ["full-research-cycle"], "materials": ["papers", "pdf", "tables", "datasets"], "stages": ["active-research", "writing"], "methods": ["statistics", "code", "formulas", "mathematical-models"]},
+      "required_capabilities": ["hypothesis-generation", "study-design", "literature-review", "academic-writing", "peer-review", "research-diagrams", "document-conversion", "database-lookup", "exploratory-data-analysis", "statistical-analysis", "statistical-power", "uncertainty-and-units", "scientific-visualization"],
+      "optional_capabilities": ["paper-lookup", "citation-management", "critical-thinking"],
+      "expected_selected_packs": ["evidence-lab-core", "data-and-pdf", "full-research-cycle", "quantitative-sciences"],
+      "expected_missing_capabilities": []
+    },
+    {
+      "id": "literature-review-only",
+      "segment": "Researcher conducting a conventional literature review",
+      "research_goal": "Search, synthesize, and critically review literature without designing a new study.",
+      "profile": {"schema_version": 1, "domains": ["humanities"], "workflows": ["literature-review"], "materials": ["papers"], "stages": ["active-research"], "methods": []},
+      "required_capabilities": ["paper-lookup", "citation-management", "literature-review", "critical-thinking"],
+      "optional_capabilities": ["academic-writing", "peer-review"],
+      "expected_selected_packs": ["evidence-lab-core", "full-research-cycle"],
+      "expected_missing_capabilities": []
+    },
+    {
+      "id": "publication-preparation-only",
+      "segment": "Researcher turning completed work into a publication",
+      "research_goal": "Write and review a paper from an already completed study.",
+      "profile": {"schema_version": 1, "domains": ["humanities"], "workflows": ["prepare-publication"], "materials": ["papers"], "stages": ["writing"], "methods": []},
+      "required_capabilities": ["academic-writing", "peer-review", "citation-management", "critical-thinking"],
+      "optional_capabilities": ["literature-review", "research-diagrams"],
+      "expected_selected_packs": ["evidence-lab-core", "full-research-cycle"],
+      "expected_missing_capabilities": []
+    },
+    {
+      "id": "publication-monitoring-life-sciences",
+      "segment": "Life-science researcher monitoring newly published evidence",
+      "research_goal": "Track new publications, deduplicate updates, and produce a source-linked digest.",
+      "profile": {"schema_version": 1, "domains": ["life-sciences"], "workflows": ["monitor-publications"], "materials": ["papers"], "stages": ["active-research"], "methods": []},
+      "required_capabilities": ["paper-lookup", "citation-management", "publication-monitoring"],
+      "optional_capabilities": ["critical-thinking"],
+      "expected_selected_packs": ["evidence-lab-core"],
+      "expected_missing_capabilities": ["publication-monitoring"]
+    },
+    {
+      "id": "publication-monitoring-physics",
+      "segment": "Physics researcher monitoring a fast-moving topic",
+      "research_goal": "Track newly released physics papers and retain a deduplicated evidence trail.",
+      "profile": {"schema_version": 1, "domains": ["physics"], "workflows": ["monitor-publications"], "materials": ["papers"], "stages": ["active-research"], "methods": []},
+      "required_capabilities": ["paper-lookup", "citation-management", "publication-monitoring"],
+      "optional_capabilities": ["critical-thinking"],
+      "expected_selected_packs": ["evidence-lab-core", "quantitative-sciences"],
+      "expected_missing_capabilities": ["publication-monitoring"]
+    },
+    {
+      "id": "systematic-review-life-sciences",
+      "segment": "Medical researcher conducting a systematic review",
+      "research_goal": "Run reproducible searching, screening, extraction, and synthesis for a systematic review.",
+      "profile": {"schema_version": 1, "domains": ["life-sciences"], "workflows": ["literature-review"], "materials": ["papers", "pdf", "tables", "datasets"], "stages": ["systematic-review"], "methods": ["statistics"]},
+      "required_capabilities": ["systematic-search", "screening-and-deduplication", "document-conversion", "statistical-analysis", "literature-review", "citation-management"],
+      "optional_capabilities": ["academic-writing", "peer-review", "exploratory-data-analysis"],
+      "expected_selected_packs": ["evidence-lab-core", "data-and-pdf", "full-research-cycle", "quantitative-sciences"],
+      "expected_missing_capabilities": ["screening-and-deduplication", "systematic-search"]
+    },
+    {
+      "id": "systematic-review-social-sciences",
+      "segment": "Social-science researcher conducting a systematic review",
+      "research_goal": "Search and screen social-science evidence with a reproducible eligibility trail.",
+      "profile": {"schema_version": 1, "domains": ["social-sciences"], "workflows": ["literature-review"], "materials": ["papers", "pdf", "tables"], "stages": ["systematic-review"], "methods": []},
+      "required_capabilities": ["systematic-search", "screening-and-deduplication", "document-conversion", "literature-review", "citation-management"],
+      "optional_capabilities": ["academic-writing", "peer-review"],
+      "expected_selected_packs": ["evidence-lab-core", "data-and-pdf", "full-research-cycle"],
+      "expected_missing_capabilities": ["screening-and-deduplication", "systematic-search"]
+    },
+    {
+      "id": "qualitative-social-analysis",
+      "segment": "Social scientist analysing interviews and survey text",
+      "research_goal": "Code qualitative text, preserve an audit trail, and synthesize themes.",
+      "profile": {"schema_version": 1, "domains": ["social-sciences"], "workflows": ["analyze-data"], "materials": ["qualitative-text"], "stages": ["active-research"], "methods": []},
+      "required_capabilities": ["qualitative-analysis", "critical-thinking"],
+      "optional_capabilities": ["academic-writing"],
+      "expected_selected_packs": ["evidence-lab-core"],
+      "expected_missing_capabilities": ["qualitative-analysis"]
+    },
+    {
+      "id": "qualitative-humanities-analysis",
+      "segment": "Humanities researcher analysing a text corpus",
+      "research_goal": "Develop a codebook and produce traceable thematic findings from texts.",
+      "profile": {"schema_version": 1, "domains": ["humanities"], "workflows": ["analyze-data"], "materials": ["qualitative-text"], "stages": ["active-research"], "methods": []},
+      "required_capabilities": ["qualitative-analysis", "critical-thinking"],
+      "optional_capabilities": ["academic-writing"],
+      "expected_selected_packs": ["evidence-lab-core"],
+      "expected_missing_capabilities": ["qualitative-analysis"]
+    },
+    {
+      "id": "research-images-engineering",
+      "segment": "Engineering researcher interpreting experimental images",
+      "research_goal": "Inspect research images, document measurements, and retain visual provenance.",
+      "profile": {"schema_version": 1, "domains": ["engineering"], "workflows": ["analyze-data"], "materials": ["images"], "stages": ["active-research"], "methods": []},
+      "required_capabilities": ["research-image-analysis", "critical-thinking"],
+      "optional_capabilities": ["scientific-visualization", "uncertainty-and-units"],
+      "expected_selected_packs": ["evidence-lab-core", "quantitative-sciences"],
+      "expected_missing_capabilities": ["research-image-analysis"]
+    },
+    {
+      "id": "research-images-life-sciences",
+      "segment": "Life-science researcher interpreting microscopy images",
+      "research_goal": "Analyse microscopy images with traceable transformations and measurement provenance.",
+      "profile": {"schema_version": 1, "domains": ["life-sciences"], "workflows": ["analyze-data"], "materials": ["images"], "stages": ["active-research"], "methods": []},
+      "required_capabilities": ["research-image-analysis", "life-science-protocols", "critical-thinking"],
+      "optional_capabilities": ["scientific-visualization"],
+      "expected_selected_packs": ["evidence-lab-core"],
+      "expected_missing_capabilities": ["life-science-protocols", "research-image-analysis"]
+    },
+    {
+      "id": "life-science-study-design",
+      "segment": "Life-science researcher planning an experimental study",
+      "research_goal": "Design a study with domain-specific protocol, bias, and reporting checks.",
+      "profile": {"schema_version": 1, "domains": ["life-sciences"], "workflows": ["full-research-cycle"], "materials": ["papers"], "stages": ["planning"], "methods": []},
+      "required_capabilities": ["hypothesis-generation", "study-design", "life-science-protocols", "critical-thinking"],
+      "optional_capabilities": ["literature-review", "citation-management"],
+      "expected_selected_packs": ["evidence-lab-core", "full-research-cycle"],
+      "expected_missing_capabilities": ["life-science-protocols"]
+    }
+  ]
+}
