@@ -19,6 +19,8 @@ controlled researcher-profile vocabulary and deterministic matching semantics.
 Each pack owns reviewed selection rules with stable IDs; LLM free-text handling
 can only propose vocabulary values before deterministic validation.
 
+For an existing installation, the same bootstrap builds an exact reconciliation diff. Additions and updates use the first approval, existing extras are retained by default, and removal requires a second approval. Every apply is guarded by the live installed-state digest and records a pre-change snapshot for recovery.
+
 ## Current packs
 
 - [`evidence-lab-core`](packs/core/evidence-lab-core/README.md)

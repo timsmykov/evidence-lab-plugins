@@ -65,3 +65,27 @@ python3 scripts/bootstrap.py apply installation-plan.json \
 Read the state after the command. Say the workspace is ready only when its status is `ready` and every desired ID and version appears in `installed_after`. Then ask the user to start a new task so the host loads the installed skills.
 
 The installer may add or update the configured Evidence Lab marketplace and install the approved packs. On failure it rolls back only packs added during the current attempt; it never removes a pre-existing plugin. It does not silently install packages, generate unreviewed skills, or claim that a host accepted an installation without readback evidence.
+
+## Reconfigure an existing workspace
+
+After a profile or release changes, build a reconciliation plan against the live host readback:
+
+```bash
+python3 scripts/bootstrap.py reconcile profile.json --host <codex|claude-code> \
+  --ref <release-tag> --previous-state .evidence-lab/installation-state.json \
+  --previous-plan installation-plan.json --output reconcile-plan.json
+```
+
+Always pass the saved plan that produced the previous state. Reject the pair unless their plan IDs and marketplace identity match. This also migrates states written before Core 0.7, which did not copy the old release ref into state.
+
+Explain its four groups in plain language: capabilities to add, capabilities to update, capabilities already correct, and installed Evidence Lab extras that will be kept. Obtain one confirmation before applying additions and updates:
+
+```bash
+python3 scripts/bootstrap.py apply-reconcile reconcile-plan.json \
+  --profile profile.json --state .evidence-lab/reconcile-state.json \
+  --confirmed-by-user
+```
+
+Never remove an extra during that apply. If the user also wants the listed extras removed, ask a second, separate confirmation and only then run `remove-extras` with the same `--profile profile.json` and `--confirmed-by-user`. Recheck the profile, release catalog, and live installation immediately before removal; any change makes the plan stale and requires a new reconciliation plan.
+
+If a run was interrupted, run `recover` before retrying. If state is still `interrupted` or `partial`, offer `restore` with explicit confirmation. Report a successful restore only when readback exactly matches `pre_change_snapshot`; some host/version combinations cannot downgrade an existing plugin, in which case preserve `partial` and explain the exact remaining versions.

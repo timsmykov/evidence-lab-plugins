@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://evidence-lab.local/schemas/reconcile-plan.schema.json",
+  "title": "Evidence Lab reconcile plan",
+  "type": "object",
+  "required": ["schema_version", "plan_id", "host", "marketplace", "profile_digest", "catalog_digest", "selection_plan", "baseline", "diff", "operations"],
+  "additionalProperties": false,
+  "$defs": {
+    "installedPack": {
+      "type": "object",
+      "required": ["id", "version"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+        "version": {"type": "string", "minLength": 1}
+      }
+    },
+    "update": {
+      "type": "object",
+      "required": ["id", "from_version", "to_version"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+        "from_version": {"type": "string", "minLength": 1},
+        "to_version": {"type": "string", "minLength": 1}
+      }
+    },
+    "selectionPack": {
+      "type": "object",
+      "required": ["id", "version", "layer", "reason", "rule_ids", "matched_rules"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+        "version": {"type": "string", "minLength": 1},
+        "layer": {"type": "string", "minLength": 1},
+        "reason": {"type": "string", "minLength": 3},
+        "rule_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"}},
+        "matched_rules": {"type": "array", "minItems": 1, "items": {"type": "object"}}
+      }
+    }
+  },
+  "properties": {
+    "schema_version": {"const": 1},
+    "plan_id": {"type": "string", "pattern": "^[a-f0-9]{16}$"},
+    "host": {"enum": ["codex", "claude-code"]},
+    "profile_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "catalog_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "marketplace": {
+      "type": "object",
+      "required": ["name", "source", "ref", "previous_ref"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+        "source": {"type": "string", "minLength": 1},
+        "ref": {"type": "string", "pattern": "^[A-Za-z0-9._/-]+$"},
+        "previous_ref": {"type": ["string", "null"], "pattern": "^[A-Za-z0-9._/-]+$"}
+      }
+    },
+    "selection_plan": {
+      "type": "object",
+      "required": ["schema_version", "policy_version", "profile", "packs"],
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {"const": 2},
+        "policy_version": {"const": 1},
+        "profile": {"type": "object"},
+        "packs": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/selectionPack"}}
+      }
+    },
+    "baseline": {
+      "type": "object",
+      "required": ["installed", "digest"],
+      "additionalProperties": false,
+      "properties": {
+        "installed": {"type": "array", "items": {"$ref": "#/$defs/installedPack"}},
+        "digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "diff": {
+      "type": "object",
+      "required": ["add", "update", "retain", "retained_extra", "remove_candidates"],
+      "additionalProperties": false,
+      "properties": {
+        "add": {"type": "array", "items": {"$ref": "#/$defs/installedPack"}},
+        "update": {"type": "array", "items": {"$ref": "#/$defs/update"}},
+        "retain": {"type": "array", "items": {"$ref": "#/$defs/installedPack"}},
+        "retained_extra": {"type": "array", "items": {"$ref": "#/$defs/installedPack"}},
+        "remove_candidates": {"type": "array", "items": {"$ref": "#/$defs/installedPack"}}
+      }
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"oneOf": [
+        {
+          "type": "object",
+          "required": ["action", "target"],
+          "additionalProperties": false,
+          "properties": {"action": {"const": "ensure-marketplace"}, "target": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"}}
+        },
+        {
+          "type": "object",
+          "required": ["action", "target", "version"],
+          "additionalProperties": false,
+          "properties": {"action": {"const": "install-pack"}, "target": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"}, "version": {"type": "string", "minLength": 1}}
+        },
+        {
+          "type": "object",
+          "required": ["action", "target", "from_version", "version"],
+          "additionalProperties": false,
+          "properties": {"action": {"const": "update-pack"}, "target": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"}, "from_version": {"type": "string", "minLength": 1}, "version": {"type": "string", "minLength": 1}}
+        }
+      ]}
+    }
+  }
+}

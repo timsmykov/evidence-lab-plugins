@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://evidence-lab.local/schemas/reconcile-state.schema.json",
+  "title": "Evidence Lab reconcile state",
+  "type": "object",
+  "required": ["schema_version", "plan_id", "host", "marketplace", "active_ref", "status", "desired", "pre_change_snapshot", "installed_after", "diff", "operations", "removal_approved", "recovery_action", "error"],
+  "additionalProperties": false,
+  "$defs": {
+    "pack": {
+      "type": "object",
+      "required": ["id", "version"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+        "version": {"type": "string", "minLength": 1}
+      }
+    },
+    "update": {
+      "type": "object",
+      "required": ["id", "from_version", "to_version"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+        "from_version": {"type": "string", "minLength": 1},
+        "to_version": {"type": "string", "minLength": 1}
+      }
+    }
+  },
+  "properties": {
+    "schema_version": {"const": 1},
+    "plan_id": {"type": "string", "pattern": "^[a-f0-9]{16}$"},
+    "host": {"enum": ["codex", "claude-code"]},
+    "marketplace": {
+      "type": "object",
+      "required": ["name", "source", "ref", "previous_ref"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+        "source": {"type": "string", "minLength": 1},
+        "ref": {"type": "string", "pattern": "^[A-Za-z0-9._/-]+$"},
+        "previous_ref": {"type": ["string", "null"], "pattern": "^[A-Za-z0-9._/-]+$"}
+      }
+    },
+    "active_ref": {"type": "string", "pattern": "^[A-Za-z0-9._/-]+$"},
+    "status": {"enum": ["planned", "applying", "ready", "removing", "removed", "restoring", "restored", "failed", "partial", "interrupted"]},
+    "desired": {"type": "array", "items": {"$ref": "#/$defs/pack"}},
+    "pre_change_snapshot": {
+      "type": "object",
+      "required": ["installed", "digest"],
+      "additionalProperties": false,
+      "properties": {
+        "installed": {"type": "array", "items": {"$ref": "#/$defs/pack"}},
+        "digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "installed_after": {"type": "array", "items": {"$ref": "#/$defs/pack"}},
+    "diff": {
+      "type": "object",
+      "required": ["add", "update", "retain", "retained_extra", "remove_candidates"],
+      "additionalProperties": false,
+      "properties": {
+        "add": {"type": "array", "items": {"$ref": "#/$defs/pack"}},
+        "update": {"type": "array", "items": {"$ref": "#/$defs/update"}},
+        "retain": {"type": "array", "items": {"$ref": "#/$defs/pack"}},
+        "retained_extra": {"type": "array", "items": {"$ref": "#/$defs/pack"}},
+        "remove_candidates": {"type": "array", "items": {"$ref": "#/$defs/pack"}}
+      }
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["action", "target", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "action": {"enum": ["ensure-marketplace", "install-pack", "update-pack", "remove-pack"]},
+          "target": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+          "status": {"enum": ["pending", "skipped", "completed", "failed", "rolled-back", "rollback-failed"]}
+        }
+      }
+    },
+    "removal_approved": {"type": "boolean"},
+    "recovery_action": {"enum": ["apply", "remove", "restore", null]},
+    "error": {"type": ["string", "null"]}
+  }
+}

@@ -9,6 +9,7 @@
     "schema_version": {"const": 1},
     "plan_id": {"type": "string"},
     "host": {"enum": ["codex", "claude-code"]},
+    "marketplace": {"type": "object"},
     "status": {"enum": ["planned", "applying", "ready", "failed", "partial"]},
     "desired": {"type": "array", "items": {"type": "object", "required": ["id", "version"], "additionalProperties": false, "properties": {"id": {"type": "string"}, "version": {"type": "string"}}}},
     "installed_before": {"type": "array", "items": {"type": "object", "required": ["id", "version"], "additionalProperties": false, "properties": {"id": {"type": "string"}, "version": {"type": "string"}}}},

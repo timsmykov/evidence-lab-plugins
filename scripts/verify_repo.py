@@ -53,6 +53,8 @@ REQUIRED_REPO_FILES = [
     "schemas/selection-policy.schema.json",
     "schemas/installation-plan.schema.json",
     "schemas/installation-state.schema.json",
+    "schemas/reconcile-plan.schema.json",
+    "schemas/reconcile-state.schema.json",
     "schemas/onboarding-questions.schema.json",
     "schemas/onboarding-answers.schema.json",
     "schemas/normalization-candidate.schema.json",

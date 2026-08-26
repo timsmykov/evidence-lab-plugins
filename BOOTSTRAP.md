@@ -24,9 +24,18 @@ Use this file only before Evidence Lab is installed. The user should not need te
 10. Read the resulting state. Say the workspace is ready only when `status` is `ready` and every desired pack and version appears in `installed_after`.
 11. Ask the user to open a new task so the host loads the newly installed skills. Start that task with the user's actual research goal, not another setup questionnaire.
 
+## Existing installation flow
+
+1. When the user changes their profile or requests an update, build a `reconcile` plan against live installed-plugin readback plus the previous state and the saved plan that produced it. Their matching identity supplies the exact old release ref needed for rollback, including for states written before Core 0.7. Never guess a ref or trust an unbound state alone.
+2. Explain four plain-language groups: add, update, already correct, and extra capabilities that will be kept.
+3. Obtain one explicit confirmation for additions and updates, then run `apply-reconcile`.
+4. Do not remove extras during reconciliation. Offer their removal separately and require a second explicit confirmation before `remove-extras`; revalidate the same profile and release catalog immediately before deleting anything.
+5. Reject the plan if the profile-derived selection, source ref, or installed snapshot changed after planning.
+6. For an interrupted run, use `recover`. When exact recovery is not already visible in readback, offer the pre-change `restore` action and report `partial` unless the old snapshot is reproduced exactly.
+
 ## Failure behavior
 
-The installer rolls back only packs added during the current attempt. It never removes a pre-existing plugin. If state is `failed` or `partial`, explain which capability was not confirmed and offer a safe retry. Never convert a failed command into a successful user-facing message.
+The clean installer rolls back only packs added during the current attempt. Reconciliation also records the full pre-change snapshot and attempts an exact restore after failure. A host may not support downgrading an already updated plugin; in that case state remains `partial` with exact readback. If state is `failed`, `interrupted`, or `partial`, explain which capability was not confirmed and offer recovery or a safe retry. Never convert a failed command into a successful user-facing message.
 
 ## Example entry request
 
