@@ -1,0 +1,22 @@
+{
+  "status": "draft",
+  "category": "research",
+  "risk_level": "team_safe",
+  "owner": "__OWNER__",
+  "reviewer": "__REVIEWER__",
+  "provenance": {
+    "origin": "REPLACE ME: whose practice this came from and in which engagement",
+    "evidence": [
+      "REPLACE ME: link to the transcript, task or real run this procedure was derived from"
+    ],
+    "added_at": "__DATE__"
+  },
+  "skills": [
+    {
+      "name": "__SKILL__",
+      "summary": "REPLACE ME: one sentence on what this skill produces",
+      "deterministic_parts": []
+    }
+  ],
+  "portable_to": ["claude", "codex"]
+}

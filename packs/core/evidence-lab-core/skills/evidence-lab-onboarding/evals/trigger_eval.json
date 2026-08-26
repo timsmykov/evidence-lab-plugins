@@ -1,0 +1,10 @@
+[
+  {"query": "Set up Evidence Lab for my field and current research project.", "should_trigger": true},
+  {"query": "Help me choose which Evidence Lab research packs I need.", "should_trigger": true},
+  {"query": "I am new here. Personalize the research workspace for me.", "should_trigger": true},
+  {"query": "Add the right research capabilities for a physicist preparing a paper.", "should_trigger": true},
+  {"query": "Reconfigure my Evidence Lab setup because I now work with datasets.", "should_trigger": true},
+  {"query": "Find recent papers about statistical mechanics.", "should_trigger": false},
+  {"query": "Check whether this citation is real.", "should_trigger": false},
+  {"query": "Critique the causal claim in this paragraph.", "should_trigger": false}
+]

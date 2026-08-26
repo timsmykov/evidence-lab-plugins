@@ -18,7 +18,7 @@ A proposal that cannot answer question two is not reviewed. A skill derived from
 
 ```bash
 git checkout -b plugin/<name>
-python3 scripts/new_plugin.py <name> --skill <skill> --owner <owner> --reviewer <reviewer>
+python3 scripts/new_pack.py <name> --layer <core|workflow|domain|local> --skill <skill> --owner <owner> --reviewer <reviewer>
 ```
 
 Fill in `SKILL.md`, `meta.json` (especially `provenance`), the eval set and, where there are deterministic steps, `scripts/`. Before opening the pull request:
@@ -36,7 +36,7 @@ Attach the verifier output and one real run: the input, the artefact, and what c
 
 ## 4. Publish
 
-After merge the plugin appears in the shop window automatically — `marketplace.json` is rebuilt from `plugins/`. Status moves to `production` only once the plugin has done a real job at least once and `reviewed_at` is set in `meta.json`.
+After merge the pack appears in both host marketplaces automatically — the generated manifests and catalogs are rebuilt from `packs/`. Status moves to `production` only once the pack has done a real job at least once and `reviewed_at` is set in `meta.json`.
 
 ## What we do not take
 

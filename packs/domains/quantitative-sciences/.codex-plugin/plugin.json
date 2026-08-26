@@ -1,0 +1,30 @@
+{
+  "name": "quantitative-sciences",
+  "description": "Statistical analysis, power and sample-size planning, uncertainty and units, and publication-grade scientific visualization for quantitative research.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Evidence Lab"
+  },
+  "keywords": [
+    "statistical-analysis",
+    "statistical-power",
+    "uncertainty-and-units",
+    "scientific-visualization"
+  ],
+  "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
+  "repository": "https://github.com/timsmykov/evidence-lab-plugins",
+  "license": "MIT AND Apache-2.0",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Quantitative Sciences",
+    "shortDescription": "Analyze quantitative evidence with explicit assumptions.",
+    "longDescription": "Provides statistical planning and analysis, unit and uncertainty checks, and truthful publication-oriented scientific figures.",
+    "developerName": "Evidence Lab",
+    "category": "Research",
+    "capabilities": [
+      "Analyze",
+      "Research"
+    ],
+    "defaultPrompt": "Help me plan or verify this quantitative analysis."
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evidence-lab-plugins/schemas/installation-plan.schema.json",
+  "title": "Evidence Lab installation plan",
+  "type": "object",
+  "required": ["schema_version", "plan_id", "host", "marketplace", "selection_plan", "operations"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "plan_id": {"type": "string", "pattern": "^[a-f0-9]{16}$"},
+    "host": {"enum": ["codex", "claude-code"]},
+    "marketplace": {
+      "type": "object",
+      "required": ["name", "source", "ref"],
+      "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string"},
+        "source": {"type": "string", "minLength": 1},
+        "ref": {"type": "string", "pattern": "^[A-Za-z0-9._/-]+$"}
+      }
+    },
+    "selection_plan": {"type": "object"},
+    "operations": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["action", "target"],
+        "additionalProperties": false,
+        "properties": {
+          "action": {"enum": ["ensure-marketplace", "install-pack"]},
+          "target": {"type": "string"},
+          "version": {"type": "string"}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "data-and-pdf",
+  "version": "0.1.0",
+  "layer": "workflow",
+  "display_name": "Data and PDF",
+  "description": "Document conversion, reproducible public-database retrieval, and exploratory analysis for papers, PDFs, tables, and structured research datasets.",
+  "category": "Research",
+  "author": {"name": "Evidence Lab"},
+  "capabilities": ["document-conversion", "database-lookup", "exploratory-data-analysis"],
+  "selection": {"always": false, "domains": [], "workflows": ["collect-and-compare-data", "analyze-data"], "materials": ["papers", "pdf", "tables", "datasets"], "stages": [], "methods": []},
+  "dependencies": ["evidence-lab-core"],
+  "conflicts": [],
+  "runtimes": ["claude-code", "codex"],
+  "interface": {
+    "short_description": "Work reproducibly with documents and datasets.",
+    "long_description": "Converts supported documents, retrieves data from documented APIs, and profiles research datasets with explicit quality checks.",
+    "capabilities": ["Research", "Analyze"],
+    "default_prompt": "Help me inspect these papers, PDFs, or datasets."
+  }
+}

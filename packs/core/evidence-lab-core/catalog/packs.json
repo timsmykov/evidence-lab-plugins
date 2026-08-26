@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "packs": [
+    {
+      "id": "evidence-lab-core",
+      "version": "0.3.0",
+      "layer": "core",
+      "display_name": "Evidence Lab Core",
+      "description": "Agent-first research foundations, fast researcher onboarding, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
+      "capabilities": [
+        "onboarding",
+        "pack-selection",
+        "installation-lifecycle",
+        "paper-lookup",
+        "citation-management",
+        "critical-thinking"
+      ],
+      "selection": {
+        "always": true,
+        "domains": [],
+        "workflows": [],
+        "materials": [],
+        "stages": [],
+        "methods": []
+      },
+      "dependencies": [],
+      "conflicts": [],
+      "runtimes": [
+        "claude-code",
+        "codex"
+      ]
+    },
+    {
+      "id": "quantitative-sciences",
+      "version": "0.1.0",
+      "layer": "domain",
+      "display_name": "Quantitative Sciences",
+      "description": "Statistical analysis, power and sample-size planning, uncertainty and units, and publication-grade scientific visualization for quantitative research.",
+      "capabilities": [
+        "statistical-analysis",
+        "statistical-power",
+        "uncertainty-and-units",
+        "scientific-visualization"
+      ],
+      "selection": {
+        "always": false,
+        "domains": [
+          "mathematics",
+          "statistics",
+          "physics",
+          "engineering",
+          "data-science"
+        ],
+        "workflows": [
+          "analyze-data"
+        ],
+        "materials": [],
+        "stages": [],
+        "methods": [
+          "statistics",
+          "code",
+          "formulas",
+          "mathematical-models"
+        ]
+      },
+      "dependencies": [
+        "evidence-lab-core"
+      ],
+      "conflicts": [],
+      "runtimes": [
+        "claude-code",
+        "codex"
+      ]
+    },
+    {
+      "id": "data-and-pdf",
+      "version": "0.1.0",
+      "layer": "workflow",
+      "display_name": "Data and PDF",
+      "description": "Document conversion, reproducible public-database retrieval, and exploratory analysis for papers, PDFs, tables, and structured research datasets.",
+      "capabilities": [
+        "document-conversion",
+        "database-lookup",
+        "exploratory-data-analysis"
+      ],
+      "selection": {
+        "always": false,
+        "domains": [],
+        "workflows": [
+          "collect-and-compare-data",
+          "analyze-data"
+        ],
+        "materials": [
+          "papers",
+          "pdf",
+          "tables",
+          "datasets"
+        ],
+        "stages": [],
+        "methods": []
+      },
+      "dependencies": [
+        "evidence-lab-core"
+      ],
+      "conflicts": [],
+      "runtimes": [
+        "claude-code",
+        "codex"
+      ]
+    },
+    {
+      "id": "full-research-cycle",
+      "version": "0.1.0",
+      "layer": "workflow",
+      "display_name": "Full Research Cycle",
+      "description": "A complete research workflow from testable hypotheses and study design through literature synthesis, manuscript writing, diagrams, and evidence-bounded peer review.",
+      "capabilities": [
+        "hypothesis-generation",
+        "study-design",
+        "literature-review",
+        "academic-writing",
+        "peer-review",
+        "research-diagrams"
+      ],
+      "selection": {
+        "always": false,
+        "domains": [],
+        "workflows": [
+          "full-research-cycle",
+          "literature-review",
+          "prepare-publication"
+        ],
+        "materials": [],
+        "stages": [
+          "planning",
+          "active-research",
+          "writing"
+        ],
+        "methods": []
+      },
+      "dependencies": [
+        "evidence-lab-core"
+      ],
+      "conflicts": [],
+      "runtimes": [
+        "claude-code",
+        "codex"
+      ]
+    }
+  ]
+}

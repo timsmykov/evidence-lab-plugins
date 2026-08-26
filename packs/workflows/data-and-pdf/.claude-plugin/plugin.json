@@ -1,0 +1,16 @@
+{
+  "name": "data-and-pdf",
+  "description": "Document conversion, reproducible public-database retrieval, and exploratory analysis for papers, PDFs, tables, and structured research datasets.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Evidence Lab"
+  },
+  "keywords": [
+    "document-conversion",
+    "database-lookup",
+    "exploratory-data-analysis"
+  ],
+  "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
+  "repository": "https://github.com/timsmykov/evidence-lab-plugins",
+  "license": "MIT AND Apache-2.0"
+}

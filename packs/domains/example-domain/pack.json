@@ -1,0 +1,20 @@
+{
+  "id": "example-domain",
+  "version": "0.1.0",
+  "layer": "domain",
+  "display_name": "Example Domain",
+  "description": "A non-published reference pack that demonstrates the Evidence Lab package structure, routing evaluations, deterministic scripts, and review metadata.",
+  "category": "Reference",
+  "author": {"name": "Evidence Lab"},
+  "capabilities": ["reference-fixture"],
+  "selection": {"always": false, "domains": [], "workflows": [], "materials": [], "stages": [], "methods": []},
+  "dependencies": [],
+  "conflicts": [],
+  "runtimes": ["claude-code", "codex"],
+  "interface": {
+    "short_description": "Inspect the reference Evidence Lab pack.",
+    "long_description": "Demonstrates the complete host-neutral pack layout without shipping subject-matter procedures to researchers.",
+    "capabilities": ["Reference"],
+    "default_prompt": "Show me how an Evidence Lab pack is structured."
+  }
+}

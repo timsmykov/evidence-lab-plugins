@@ -1,0 +1,56 @@
+{
+  "name": "evidence-lab-plugins",
+  "interface": {
+    "displayName": "Evidence Lab"
+  },
+  "plugins": [
+    {
+      "name": "evidence-lab-core",
+      "source": {
+        "source": "local",
+        "path": "./packs/core/evidence-lab-core"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Research"
+    },
+    {
+      "name": "quantitative-sciences",
+      "source": {
+        "source": "local",
+        "path": "./packs/domains/quantitative-sciences"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Research"
+    },
+    {
+      "name": "data-and-pdf",
+      "source": {
+        "source": "local",
+        "path": "./packs/workflows/data-and-pdf"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Research"
+    },
+    {
+      "name": "full-research-cycle",
+      "source": {
+        "source": "local",
+        "path": "./packs/workflows/full-research-cycle"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Research"
+    }
+  ]
+}

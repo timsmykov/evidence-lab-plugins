@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "evidence-lab-plugins/schemas/marketplace.schema.json",
   "title": "Claude Code plugin marketplace",
-  "description": "Generated file. Do not edit by hand — scripts/build_marketplace.py rebuilds it from plugins/ and CI fails when the committed copy drifts.",
+  "description": "Generated file. Do not edit by hand — scripts/build_adapters.py rebuilds it from host-neutral packs and CI fails when the committed copy drifts.",
   "type": "object",
   "required": ["name", "description", "owner", "plugins"],
   "additionalProperties": false,
@@ -33,7 +33,7 @@
           "author": { "type": "object" },
           "source": {
             "type": "string",
-            "pattern": "^\\./plugins/[a-z0-9-]+$",
+            "pattern": "^\\./packs/(?:core|workflows|domains|local)/[a-z0-9-]+$",
             "description": "Relative path inside this repository — the monorepo marketplace form."
           },
           "category": { "type": "string" },

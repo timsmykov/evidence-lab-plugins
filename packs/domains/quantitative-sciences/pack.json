@@ -1,0 +1,20 @@
+{
+  "id": "quantitative-sciences",
+  "version": "0.1.0",
+  "layer": "domain",
+  "display_name": "Quantitative Sciences",
+  "description": "Statistical analysis, power and sample-size planning, uncertainty and units, and publication-grade scientific visualization for quantitative research.",
+  "category": "Research",
+  "author": {"name": "Evidence Lab"},
+  "capabilities": ["statistical-analysis", "statistical-power", "uncertainty-and-units", "scientific-visualization"],
+  "selection": {"always": false, "domains": ["mathematics", "statistics", "physics", "engineering", "data-science"], "workflows": ["analyze-data"], "materials": [], "stages": [], "methods": ["statistics", "code", "formulas", "mathematical-models"]},
+  "dependencies": ["evidence-lab-core"],
+  "conflicts": [],
+  "runtimes": ["claude-code", "codex"],
+  "interface": {
+    "short_description": "Analyze quantitative evidence with explicit assumptions.",
+    "long_description": "Provides statistical planning and analysis, unit and uncertainty checks, and truthful publication-oriented scientific figures.",
+    "capabilities": ["Analyze", "Research"],
+    "default_prompt": "Help me plan or verify this quantitative analysis."
+  }
+}

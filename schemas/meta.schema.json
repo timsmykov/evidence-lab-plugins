@@ -60,8 +60,8 @@
     },
     "portable_to": {
       "type": "array",
-      "items": { "enum": ["claude", "codex", "chatgpt", "hermes"] },
-      "description": "Runtimes the skills were checked against. Empty means Claude Code only."
+      "items": { "enum": ["claude", "codex"] },
+      "description": "Runtimes the skills were checked against during the current Claude Code and Codex product phase."
     }
   }
 }

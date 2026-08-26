@@ -1,39 +1,64 @@
-# Architecture
+# Agent-first architecture
 
-## The problem
+## Normative direction
 
-What people work out stays inside their personal instances and never reaches the shared contour. Once user instances are isolated, today's workaround — opening someone's instance and reading their setup — disappears entirely. What is needed is an explicit mechanism: one format, versions, provenance, and a propose → review → publish process.
+Evidence Lab is defined by its researcher experience and five product layers, not by Claude Code or Codex packaging. Host formats are adapters generated from one semantic source.
 
-## Three levels, and why three
+## Units
 
-**Skill** — the atom: one repeatable procedure. It ports to another runtime because it is a `SKILL.md` plus the files next to it, with no external wiring.
+**Skill** is one repeatable procedure with its local scripts, references, assets, and routing evals.
 
-**Plugin** — the domain bundle. It exists because research work does not decompose into isolated procedures: a systematic review is a search protocol, screening, PRISMA and an evidence table, sharing a vocabulary, templates and a reviewer. A client installs "the review plugin", not seven skills they are expected to assemble themselves. The plugin is the unit of installation and versioning.
+**Pack** is the unit of selection, installation, versioning, provenance, and review. A pack belongs to `core`, `workflow`, `domain`, or `local`.
 
-**Marketplace** — the repository as a whole: shop window, gate, policy.
+**Researcher profile** records normalized domains, workflows, materials, stages, and methods. It is user-owned state, not repository content.
 
-## Decisions
+**Selection plan** records exact pack IDs, versions, layers, and reasons before installation.
 
-**The native Claude Code format, not our own.** The `.claude-plugin/plugin.json`, `skills/`, `commands/`, `agents/` layout is the one the official marketplace uses. The cost is somebody else's naming rules. The gain is that installation works out of the box (`/plugin marketplace add`), we ship no installer, and the format evolves without us.
+**Host adapter** exposes the same pack to Claude Code or Codex without changing its scientific meaning.
 
-**The shop window is generated, not written.** `marketplace.json` is rebuilt from `plugins/` by a script, and CI fails on drift. This is precisely where catalogues like this rot: the plugin lands, the window is forgotten, and after that nobody trusts either one.
+## Data flow
 
-**Registry metadata lives in `meta.json`.** Provenance, owner, reviewer, status, risk class are our fields, not Claude Code's. Putting them in `plugin.json` would put us in conflict with upstream the first time the schema tightens. The price is a second file per plugin.
+```text
+chat onboarding
+  -> normalized profile
+  -> deterministic selector
+  -> reviewed selection plan
+  -> native host confirmation
+  -> installation readback
+```
 
-**Evals live inside the skill.** The `{query, should_trigger}` format is taken from the official plugins. It is a routing test: which phrasings must load the skill and which must not. At least three negatives, because in a set of ten skills a false trigger breaks the session more visibly than a miss.
+Free text may help normalize a profile. It never becomes an executable package name or installation command.
 
-**Deterministic steps go into `scripts/`.** The model understands the request, searches and reasons; the repeatable artefact is produced by code. This is the principle from the 12 July product debrief: demanding byte-identical tables, citations and diagrams from a generative model is the wrong problem statement. The practical rule: if a step must return the same thing on a rerun, it belongs in code, not in a prompt.
+## Repository flow
 
-**No shared skills yet.** There is deliberately no `shared/` directory. Claude Code requires a skill to sit physically inside the plugin, so reuse means a copy. Building a vendoring mechanism before the first real duplicate exists is premature. When that duplicate shows up, the copy will be made by a script that records source and version — not by hand.
+```text
+pack.json + shared skills + meta.json
+  -> build_adapters.py
+  -> Claude manifest and marketplace
+  -> Codex manifest and marketplace
+  -> Core runtime catalog
+```
 
-**English entrypoints.** Skills, manifests, eval sets and repository docs are English so the registry stays portable and reads well to a routing agent. Localization, when it is genuinely needed, lives in an explicitly named file (`*.ru.md`, `*.ru.json`) routed from the English `SKILL.md`. Mixed-language entrypoints are rejected.
+Generated artifacts are committed so repository marketplaces work directly, but CI rejects drift from `pack.json`.
 
-## What the gate enforces
+## Current decomposition
 
-Manifest schemas; names matching directories; completeness of `meta.json`; presence and composition of eval sets; description length and trigger wording; a reviewer distinct from the owner for production; a version bump when plugin content changes; unfilled scaffold placeholders; and the absence of private paths, addresses, tokens and identifiers.
+- Evidence Lab Core: onboarding, selection, paper lookup, citations, critical thinking.
+- Full Research Cycle: hypotheses, design, literature review, writing, diagrams, peer review.
+- Data and PDF: document conversion, public databases, exploratory analysis.
+- Quantitative Sciences: statistics, power, uncertainty, units, scientific visualization.
 
-The sanitization gate checks shared plugin material for private paths, addresses, tokens, internal identifiers, and misplaced localized prose before publication.
+This is the first real decomposition, not the final catalog. New packs must be justified by tested user routes rather than by a desire to fill the taxonomy.
 
-## Boundaries
+## Invariants
 
-This catalogue solves sharing inside the team. Delivering plugins into isolated user instances, versioning them client-side and rolling them back is separate work that depends on the memory-isolation task. It is not here, and it should not be.
+- Shared skills are authored once.
+- Every adapter exposes the same ID, version, description, author, license, and skill tree.
+- Dependencies are resolved before a plan is shown.
+- Partial installation must not be recorded as ready.
+- A runtime is not supported until its adapter and representative behavior pass.
+- Provenance, licensing, deterministic scripts, and negative routing evals survive every split.
+
+## Deferred
+
+Marketplace verification and application-specific visual presentation remain distribution work. Hermes, ChatGPT-specific packaging, a graphical onboarding UI, silent installation, and runtime generation of new skills are outside the current Claude Code and Codex scope. The GitHub-first MVP already includes explicit installation plans, state, readback, idempotent retry, and bounded rollback.

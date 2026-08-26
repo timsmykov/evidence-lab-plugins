@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "questions": [
+    {
+      "id": "domains",
+      "prompt": "Which fields best describe your research?",
+      "multiple": true,
+      "options": [
+        {"id": "life-sciences", "label": "Medicine and life sciences"},
+        {"id": "physics", "label": "Physics"},
+        {"id": "engineering", "label": "Engineering"},
+        {"id": "mathematics", "label": "Mathematics"},
+        {"id": "statistics", "label": "Statistics and data science"},
+        {"id": "social-sciences", "label": "Economics and social sciences"},
+        {"id": "humanities", "label": "Humanities"},
+        {"id": "interdisciplinary", "label": "Interdisciplinary research"}
+      ],
+      "allow_free_text": true
+    },
+    {
+      "id": "workflows",
+      "prompt": "What do you want to do first?",
+      "multiple": true,
+      "options": [
+        {"id": "full-research-cycle", "label": "Run a full research cycle"},
+        {"id": "monitor-publications", "label": "Monitor new publications"},
+        {"id": "literature-review", "label": "Conduct a literature review"},
+        {"id": "collect-and-compare-data", "label": "Collect and compare data"},
+        {"id": "analyze-data", "label": "Analyze data or code"},
+        {"id": "prepare-publication", "label": "Prepare a paper or report"},
+        {"id": "quality-review", "label": "Review research quality"}
+      ],
+      "allow_free_text": true
+    },
+    {
+      "id": "materials",
+      "prompt": "What materials and methods do you use most often?",
+      "multiple": true,
+      "options": [
+        {"id": "papers", "label": "Research papers"},
+        {"id": "pdf", "label": "PDF documents"},
+        {"id": "tables", "label": "Tables"},
+        {"id": "datasets", "label": "Datasets"},
+        {"id": "code", "label": "Code and computations", "profile_field": "methods"},
+        {"id": "formulas", "label": "Formulas", "profile_field": "methods"},
+        {"id": "mathematical-models", "label": "Mathematical models", "profile_field": "methods"},
+        {"id": "qualitative-text", "label": "Interviews, surveys, or qualitative text"},
+        {"id": "images", "label": "Research images"}
+      ],
+      "allow_free_text": true
+    },
+    {
+      "id": "stages",
+      "prompt": "What stage is your work at now?",
+      "multiple": true,
+      "options": [
+        {"id": "planning", "label": "Choosing or planning a topic"},
+        {"id": "active-research", "label": "Actively conducting research"},
+        {"id": "writing", "label": "Preparing a paper, report, or proposal"},
+        {"id": "systematic-review", "label": "Conducting a systematic review or meta-analysis"},
+        {"id": "supervision", "label": "Teaching or supervising research"},
+        {"id": "unknown", "label": "Not sure yet"}
+      ],
+      "allow_free_text": true
+    }
+  ]
+}

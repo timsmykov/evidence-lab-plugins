@@ -19,7 +19,7 @@ CI diffs plugin content against `origin/main` and fails when files changed while
 5. Pull request with the verifier output and a real run.
 6. Review against the checklist, merge.
 
-Portable exports have a separate runtime gate: `python3 scripts/export_portable.py --runtime <codex|chatgpt|hermes>` includes only plugins whose `meta.json` explicitly lists that runtime in `portable_to`. Absence means the plugin has not been checked there yet.
+Claude Code and Codex have separate native adapter gates. `scripts/build_adapters.py` generates both manifests from `pack.json`, and `scripts/test_agent_first.py` checks their semantic parity. A host must be listed in `pack.json` and `meta.json` only after its native acceptance checks pass.
 
 `main` is protected: direct pushes, force pushes and branch deletion are rejected.
 

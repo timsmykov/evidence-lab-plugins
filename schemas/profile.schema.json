@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evidence-lab-plugins/schemas/profile.schema.json",
+  "title": "Evidence Lab researcher profile",
+  "type": "object",
+  "required": ["schema_version", "domains", "workflows", "materials", "stages", "methods"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "domains": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "workflows": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "materials": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "stages": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "methods": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+    "specialization": {"type": "string"},
+    "locale": {"type": "string", "default": "en"}
+  }
+}
