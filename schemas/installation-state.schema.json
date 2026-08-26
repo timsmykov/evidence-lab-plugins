@@ -3,13 +3,24 @@
   "$id": "evidence-lab-plugins/schemas/installation-state.schema.json",
   "title": "Evidence Lab installation state",
   "type": "object",
-  "required": ["schema_version", "plan_id", "host", "status", "desired", "installed_before", "installed_after", "operations", "error"],
+  "required": ["schema_version", "plan_id", "host", "release", "status", "desired", "installed_before", "installed_after", "operations", "error"],
   "additionalProperties": false,
   "properties": {
     "schema_version": {"const": 1},
     "plan_id": {"type": "string"},
     "host": {"enum": ["codex", "claude-code"]},
     "marketplace": {"type": "object"},
+    "release": {
+      "type": ["object", "null"],
+      "required": ["tag", "channel", "source_commit", "lock_digest"],
+      "additionalProperties": false,
+      "properties": {
+        "tag": {"type": "string", "pattern": "^release-[0-9]{4}[.](0[1-9]|1[0-2])[.][1-9][0-9]*$"},
+        "channel": {"const": "stable"},
+        "source_commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "lock_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
     "status": {"enum": ["planned", "applying", "ready", "failed", "partial"]},
     "desired": {"type": "array", "items": {"type": "object", "required": ["id", "version"], "additionalProperties": false, "properties": {"id": {"type": "string"}, "version": {"type": "string"}}}},
     "installed_before": {"type": "array", "items": {"type": "object", "required": ["id", "version"], "additionalProperties": false, "properties": {"id": {"type": "string"}, "version": {"type": "string"}}}},

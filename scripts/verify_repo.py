@@ -34,6 +34,7 @@ REQUIRED_REPO_FILES = [
     "CLAUDE.md",
     "CONTRIBUTING.md",
     "LICENSE",
+    "requirements-ci.txt",
     ".claude-plugin/marketplace.json",
     ".agents/plugins/marketplace.json",
     "docs/architecture.md",
@@ -55,6 +56,7 @@ REQUIRED_REPO_FILES = [
     "schemas/installation-state.schema.json",
     "schemas/reconcile-plan.schema.json",
     "schemas/reconcile-state.schema.json",
+    "schemas/release-lock.schema.json",
     "schemas/onboarding-questions.schema.json",
     "schemas/onboarding-answers.schema.json",
     "schemas/normalization-candidate.schema.json",
@@ -381,8 +383,18 @@ def check_version_bump() -> None:
             continue  # new plugin
         old = json.loads(previous).get("version")
         new = load_json(pack_path).get("version")
-        if old == new:
-            fail(f"{name}: content changed but version stayed {old}; bump it and update CHANGELOG.md")
+        try:
+            old_parts = tuple(int(part) for part in old.split("."))
+            new_parts = tuple(int(part) for part in new.split("."))
+        except (AttributeError, ValueError):
+            fail(f"{name}: cannot compare invalid SemVer values {old!r} and {new!r}")
+            continue
+        if new_parts <= old_parts:
+            fail(f"{name}: content changed but version did not increase ({old} -> {new})")
+        changelog = (pack_dir / "CHANGELOG.md").read_text(encoding="utf-8")
+        headings = re.findall(r"^## \[([^]]+)\]", changelog, flags=re.MULTILINE)
+        if not headings or headings[0] != new:
+            fail(f"{name}: current version {new} must be the newest CHANGELOG.md entry")
 
 
 def main() -> int:

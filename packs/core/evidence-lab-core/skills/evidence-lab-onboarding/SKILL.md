@@ -47,7 +47,9 @@ If a regulated or safety-critical specialization remains ambiguous, keep the saf
 Before installation, work from the checked-out, pinned Evidence Lab repository and save the normalized profile outside that checkout. Then run:
 
 ```bash
-python3 scripts/bootstrap.py plan profile.json --host <codex|claude-code> --ref <release-tag> --output installation-plan.json
+python3 scripts/bootstrap.py plan profile.json --host <codex|claude-code> \
+  --ref <release-tag> --release-lock release-lock.json \
+  --output installation-plan.json
 ```
 
 The selector is authoritative for package membership, rule evaluation, dependencies, and order. Do not add a pack by improvising from the conversation. The resulting installation plan is deterministic for the same profile, host, source, and ref and includes the stable rule IDs that caused each selection.
@@ -58,6 +60,7 @@ Explain the selected capabilities and the reason for each in plain language. Sho
 
 ```bash
 python3 scripts/bootstrap.py apply installation-plan.json \
+  --release-lock release-lock.json \
   --state .evidence-lab/installation-state.json \
   --confirmed-by-user
 ```
@@ -72,20 +75,26 @@ After a profile or release changes, build a reconciliation plan against the live
 
 ```bash
 python3 scripts/bootstrap.py reconcile profile.json --host <codex|claude-code> \
-  --ref <release-tag> --previous-state .evidence-lab/installation-state.json \
+  --ref <release-tag> --release-lock release-lock.json \
+  --previous-release-lock previous-release-lock.json \
+  --previous-state .evidence-lab/installation-state.json \
   --previous-plan installation-plan.json --output reconcile-plan.json
 ```
 
-Always pass the saved plan that produced the previous state. Reject the pair unless their plan IDs and marketplace identity match. This also migrates states written before Core 0.7, which did not copy the old release ref into state.
+Always pass the saved plan that produced the previous state. Reject the pair unless their plan IDs, marketplace identity, and previous release identity match.
+
+For both clean installation and reconciliation, the release lock is authoritative for the stable tag, source commit, catalog hash, selected pack versions, and canonical lock digest. Never substitute a floating branch or a lock from another repository.
 
 Explain its four groups in plain language: capabilities to add, capabilities to update, capabilities already correct, and installed Evidence Lab extras that will be kept. Obtain one confirmation before applying additions and updates:
 
 ```bash
 python3 scripts/bootstrap.py apply-reconcile reconcile-plan.json \
-  --profile profile.json --state .evidence-lab/reconcile-state.json \
+  --profile profile.json --release-lock release-lock.json \
+  --previous-release-lock previous-release-lock.json \
+  --state .evidence-lab/reconcile-state.json \
   --confirmed-by-user
 ```
 
-Never remove an extra during that apply. If the user also wants the listed extras removed, ask a second, separate confirmation and only then run `remove-extras` with the same `--profile profile.json` and `--confirmed-by-user`. Recheck the profile, release catalog, and live installation immediately before removal; any change makes the plan stale and requires a new reconciliation plan.
+Never remove an extra during that apply. If the user also wants the listed extras removed, ask a second, separate confirmation and only then run `remove-extras` with the same `--profile profile.json`, both release locks, and `--confirmed-by-user`. Recheck the profile, release locks, release catalog, and live installation immediately before removal; any change makes the plan stale and requires a new reconciliation plan. Refuse removal when the previous lock cannot reproduce the exact extra version for a later restore.
 
-If a run was interrupted, run `recover` before retrying. If state is still `interrupted` or `partial`, offer `restore` with explicit confirmation. Report a successful restore only when readback exactly matches `pre_change_snapshot`; some host/version combinations cannot downgrade an existing plugin, in which case preserve `partial` and explain the exact remaining versions.
+If a run was interrupted, run `recover` with both the current and previous release locks before retrying. If state is still `interrupted` or `partial`, offer `restore` with both locks and explicit confirmation. Report a successful restore only when readback exactly matches `pre_change_snapshot`; some host/version combinations cannot downgrade an existing plugin, in which case preserve `partial` and explain the exact remaining versions.

@@ -3,7 +3,7 @@
   "$id": "https://evidence-lab.local/schemas/reconcile-state.schema.json",
   "title": "Evidence Lab reconcile state",
   "type": "object",
-  "required": ["schema_version", "plan_id", "host", "marketplace", "active_ref", "status", "desired", "pre_change_snapshot", "installed_after", "diff", "operations", "removal_approved", "recovery_action", "error"],
+  "required": ["schema_version", "plan_id", "host", "marketplace", "release", "active_ref", "status", "desired", "pre_change_snapshot", "installed_after", "diff", "operations", "removal_approved", "recovery_action", "error"],
   "additionalProperties": false,
   "$defs": {
     "pack": {
@@ -39,6 +39,17 @@
         "source": {"type": "string", "minLength": 1},
         "ref": {"type": "string", "pattern": "^[A-Za-z0-9._/-]+$"},
         "previous_ref": {"type": ["string", "null"], "pattern": "^[A-Za-z0-9._/-]+$"}
+      }
+    },
+    "release": {
+      "type": ["object", "null"],
+      "required": ["tag", "channel", "source_commit", "lock_digest"],
+      "additionalProperties": false,
+      "properties": {
+        "tag": {"type": "string", "pattern": "^release-[0-9]{4}[.](0[1-9]|1[0-2])[.][1-9][0-9]*$"},
+        "channel": {"const": "stable"},
+        "source_commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "lock_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
       }
     },
     "active_ref": {"type": "string", "pattern": "^[A-Za-z0-9._/-]+$"},

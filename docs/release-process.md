@@ -30,11 +30,26 @@ Claude Code and Codex have separate native adapter gates. `scripts/build_adapter
 ## Tags
 
 Pack SemVer records which individual procedures changed. GitHub-first distribution
-uses one immutable repository snapshot tag and a release lock containing every
-pack version and content hash; bootstrap pins that snapshot, not a floating branch
-or an arbitrary per-pack tag. The snapshot tooling is delivered in R5 of
-`docs/github-first-execution-plan.md`. Until that gate exists and passes, a merged
-pack version is not yet a public Evidence Lab distribution release.
+uses one immutable repository snapshot tag and a generated release lock containing
+every published pack version, content SHA-256, supported host, license, catalog
+hash, and source commit. The lock is a GitHub Release asset generated from the
+tagged commit, avoiding a self-referential commit hash. Bootstrap pins that tag
+and records the source commit plus canonical lock digest in state.
+
+`stable` is the only supported update channel. A future `preview` channel requires
+a separate policy and cannot reuse a stable tag.
+
+The `release-snapshot` workflow accepts only monotonically increasing
+`release-YYYY.MM.N` tags whose commit is the current `origin/main` tip, reruns all
+gates, builds and verifies the lock and notes, and refuses to replace a published
+GitHub Release. It stages the release as a draft, downloads and checks the lock
+asset, and only then publishes it. An incomplete draft may be safely rebuilt on a
+rerun; per-tag workflow concurrency serializes that recovery. A merged pack
+version is not a public Evidence Lab distribution release
+until that workflow publishes its lock.
+The repository also protects `release-*` tags against updates and deletion with
+an active GitHub tag ruleset. Bootstrap independently verifies that the requested
+tag still resolves to the commit recorded in the lock.
 
 ## When the gate fails
 
