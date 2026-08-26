@@ -1,0 +1,26 @@
+{
+  "id": "research-design",
+  "version": "0.1.0",
+  "layer": "workflow",
+  "display_name": "Research Design",
+  "description": "Testable hypothesis development and reproducible experimental or observational study design without unrelated literature or manuscript tooling.",
+  "category": "Research",
+  "author": {"name": "Evidence Lab"},
+  "license": "LicenseRef-Evidence-Lab-Proprietary AND MIT",
+  "capabilities": ["hypothesis-generation", "study-design"],
+  "selection": {
+    "always": false,
+    "rules": [
+      {"id": "research-design-workflow", "priority": 300, "when": {"any": {"workflows": ["full-research-cycle", "design-study"]}}, "reason": "The requested workflow needs explicit hypotheses and a defensible study design."}
+    ]
+  },
+  "dependencies": ["evidence-lab-core"],
+  "conflicts": [],
+  "runtimes": ["claude-code", "codex"],
+  "interface": {
+    "short_description": "Turn a question into a defensible study design.",
+    "long_description": "Develops testable hypotheses, rival explanations, predictions, measurements, randomization, blocking, and reproducible study layouts.",
+    "capabilities": ["Research", "Plan"],
+    "default_prompt": "Help me turn this research question into a testable study design."
+  }
+}

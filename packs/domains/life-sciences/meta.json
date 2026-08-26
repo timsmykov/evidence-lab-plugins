@@ -1,0 +1,6 @@
+{
+  "status": "draft", "category": "research", "risk_level": "team_safe", "owner": "Tim", "reviewer": "Tim",
+  "provenance": {"origin": "Evidence Lab R3 domain boundary derived from study-design and microscopy scenarios; independent life-science and safety review remains required.", "evidence": ["docs/pack-boundary-report.md", "catalog/scenarios.json#life-science-study-design", "catalog/scenarios.json#research-images-life-sciences"], "added_at": "2026-08-26"},
+  "skills": [{"name": "life-science-protocols", "summary": "Validates that life-science protocol identity, controls, bias, safety, and reporting context are explicitly recorded.", "deterministic_parts": ["scripts/validate_protocol_record.py"]}],
+  "portable_to": ["claude", "codex"]
+}

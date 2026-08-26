@@ -1,5 +1,10 @@
 # Changelog — Data and PDF
 
+## [1.0.0] — 2026-08-26
+
+### Changed
+- Converted the broad pack to a compatibility aggregate over `document-evidence` and `structured-data-analysis`.
+
 ## [0.2.0] — 2026-08-26
 
 ### Changed

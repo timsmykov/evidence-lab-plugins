@@ -1,0 +1,27 @@
+{
+  "name": "publication-monitoring",
+  "description": "Repeatable monitoring of new scholarly publications with explicit queries, stable deduplication, checkpoints, and source-linked update digests.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Evidence Lab"
+  },
+  "keywords": [
+    "publication-monitoring"
+  ],
+  "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
+  "repository": "https://github.com/timsmykov/evidence-lab-plugins",
+  "license": "LicenseRef-Evidence-Lab-Proprietary",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Publication Monitoring",
+    "shortDescription": "Track new publications without losing the evidence trail.",
+    "longDescription": "Records search boundaries, deduplicates stable publication identifiers, advances checkpoints, and produces source-linked update digests.",
+    "developerName": "Evidence Lab",
+    "category": "Research",
+    "capabilities": [
+      "Research",
+      "Monitor"
+    ],
+    "defaultPrompt": "Set up a reproducible publication monitor for this topic."
+  }
+}

@@ -16,6 +16,7 @@
     "workflows": {
       "values": [
         "full-research-cycle",
+        "design-study",
         "monitor-publications",
         "literature-review",
         "collect-and-compare-data",

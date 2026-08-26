@@ -1,0 +1,7 @@
+[
+  {"id": "a", "doi": "https://doi.org/10.1/ABC", "title": "First"},
+  {"id": "b", "doi": "10.1/abc", "title": "First copy"},
+  {"id": "c", "title": "Distinct Study", "year": 2025},
+  {"id": "d", "title": "Методы анализа", "year": 2024},
+  {"id": "e", "title": "Методы  анализа!", "year": 2024}
+]

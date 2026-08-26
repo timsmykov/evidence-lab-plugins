@@ -33,7 +33,7 @@ def claude_manifest(pack: dict) -> dict:
         "author": pack["author"], "keywords": pack["capabilities"],
         "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
         "repository": "https://github.com/timsmykov/evidence-lab-plugins",
-        "license": "MIT AND Apache-2.0",
+        "license": pack["license"],
     }
 
 

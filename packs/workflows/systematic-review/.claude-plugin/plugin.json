@@ -1,0 +1,15 @@
+{
+  "name": "systematic-review",
+  "description": "Reproducible systematic-search and screening workflow with explicit eligibility criteria, stable record deduplication, and an auditable decision trail.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Evidence Lab"
+  },
+  "keywords": [
+    "systematic-search",
+    "screening-and-deduplication"
+  ],
+  "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
+  "repository": "https://github.com/timsmykov/evidence-lab-plugins",
+  "license": "LicenseRef-Evidence-Lab-Proprietary"
+}

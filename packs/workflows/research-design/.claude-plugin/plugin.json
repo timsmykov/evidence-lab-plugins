@@ -1,0 +1,15 @@
+{
+  "name": "research-design",
+  "description": "Testable hypothesis development and reproducible experimental or observational study design without unrelated literature or manuscript tooling.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Evidence Lab"
+  },
+  "keywords": [
+    "hypothesis-generation",
+    "study-design"
+  ],
+  "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
+  "repository": "https://github.com/timsmykov/evidence-lab-plugins",
+  "license": "LicenseRef-Evidence-Lab-Proprietary AND MIT"
+}

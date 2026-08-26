@@ -1,0 +1,22 @@
+{
+  "id": "structured-data-analysis",
+  "version": "0.1.0",
+  "layer": "workflow",
+  "display_name": "Structured Data Analysis",
+  "description": "Reproducible public-database retrieval and exploratory analysis for tables and datasets without unrelated document-conversion tooling.",
+  "category": "Research",
+  "author": {"name": "Evidence Lab"},
+  "license": "LicenseRef-Evidence-Lab-Proprietary AND MIT",
+  "capabilities": ["database-lookup", "exploratory-data-analysis"],
+  "selection": {"always": false, "rules": [
+    {"id": "structured-data-material", "priority": 300, "when": {"any": {"materials": ["tables", "datasets"]}}, "reason": "Structured research materials need retrieval or exploratory data-quality analysis."},
+    {"id": "structured-data-collection", "priority": 250, "when": {"all": {"workflows": ["collect-and-compare-data"], "materials": ["papers"]}}, "reason": "Comparing paper-linked records needs documented database retrieval and source provenance."}
+  ]},
+  "dependencies": ["evidence-lab-core"], "conflicts": [], "runtimes": ["claude-code", "codex"],
+  "interface": {
+    "short_description": "Retrieve and inspect structured research data.",
+    "long_description": "Retrieves data from documented public APIs and profiles tables or datasets with explicit quality, missingness, and leakage checks.",
+    "capabilities": ["Research", "Analyze"],
+    "default_prompt": "Help me retrieve or inspect this structured research dataset."
+  }
+}

@@ -46,7 +46,10 @@ def analyze(matrix: dict, catalog: dict, policy: dict) -> dict:
         required = set(scenario["required_capabilities"])
         optional = set(scenario["optional_capabilities"])
         missing = sorted(required - provided)
-        extra = sorted(provided - required - optional - baseline_capabilities)
+        extra = sorted(
+            capability for capability in provided - required - optional - baseline_capabilities
+            if not capability.endswith("-compatibility")
+        )
         for pack_id in packs:
             usage[pack_id]["selected_by" if pack_id in selected else "excluded_by"].append(scenario["id"])
         rows.append({
@@ -75,7 +78,7 @@ def render(report: dict, decisions: dict) -> str:
         "# Pack-boundary evidence report",
         "",
         "Generated deterministically by `python3 scripts/analyze_pack_boundaries.py`.",
-        "It measures the current catalog before any proposed R3 split or addition.",
+        f"It measures the current catalog with R3 boundary status `{decisions['status']}`.",
         "Core capabilities are treated as the mandatory baseline and are not counted as over-installation.",
         "",
         "## Summary",
@@ -119,18 +122,19 @@ def render(report: dict, decisions: dict) -> str:
     lines.extend([
         "## Prioritized additions",
         "",
-        "| Priority | Proposed pack | Missing capabilities | Scenario evidence |",
-        "|---|---|---|---|",
+        "| Priority | Pack | Target capabilities | Lifecycle | Scenario evidence |",
+        "|---|---|---|---|---|",
     ])
     for addition in decisions["prioritized_additions"]:
         lines.append(
             f"| {addition['priority']} | `{addition['pack_id']}` | {cell(addition['capabilities'])} | "
+            f"`{addition['lifecycle_status']}` | "
             f"{cell(addition['trigger_scenarios'])} |"
         )
     lines.extend([
         "",
-        "Each proposal is tied to a repeatable workflow or material boundary across the listed scenarios, not merely to a discipline label.",
-        "All additions remain `planned`; representative behavior runs and independent review are required before `production`.",
+        "Each pack is tied to a repeatable workflow or material boundary across the listed scenarios, not merely to a discipline label.",
+        "Draft additions have passed repository behavior checks but still require representative research runs and independent review before `production`.",
         "",
     ])
     return "\n".join(lines)

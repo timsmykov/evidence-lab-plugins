@@ -19,7 +19,7 @@
       "profile": {"schema_version": 1, "domains": ["humanities"], "workflows": [], "materials": ["papers", "pdf"], "stages": ["active-research"], "methods": []},
       "required_capabilities": ["paper-lookup", "citation-management", "document-conversion", "critical-thinking"],
       "optional_capabilities": [],
-      "expected_selected_packs": ["evidence-lab-core", "data-and-pdf"],
+      "expected_selected_packs": ["evidence-lab-core", "document-evidence"],
       "expected_missing_capabilities": []
     },
     {
@@ -29,7 +29,7 @@
       "profile": {"schema_version": 1, "domains": ["social-sciences"], "workflows": ["analyze-data"], "materials": ["tables", "datasets"], "stages": ["active-research"], "methods": []},
       "required_capabilities": ["exploratory-data-analysis", "database-lookup", "critical-thinking"],
       "optional_capabilities": [],
-      "expected_selected_packs": ["evidence-lab-core", "data-and-pdf"],
+      "expected_selected_packs": ["evidence-lab-core", "structured-data-analysis"],
       "expected_missing_capabilities": []
     },
     {
@@ -39,7 +39,7 @@
       "profile": {"schema_version": 1, "domains": ["mathematics"], "workflows": ["quality-review"], "materials": ["papers"], "stages": ["active-research"], "methods": ["formulas", "mathematical-models"]},
       "required_capabilities": ["uncertainty-and-units", "statistical-analysis", "critical-thinking", "peer-review"],
       "optional_capabilities": ["statistical-power"],
-      "expected_selected_packs": ["evidence-lab-core", "full-research-cycle", "quantitative-sciences"],
+      "expected_selected_packs": ["evidence-lab-core", "literature-publication", "quantitative-sciences"],
       "expected_missing_capabilities": []
     },
     {
@@ -49,7 +49,7 @@
       "profile": {"schema_version": 1, "domains": ["physics", "engineering", "statistics"], "workflows": ["full-research-cycle"], "materials": ["papers", "pdf", "tables", "datasets"], "stages": ["active-research", "writing"], "methods": ["statistics", "code", "formulas", "mathematical-models"]},
       "required_capabilities": ["hypothesis-generation", "study-design", "literature-review", "academic-writing", "peer-review", "research-diagrams", "document-conversion", "database-lookup", "exploratory-data-analysis", "statistical-analysis", "statistical-power", "uncertainty-and-units", "scientific-visualization"],
       "optional_capabilities": ["paper-lookup", "citation-management", "critical-thinking"],
-      "expected_selected_packs": ["evidence-lab-core", "data-and-pdf", "full-research-cycle", "quantitative-sciences"],
+      "expected_selected_packs": ["evidence-lab-core", "document-evidence", "literature-publication", "research-design", "structured-data-analysis", "quantitative-sciences", "data-and-pdf", "full-research-cycle"],
       "expected_missing_capabilities": []
     },
     {
@@ -59,7 +59,17 @@
       "profile": {"schema_version": 1, "domains": ["humanities"], "workflows": ["literature-review"], "materials": ["papers"], "stages": ["active-research"], "methods": []},
       "required_capabilities": ["paper-lookup", "citation-management", "literature-review", "critical-thinking"],
       "optional_capabilities": ["academic-writing", "peer-review"],
-      "expected_selected_packs": ["evidence-lab-core", "full-research-cycle"],
+      "expected_selected_packs": ["evidence-lab-core", "literature-publication"],
+      "expected_missing_capabilities": []
+    },
+    {
+      "id": "full-cycle-pdf-only",
+      "segment": "Humanities researcher running a full cycle from document sources without structured data",
+      "research_goal": "Run the complete research workflow using papers and PDFs without installing structured-data analysis.",
+      "profile": {"schema_version": 1, "domains": ["humanities"], "workflows": ["full-research-cycle"], "materials": ["papers", "pdf"], "stages": ["active-research", "writing"], "methods": []},
+      "required_capabilities": ["hypothesis-generation", "study-design", "literature-review", "academic-writing", "peer-review", "document-conversion"],
+      "optional_capabilities": ["research-diagrams", "paper-lookup", "citation-management", "critical-thinking"],
+      "expected_selected_packs": ["evidence-lab-core", "document-evidence", "literature-publication", "research-design", "full-research-cycle"],
       "expected_missing_capabilities": []
     },
     {
@@ -69,7 +79,7 @@
       "profile": {"schema_version": 1, "domains": ["humanities"], "workflows": ["prepare-publication"], "materials": ["papers"], "stages": ["writing"], "methods": []},
       "required_capabilities": ["academic-writing", "peer-review", "citation-management", "critical-thinking"],
       "optional_capabilities": ["literature-review", "research-diagrams"],
-      "expected_selected_packs": ["evidence-lab-core", "full-research-cycle"],
+      "expected_selected_packs": ["evidence-lab-core", "literature-publication"],
       "expected_missing_capabilities": []
     },
     {
@@ -79,8 +89,8 @@
       "profile": {"schema_version": 1, "domains": ["life-sciences"], "workflows": ["monitor-publications"], "materials": ["papers"], "stages": ["active-research"], "methods": []},
       "required_capabilities": ["paper-lookup", "citation-management", "publication-monitoring"],
       "optional_capabilities": ["critical-thinking"],
-      "expected_selected_packs": ["evidence-lab-core"],
-      "expected_missing_capabilities": ["publication-monitoring"]
+      "expected_selected_packs": ["evidence-lab-core", "publication-monitoring"],
+      "expected_missing_capabilities": []
     },
     {
       "id": "publication-monitoring-physics",
@@ -89,8 +99,8 @@
       "profile": {"schema_version": 1, "domains": ["physics"], "workflows": ["monitor-publications"], "materials": ["papers"], "stages": ["active-research"], "methods": []},
       "required_capabilities": ["paper-lookup", "citation-management", "publication-monitoring"],
       "optional_capabilities": ["critical-thinking"],
-      "expected_selected_packs": ["evidence-lab-core", "quantitative-sciences"],
-      "expected_missing_capabilities": ["publication-monitoring"]
+      "expected_selected_packs": ["evidence-lab-core", "publication-monitoring"],
+      "expected_missing_capabilities": []
     },
     {
       "id": "systematic-review-life-sciences",
@@ -99,8 +109,8 @@
       "profile": {"schema_version": 1, "domains": ["life-sciences"], "workflows": ["literature-review"], "materials": ["papers", "pdf", "tables", "datasets"], "stages": ["systematic-review"], "methods": ["statistics"]},
       "required_capabilities": ["systematic-search", "screening-and-deduplication", "document-conversion", "statistical-analysis", "literature-review", "citation-management"],
       "optional_capabilities": ["academic-writing", "peer-review", "exploratory-data-analysis"],
-      "expected_selected_packs": ["evidence-lab-core", "data-and-pdf", "full-research-cycle", "quantitative-sciences"],
-      "expected_missing_capabilities": ["screening-and-deduplication", "systematic-search"]
+      "expected_selected_packs": ["evidence-lab-core", "document-evidence", "literature-publication", "structured-data-analysis", "quantitative-sciences", "systematic-review"],
+      "expected_missing_capabilities": []
     },
     {
       "id": "systematic-review-social-sciences",
@@ -109,8 +119,8 @@
       "profile": {"schema_version": 1, "domains": ["social-sciences"], "workflows": ["literature-review"], "materials": ["papers", "pdf", "tables"], "stages": ["systematic-review"], "methods": []},
       "required_capabilities": ["systematic-search", "screening-and-deduplication", "document-conversion", "literature-review", "citation-management"],
       "optional_capabilities": ["academic-writing", "peer-review"],
-      "expected_selected_packs": ["evidence-lab-core", "data-and-pdf", "full-research-cycle"],
-      "expected_missing_capabilities": ["screening-and-deduplication", "systematic-search"]
+      "expected_selected_packs": ["evidence-lab-core", "document-evidence", "literature-publication", "structured-data-analysis", "systematic-review"],
+      "expected_missing_capabilities": []
     },
     {
       "id": "qualitative-social-analysis",
@@ -119,8 +129,8 @@
       "profile": {"schema_version": 1, "domains": ["social-sciences"], "workflows": ["analyze-data"], "materials": ["qualitative-text"], "stages": ["active-research"], "methods": []},
       "required_capabilities": ["qualitative-analysis", "critical-thinking"],
       "optional_capabilities": ["academic-writing"],
-      "expected_selected_packs": ["evidence-lab-core"],
-      "expected_missing_capabilities": ["qualitative-analysis"]
+      "expected_selected_packs": ["evidence-lab-core", "qualitative-research"],
+      "expected_missing_capabilities": []
     },
     {
       "id": "qualitative-humanities-analysis",
@@ -129,8 +139,8 @@
       "profile": {"schema_version": 1, "domains": ["humanities"], "workflows": ["analyze-data"], "materials": ["qualitative-text"], "stages": ["active-research"], "methods": []},
       "required_capabilities": ["qualitative-analysis", "critical-thinking"],
       "optional_capabilities": ["academic-writing"],
-      "expected_selected_packs": ["evidence-lab-core"],
-      "expected_missing_capabilities": ["qualitative-analysis"]
+      "expected_selected_packs": ["evidence-lab-core", "qualitative-research"],
+      "expected_missing_capabilities": []
     },
     {
       "id": "research-images-engineering",
@@ -139,8 +149,8 @@
       "profile": {"schema_version": 1, "domains": ["engineering"], "workflows": ["analyze-data"], "materials": ["images"], "stages": ["active-research"], "methods": []},
       "required_capabilities": ["research-image-analysis", "critical-thinking"],
       "optional_capabilities": ["scientific-visualization", "uncertainty-and-units"],
-      "expected_selected_packs": ["evidence-lab-core", "quantitative-sciences"],
-      "expected_missing_capabilities": ["research-image-analysis"]
+      "expected_selected_packs": ["evidence-lab-core", "research-images"],
+      "expected_missing_capabilities": []
     },
     {
       "id": "research-images-life-sciences",
@@ -149,18 +159,18 @@
       "profile": {"schema_version": 1, "domains": ["life-sciences"], "workflows": ["analyze-data"], "materials": ["images"], "stages": ["active-research"], "methods": []},
       "required_capabilities": ["research-image-analysis", "life-science-protocols", "critical-thinking"],
       "optional_capabilities": ["scientific-visualization"],
-      "expected_selected_packs": ["evidence-lab-core"],
-      "expected_missing_capabilities": ["life-science-protocols", "research-image-analysis"]
+      "expected_selected_packs": ["evidence-lab-core", "research-images", "life-sciences"],
+      "expected_missing_capabilities": []
     },
     {
       "id": "life-science-study-design",
       "segment": "Life-science researcher planning an experimental study",
       "research_goal": "Design a study with domain-specific protocol, bias, and reporting checks.",
-      "profile": {"schema_version": 1, "domains": ["life-sciences"], "workflows": ["full-research-cycle"], "materials": ["papers"], "stages": ["planning"], "methods": []},
+      "profile": {"schema_version": 1, "domains": ["life-sciences"], "workflows": ["design-study"], "materials": ["papers"], "stages": ["planning"], "methods": []},
       "required_capabilities": ["hypothesis-generation", "study-design", "life-science-protocols", "critical-thinking"],
       "optional_capabilities": ["literature-review", "citation-management"],
-      "expected_selected_packs": ["evidence-lab-core", "full-research-cycle"],
-      "expected_missing_capabilities": ["life-science-protocols"]
+      "expected_selected_packs": ["evidence-lab-core", "research-design", "life-sciences"],
+      "expected_missing_capabilities": []
     }
   ]
 }

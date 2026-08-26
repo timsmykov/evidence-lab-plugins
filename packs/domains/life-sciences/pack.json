@@ -1,0 +1,12 @@
+{
+  "id": "life-sciences", "version": "0.1.0", "layer": "domain", "display_name": "Life Sciences",
+  "description": "Domain checks for life-science protocols, biological controls, bias, biosafety boundaries, reporting context, and image acquisition metadata.",
+  "category": "Research", "author": {"name": "Evidence Lab"}, "license": "LicenseRef-Evidence-Lab-Proprietary",
+  "capabilities": ["life-science-protocols"],
+  "selection": {"always": false, "rules": [
+    {"id": "life-science-planning", "priority": 300, "when": {"all": {"domains": ["life-sciences"], "stages": ["planning"]}}, "reason": "Life-science study planning needs domain-specific protocol and bias checks."},
+    {"id": "life-science-images", "priority": 250, "when": {"all": {"domains": ["life-sciences"], "materials": ["images"]}}, "reason": "Life-science images need acquisition and biological-context metadata."}
+  ]},
+  "dependencies": ["evidence-lab-core"], "conflicts": [], "runtimes": ["claude-code", "codex"],
+  "interface": {"short_description": "Add life-science protocol and bias checks.", "long_description": "Adds protocol identity, biological controls, bias, safety boundaries, reporting context, and acquisition metadata to applicable life-science workflows.", "capabilities": ["Research", "Domain"], "default_prompt": "Check this life-science study or image workflow for protocol-specific gaps."}
+}

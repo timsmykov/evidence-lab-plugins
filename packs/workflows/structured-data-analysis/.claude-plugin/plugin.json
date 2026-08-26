@@ -1,0 +1,15 @@
+{
+  "name": "structured-data-analysis",
+  "description": "Reproducible public-database retrieval and exploratory analysis for tables and datasets without unrelated document-conversion tooling.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Evidence Lab"
+  },
+  "keywords": [
+    "database-lookup",
+    "exploratory-data-analysis"
+  ],
+  "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
+  "repository": "https://github.com/timsmykov/evidence-lab-plugins",
+  "license": "LicenseRef-Evidence-Lab-Proprietary AND MIT"
+}

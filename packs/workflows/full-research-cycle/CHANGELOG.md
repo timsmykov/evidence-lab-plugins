@@ -1,5 +1,10 @@
 # Changelog — Full Research Cycle
 
+## [1.0.0] — 2026-08-26
+
+### Changed
+- Converted the broad pack to a compatibility aggregate over `research-design` and `literature-publication`.
+
 ## [0.2.0] — 2026-08-26
 
 ### Changed

@@ -58,8 +58,10 @@ def main() -> int:
 
     pack_ids = {pack["id"] for pack in catalog["packs"]}
     decision_ids = {decision["pack_id"] for decision in decisions["current_pack_decisions"]}
-    if decision_ids != pack_ids:
-        raise AssertionError(f"pack decisions do not cover current catalog: {decision_ids} != {pack_ids}")
+    addition_ids = {addition["pack_id"] for addition in decisions["prioritized_additions"]}
+    covered_ids = decision_ids | addition_ids
+    if covered_ids != pack_ids:
+        raise AssertionError(f"pack decisions do not cover current catalog: {covered_ids} != {pack_ids}")
     scenario_ids = set(expected)
     for decision in decisions["current_pack_decisions"]:
         if not set(decision["scenario_evidence"]) <= scenario_ids:
@@ -67,9 +69,14 @@ def main() -> int:
     for addition in decisions["prioritized_additions"]:
         if not set(addition["trigger_scenarios"]) <= scenario_ids:
             raise AssertionError(f"{addition['pack_id']}: unknown trigger scenario")
-        missing = set().union(*(set(expected[item]["expected_missing_capabilities"]) for item in addition["trigger_scenarios"]))
-        if not set(addition["capabilities"]) <= missing:
-            raise AssertionError(f"{addition['pack_id']}: proposed capability is not missing in its evidence scenarios")
+        if addition["lifecycle_status"] == "planned":
+            missing = set().union(*(set(expected[item]["expected_missing_capabilities"]) for item in addition["trigger_scenarios"]))
+            if not set(addition["capabilities"]) <= missing:
+                raise AssertionError(f"{addition['pack_id']}: proposed capability is not missing in its evidence scenarios")
+        else:
+            implemented = next((pack for pack in catalog["packs"] if pack["id"] == addition["pack_id"]), None)
+            if implemented is None or not set(addition["capabilities"]) <= set(implemented["capabilities"]):
+                raise AssertionError(f"{addition['pack_id']}: implemented pack does not provide its target capabilities")
 
     baseline = matrix["baseline_pack"]
     for pack_id, usage in report["pack_usage"].items():
@@ -81,7 +88,7 @@ def main() -> int:
     report_path = ROOT / "docs" / "pack-boundary-report.md"
     if not report_path.exists() or report_path.read_text(encoding="utf-8") != rendered:
         raise AssertionError("docs/pack-boundary-report.md is stale; run analyze_pack_boundaries.py")
-    print(f"PASS: {report['scenario_count']} scenarios, {len(pack_ids)} current pack decisions, {len(decisions['prioritized_additions'])} additions")
+    print(f"PASS: {report['scenario_count']} scenarios, {len(pack_ids)} catalog packs, {len(decisions['prioritized_additions'])} R3 additions")
     return 0
 
 

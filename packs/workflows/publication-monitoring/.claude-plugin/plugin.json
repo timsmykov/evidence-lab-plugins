@@ -1,0 +1,14 @@
+{
+  "name": "publication-monitoring",
+  "description": "Repeatable monitoring of new scholarly publications with explicit queries, stable deduplication, checkpoints, and source-linked update digests.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Evidence Lab"
+  },
+  "keywords": [
+    "publication-monitoring"
+  ],
+  "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
+  "repository": "https://github.com/timsmykov/evidence-lab-plugins",
+  "license": "LicenseRef-Evidence-Lab-Proprietary"
+}

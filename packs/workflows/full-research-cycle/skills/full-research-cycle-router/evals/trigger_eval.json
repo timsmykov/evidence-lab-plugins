@@ -1,0 +1,10 @@
+[
+  {"query": "Set me up for the complete research cycle from hypothesis to paper.", "should_trigger": true},
+  {"query": "I want the entire Evidence Lab research workflow.", "should_trigger": true},
+  {"query": "Install both research planning and publication support.", "should_trigger": true},
+  {"query": "Help with the full lifecycle of my study and manuscript.", "should_trigger": true},
+  {"query": "I am doing the whole project, not one isolated stage.", "should_trigger": true},
+  {"query": "Design only the experiment and stop before writing.", "should_trigger": false},
+  {"query": "Polish this completed manuscript.", "should_trigger": false},
+  {"query": "Convert this PDF to Markdown.", "should_trigger": false}
+]

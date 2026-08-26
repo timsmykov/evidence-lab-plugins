@@ -6,6 +6,11 @@ MAJOR — the procedure changed such that earlier results are no longer reproduc
 MINOR — a skill, command or step was added.
 PATCH — wording, templates, evals; the procedure is unchanged.
 
+## [0.1.4] — 2026-08-26
+
+### Changed
+- Added an explicit pack-level license expression to the reference fixture.
+
 ## [0.1.3] — 2026-08-26
 
 ### Changed

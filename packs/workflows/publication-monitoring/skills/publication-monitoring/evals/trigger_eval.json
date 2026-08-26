@@ -1,0 +1,10 @@
+[
+  {"query": "Monitor new papers on this topic every week and avoid repeat alerts.", "should_trigger": true},
+  {"query": "Set up a source-linked digest of newly published studies.", "should_trigger": true},
+  {"query": "Update my literature watch from the last checkpoint.", "should_trigger": true},
+  {"query": "Track preprints and later journal versions without double counting.", "should_trigger": true},
+  {"query": "Keep a reproducible record of publication alerts for this query.", "should_trigger": true},
+  {"query": "Find the DOI for this one paper.", "should_trigger": false},
+  {"query": "Write a conventional literature review from these sources.", "should_trigger": false},
+  {"query": "Screen these abstracts against eligibility criteria.", "should_trigger": false}
+]

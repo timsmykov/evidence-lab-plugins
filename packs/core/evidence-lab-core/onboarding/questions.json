@@ -23,6 +23,7 @@
       "multiple": true,
       "options": [
         {"id": "full-research-cycle", "label": "Run a full research cycle"},
+        {"id": "design-study", "label": "Design a study or experiment"},
         {"id": "monitor-publications", "label": "Monitor new publications"},
         {"id": "literature-review", "label": "Conduct a literature review"},
         {"id": "collect-and-compare-data", "label": "Collect and compare data"},

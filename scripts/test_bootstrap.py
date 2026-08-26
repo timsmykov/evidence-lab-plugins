@@ -127,17 +127,20 @@ def test_success_and_idempotence(module, host: str) -> None:
 def test_failure_rolls_back(module, host: str) -> None:
     plan = build_plan(module, host)
     versions = {item["id"]: item["version"] for item in plan["selection_plan"]["packs"]}
-    fake = FakeHost(host, versions, fail_on="data-and-pdf")
+    fail_target = "data-and-pdf"
+    ordered_targets = [item["id"] for item in plan["selection_plan"]["packs"]]
+    installed_before_failure = ordered_targets[:ordered_targets.index(fail_target)]
+    fake = FakeHost(host, versions, fail_on=fail_target)
     module.run = fake
     with tempfile.TemporaryDirectory() as temporary:
         state = module.apply_plan(plan, Path(temporary) / "state.json")
         validate(state, "installation-state.schema.json")
         assert state["status"] == "failed"
         assert fake.installed == {}
-        assert fake.removed == ["evidence-lab-core"]
+        assert fake.removed == list(reversed(installed_before_failure))
         statuses = {item["target"]: item["status"] for item in state["operations"]}
-        assert statuses["evidence-lab-core"] == "rolled-back"
-        assert statuses["data-and-pdf"] == "failed"
+        assert all(statuses[target] == "rolled-back" for target in installed_before_failure)
+        assert statuses[fail_target] == "failed"
 
 
 def test_wrong_marketplace_is_safe(module) -> None:

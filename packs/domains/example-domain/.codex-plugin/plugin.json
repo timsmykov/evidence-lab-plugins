@@ -1,7 +1,7 @@
 {
   "name": "example-domain",
   "description": "A non-published reference pack that demonstrates the Evidence Lab package structure, routing evaluations, deterministic scripts, and review metadata.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "author": {
     "name": "Evidence Lab"
   },
@@ -10,7 +10,7 @@
   ],
   "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
   "repository": "https://github.com/timsmykov/evidence-lab-plugins",
-  "license": "MIT AND Apache-2.0",
+  "license": "LicenseRef-Evidence-Lab-Proprietary",
   "skills": "./skills/",
   "interface": {
     "displayName": "Example Domain",

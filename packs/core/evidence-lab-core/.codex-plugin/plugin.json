@@ -1,7 +1,7 @@
 {
   "name": "evidence-lab-core",
   "description": "Agent-first research foundations, fast researcher onboarding, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "author": {
     "name": "Evidence Lab"
   },
@@ -15,7 +15,7 @@
   ],
   "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
   "repository": "https://github.com/timsmykov/evidence-lab-plugins",
-  "license": "MIT AND Apache-2.0",
+  "license": "LicenseRef-Evidence-Lab-Proprietary AND MIT AND Apache-2.0",
   "skills": "./skills/",
   "interface": {
     "displayName": "Evidence Lab Core",

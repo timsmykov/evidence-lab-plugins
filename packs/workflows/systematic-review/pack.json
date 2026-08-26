@@ -1,0 +1,9 @@
+{
+  "id": "systematic-review", "version": "0.1.0", "layer": "workflow", "display_name": "Systematic Review",
+  "description": "Reproducible systematic-search and screening workflow with explicit eligibility criteria, stable record deduplication, and an auditable decision trail.",
+  "category": "Research", "author": {"name": "Evidence Lab"}, "license": "LicenseRef-Evidence-Lab-Proprietary",
+  "capabilities": ["systematic-search", "screening-and-deduplication"],
+  "selection": {"always": false, "rules": [{"id": "systematic-review-stage", "priority": 400, "when": {"any": {"stages": ["systematic-review"]}}, "reason": "A systematic-review stage requires protocol-driven search, screening, and deduplication."}]},
+  "dependencies": ["evidence-lab-core", "literature-publication"], "conflicts": [], "runtimes": ["claude-code", "codex"],
+  "interface": {"short_description": "Run a traceable systematic search and screening process.", "long_description": "Defines eligibility and search boundaries, deduplicates records, preserves screening decisions, and reports coverage without claiming inaccessible databases were searched.", "capabilities": ["Research", "Review"], "default_prompt": "Help me define and run a reproducible systematic-review workflow."}
+}

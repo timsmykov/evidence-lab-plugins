@@ -1,3 +1,3 @@
 # Full Research Cycle
 
-A workflow pack for hypothesis formation, study design, literature review, evidence-bounded writing, structural diagrams, and manuscript review. It depends on Evidence Lab Core and works in Claude Code and Codex through generated host adapters.
+A compatibility pack for researchers who explicitly choose the complete research cycle. It installs `research-design` and `literature-publication`; the operational skills live only in those focused packs.

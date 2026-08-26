@@ -1,0 +1,28 @@
+{
+  "name": "research-design",
+  "description": "Testable hypothesis development and reproducible experimental or observational study design without unrelated literature or manuscript tooling.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Evidence Lab"
+  },
+  "keywords": [
+    "hypothesis-generation",
+    "study-design"
+  ],
+  "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
+  "repository": "https://github.com/timsmykov/evidence-lab-plugins",
+  "license": "LicenseRef-Evidence-Lab-Proprietary AND MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Research Design",
+    "shortDescription": "Turn a question into a defensible study design.",
+    "longDescription": "Develops testable hypotheses, rival explanations, predictions, measurements, randomization, blocking, and reproducible study layouts.",
+    "developerName": "Evidence Lab",
+    "category": "Research",
+    "capabilities": [
+      "Research",
+      "Plan"
+    ],
+    "defaultPrompt": "Help me turn this research question into a testable study design."
+  }
+}

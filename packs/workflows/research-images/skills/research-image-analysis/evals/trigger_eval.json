@@ -1,0 +1,10 @@
+[
+  {"query": "Inspect these microscopy images and preserve every transformation.", "should_trigger": true},
+  {"query": "Measure features in these experimental images with a provenance trail.", "should_trigger": true},
+  {"query": "Audit the crops, contrast changes, and exclusions used for this figure.", "should_trigger": true},
+  {"query": "Document acquisition metadata and calibration for these scans.", "should_trigger": true},
+  {"query": "Separate visual observations from interpretation in these research photos.", "should_trigger": true},
+  {"query": "Create a decorative hero image for my website.", "should_trigger": false},
+  {"query": "Plot this CSV as a publication figure.", "should_trigger": false},
+  {"query": "Diagnose this patient from a medical image.", "should_trigger": false}
+]

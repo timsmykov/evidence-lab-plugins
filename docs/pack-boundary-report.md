@@ -1,42 +1,52 @@
 # Pack-boundary evidence report
 
 Generated deterministically by `python3 scripts/analyze_pack_boundaries.py`.
-It measures the current catalog before any proposed R3 split or addition.
+It measures the current catalog with R3 boundary status `implemented`.
 Core capabilities are treated as the mandatory baseline and are not counted as over-installation.
 
 ## Summary
 
-- Scenarios: **16**
-- Missing required capability occurrences: **12**
-- Over-installed optional-pack capability occurrences: **35**
+- Scenarios: **17**
+- Missing required capability occurrences: **0**
+- Over-installed optional-pack capability occurrences: **13**
 
 ## Scenario matrix
 
 | Scenario | Selected packs | Missing required capabilities | Over-installed capabilities |
 |---|---|---|---|
 | `general-paper-lookup` | `evidence-lab-core` | — | — |
-| `pdf-evidence-extraction` | `evidence-lab-core`, `data-and-pdf` | — | `database-lookup`, `exploratory-data-analysis` |
-| `structured-data-analysis` | `evidence-lab-core`, `data-and-pdf` | — | `document-conversion` |
-| `mathematical-model-review` | `evidence-lab-core`, `full-research-cycle`, `quantitative-sciences` | — | `academic-writing`, `hypothesis-generation`, `literature-review`, `research-diagrams`, `scientific-visualization`, `study-design` |
-| `full-cycle-quantitative-paper` | `evidence-lab-core`, `data-and-pdf`, `full-research-cycle`, `quantitative-sciences` | — | — |
-| `literature-review-only` | `evidence-lab-core`, `full-research-cycle` | — | `hypothesis-generation`, `research-diagrams`, `study-design` |
-| `publication-preparation-only` | `evidence-lab-core`, `full-research-cycle` | — | `hypothesis-generation`, `study-design` |
-| `publication-monitoring-life-sciences` | `evidence-lab-core` | `publication-monitoring` | — |
-| `publication-monitoring-physics` | `evidence-lab-core`, `quantitative-sciences` | `publication-monitoring` | `scientific-visualization`, `statistical-analysis`, `statistical-power`, `uncertainty-and-units` |
-| `systematic-review-life-sciences` | `evidence-lab-core`, `data-and-pdf`, `full-research-cycle`, `quantitative-sciences` | `screening-and-deduplication`, `systematic-search` | `database-lookup`, `hypothesis-generation`, `research-diagrams`, `scientific-visualization`, `statistical-power`, `study-design`, `uncertainty-and-units` |
-| `systematic-review-social-sciences` | `evidence-lab-core`, `data-and-pdf`, `full-research-cycle` | `screening-and-deduplication`, `systematic-search` | `database-lookup`, `exploratory-data-analysis`, `hypothesis-generation`, `research-diagrams`, `study-design` |
-| `qualitative-social-analysis` | `evidence-lab-core` | `qualitative-analysis` | — |
-| `qualitative-humanities-analysis` | `evidence-lab-core` | `qualitative-analysis` | — |
-| `research-images-engineering` | `evidence-lab-core`, `quantitative-sciences` | `research-image-analysis` | `statistical-analysis`, `statistical-power` |
-| `research-images-life-sciences` | `evidence-lab-core` | `life-science-protocols`, `research-image-analysis` | — |
-| `life-science-study-design` | `evidence-lab-core`, `full-research-cycle` | `life-science-protocols` | `academic-writing`, `peer-review`, `research-diagrams` |
+| `pdf-evidence-extraction` | `evidence-lab-core`, `document-evidence` | — | — |
+| `structured-data-analysis` | `evidence-lab-core`, `structured-data-analysis` | — | — |
+| `mathematical-model-review` | `evidence-lab-core`, `literature-publication`, `quantitative-sciences` | — | `academic-writing`, `literature-review`, `research-diagrams`, `scientific-visualization` |
+| `full-cycle-quantitative-paper` | `evidence-lab-core`, `document-evidence`, `literature-publication`, `research-design`, `structured-data-analysis`, `quantitative-sciences`, `data-and-pdf`, `full-research-cycle` | — | — |
+| `literature-review-only` | `evidence-lab-core`, `literature-publication` | — | `research-diagrams` |
+| `full-cycle-pdf-only` | `evidence-lab-core`, `document-evidence`, `literature-publication`, `research-design`, `full-research-cycle` | — | — |
+| `publication-preparation-only` | `evidence-lab-core`, `literature-publication` | — | — |
+| `publication-monitoring-life-sciences` | `evidence-lab-core`, `publication-monitoring` | — | — |
+| `publication-monitoring-physics` | `evidence-lab-core`, `publication-monitoring` | — | — |
+| `systematic-review-life-sciences` | `evidence-lab-core`, `document-evidence`, `literature-publication`, `structured-data-analysis`, `quantitative-sciences`, `systematic-review` | — | `database-lookup`, `research-diagrams`, `scientific-visualization`, `statistical-power`, `uncertainty-and-units` |
+| `systematic-review-social-sciences` | `evidence-lab-core`, `document-evidence`, `literature-publication`, `structured-data-analysis`, `systematic-review` | — | `database-lookup`, `exploratory-data-analysis`, `research-diagrams` |
+| `qualitative-social-analysis` | `evidence-lab-core`, `qualitative-research` | — | — |
+| `qualitative-humanities-analysis` | `evidence-lab-core`, `qualitative-research` | — | — |
+| `research-images-engineering` | `evidence-lab-core`, `research-images` | — | — |
+| `research-images-life-sciences` | `evidence-lab-core`, `research-images`, `life-sciences` | — | — |
+| `life-science-study-design` | `evidence-lab-core`, `research-design`, `life-sciences` | — | — |
 
 ## Current pack coverage
 
-- `evidence-lab-core`: selected by 16 scenario(s); mandatory baseline; exclusion is intentionally not applicable.
-- `quantitative-sciences`: selected by 5 scenario(s); negative scenarios include `general-paper-lookup`.
-- `data-and-pdf`: selected by 5 scenario(s); negative scenarios include `general-paper-lookup`.
-- `full-research-cycle`: selected by 7 scenario(s); negative scenarios include `general-paper-lookup`.
+- `evidence-lab-core`: selected by 17 scenario(s); mandatory baseline; exclusion is intentionally not applicable.
+- `life-sciences`: selected by 2 scenario(s); negative scenarios include `general-paper-lookup`.
+- `quantitative-sciences`: selected by 3 scenario(s); negative scenarios include `general-paper-lookup`.
+- `data-and-pdf`: selected by 1 scenario(s); negative scenarios include `general-paper-lookup`.
+- `document-evidence`: selected by 5 scenario(s); negative scenarios include `general-paper-lookup`.
+- `full-research-cycle`: selected by 2 scenario(s); negative scenarios include `general-paper-lookup`.
+- `literature-publication`: selected by 7 scenario(s); negative scenarios include `general-paper-lookup`.
+- `publication-monitoring`: selected by 2 scenario(s); negative scenarios include `general-paper-lookup`.
+- `qualitative-research`: selected by 2 scenario(s); negative scenarios include `general-paper-lookup`.
+- `research-design`: selected by 3 scenario(s); negative scenarios include `general-paper-lookup`.
+- `research-images`: selected by 2 scenario(s); negative scenarios include `general-paper-lookup`.
+- `structured-data-analysis`: selected by 4 scenario(s); negative scenarios include `general-paper-lookup`.
+- `systematic-review`: selected by 2 scenario(s); negative scenarios include `general-paper-lookup`.
 
 ## Split or keep decisions
 
@@ -72,15 +82,47 @@ Target boundary: Keep one quantitative pack but tighten selection when a domain 
 
 Evidence: `mathematical-model-review`, `full-cycle-quantitative-paper`, `publication-monitoring-physics`.
 
+### `research-design` — KEEP
+
+Hypothesis generation and study design share one planning confirmation boundary and no longer force literature or publication tooling into focused design work.
+
+Target boundary: Keep hypothesis generation and experimental design together as the focused research-planning workflow.
+
+Evidence: `full-cycle-quantitative-paper`, `life-science-study-design`.
+
+### `literature-publication` — KEEP
+
+Literature synthesis, evidence-bounded writing, manuscript review, and editable diagrams share publication evidence and revision boundaries while excluding study design.
+
+Target boundary: Keep the literature-to-publication procedures together and review further splits only from new over-installation evidence.
+
+Evidence: `literature-review-only`, `publication-preparation-only`, `mathematical-model-review`.
+
+### `document-evidence` — KEEP
+
+Document conversion is independently triggered by PDF material and no longer brings database retrieval or exploratory dataset analysis into document-only work.
+
+Target boundary: Keep deterministic document conversion as a focused material workflow with no structured-data dependency.
+
+Evidence: `pdf-evidence-extraction`, `systematic-review-social-sciences`.
+
+### `structured-data-analysis` — KEEP
+
+Documented database retrieval and exploratory table analysis share structured-record provenance and data-quality checks without requiring document conversion.
+
+Target boundary: Keep database retrieval and exploratory structured-data inspection together pending finer scenario evidence.
+
+Evidence: `structured-data-analysis`, `full-cycle-quantitative-paper`.
+
 ## Prioritized additions
 
-| Priority | Proposed pack | Missing capabilities | Scenario evidence |
-|---|---|---|---|
-| P1 | `publication-monitoring` | `publication-monitoring` | `publication-monitoring-life-sciences`, `publication-monitoring-physics` |
-| P1 | `systematic-review` | `systematic-search`, `screening-and-deduplication` | `systematic-review-life-sciences`, `systematic-review-social-sciences` |
-| P1 | `qualitative-research` | `qualitative-analysis` | `qualitative-social-analysis`, `qualitative-humanities-analysis` |
-| P1 | `research-images` | `research-image-analysis` | `research-images-engineering`, `research-images-life-sciences` |
-| P2 | `life-sciences` | `life-science-protocols` | `life-science-study-design`, `research-images-life-sciences` |
+| Priority | Pack | Target capabilities | Lifecycle | Scenario evidence |
+|---|---|---|---|---|
+| P1 | `publication-monitoring` | `publication-monitoring` | `draft` | `publication-monitoring-life-sciences`, `publication-monitoring-physics` |
+| P1 | `systematic-review` | `systematic-search`, `screening-and-deduplication` | `draft` | `systematic-review-life-sciences`, `systematic-review-social-sciences` |
+| P1 | `qualitative-research` | `qualitative-analysis` | `draft` | `qualitative-social-analysis`, `qualitative-humanities-analysis` |
+| P1 | `research-images` | `research-image-analysis` | `draft` | `research-images-engineering`, `research-images-life-sciences` |
+| P2 | `life-sciences` | `life-science-protocols` | `draft` | `life-science-study-design`, `research-images-life-sciences` |
 
-Each proposal is tied to a repeatable workflow or material boundary across the listed scenarios, not merely to a discipline label.
-All additions remain `planned`; representative behavior runs and independent review are required before `production`.
+Each pack is tied to a repeatable workflow or material boundary across the listed scenarios, not merely to a discipline label.
+Draft additions have passed repository behavior checks but still require representative research runs and independent review before `production`.

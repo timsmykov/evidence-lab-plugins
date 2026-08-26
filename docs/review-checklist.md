@@ -13,6 +13,7 @@ The reviewer checks whether it works, not whether it reads well. The order below
 - [ ] `meta.json` → `provenance.origin` names someone's practice, not general reasoning.
 - [ ] `provenance.evidence` points at material that can be opened.
 - [ ] The procedure was tried on two different cases, not one.
+- [ ] `pack.json` declares the complete license expression and every adapted skill retains its upstream notice and license text.
 
 ## Routing
 

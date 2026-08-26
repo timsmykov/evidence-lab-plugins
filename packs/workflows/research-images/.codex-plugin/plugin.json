@@ -1,0 +1,27 @@
+{
+  "name": "research-images",
+  "description": "Research-image inspection with explicit source identity, transformation history, measurement definitions, exclusions, and interpretation boundaries.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Evidence Lab"
+  },
+  "keywords": [
+    "research-image-analysis"
+  ],
+  "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
+  "repository": "https://github.com/timsmykov/evidence-lab-plugins",
+  "license": "LicenseRef-Evidence-Lab-Proprietary",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Research Images",
+    "shortDescription": "Inspect research images with traceable provenance.",
+    "longDescription": "Records image source, acquisition context, transformations, measurements, exclusions, and the boundary between observation and interpretation.",
+    "developerName": "Evidence Lab",
+    "category": "Research",
+    "capabilities": [
+      "Research",
+      "Vision"
+    ],
+    "defaultPrompt": "Help me inspect these research images without losing provenance."
+  }
+}

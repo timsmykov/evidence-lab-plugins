@@ -1,0 +1,17 @@
+{
+  "name": "literature-publication",
+  "description": "Literature synthesis, evidence-bounded academic writing, editable research diagrams, and manuscript review without installing study-design procedures.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Evidence Lab"
+  },
+  "keywords": [
+    "literature-review",
+    "academic-writing",
+    "peer-review",
+    "research-diagrams"
+  ],
+  "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
+  "repository": "https://github.com/timsmykov/evidence-lab-plugins",
+  "license": "LicenseRef-Evidence-Lab-Proprietary AND MIT AND Apache-2.0"
+}

@@ -1,35 +1,30 @@
 {
   "id": "full-research-cycle",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "layer": "workflow",
   "display_name": "Full Research Cycle",
-  "description": "A complete research workflow from testable hypotheses and study design through literature synthesis, manuscript writing, diagrams, and evidence-bounded peer review.",
+  "description": "Compatibility entry point for the complete research cycle; installs the focused research-design and literature-publication packs as declared dependencies.",
   "category": "Research",
   "author": {"name": "Evidence Lab"},
-  "capabilities": ["hypothesis-generation", "study-design", "literature-review", "academic-writing", "peer-review", "research-diagrams"],
+  "license": "LicenseRef-Evidence-Lab-Proprietary",
+  "capabilities": ["full-research-cycle-compatibility"],
   "selection": {
     "always": false,
     "rules": [
       {
         "id": "full-cycle-workflow",
         "priority": 300,
-        "when": {"any": {"workflows": ["full-research-cycle", "literature-review", "prepare-publication", "quality-review"]}},
-        "reason": "The requested workflow uses the end-to-end research procedures."
-      },
-      {
-        "id": "full-cycle-writing-stage",
-        "priority": 200,
-        "when": {"any": {"stages": ["writing", "systematic-review"]}},
-        "reason": "The current stage requires literature, writing, or review procedures."
+        "when": {"any": {"workflows": ["full-research-cycle"]}},
+        "reason": "The explicit full-cycle route installs both focused workflow packs."
       }
     ]
   },
-  "dependencies": ["evidence-lab-core"],
+  "dependencies": ["research-design", "literature-publication"],
   "conflicts": [],
   "runtimes": ["claude-code", "codex"],
   "interface": {
-    "short_description": "Run a complete, evidence-bounded research workflow.",
-    "long_description": "Supports research planning, literature synthesis, study design, academic writing, structured diagrams, and critical manuscript review.",
+    "short_description": "Install the complete research workflow.",
+    "long_description": "Compatibility entry point that installs the focused research-design and literature-publication packs together.",
     "capabilities": ["Research", "Write"],
     "default_prompt": "Help me continue my research from its current stage."
   }

@@ -1,26 +1,21 @@
 {
   "name": "full-research-cycle",
-  "description": "A complete research workflow from testable hypotheses and study design through literature synthesis, manuscript writing, diagrams, and evidence-bounded peer review.",
-  "version": "0.2.0",
+  "description": "Compatibility entry point for the complete research cycle; installs the focused research-design and literature-publication packs as declared dependencies.",
+  "version": "1.0.0",
   "author": {
     "name": "Evidence Lab"
   },
   "keywords": [
-    "hypothesis-generation",
-    "study-design",
-    "literature-review",
-    "academic-writing",
-    "peer-review",
-    "research-diagrams"
+    "full-research-cycle-compatibility"
   ],
   "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
   "repository": "https://github.com/timsmykov/evidence-lab-plugins",
-  "license": "MIT AND Apache-2.0",
+  "license": "LicenseRef-Evidence-Lab-Proprietary",
   "skills": "./skills/",
   "interface": {
     "displayName": "Full Research Cycle",
-    "shortDescription": "Run a complete, evidence-bounded research workflow.",
-    "longDescription": "Supports research planning, literature synthesis, study design, academic writing, structured diagrams, and critical manuscript review.",
+    "shortDescription": "Install the complete research workflow.",
+    "longDescription": "Compatibility entry point that installs the focused research-design and literature-publication packs together.",
     "developerName": "Evidence Lab",
     "category": "Research",
     "capabilities": [

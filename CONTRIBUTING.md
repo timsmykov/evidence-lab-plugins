@@ -29,6 +29,7 @@ python3 scripts/test_agent_first.py
 python3 scripts/test_bootstrap.py
 python3 scripts/test_normalization.py
 python3 scripts/test_pack_boundaries.py
+python3 scripts/test_pack_behaviors.py
 python3 scripts/analyze_pack_boundaries.py --check
 python3 scripts/verify_repo.py
 ```

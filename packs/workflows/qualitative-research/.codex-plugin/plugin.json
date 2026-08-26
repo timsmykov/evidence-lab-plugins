@@ -1,0 +1,27 @@
+{
+  "name": "qualitative-research",
+  "description": "Traceable qualitative-text analysis using an explicit codebook, coded excerpts, reflexive notes, disagreements, and evidence-bounded thematic synthesis.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Evidence Lab"
+  },
+  "keywords": [
+    "qualitative-analysis"
+  ],
+  "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
+  "repository": "https://github.com/timsmykov/evidence-lab-plugins",
+  "license": "LicenseRef-Evidence-Lab-Proprietary",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Qualitative Research",
+    "shortDescription": "Analyse qualitative text with a visible coding trail.",
+    "longDescription": "Supports codebook development, traceable excerpt coding, reflexive notes, disagreement handling, and themes bounded by the coded evidence.",
+    "developerName": "Evidence Lab",
+    "category": "Research",
+    "capabilities": [
+      "Research",
+      "Analyze"
+    ],
+    "defaultPrompt": "Help me analyse this qualitative corpus with a traceable codebook."
+  }
+}

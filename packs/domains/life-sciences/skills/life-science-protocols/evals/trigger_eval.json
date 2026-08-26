@@ -1,0 +1,10 @@
+[
+  {"query": "Check the controls and protocol metadata for this biological experiment.", "should_trigger": true},
+  {"query": "Plan a life-science study and make batch and bias risks explicit.", "should_trigger": true},
+  {"query": "Audit acquisition metadata for these microscopy images.", "should_trigger": true},
+  {"query": "Record protocol version, biological system, endpoints, and exclusions.", "should_trigger": true},
+  {"query": "Identify which safety and ethics approvals must remain human decisions.", "should_trigger": true},
+  {"query": "Diagnose this patient and recommend treatment.", "should_trigger": false},
+  {"query": "Check units in this mechanical engineering model.", "should_trigger": false},
+  {"query": "Summarize a biology paper for me.", "should_trigger": false}
+]

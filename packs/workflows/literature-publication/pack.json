@@ -1,0 +1,27 @@
+{
+  "id": "literature-publication",
+  "version": "0.1.0",
+  "layer": "workflow",
+  "display_name": "Literature and Publication",
+  "description": "Literature synthesis, evidence-bounded academic writing, editable research diagrams, and manuscript review without installing study-design procedures.",
+  "category": "Research",
+  "author": {"name": "Evidence Lab"},
+  "license": "LicenseRef-Evidence-Lab-Proprietary AND MIT AND Apache-2.0",
+  "capabilities": ["literature-review", "academic-writing", "peer-review", "research-diagrams"],
+  "selection": {
+    "always": false,
+    "rules": [
+      {"id": "literature-publication-workflow", "priority": 300, "when": {"any": {"workflows": ["literature-review", "prepare-publication", "quality-review"]}}, "reason": "The requested workflow needs literature synthesis, publication writing, or manuscript review."},
+      {"id": "literature-publication-writing", "priority": 200, "when": {"any": {"stages": ["writing"]}}, "reason": "The researcher is actively preparing scholarly text for publication."}
+    ]
+  },
+  "dependencies": ["evidence-lab-core"],
+  "conflicts": [],
+  "runtimes": ["claude-code", "codex"],
+  "interface": {
+    "short_description": "Review literature and prepare a publication.",
+    "long_description": "Supports literature synthesis, evidence-bounded academic writing, editable diagrams, peer review, and revision planning.",
+    "capabilities": ["Research", "Write"],
+    "default_prompt": "Help me review the evidence and prepare this work for publication."
+  }
+}
