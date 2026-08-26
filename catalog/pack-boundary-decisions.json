@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "status": "proposed",
+  "current_pack_decisions": [
+    {
+      "pack_id": "evidence-lab-core",
+      "decision": "keep",
+      "scenario_evidence": ["general-paper-lookup", "publication-monitoring-life-sciences", "qualitative-social-analysis"],
+      "rationale": "The mandatory foundation is used by every scenario and its evidence, citation, critical-thinking, and onboarding responsibilities form one trust boundary.",
+      "target_boundary": "Retain as the mandatory baseline and do not add domain or workflow procedures."
+    },
+    {
+      "pack_id": "full-research-cycle",
+      "decision": "split",
+      "scenario_evidence": ["full-cycle-quantitative-paper", "literature-review-only", "publication-preparation-only"],
+      "rationale": "The full-cycle route uses the complete pack, but literature-only and publication-only routes install hypothesis generation and study design without needing them.",
+      "target_boundary": "Create research-design and literature-publication packs; retain the current ID only as a compatibility aggregate for full-cycle selection."
+    },
+    {
+      "pack_id": "data-and-pdf",
+      "decision": "split",
+      "scenario_evidence": ["pdf-evidence-extraction", "structured-data-analysis", "systematic-review-social-sciences"],
+      "rationale": "PDF-only work installs database retrieval and exploratory analysis, while dataset-only work installs document conversion; the procedures have separate user triggers.",
+      "target_boundary": "Create document-evidence and structured-data-analysis packs with the current ID retained only as a compatibility aggregate."
+    },
+    {
+      "pack_id": "quantitative-sciences",
+      "decision": "keep",
+      "scenario_evidence": ["mathematical-model-review", "full-cycle-quantitative-paper", "publication-monitoring-physics"],
+      "rationale": "Statistics, power, units, uncertainty, and scientific visualization share assumptions and review checks; the main over-installation comes from broad domain selection, not the skill boundary.",
+      "target_boundary": "Keep one quantitative pack but tighten selection when a domain alone is the only quantitative signal."
+    }
+  ],
+  "prioritized_additions": [
+    {
+      "pack_id": "publication-monitoring",
+      "priority": "P1",
+      "capabilities": ["publication-monitoring"],
+      "trigger_scenarios": ["publication-monitoring-life-sciences", "publication-monitoring-physics"],
+      "cross_taxonomy_reason": "A recurring workflow needs scheduled retrieval, deduplication, state, and source-linked digest behavior across multiple disciplines.",
+      "lifecycle_status": "planned"
+    },
+    {
+      "pack_id": "systematic-review",
+      "priority": "P1",
+      "capabilities": ["systematic-search", "screening-and-deduplication"],
+      "trigger_scenarios": ["systematic-review-life-sciences", "systematic-review-social-sciences"],
+      "cross_taxonomy_reason": "Eligibility criteria, reproducible search, screening decisions, and deduplication form a workflow absent from conventional literature review.",
+      "lifecycle_status": "planned"
+    },
+    {
+      "pack_id": "qualitative-research",
+      "priority": "P1",
+      "capabilities": ["qualitative-analysis"],
+      "trigger_scenarios": ["qualitative-social-analysis", "qualitative-humanities-analysis"],
+      "cross_taxonomy_reason": "Codebooks, traceable coding, reflexivity, and thematic synthesis are shared methods used in both social science and humanities routes.",
+      "lifecycle_status": "planned"
+    },
+    {
+      "pack_id": "research-images",
+      "priority": "P1",
+      "capabilities": ["research-image-analysis"],
+      "trigger_scenarios": ["research-images-engineering", "research-images-life-sciences"],
+      "cross_taxonomy_reason": "Image provenance, transformations, measurements, and interpretation checks are material-specific procedures spanning engineering and life sciences.",
+      "lifecycle_status": "planned"
+    },
+    {
+      "pack_id": "life-sciences",
+      "priority": "P2",
+      "capabilities": ["life-science-protocols"],
+      "trigger_scenarios": ["life-science-study-design", "research-images-life-sciences"],
+      "cross_taxonomy_reason": "Protocol, bias, safety, and reporting checks require domain evidence beyond generic study design and must pass independent expert review.",
+      "lifecycle_status": "planned"
+    }
+  ]
+}

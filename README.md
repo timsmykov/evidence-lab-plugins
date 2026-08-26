@@ -36,6 +36,8 @@ python3 scripts/build_adapters.py --check
 python3 scripts/test_agent_first.py
 python3 scripts/test_bootstrap.py
 python3 scripts/test_normalization.py
+python3 scripts/test_pack_boundaries.py
+python3 scripts/analyze_pack_boundaries.py --check
 python3 scripts/verify_repo.py
 ```
 
@@ -55,5 +57,6 @@ Fill every placeholder, rebuild adapters, and submit a reviewed pull request. En
 - [Release process](docs/release-process.md)
 - [Review checklist](docs/review-checklist.md)
 - [Content privacy](docs/sanitization-policy.md)
+- [Pack-boundary evidence report](docs/pack-boundary-report.md)
 - [GitHub-first execution plan](docs/github-first-execution-plan.md)
 - [Contributing](CONTRIBUTING.md)
