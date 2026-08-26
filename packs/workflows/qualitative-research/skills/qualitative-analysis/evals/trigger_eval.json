@@ -1,0 +1,10 @@
+[
+  {"query": "Develop a codebook for these interview transcripts.", "should_trigger": true},
+  {"query": "Code these open-ended responses and keep source locators.", "should_trigger": true},
+  {"query": "Build evidence-bounded themes from this qualitative corpus.", "should_trigger": true},
+  {"query": "Record coding disagreements and negative cases in my analysis.", "should_trigger": true},
+  {"query": "Audit whether every theme traces back to coded excerpts.", "should_trigger": true},
+  {"query": "Calculate descriptive statistics for this survey table.", "should_trigger": false},
+  {"query": "Summarize this article in three bullets.", "should_trigger": false},
+  {"query": "Rewrite these interview quotes for publication.", "should_trigger": false}
+]

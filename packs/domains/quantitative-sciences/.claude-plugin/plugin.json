@@ -1,7 +1,7 @@
 {
   "name": "quantitative-sciences",
   "description": "Statistical analysis, power and sample-size planning, uncertainty and units, and publication-grade scientific visualization for quantitative research.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": {
     "name": "Evidence Lab"
   },
@@ -13,5 +13,5 @@
   ],
   "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
   "repository": "https://github.com/timsmykov/evidence-lab-plugins",
-  "license": "MIT AND Apache-2.0"
+  "license": "LicenseRef-Evidence-Lab-Proprietary AND MIT"
 }

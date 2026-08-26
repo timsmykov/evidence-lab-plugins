@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "proposed",
+  "status": "implemented",
   "current_pack_decisions": [
     {
       "pack_id": "evidence-lab-core",
@@ -29,6 +29,34 @@
       "scenario_evidence": ["mathematical-model-review", "full-cycle-quantitative-paper", "publication-monitoring-physics"],
       "rationale": "Statistics, power, units, uncertainty, and scientific visualization share assumptions and review checks; the main over-installation comes from broad domain selection, not the skill boundary.",
       "target_boundary": "Keep one quantitative pack but tighten selection when a domain alone is the only quantitative signal."
+    },
+    {
+      "pack_id": "research-design",
+      "decision": "keep",
+      "scenario_evidence": ["full-cycle-quantitative-paper", "life-science-study-design"],
+      "rationale": "Hypothesis generation and study design share one planning confirmation boundary and no longer force literature or publication tooling into focused design work.",
+      "target_boundary": "Keep hypothesis generation and experimental design together as the focused research-planning workflow."
+    },
+    {
+      "pack_id": "literature-publication",
+      "decision": "keep",
+      "scenario_evidence": ["literature-review-only", "publication-preparation-only", "mathematical-model-review"],
+      "rationale": "Literature synthesis, evidence-bounded writing, manuscript review, and editable diagrams share publication evidence and revision boundaries while excluding study design.",
+      "target_boundary": "Keep the literature-to-publication procedures together and review further splits only from new over-installation evidence."
+    },
+    {
+      "pack_id": "document-evidence",
+      "decision": "keep",
+      "scenario_evidence": ["pdf-evidence-extraction", "systematic-review-social-sciences"],
+      "rationale": "Document conversion is independently triggered by PDF material and no longer brings database retrieval or exploratory dataset analysis into document-only work.",
+      "target_boundary": "Keep deterministic document conversion as a focused material workflow with no structured-data dependency."
+    },
+    {
+      "pack_id": "structured-data-analysis",
+      "decision": "keep",
+      "scenario_evidence": ["structured-data-analysis", "full-cycle-quantitative-paper"],
+      "rationale": "Documented database retrieval and exploratory table analysis share structured-record provenance and data-quality checks without requiring document conversion.",
+      "target_boundary": "Keep database retrieval and exploratory structured-data inspection together pending finer scenario evidence."
     }
   ],
   "prioritized_additions": [
@@ -38,7 +66,7 @@
       "capabilities": ["publication-monitoring"],
       "trigger_scenarios": ["publication-monitoring-life-sciences", "publication-monitoring-physics"],
       "cross_taxonomy_reason": "A recurring workflow needs scheduled retrieval, deduplication, state, and source-linked digest behavior across multiple disciplines.",
-      "lifecycle_status": "planned"
+      "lifecycle_status": "draft"
     },
     {
       "pack_id": "systematic-review",
@@ -46,7 +74,7 @@
       "capabilities": ["systematic-search", "screening-and-deduplication"],
       "trigger_scenarios": ["systematic-review-life-sciences", "systematic-review-social-sciences"],
       "cross_taxonomy_reason": "Eligibility criteria, reproducible search, screening decisions, and deduplication form a workflow absent from conventional literature review.",
-      "lifecycle_status": "planned"
+      "lifecycle_status": "draft"
     },
     {
       "pack_id": "qualitative-research",
@@ -54,7 +82,7 @@
       "capabilities": ["qualitative-analysis"],
       "trigger_scenarios": ["qualitative-social-analysis", "qualitative-humanities-analysis"],
       "cross_taxonomy_reason": "Codebooks, traceable coding, reflexivity, and thematic synthesis are shared methods used in both social science and humanities routes.",
-      "lifecycle_status": "planned"
+      "lifecycle_status": "draft"
     },
     {
       "pack_id": "research-images",
@@ -62,7 +90,7 @@
       "capabilities": ["research-image-analysis"],
       "trigger_scenarios": ["research-images-engineering", "research-images-life-sciences"],
       "cross_taxonomy_reason": "Image provenance, transformations, measurements, and interpretation checks are material-specific procedures spanning engineering and life sciences.",
-      "lifecycle_status": "planned"
+      "lifecycle_status": "draft"
     },
     {
       "pack_id": "life-sciences",
@@ -70,7 +98,7 @@
       "capabilities": ["life-science-protocols"],
       "trigger_scenarios": ["life-science-study-design", "research-images-life-sciences"],
       "cross_taxonomy_reason": "Protocol, bias, safety, and reporting checks require domain evidence beyond generic study design and must pass independent expert review.",
-      "lifecycle_status": "planned"
+      "lifecycle_status": "draft"
     }
   ]
 }

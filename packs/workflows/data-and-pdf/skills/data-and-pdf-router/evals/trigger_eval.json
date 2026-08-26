@@ -1,0 +1,10 @@
+[
+  {"query": "My full project uses a PDF corpus and several datasets.", "should_trigger": true},
+  {"query": "Install the combined document and structured-data workflow.", "should_trigger": true},
+  {"query": "I need to extract papers and analyse their tabular data end to end.", "should_trigger": true},
+  {"query": "Set up both PDF evidence and dataset analysis for this study.", "should_trigger": true},
+  {"query": "The research cycle includes source documents plus data tables.", "should_trigger": true},
+  {"query": "Convert this one PDF to Markdown.", "should_trigger": false},
+  {"query": "Profile this CSV and report missing values.", "should_trigger": false},
+  {"query": "Find the DOI for this paper.", "should_trigger": false}
+]

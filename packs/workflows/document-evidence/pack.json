@@ -1,0 +1,21 @@
+{
+  "id": "document-evidence",
+  "version": "0.1.0",
+  "layer": "workflow",
+  "display_name": "Document Evidence",
+  "description": "Reproducible conversion of supported research documents into inspectable Markdown without installing database retrieval or dataset analysis tools.",
+  "category": "Research",
+  "author": {"name": "Evidence Lab"},
+  "license": "LicenseRef-Evidence-Lab-Proprietary AND MIT",
+  "capabilities": ["document-conversion"],
+  "selection": {"always": false, "rules": [
+    {"id": "document-evidence-material", "priority": 300, "when": {"any": {"materials": ["pdf"]}}, "reason": "PDF evidence needs deterministic document conversion and extraction."}
+  ]},
+  "dependencies": ["evidence-lab-core"], "conflicts": [], "runtimes": ["claude-code", "codex"],
+  "interface": {
+    "short_description": "Convert research documents into inspectable evidence.",
+    "long_description": "Converts supported local documents to normalized Markdown while preserving source identity, conversion logs, and visible failures.",
+    "capabilities": ["Research", "Analyze"],
+    "default_prompt": "Convert these research documents into evidence I can inspect."
+  }
+}

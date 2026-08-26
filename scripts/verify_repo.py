@@ -265,6 +265,8 @@ def check_pack(pack_dir: Path) -> None:
             fail(f"{plugin}: {host} manifest name '{host_manifest.get('name')}' does not match directory")
         if host_manifest.get("version") != pack.get("version"):
             fail(f"{plugin}: {host} manifest version does not match pack.json")
+        if host_manifest.get("license") != pack.get("license"):
+            fail(f"{plugin}: {host} manifest license does not match pack.json")
     if meta.get("status") == "production":
         if meta.get("owner") == meta.get("reviewer"):
             fail(f"{plugin}: production plugin needs a reviewer different from the owner")

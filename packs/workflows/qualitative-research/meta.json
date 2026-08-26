@@ -1,0 +1,6 @@
+{
+  "status": "draft", "category": "research", "risk_level": "team_safe", "owner": "Tim", "reviewer": "Tim",
+  "provenance": {"origin": "Evidence Lab R3 workflow design derived from cross-disciplinary qualitative-text scenarios; expert methodological review remains required.", "evidence": ["docs/pack-boundary-report.md", "catalog/scenarios.json#qualitative-social-analysis", "catalog/scenarios.json#qualitative-humanities-analysis"], "added_at": "2026-08-26"},
+  "skills": [{"name": "qualitative-analysis", "summary": "Produces a validated codebook, traceable coded excerpts, reflexive notes, and evidence-bounded themes.", "deterministic_parts": ["scripts/validate_codebook.py"]}],
+  "portable_to": ["claude", "codex"]
+}

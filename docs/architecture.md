@@ -32,6 +32,9 @@ Free text may help normalize a profile. It never becomes an executable package n
 Selection Policy owns the allowed profile vocabulary, matching semantics, and
 ordering contract. Reviewed rules in each `pack.json` select packs. The LLM may
 suggest normalized values for free text, but it cannot select a pack directly.
+`any` matches one value across declared fields, `all` requires a match in every
+declared field, `contains_all` requires every listed value within a field, and
+`none` excludes a match.
 
 ## Repository flow
 

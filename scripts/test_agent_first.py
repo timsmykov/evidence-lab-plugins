@@ -104,6 +104,17 @@ def check_policy_boundaries() -> None:
     if selector.match_rule(profile, none_rule) is not None:
         raise AssertionError("none rule accepted a forbidden value")
 
+    contains_all_rule = {
+        "id": "contains-all-test", "priority": 1, "reason": "Test exact material-set semantics.",
+        "when": {"contains_all": {"materials": ["pdf", "datasets"]}},
+    }
+    profile["materials"] = ["pdf"]
+    if selector.match_rule(profile, contains_all_rule) is not None:
+        raise AssertionError("contains_all rule matched a partial value set")
+    profile["materials"] = ["pdf", "datasets"]
+    if selector.match_rule(profile, contains_all_rule) is None:
+        raise AssertionError("contains_all rule rejected a complete value set")
+
     cycle_catalog = json.loads(json.dumps(catalog))
     cycle_catalog["packs"][0]["dependencies"] = [cycle_catalog["packs"][1]["id"]]
     cycle_catalog["packs"][1]["dependencies"] = [cycle_catalog["packs"][0]["id"]]
@@ -112,6 +123,20 @@ def check_policy_boundaries() -> None:
         "domains": [], "workflows": ["full-research-cycle"],
         "materials": [], "stages": [], "methods": [],
     }
+    dependency_catalog = json.loads(json.dumps(catalog))
+    synthetic_dependency = json.loads(json.dumps(dependency_catalog["packs"][1]))
+    synthetic_dependency.update({
+        "id": "synthetic-dependency", "selection": {"always": False, "rules": []},
+        "dependencies": ["evidence-lab-core"], "conflicts": [],
+    })
+    dependency_catalog["packs"].append(synthetic_dependency)
+    full_cycle = next(pack for pack in dependency_catalog["packs"] if pack["id"] == "full-research-cycle")
+    full_cycle["dependencies"].append("synthetic-dependency")
+    dependency_plan = selector.select(base, dependency_catalog, policy)
+    dependency_result = next(pack for pack in dependency_plan["packs"] if pack["id"] == "synthetic-dependency")
+    if dependency_result["rule_ids"] != ["dependency-full-research-cycle"]:
+        raise AssertionError("dependency-only selection did not preserve its synthetic reason")
+
     try:
         selector.select(base, cycle_catalog, policy)
     except ValueError as exc:

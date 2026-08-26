@@ -1,0 +1,9 @@
+{
+  "id": "qualitative-research", "version": "0.1.0", "layer": "workflow", "display_name": "Qualitative Research",
+  "description": "Traceable qualitative-text analysis using an explicit codebook, coded excerpts, reflexive notes, disagreements, and evidence-bounded thematic synthesis.",
+  "category": "Research", "author": {"name": "Evidence Lab"}, "license": "LicenseRef-Evidence-Lab-Proprietary",
+  "capabilities": ["qualitative-analysis"],
+  "selection": {"always": false, "rules": [{"id": "qualitative-material", "priority": 300, "when": {"any": {"materials": ["qualitative-text"]}}, "reason": "Qualitative text requires a codebook and traceable coding rather than tabular EDA."}]},
+  "dependencies": ["evidence-lab-core"], "conflicts": [], "runtimes": ["claude-code", "codex"],
+  "interface": {"short_description": "Analyse qualitative text with a visible coding trail.", "long_description": "Supports codebook development, traceable excerpt coding, reflexive notes, disagreement handling, and themes bounded by the coded evidence.", "capabilities": ["Research", "Analyze"], "default_prompt": "Help me analyse this qualitative corpus with a traceable codebook."}
+}

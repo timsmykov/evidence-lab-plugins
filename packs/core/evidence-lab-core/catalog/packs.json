@@ -3,7 +3,7 @@
   "packs": [
     {
       "id": "evidence-lab-core",
-      "version": "0.5.0",
+      "version": "0.6.0",
       "layer": "core",
       "display_name": "Evidence Lab Core",
       "description": "Agent-first research foundations, fast researcher onboarding, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
@@ -27,8 +27,61 @@
       ]
     },
     {
+      "id": "life-sciences",
+      "version": "0.1.0",
+      "layer": "domain",
+      "display_name": "Life Sciences",
+      "description": "Domain checks for life-science protocols, biological controls, bias, biosafety boundaries, reporting context, and image acquisition metadata.",
+      "capabilities": [
+        "life-science-protocols"
+      ],
+      "selection": {
+        "always": false,
+        "rules": [
+          {
+            "id": "life-science-planning",
+            "priority": 300,
+            "when": {
+              "all": {
+                "domains": [
+                  "life-sciences"
+                ],
+                "stages": [
+                  "planning"
+                ]
+              }
+            },
+            "reason": "Life-science study planning needs domain-specific protocol and bias checks."
+          },
+          {
+            "id": "life-science-images",
+            "priority": 250,
+            "when": {
+              "all": {
+                "domains": [
+                  "life-sciences"
+                ],
+                "materials": [
+                  "images"
+                ]
+              }
+            },
+            "reason": "Life-science images need acquisition and biological-context metadata."
+          }
+        ]
+      },
+      "dependencies": [
+        "evidence-lab-core"
+      ],
+      "conflicts": [],
+      "runtimes": [
+        "claude-code",
+        "codex"
+      ]
+    },
+    {
       "id": "quantitative-sciences",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "layer": "domain",
       "display_name": "Quantitative Sciences",
       "description": "Statistical analysis, power and sample-size planning, uncertainty and units, and publication-grade scientific visualization for quantitative research.",
@@ -42,23 +95,8 @@
         "always": false,
         "rules": [
           {
-            "id": "quantitative-domain",
-            "priority": 300,
-            "when": {
-              "any": {
-                "domains": [
-                  "mathematics",
-                  "statistics",
-                  "physics",
-                  "engineering"
-                ]
-              }
-            },
-            "reason": "The research domain commonly requires quantitative scientific methods."
-          },
-          {
             "id": "quantitative-method",
-            "priority": 250,
+            "priority": 300,
             "when": {
               "any": {
                 "methods": [
@@ -84,50 +122,87 @@
     },
     {
       "id": "data-and-pdf",
-      "version": "0.2.0",
+      "version": "1.0.0",
       "layer": "workflow",
       "display_name": "Data and PDF",
-      "description": "Document conversion, reproducible public-database retrieval, and exploratory analysis for papers, PDFs, tables, and structured research datasets.",
+      "description": "Compatibility entry point for mixed document-and-data projects; installs focused document-evidence and structured-data-analysis packs as dependencies.",
       "capabilities": [
-        "document-conversion",
-        "database-lookup",
-        "exploratory-data-analysis"
+        "data-and-pdf-compatibility"
       ],
       "selection": {
         "always": false,
         "rules": [
           {
-            "id": "data-materials",
+            "id": "data-and-pdf-full-cycle-datasets",
+            "priority": 300,
+            "when": {
+              "all": {
+                "workflows": [
+                  "full-research-cycle"
+                ]
+              },
+              "contains_all": {
+                "materials": [
+                  "pdf",
+                  "datasets"
+                ]
+              }
+            },
+            "reason": "The complete research route uses both document and structured-data procedures."
+          },
+          {
+            "id": "data-and-pdf-full-cycle-tables",
+            "priority": 300,
+            "when": {
+              "all": {
+                "workflows": [
+                  "full-research-cycle"
+                ]
+              },
+              "contains_all": {
+                "materials": [
+                  "pdf",
+                  "tables"
+                ]
+              }
+            },
+            "reason": "The complete research route uses both document and structured-data procedures."
+          }
+        ]
+      },
+      "dependencies": [
+        "document-evidence",
+        "structured-data-analysis"
+      ],
+      "conflicts": [],
+      "runtimes": [
+        "claude-code",
+        "codex"
+      ]
+    },
+    {
+      "id": "document-evidence",
+      "version": "0.1.0",
+      "layer": "workflow",
+      "display_name": "Document Evidence",
+      "description": "Reproducible conversion of supported research documents into inspectable Markdown without installing database retrieval or dataset analysis tools.",
+      "capabilities": [
+        "document-conversion"
+      ],
+      "selection": {
+        "always": false,
+        "rules": [
+          {
+            "id": "document-evidence-material",
             "priority": 300,
             "when": {
               "any": {
                 "materials": [
-                  "pdf",
-                  "tables",
-                  "datasets"
+                  "pdf"
                 ]
               }
             },
-            "reason": "The frequent materials need document conversion or structured-data inspection."
-          },
-          {
-            "id": "data-collection-with-sources",
-            "priority": 200,
-            "when": {
-              "all": {
-                "workflows": [
-                  "collect-and-compare-data",
-                  "analyze-data"
-                ],
-                "materials": [
-                  "papers",
-                  "pdf",
-                  "tables",
-                  "datasets"
-                ]
-              }
-            },
-            "reason": "The requested data workflow has a supported source or data material."
+            "reason": "PDF evidence needs deterministic document conversion and extraction."
           }
         ]
       },
@@ -142,17 +217,12 @@
     },
     {
       "id": "full-research-cycle",
-      "version": "0.2.0",
+      "version": "1.0.0",
       "layer": "workflow",
       "display_name": "Full Research Cycle",
-      "description": "A complete research workflow from testable hypotheses and study design through literature synthesis, manuscript writing, diagrams, and evidence-bounded peer review.",
+      "description": "Compatibility entry point for the complete research cycle; installs the focused research-design and literature-publication packs as declared dependencies.",
       "capabilities": [
-        "hypothesis-generation",
-        "study-design",
-        "literature-review",
-        "academic-writing",
-        "peer-review",
-        "research-diagrams"
+        "full-research-cycle-compatibility"
       ],
       "selection": {
         "always": false,
@@ -163,32 +233,300 @@
             "when": {
               "any": {
                 "workflows": [
-                  "full-research-cycle",
+                  "full-research-cycle"
+                ]
+              }
+            },
+            "reason": "The explicit full-cycle route installs both focused workflow packs."
+          }
+        ]
+      },
+      "dependencies": [
+        "research-design",
+        "literature-publication"
+      ],
+      "conflicts": [],
+      "runtimes": [
+        "claude-code",
+        "codex"
+      ]
+    },
+    {
+      "id": "literature-publication",
+      "version": "0.1.0",
+      "layer": "workflow",
+      "display_name": "Literature and Publication",
+      "description": "Literature synthesis, evidence-bounded academic writing, editable research diagrams, and manuscript review without installing study-design procedures.",
+      "capabilities": [
+        "literature-review",
+        "academic-writing",
+        "peer-review",
+        "research-diagrams"
+      ],
+      "selection": {
+        "always": false,
+        "rules": [
+          {
+            "id": "literature-publication-workflow",
+            "priority": 300,
+            "when": {
+              "any": {
+                "workflows": [
                   "literature-review",
                   "prepare-publication",
                   "quality-review"
                 ]
               }
             },
-            "reason": "The requested workflow uses the end-to-end research procedures."
+            "reason": "The requested workflow needs literature synthesis, publication writing, or manuscript review."
           },
           {
-            "id": "full-cycle-writing-stage",
+            "id": "literature-publication-writing",
             "priority": 200,
             "when": {
               "any": {
                 "stages": [
-                  "writing",
-                  "systematic-review"
+                  "writing"
                 ]
               }
             },
-            "reason": "The current stage requires literature, writing, or review procedures."
+            "reason": "The researcher is actively preparing scholarly text for publication."
           }
         ]
       },
       "dependencies": [
         "evidence-lab-core"
+      ],
+      "conflicts": [],
+      "runtimes": [
+        "claude-code",
+        "codex"
+      ]
+    },
+    {
+      "id": "publication-monitoring",
+      "version": "0.1.0",
+      "layer": "workflow",
+      "display_name": "Publication Monitoring",
+      "description": "Repeatable monitoring of new scholarly publications with explicit queries, stable deduplication, checkpoints, and source-linked update digests.",
+      "capabilities": [
+        "publication-monitoring"
+      ],
+      "selection": {
+        "always": false,
+        "rules": [
+          {
+            "id": "publication-monitoring-workflow",
+            "priority": 300,
+            "when": {
+              "any": {
+                "workflows": [
+                  "monitor-publications"
+                ]
+              }
+            },
+            "reason": "The researcher wants a repeatable update and deduplication workflow for new publications."
+          }
+        ]
+      },
+      "dependencies": [
+        "evidence-lab-core"
+      ],
+      "conflicts": [],
+      "runtimes": [
+        "claude-code",
+        "codex"
+      ]
+    },
+    {
+      "id": "qualitative-research",
+      "version": "0.1.0",
+      "layer": "workflow",
+      "display_name": "Qualitative Research",
+      "description": "Traceable qualitative-text analysis using an explicit codebook, coded excerpts, reflexive notes, disagreements, and evidence-bounded thematic synthesis.",
+      "capabilities": [
+        "qualitative-analysis"
+      ],
+      "selection": {
+        "always": false,
+        "rules": [
+          {
+            "id": "qualitative-material",
+            "priority": 300,
+            "when": {
+              "any": {
+                "materials": [
+                  "qualitative-text"
+                ]
+              }
+            },
+            "reason": "Qualitative text requires a codebook and traceable coding rather than tabular EDA."
+          }
+        ]
+      },
+      "dependencies": [
+        "evidence-lab-core"
+      ],
+      "conflicts": [],
+      "runtimes": [
+        "claude-code",
+        "codex"
+      ]
+    },
+    {
+      "id": "research-design",
+      "version": "0.1.0",
+      "layer": "workflow",
+      "display_name": "Research Design",
+      "description": "Testable hypothesis development and reproducible experimental or observational study design without unrelated literature or manuscript tooling.",
+      "capabilities": [
+        "hypothesis-generation",
+        "study-design"
+      ],
+      "selection": {
+        "always": false,
+        "rules": [
+          {
+            "id": "research-design-workflow",
+            "priority": 300,
+            "when": {
+              "any": {
+                "workflows": [
+                  "full-research-cycle",
+                  "design-study"
+                ]
+              }
+            },
+            "reason": "The requested workflow needs explicit hypotheses and a defensible study design."
+          }
+        ]
+      },
+      "dependencies": [
+        "evidence-lab-core"
+      ],
+      "conflicts": [],
+      "runtimes": [
+        "claude-code",
+        "codex"
+      ]
+    },
+    {
+      "id": "research-images",
+      "version": "0.1.0",
+      "layer": "workflow",
+      "display_name": "Research Images",
+      "description": "Research-image inspection with explicit source identity, transformation history, measurement definitions, exclusions, and interpretation boundaries.",
+      "capabilities": [
+        "research-image-analysis"
+      ],
+      "selection": {
+        "always": false,
+        "rules": [
+          {
+            "id": "research-image-material",
+            "priority": 300,
+            "when": {
+              "any": {
+                "materials": [
+                  "images"
+                ]
+              }
+            },
+            "reason": "Research images need provenance and transformation-aware inspection."
+          }
+        ]
+      },
+      "dependencies": [
+        "evidence-lab-core"
+      ],
+      "conflicts": [],
+      "runtimes": [
+        "claude-code",
+        "codex"
+      ]
+    },
+    {
+      "id": "structured-data-analysis",
+      "version": "0.1.0",
+      "layer": "workflow",
+      "display_name": "Structured Data Analysis",
+      "description": "Reproducible public-database retrieval and exploratory analysis for tables and datasets without unrelated document-conversion tooling.",
+      "capabilities": [
+        "database-lookup",
+        "exploratory-data-analysis"
+      ],
+      "selection": {
+        "always": false,
+        "rules": [
+          {
+            "id": "structured-data-material",
+            "priority": 300,
+            "when": {
+              "any": {
+                "materials": [
+                  "tables",
+                  "datasets"
+                ]
+              }
+            },
+            "reason": "Structured research materials need retrieval or exploratory data-quality analysis."
+          },
+          {
+            "id": "structured-data-collection",
+            "priority": 250,
+            "when": {
+              "all": {
+                "workflows": [
+                  "collect-and-compare-data"
+                ],
+                "materials": [
+                  "papers"
+                ]
+              }
+            },
+            "reason": "Comparing paper-linked records needs documented database retrieval and source provenance."
+          }
+        ]
+      },
+      "dependencies": [
+        "evidence-lab-core"
+      ],
+      "conflicts": [],
+      "runtimes": [
+        "claude-code",
+        "codex"
+      ]
+    },
+    {
+      "id": "systematic-review",
+      "version": "0.1.0",
+      "layer": "workflow",
+      "display_name": "Systematic Review",
+      "description": "Reproducible systematic-search and screening workflow with explicit eligibility criteria, stable record deduplication, and an auditable decision trail.",
+      "capabilities": [
+        "systematic-search",
+        "screening-and-deduplication"
+      ],
+      "selection": {
+        "always": false,
+        "rules": [
+          {
+            "id": "systematic-review-stage",
+            "priority": 400,
+            "when": {
+              "any": {
+                "stages": [
+                  "systematic-review"
+                ]
+              }
+            },
+            "reason": "A systematic-review stage requires protocol-driven search, screening, and deduplication."
+          }
+        ]
+      },
+      "dependencies": [
+        "evidence-lab-core",
+        "literature-publication"
       ],
       "conflicts": [],
       "runtimes": [

@@ -92,6 +92,11 @@ def match_rule(profile: dict, rule: dict) -> dict | None:
             return None
         for field, values in matches.items():
             evidence.setdefault(field, set()).update(values)
+    if "contains_all" in when:
+        for field, values in when["contains_all"].items():
+            if not set(values) <= set(profile[field]):
+                return None
+            evidence.setdefault(field, set()).update(values)
     if "none" in when and any(overlap(profile, when["none"]).values()):
         return None
     rendered_evidence = {field: sorted(values) for field, values in sorted(evidence.items())}

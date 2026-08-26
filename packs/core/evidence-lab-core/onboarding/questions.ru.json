@@ -23,6 +23,7 @@
       "multiple": true,
       "options": [
         {"id": "full-research-cycle", "label": "Вести полный цикл исследования"},
+        {"id": "design-study", "label": "Спроектировать исследование или эксперимент"},
         {"id": "monitor-publications", "label": "Следить за новыми публикациями"},
         {"id": "literature-review", "label": "Провести обзор литературы"},
         {"id": "collect-and-compare-data", "label": "Собрать и сравнить данные"},

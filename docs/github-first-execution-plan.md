@@ -84,7 +84,7 @@ second pack catalog, or host-specific selection implementation.
 Deliverables:
 
 - controlled vocabulary for every profile field;
-- explicit rule grammar (`any`, `all`, `none`) and stable rule IDs;
+- explicit rule grammar (`any`, `all`, `contains_all`, `none`) and stable rule IDs;
 - deterministic rule evaluation and dependency-aware pack ordering;
 - structured reasons in selection plans;
 - catalog/policy/question drift checks;
@@ -315,7 +315,7 @@ normalization changes require deterministic schema tests plus quality evals.
 - [x] T4 (P1) Define normalization input/result schemas and deterministic validator.
 - [x] T5 (P1) Add free-text normalization eval suite and injection cases.
 - [x] T6 (P2) Produce scenario-to-capability coverage and pack-boundary report.
-- [ ] T7 (P2) Implement approved pack splits/additions with provenance and evals.
+- [x] T7 (P2) Implement approved pack splits/additions with provenance and evals.
 - [ ] T8 (P1) Implement reconcile/update/retained-extra/remove/restore lifecycle.
 - [ ] T9 (P1) Add release-lock builder, hashes, CI, and immutable snapshot tags.
 - [ ] T10 (P1) Complete public-source sanitization and clean-user host acceptance.

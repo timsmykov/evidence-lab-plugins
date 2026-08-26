@@ -1,23 +1,21 @@
 {
   "name": "data-and-pdf",
-  "description": "Document conversion, reproducible public-database retrieval, and exploratory analysis for papers, PDFs, tables, and structured research datasets.",
-  "version": "0.2.0",
+  "description": "Compatibility entry point for mixed document-and-data projects; installs focused document-evidence and structured-data-analysis packs as dependencies.",
+  "version": "1.0.0",
   "author": {
     "name": "Evidence Lab"
   },
   "keywords": [
-    "document-conversion",
-    "database-lookup",
-    "exploratory-data-analysis"
+    "data-and-pdf-compatibility"
   ],
   "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
   "repository": "https://github.com/timsmykov/evidence-lab-plugins",
-  "license": "MIT AND Apache-2.0",
+  "license": "LicenseRef-Evidence-Lab-Proprietary",
   "skills": "./skills/",
   "interface": {
     "displayName": "Data and PDF",
-    "shortDescription": "Work reproducibly with documents and datasets.",
-    "longDescription": "Converts supported documents, retrieves data from documented APIs, and profiles research datasets with explicit quality checks.",
+    "shortDescription": "Install document and data workflows together.",
+    "longDescription": "Compatibility entry point that installs the focused document-evidence and structured-data-analysis packs together.",
     "developerName": "Evidence Lab",
     "category": "Research",
     "capabilities": [

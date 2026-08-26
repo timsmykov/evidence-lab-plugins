@@ -1,5 +1,11 @@
 # Changelog — Evidence Lab Core
 
+## [0.6.0] — 2026-08-26
+
+### Changed
+- Added an explicit pack-level license expression for generated host manifests.
+- Added the focused `design-study` workflow option and exact all-value matching support for deterministic pack boundaries.
+
 ## [0.5.0] — 2026-08-26
 
 ### Added

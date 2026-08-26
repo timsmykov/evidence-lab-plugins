@@ -22,11 +22,19 @@ can only propose vocabulary values before deterministic validation.
 ## Current packs
 
 - [`evidence-lab-core`](packs/core/evidence-lab-core/README.md)
-- [`full-research-cycle`](packs/workflows/full-research-cycle/README.md)
-- [`data-and-pdf`](packs/workflows/data-and-pdf/README.md)
+- [`research-design`](packs/workflows/research-design/README.md)
+- [`literature-publication`](packs/workflows/literature-publication/README.md)
+- [`document-evidence`](packs/workflows/document-evidence/README.md)
+- [`structured-data-analysis`](packs/workflows/structured-data-analysis/README.md)
+- [`publication-monitoring`](packs/workflows/publication-monitoring/README.md)
+- [`systematic-review`](packs/workflows/systematic-review/README.md)
+- [`qualitative-research`](packs/workflows/qualitative-research/README.md)
+- [`research-images`](packs/workflows/research-images/README.md)
 - [`quantitative-sciences`](packs/domains/quantitative-sciences/README.md)
+- [`life-sciences`](packs/domains/life-sciences/README.md)
+- Compatibility aggregates: [`full-research-cycle`](packs/workflows/full-research-cycle/README.md) and [`data-and-pdf`](packs/workflows/data-and-pdf/README.md)
 
-The former 16-skill `research-core` bundle was decomposed across these four installable units. `example-domain` remains an unpublished structure fixture.
+The former broad workflow packs remain compatibility entry points; operational skills live only in the focused packs. `example-domain` remains an unpublished structure fixture. New R3 packs stay in `draft` until representative research runs and independent review justify `production`.
 
 ## Build and verify
 
@@ -37,6 +45,7 @@ python3 scripts/test_agent_first.py
 python3 scripts/test_bootstrap.py
 python3 scripts/test_normalization.py
 python3 scripts/test_pack_boundaries.py
+python3 scripts/test_pack_behaviors.py
 python3 scripts/analyze_pack_boundaries.py --check
 python3 scripts/verify_repo.py
 ```

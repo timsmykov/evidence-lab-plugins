@@ -1,0 +1,6 @@
+{
+  "status": "draft", "category": "research", "risk_level": "team_safe", "owner": "Tim", "reviewer": "Tim",
+  "provenance": {"origin": "Evidence Lab R3 workflow design derived from recurring publication-monitoring scenarios; not yet promoted to production methodology.", "evidence": ["docs/pack-boundary-report.md", "catalog/scenarios.json#publication-monitoring-life-sciences", "catalog/scenarios.json#publication-monitoring-physics"], "added_at": "2026-08-26"},
+  "skills": [{"name": "publication-monitoring", "summary": "Maintains a bounded query, stable checkpoint, deduplicated publication state, and source-linked update digest.", "deterministic_parts": ["scripts/update_monitor_state.py"]}],
+  "portable_to": ["claude", "codex"]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "life-sciences",
+  "description": "Domain checks for life-science protocols, biological controls, bias, biosafety boundaries, reporting context, and image acquisition metadata.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Evidence Lab"
+  },
+  "keywords": [
+    "life-science-protocols"
+  ],
+  "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
+  "repository": "https://github.com/timsmykov/evidence-lab-plugins",
+  "license": "LicenseRef-Evidence-Lab-Proprietary"
+}

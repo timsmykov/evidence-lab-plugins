@@ -40,3 +40,7 @@ One useful case type: a question *about* the method instead of a request to run 
 ## Provenance
 
 Always filled in `meta.json`: whose practice, which run, which materials. This is not bureaucracy — six months on it is the only way to tell whether the procedure can be trusted and who to ask about it.
+
+## License
+
+Declare the complete pack-level license expression in `pack.json`. Preserve upstream license texts and focused third-party notices beside any moved or adapted skill. Generated Claude Code and Codex manifests must carry exactly the same expression; a split never erases provenance or license obligations.
