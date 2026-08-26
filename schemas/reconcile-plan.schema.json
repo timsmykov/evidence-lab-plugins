@@ -3,7 +3,7 @@
   "$id": "https://evidence-lab.local/schemas/reconcile-plan.schema.json",
   "title": "Evidence Lab reconcile plan",
   "type": "object",
-  "required": ["schema_version", "plan_id", "host", "marketplace", "profile_digest", "catalog_digest", "selection_plan", "baseline", "diff", "operations"],
+  "required": ["schema_version", "plan_id", "host", "marketplace", "release", "previous_release", "profile_digest", "catalog_digest", "selection_plan", "baseline", "diff", "operations"],
   "additionalProperties": false,
   "$defs": {
     "installedPack": {
@@ -45,6 +45,28 @@
     "host": {"enum": ["codex", "claude-code"]},
     "profile_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
     "catalog_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "release": {
+      "type": "object",
+      "required": ["tag", "channel", "source_commit", "lock_digest"],
+      "additionalProperties": false,
+      "properties": {
+        "tag": {"type": "string", "pattern": "^release-[0-9]{4}[.](0[1-9]|1[0-2])[.][1-9][0-9]*$"},
+        "channel": {"const": "stable"},
+        "source_commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "lock_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "previous_release": {
+      "type": "object",
+      "required": ["tag", "channel", "source_commit", "lock_digest"],
+      "additionalProperties": false,
+      "properties": {
+        "tag": {"type": "string", "pattern": "^release-[0-9]{4}[.](0[1-9]|1[0-2])[.][1-9][0-9]*$"},
+        "channel": {"const": "stable"},
+        "source_commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "lock_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
     "marketplace": {
       "type": "object",
       "required": ["name", "source", "ref", "previous_ref"],

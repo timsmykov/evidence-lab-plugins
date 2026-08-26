@@ -21,6 +21,8 @@ can only propose vocabulary values before deterministic validation.
 
 For an existing installation, the same bootstrap builds an exact reconciliation diff. Additions and updates use the first approval, existing extras are retained by default, and removal requires a second approval. Every apply is guarded by the live installed-state digest and records a pre-change snapshot for recovery.
 
+Stable distribution uses immutable `release-YYYY.MM.N` tags and a generated `release-lock.json` GitHub Release asset. The lock records the source commit, catalog hash, and exact content hash/version/host/license tuple for every published pack; bootstrap records its canonical digest in user-owned state.
+
 ## Current packs
 
 - [`evidence-lab-core`](packs/core/evidence-lab-core/README.md)
@@ -48,6 +50,7 @@ python3 scripts/test_bootstrap.py
 python3 scripts/test_normalization.py
 python3 scripts/test_pack_boundaries.py
 python3 scripts/test_pack_behaviors.py
+python3 scripts/test_release_snapshot.py
 python3 scripts/analyze_pack_boundaries.py --check
 python3 scripts/verify_repo.py
 ```

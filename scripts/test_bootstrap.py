@@ -39,6 +39,15 @@ def load_bootstrap():
     return module
 
 
+def release_record(ref: str = "release-2026.08.1") -> dict:
+    return {
+        "tag": ref,
+        "channel": "stable",
+        "source_commit": "a" * 40,
+        "lock_digest": "b" * 64,
+    }
+
+
 class FakeHost:
     def __init__(
         self,
@@ -124,7 +133,11 @@ class FakeHost:
 
 
 def build_plan(module, host: str) -> dict:
-    return module.make_plan(load(PROFILE), load(CATALOG), host, "timsmykov/evidence-lab-plugins", "v0.3.0", "evidence-lab-plugins")
+    ref = "release-2026.08.1"
+    return module.make_plan(
+        load(PROFILE), load(CATALOG), host, "timsmykov/evidence-lab-plugins", ref,
+        "evidence-lab-plugins", release_record(ref),
+    )
 
 
 def test_success_and_idempotence(module, host: str) -> None:
@@ -135,12 +148,12 @@ def test_success_and_idempotence(module, host: str) -> None:
     module.run = fake
     with tempfile.TemporaryDirectory() as temporary:
         state_path = Path(temporary) / "state.json"
-        state = module.apply_plan(plan, state_path)
+        state = module.apply_plan(plan, state_path, {})
         validate(state, "installation-state.schema.json")
         assert state["status"] == "ready"
         assert fake.installed == versions
-        assert module.verify_plan(plan)["ready"] is True
-        second = module.apply_plan(plan, state_path)
+        assert module.verify_plan(plan, {})["ready"] is True
+        second = module.apply_plan(plan, state_path, {})
         assert second["status"] == "ready"
         assert all(item["status"] == "skipped" for item in second["operations"][1:])
 
@@ -154,7 +167,7 @@ def test_failure_rolls_back(module, host: str) -> None:
     fake = FakeHost(host, versions, fail_on=fail_target)
     module.run = fake
     with tempfile.TemporaryDirectory() as temporary:
-        state = module.apply_plan(plan, Path(temporary) / "state.json")
+        state = module.apply_plan(plan, Path(temporary) / "state.json", {})
         validate(state, "installation-state.schema.json")
         assert state["status"] == "failed"
         assert fake.installed == {}
@@ -171,7 +184,7 @@ def test_wrong_marketplace_is_safe(module) -> None:
     fake.marketplace_source = "another-owner/another-repository"
     module.run = fake
     with tempfile.TemporaryDirectory() as temporary:
-        state = module.apply_plan(plan, Path(temporary) / "state.json")
+        state = module.apply_plan(plan, Path(temporary) / "state.json", {})
         assert state["status"] == "failed"
         assert fake.installed == {}
         assert state["operations"][0]["status"] == "failed"
@@ -184,7 +197,7 @@ def test_tampered_plan_is_rejected(module) -> None:
     module.run = fake
     with tempfile.TemporaryDirectory() as temporary:
         try:
-            module.apply_plan(plan, Path(temporary) / "state.json")
+            module.apply_plan(plan, Path(temporary) / "state.json", {})
         except module.BootstrapError as exc:
             assert "identity" in str(exc) or "operations" in str(exc)
         else:
@@ -192,16 +205,41 @@ def test_tampered_plan_is_rejected(module) -> None:
     assert fake.commands == []
 
 
+def test_release_lock_mismatch_is_rejected_before_host_command(module) -> None:
+    plan = build_plan(module, "codex")
+    fake = FakeHost("codex", {})
+    module.run = fake
+    trusted = module.release_identity
+    module.release_identity = lambda lock, ref, source, selection, catalog_path: {
+        **release_record(ref),
+        "source_commit": "0" * 40,
+    }
+    try:
+        with tempfile.TemporaryDirectory() as temporary:
+            try:
+                module.apply_plan(plan, Path(temporary) / "state.json", {})
+            except module.BootstrapError as exc:
+                assert "verified release lock" in str(exc)
+            else:
+                raise AssertionError("apply accepted a plan that did not match the reverified release lock")
+    finally:
+        module.release_identity = trusted
+    assert fake.commands == []
+
+
 def test_local_marketplace_rerun_does_not_update(module, host: str) -> None:
     source = str(ROOT)
-    plan = module.make_plan(load(PROFILE), load(CATALOG), host, source, "local-test", "evidence-lab-plugins")
+    ref = "release-2026.08.1"
+    plan = module.make_plan(
+        load(PROFILE), load(CATALOG), host, source, ref, "evidence-lab-plugins", release_record(ref),
+    )
     versions = {item["id"]: item["version"] for item in plan["selection_plan"]["packs"]}
     fake = FakeHost(host, versions)
     fake.marketplace_source = source
     fake.installed = dict(versions)
     module.run = fake
     with tempfile.TemporaryDirectory() as temporary:
-        state = module.apply_plan(plan, Path(temporary) / "state.json")
+        state = module.apply_plan(plan, Path(temporary) / "state.json", {})
         assert state["status"] == "ready"
         assert not any("upgrade" in command or "update" in command for command in fake.commands)
 
@@ -219,16 +257,18 @@ def build_reconcile_plan(module, host: str, installed: dict[str, str]) -> tuple[
         "evidence-lab-plugins",
         [{"id": name, "version": version} for name, version in installed.items()],
         "release-2026.07.1" if installed else None,
+        release_record(),
+        release_record("release-2026.07.1") if installed else None,
     )
     return plan, versions
 
 
 def apply_reconcile(module, plan: dict, state_path: Path, profile: dict | None = None) -> dict:
-    return module.apply_reconcile_plan(plan, state_path, profile or load(PROFILE), load(CATALOG))
+    return module.apply_reconcile_plan(plan, state_path, profile or load(PROFILE), load(CATALOG), {}, {})
 
 
 def remove_extras(module, plan: dict, state_path: Path, profile: dict | None = None) -> dict:
-    return module.remove_reconcile_extras(plan, state_path, profile or load(PROFILE), load(CATALOG))
+    return module.remove_reconcile_extras(plan, state_path, profile or load(PROFILE), load(CATALOG), {}, {})
 
 
 def test_reconcile_update_retain_remove_restore(module, host: str) -> None:
@@ -267,11 +307,12 @@ def test_reconcile_update_retain_remove_restore(module, host: str) -> None:
         assert "qualitative-research" not in fake.installed
 
         fake.version_sequences["evidence-lab-core"] = ["0.5.0"]
-        restored = module.restore_reconcile_state(plan, state_path)
+        restored = module.restore_reconcile_state(plan, state_path, {}, {})
         validate(restored, "reconcile-state.schema.json")
         assert restored["status"] == "restored"
         assert fake.installed == baseline
         assert restored["active_ref"] == "release-2026.07.1"
+        assert restored["release"] == plan["previous_release"]
         assert module.previous_ref_from_state(
             restored,
             plan,
@@ -279,6 +320,22 @@ def test_reconcile_update_retain_remove_restore(module, host: str) -> None:
             "evidence-lab-plugins",
             "timsmykov/evidence-lab-plugins",
         ) == "release-2026.07.1"
+        assert module.previous_release_from_state(
+            restored, plan, restored["active_ref"],
+        ) == plan["previous_release"]
+        next_plan = module.make_reconcile_plan(
+            load(PROFILE),
+            load(CATALOG),
+            host,
+            "timsmykov/evidence-lab-plugins",
+            "release-2026.09.1",
+            "evidence-lab-plugins",
+            [{"id": name, "version": version} for name, version in baseline.items()],
+            restored["active_ref"],
+            release_record("release-2026.09.1"),
+            restored["release"],
+        )
+        module.validate_reconcile_plan(next_plan)
 
 
 def test_reconcile_stale_plan_rejected(module, host: str) -> None:
@@ -368,7 +425,7 @@ def test_tampered_restore_snapshot_is_rejected(module, host: str) -> None:
         state["pre_change_snapshot"] = {"installed": [], "digest": module.snapshot_digest([])}
         module.write_json_atomic(state_path, state)
         try:
-            module.restore_reconcile_state(plan, state_path)
+            module.restore_reconcile_state(plan, state_path, {}, {})
         except module.BootstrapError as exc:
             assert "plan baseline" in str(exc)
         else:
@@ -391,7 +448,7 @@ def test_restore_source_mismatch_never_removes_packs(module, host: str) -> None:
         fake.marketplace_source = "another-owner/another-repository"
         installed_before = dict(fake.installed)
         command_index = len(fake.commands)
-        restored = module.restore_reconcile_state(plan, state_path)
+        restored = module.restore_reconcile_state(plan, state_path, {}, {})
         assert restored["status"] == "partial"
         assert fake.installed == installed_before
         new_commands = fake.commands[command_index:]
@@ -427,7 +484,7 @@ def test_legacy_state_recovers_ref_only_from_matching_plan(module, host: str) ->
         "evidence-lab-plugins",
         "timsmykov/evidence-lab-plugins",
     )
-    assert previous_ref == "v0.3.0"
+    assert previous_ref == "release-2026.08.1"
     mismatched_plan = dict(previous_plan)
     mismatched_plan["plan_id"] = "0" * 16
     try:
@@ -450,6 +507,7 @@ def test_modern_state_ref_is_bound_to_previous_plan(module, host: str) -> None:
     state = module.initial_reconcile_state(plan)
     state["status"] = "ready"
     state["active_ref"] = plan["marketplace"]["ref"]
+    state["release"] = plan["release"]
     state["installed_after"] = module.expected_reconciled_snapshot(plan)
     state["operations"][0]["status"] = "completed"
     assert module.previous_ref_from_state(
@@ -593,13 +651,13 @@ def test_interrupted_run_recovery(module, host: str) -> None:
         state = module.initial_reconcile_state(plan)
         state["status"] = "applying"
         module.write_json_atomic(state_path, state)
-        recovered = module.recover_reconcile_state(plan, state_path)
+        recovered = module.recover_reconcile_state(plan, state_path, {}, {})
         validate(recovered, "reconcile-state.schema.json")
         assert recovered["status"] == "failed"
 
         state["status"] = "restoring"
         module.write_json_atomic(state_path, state)
-        recovered = module.recover_reconcile_state(plan, state_path)
+        recovered = module.recover_reconcile_state(plan, state_path, {}, {})
         assert recovered["status"] == "restored"
 
 
@@ -629,6 +687,8 @@ def test_partial_removal_preserves_exact_readback(module, host: str) -> None:
 
 def main() -> int:
     module = load_bootstrap()
+    module.release_identity = lambda lock, ref, source, selection, catalog_path: release_record(ref)
+    module.validate_previous_release_lock = lambda plan, lock, **kwargs: None
     for host in ("codex", "claude-code"):
         test_success_and_idempotence(module, host)
         test_failure_rolls_back(module, host)
@@ -651,6 +711,7 @@ def main() -> int:
         test_partial_removal_preserves_exact_readback(module, host)
     test_wrong_marketplace_is_safe(module)
     test_tampered_plan_is_rejected(module)
+    test_release_lock_mismatch_is_rejected_before_host_command(module)
     test_process_diagnostics_redact_secrets(module)
     print("OK: bootstrap lifecycle verified for Codex and Claude Code")
     return 0

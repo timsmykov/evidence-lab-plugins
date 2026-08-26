@@ -18,6 +18,7 @@ from select_packs import load_object, select
 
 HERE = Path(__file__).resolve()
 PACK_ROOT = HERE.parents[3]
+REPO_ROOT = HERE.parents[6]
 DEFAULT_CATALOG = PACK_ROOT / "catalog" / "packs.json"
 DEFAULT_SOURCE = "timsmykov/evidence-lab-plugins"
 DEFAULT_MARKETPLACE = "evidence-lab-plugins"
@@ -29,6 +30,7 @@ class BootstrapError(RuntimeError):
 
 SAFE_IDENTIFIER = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 SAFE_REF = re.compile(r"^[A-Za-z0-9._/-]+$")
+RELEASE_TAG = re.compile(r"^release-[0-9]{4}[.](?:0[1-9]|1[0-2])[.][1-9][0-9]*$")
 
 
 def write_json_atomic(path: Path, value: dict) -> None:
@@ -40,24 +42,35 @@ def write_json_atomic(path: Path, value: dict) -> None:
     os.replace(temporary, path)
 
 
-def plan_id_for(host: str, source: str, ref: str, selection_plan: dict) -> str:
+def plan_id_for(host: str, source: str, ref: str, selection_plan: dict, release: dict | None = None) -> str:
+    identity_value = {"host": host, "source": source, "ref": ref, "selection_plan": selection_plan}
+    if release is not None:
+        identity_value["release"] = release
     identity = json.dumps(
-        {"host": host, "source": source, "ref": ref, "selection_plan": selection_plan},
+        identity_value,
         sort_keys=True,
         separators=(",", ":"),
     ).encode()
     return hashlib.sha256(identity).hexdigest()[:16]
 
 
-def make_plan(profile: dict, catalog: dict, host: str, source: str, ref: str, marketplace: str) -> dict:
+def make_plan(
+    profile: dict,
+    catalog: dict,
+    host: str,
+    source: str,
+    ref: str,
+    marketplace: str,
+    release: dict | None = None,
+) -> dict:
     selection_plan = select(profile, catalog)
-    plan_id = plan_id_for(host, source, ref, selection_plan)
+    plan_id = plan_id_for(host, source, ref, selection_plan, release)
     operations = [{"action": "ensure-marketplace", "target": marketplace}]
     operations.extend(
         {"action": "install-pack", "target": pack["id"], "version": pack["version"]}
         for pack in selection_plan["packs"]
     )
-    return {
+    plan = {
         "schema_version": 1,
         "plan_id": plan_id,
         "host": host,
@@ -65,6 +78,9 @@ def make_plan(profile: dict, catalog: dict, host: str, source: str, ref: str, ma
         "selection_plan": selection_plan,
         "operations": operations,
     }
+    if release is not None:
+        plan["release"] = release
+    return plan
 
 
 def run(command: list[str]) -> subprocess.CompletedProcess[str]:
@@ -241,6 +257,199 @@ def object_digest(value: dict) -> str:
     return hashlib.sha256(rendered).hexdigest()
 
 
+def file_sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def release_tree_digest(root: Path) -> str:
+    if root.is_symlink() or not root.is_dir() or REPO_ROOT not in root.resolve().parents:
+        raise BootstrapError("release lock contains an unsafe pack path")
+    entries = list(root.rglob("*"))
+    if any(path.is_symlink() for path in entries):
+        raise BootstrapError("release pack trees may not contain symlinks")
+    files = [
+        path for path in entries
+        if path.is_file()
+        and "__pycache__" not in path.relative_to(root).parts
+        and path.suffix != ".pyc"
+        and path.name != ".DS_Store"
+    ]
+    digest = hashlib.sha256()
+    for path in sorted(files, key=lambda item: item.relative_to(root).as_posix()):
+        relative = path.relative_to(root).as_posix().encode()
+        executable = b"1" if os.access(path, os.X_OK) else b"0"
+        content = path.read_bytes()
+        digest.update(len(relative).to_bytes(8, "big"))
+        digest.update(relative)
+        digest.update(executable)
+        digest.update(len(content).to_bytes(8, "big"))
+        digest.update(content)
+    return digest.hexdigest()
+
+
+def resolve_git_commit(ref: str) -> str:
+    if not SAFE_REF.fullmatch(ref):
+        raise BootstrapError("release ref contains unsupported characters")
+    resolved = subprocess.run(
+        ["git", "rev-parse", "--verify", f"refs/tags/{ref}^{{commit}}"],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if resolved.returncode or not re.fullmatch(r"[a-f0-9]{40}", resolved.stdout.strip()):
+        raise BootstrapError("requested release tag is not available in the checked-out repository")
+    return resolved.stdout.strip()
+
+
+def release_identity(lock: dict, ref: str, source: str, selection_plan: dict, catalog_path: Path) -> dict:
+    if set(lock) != {"schema_version", "release_tag", "channel", "source", "catalog_sha256", "packs"}:
+        raise BootstrapError("release lock contains unsupported or missing fields")
+    if not RELEASE_TAG.fullmatch(ref):
+        raise BootstrapError("stable release ref must match release-YYYY.MM.N with a valid month and sequence")
+    if lock.get("schema_version") != 1 or lock.get("release_tag") != ref or lock.get("channel") != "stable":
+        raise BootstrapError("release lock identity does not match the requested stable release tag")
+    lock_source = lock.get("source")
+    if not isinstance(lock_source, dict) or set(lock_source) != {"repository", "commit"}:
+        raise BootstrapError("release lock source contains unsupported or missing fields")
+    if canonical_source(str(lock_source.get("repository", ""))) != canonical_source(source):
+        raise BootstrapError("release lock repository does not match the requested source")
+    commit = lock_source.get("commit")
+    if not isinstance(commit, str) or not re.fullmatch(r"[a-f0-9]{40}", commit):
+        raise BootstrapError("release lock contains an invalid source commit")
+    checkout = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if checkout.returncode or checkout.stdout.strip() != commit:
+        raise BootstrapError("checked-out repository commit does not match the release lock")
+    if resolve_git_commit(ref) != commit:
+        raise BootstrapError("requested release tag does not point to the release lock commit")
+    if lock.get("catalog_sha256") != file_sha256(catalog_path):
+        raise BootstrapError("release lock does not match the selected pack catalog")
+    catalog = load_object(catalog_path)
+    expected_ids = {item["id"] for item in catalog.get("packs", [])}
+    lock_rows = lock.get("packs", [])
+    if not isinstance(lock_rows, list) or not lock_rows:
+        raise BootstrapError("release lock contains no packs")
+    if lock_rows != sorted(lock_rows, key=lambda item: str(item.get("id", "")) if isinstance(item, dict) else ""):
+        raise BootstrapError("release lock pack entries are not in canonical ID order")
+    locked = {}
+    locked_paths = set()
+    for item in lock_rows:
+        expected_fields = {"id", "version", "layer", "status", "path", "content_sha256", "hosts", "license"}
+        if not isinstance(item, dict) or set(item) != expected_fields:
+            raise BootstrapError("release lock contains unsupported or missing pack fields")
+        if not SAFE_IDENTIFIER.fullmatch(str(item.get("id", ""))):
+            raise BootstrapError("release lock contains an invalid pack entry")
+        pack_id = item["id"]
+        if pack_id in locked:
+            raise BootstrapError("release lock contains duplicate pack IDs")
+        relative = item.get("path")
+        if not isinstance(relative, str) or not re.fullmatch(
+            r"packs/(core|workflows|domains|local)/[a-z0-9][a-z0-9-]*",
+            relative,
+        ):
+            raise BootstrapError(f"{pack_id}: release lock contains an unsafe pack path")
+        if relative in locked_paths:
+            raise BootstrapError("release lock contains duplicate pack paths")
+        locked_paths.add(relative)
+        root = REPO_ROOT / relative
+        if release_tree_digest(root) != item.get("content_sha256"):
+            raise BootstrapError(f"{pack_id}: checked-out content does not match the release lock")
+        pack = load_object(root / "pack.json")
+        if pack.get("id") != pack_id or pack.get("version") != item.get("version"):
+            raise BootstrapError(f"{pack_id}: release lock identity does not match pack.json")
+        meta = load_object(root / "meta.json")
+        if pack.get("layer") != item.get("layer") or meta.get("status") != item.get("status"):
+            raise BootstrapError(f"{pack_id}: release lock layer or status does not match pack metadata")
+        if sorted(pack.get("runtimes", [])) != item.get("hosts") or pack.get("license") != item.get("license"):
+            raise BootstrapError(f"{pack_id}: release lock host or license metadata does not match pack.json")
+        locked[pack_id] = item["version"]
+    if set(locked) != expected_ids:
+        raise BootstrapError("release lock does not contain the complete published catalog")
+    for marketplace_path in (REPO_ROOT / ".agents/plugins/marketplace.json", REPO_ROOT / ".claude-plugin/marketplace.json"):
+        marketplace_ids = {item["name"] for item in load_object(marketplace_path).get("plugins", [])}
+        if marketplace_ids != set(locked):
+            raise BootstrapError("release lock does not match a host marketplace")
+    missing = [item["id"] for item in selection_plan["packs"] if locked.get(item["id"]) != item["version"]]
+    if missing:
+        raise BootstrapError(f"release lock does not contain selected versions: {', '.join(missing)}")
+    return {
+        "tag": ref,
+        "channel": "stable",
+        "source_commit": commit,
+        "lock_digest": object_digest(lock),
+    }
+
+
+def validate_release_record(release: dict | None, ref: str) -> None:
+    if release is None:
+        raise BootstrapError("installation plan requires an immutable release identity")
+    if set(release) != {"tag", "channel", "source_commit", "lock_digest"}:
+        raise BootstrapError("release identity contains unsupported fields")
+    if not RELEASE_TAG.fullmatch(ref) or release.get("tag") != ref or release.get("channel") != "stable":
+        raise BootstrapError("release identity does not match the plan ref")
+    if not re.fullmatch(r"[a-f0-9]{40}", str(release.get("source_commit", ""))):
+        raise BootstrapError("release identity contains an invalid source commit")
+    if not re.fullmatch(r"[a-f0-9]{64}", str(release.get("lock_digest", ""))):
+        raise BootstrapError("release identity contains an invalid lock digest")
+
+
+def validate_plan_release(plan: dict, release_lock: dict, catalog_path: Path) -> None:
+    marketplace = plan["marketplace"]
+    actual = release_identity(
+        release_lock,
+        marketplace["ref"],
+        marketplace["source"],
+        plan["selection_plan"],
+        catalog_path,
+    )
+    if actual != plan.get("release"):
+        raise BootstrapError("installation plan release identity does not match the verified release lock")
+
+
+def validate_previous_release_lock(
+    plan: dict,
+    previous_release_lock: dict,
+    *,
+    include_removals: bool = False,
+) -> None:
+    previous_ref = plan["marketplace"].get("previous_ref")
+    previous_release = plan.get("previous_release")
+    if not isinstance(previous_ref, str) or not isinstance(previous_release, dict):
+        raise BootstrapError("reconcile plan requires the previous immutable release identity")
+    validate_release_record(previous_release, previous_ref)
+    if object_digest(previous_release_lock) != previous_release["lock_digest"]:
+        raise BootstrapError("previous release lock does not match the reconcile plan")
+    lock_source = previous_release_lock.get("source")
+    if (
+        previous_release_lock.get("release_tag") != previous_ref
+        or previous_release_lock.get("channel") != "stable"
+        or not isinstance(lock_source, dict)
+        or canonical_source(str(lock_source.get("repository", "")))
+        != canonical_source(plan["marketplace"]["source"])
+        or lock_source.get("commit") != previous_release["source_commit"]
+    ):
+        raise BootstrapError("previous release lock source identity does not match the reconcile plan")
+    if resolve_git_commit(previous_ref) != previous_release["source_commit"]:
+        raise BootstrapError("previous release tag no longer points to its locked commit")
+    locked_versions = {
+        item.get("id"): item.get("version")
+        for item in previous_release_lock.get("packs", [])
+        if isinstance(item, dict)
+    }
+    required_versions = {item["id"]: item["from_version"] for item in plan["diff"]["update"]}
+    if include_removals:
+        required_versions.update({item["id"]: item["version"] for item in plan["diff"]["remove_candidates"]})
+    missing = [pack_id for pack_id, version in required_versions.items() if locked_versions.get(pack_id) != version]
+    if missing:
+        raise BootstrapError(f"previous release lock does not contain baseline versions: {', '.join(missing)}")
+
+
 def make_reconcile_plan(
     profile: dict,
     catalog: dict,
@@ -250,6 +459,8 @@ def make_reconcile_plan(
     marketplace: str,
     installed: list[dict],
     previous_ref: str | None = None,
+    release: dict | None = None,
+    previous_release: dict | None = None,
 ) -> dict:
     selection_plan = select(profile, catalog)
     desired = desired_from_plan({"selection_plan": selection_plan})
@@ -283,6 +494,7 @@ def make_reconcile_plan(
         "schema_version": 1,
         "host": host,
         "marketplace": {"name": marketplace, "source": source, "ref": ref, "previous_ref": previous_ref},
+        "previous_release": previous_release,
         "profile_digest": object_digest(profile),
         "catalog_digest": object_digest(catalog),
         "selection_plan": selection_plan,
@@ -296,11 +508,21 @@ def make_reconcile_plan(
         },
         "operations": operations,
     }
+    if release is not None:
+        payload["release"] = release
     return {"plan_id": reconcile_plan_id(payload), **payload}
 
 
 def expected_reconciled_snapshot(plan: dict) -> list[dict]:
     return normalized_snapshot([*desired_from_plan(plan), *plan["diff"]["retained_extra"]])
+
+
+def release_for_ref(plan: dict, ref: str) -> dict:
+    if ref == plan["marketplace"]["ref"]:
+        return plan["release"]
+    if ref == plan["marketplace"].get("previous_ref"):
+        return plan["previous_release"]
+    raise BootstrapError("reconcile state contains an unknown active release ref")
 
 
 def validate_reconcile_plan(plan: dict) -> None:
@@ -324,6 +546,8 @@ def validate_reconcile_plan(plan: dict) -> None:
         raise BootstrapError("reconcile plan contains an unsafe source or Git ref")
     if previous_ref is not None and (not isinstance(previous_ref, str) or not SAFE_REF.fullmatch(previous_ref)):
         raise BootstrapError("reconcile plan contains an unsafe previous Git ref")
+    validate_release_record(plan.get("release"), ref)
+    validate_release_record(plan.get("previous_release"), previous_ref)
     try:
         baseline_rows = normalized_snapshot(baseline.get("installed", []))
     except (KeyError, TypeError) as exc:
@@ -380,6 +604,7 @@ def initial_reconcile_state(plan: dict) -> dict:
         "plan_id": plan["plan_id"],
         "host": plan["host"],
         "marketplace": plan["marketplace"],
+        "release": release_for_ref(plan, plan["marketplace"].get("previous_ref") or plan["marketplace"]["ref"]),
         "active_ref": plan["marketplace"].get("previous_ref") or plan["marketplace"]["ref"],
         "status": "planned",
         "desired": normalized_snapshot(desired_from_plan(plan)),
@@ -402,6 +627,8 @@ def validate_reconcile_state(state: dict, plan: dict) -> None:
         raise BootstrapError("reconcile state marketplace does not match its plan")
     if state.get("active_ref") not in {plan["marketplace"]["ref"], plan["marketplace"].get("previous_ref")}:
         raise BootstrapError("reconcile state contains an unknown active release ref")
+    if state.get("release") != release_for_ref(plan, state["active_ref"]):
+        raise BootstrapError("reconcile state release identity does not match its active ref")
     if state.get("diff") != plan["diff"] or state.get("desired") != normalized_snapshot(desired_from_plan(plan)):
         raise BootstrapError("reconcile state desired packs or diff do not match its plan")
     expected_operations = [
@@ -476,12 +703,26 @@ def previous_ref_from_state(
     return previous_ref
 
 
+def previous_release_from_state(previous_state: dict, previous_plan: dict, previous_ref: str) -> dict:
+    expected = (
+        release_for_ref(previous_plan, previous_ref)
+        if "baseline" in previous_plan
+        else previous_plan.get("release")
+    )
+    actual = previous_state.get("release")
+    if actual != expected:
+        raise BootstrapError("previous state release identity does not match its active saved-plan ref")
+    validate_release_record(actual, previous_ref)
+    return actual
+
+
 def initial_state(plan: dict) -> dict:
     return {
         "schema_version": 1,
         "plan_id": plan["plan_id"],
         "host": plan["host"],
         "marketplace": plan["marketplace"],
+        "release": plan.get("release"),
         "status": "planned",
         "desired": desired_from_plan(plan),
         "installed_before": [],
@@ -510,6 +751,7 @@ def validate_plan(plan: dict) -> None:
         raise BootstrapError("installation plan contains no marketplace source")
     if not isinstance(ref, str) or not SAFE_REF.fullmatch(ref):
         raise BootstrapError("installation plan contains an unsafe Git ref")
+    validate_release_record(plan.get("release"), ref)
     desired = desired_from_plan(plan)
     if len({item["id"] for item in desired}) != len(desired):
         raise BootstrapError("installation plan contains duplicate packs")
@@ -522,7 +764,7 @@ def validate_plan(plan: dict) -> None:
     )
     if plan.get("operations") != expected_operations:
         raise BootstrapError("installation plan operations do not match its pack selection")
-    expected_id = plan_id_for(plan["host"], source, ref, selection_plan)
+    expected_id = plan_id_for(plan["host"], source, ref, selection_plan, plan.get("release"))
     if plan.get("plan_id") != expected_id:
         raise BootstrapError("installation plan identity does not match its contents")
 
@@ -551,8 +793,9 @@ def ensure_marketplace(plan: dict, state: dict) -> None:
         raise
 
 
-def apply_plan(plan: dict, state_path: Path) -> dict:
+def apply_plan(plan: dict, state_path: Path, release_lock: dict, catalog_path: Path = DEFAULT_CATALOG) -> dict:
     validate_plan(plan)
+    validate_plan_release(plan, release_lock, catalog_path)
     state = initial_state(plan)
     host = plan["host"]
     marketplace = plan["marketplace"]["name"]
@@ -634,6 +877,7 @@ def pin_reconcile_marketplace(plan: dict, state: dict, target_ref: str, *, force
             run_checked(marketplace_add_command(host, marketplace["source"], target_ref), "marketplace setup")
         state["operations"][0]["status"] = "completed"
         state["active_ref"] = target_ref
+        state["release"] = release_for_ref(plan, target_ref)
     except BootstrapError:
         state["operations"][0]["status"] = "failed"
         raise
@@ -691,8 +935,18 @@ def mark_rolled_back_operations(state: dict, plan: dict) -> None:
             operation["status"] = "rolled-back"
 
 
-def apply_reconcile_plan(plan: dict, state_path: Path, profile: dict, catalog: dict) -> dict:
+def apply_reconcile_plan(
+    plan: dict,
+    state_path: Path,
+    profile: dict,
+    catalog: dict,
+    release_lock: dict,
+    previous_release_lock: dict,
+    catalog_path: Path = DEFAULT_CATALOG,
+) -> dict:
     validate_reconcile_plan(plan)
+    validate_plan_release(plan, release_lock, catalog_path)
+    validate_previous_release_lock(plan, previous_release_lock)
     if plan["profile_digest"] != object_digest(profile) or plan["catalog_digest"] != object_digest(catalog):
         raise BootstrapError("stale reconcile plan: profile or release catalog changed before apply")
     assert_live_snapshot(plan, plan["baseline"]["digest"], "apply")
@@ -738,8 +992,18 @@ def apply_reconcile_plan(plan: dict, state_path: Path, profile: dict, catalog: d
     return state
 
 
-def remove_reconcile_extras(plan: dict, state_path: Path, profile: dict, catalog: dict) -> dict:
+def remove_reconcile_extras(
+    plan: dict,
+    state_path: Path,
+    profile: dict,
+    catalog: dict,
+    release_lock: dict,
+    previous_release_lock: dict,
+    catalog_path: Path = DEFAULT_CATALOG,
+) -> dict:
     validate_reconcile_plan(plan)
+    validate_plan_release(plan, release_lock, catalog_path)
+    validate_previous_release_lock(plan, previous_release_lock, include_removals=True)
     if plan["profile_digest"] != object_digest(profile) or plan["catalog_digest"] != object_digest(catalog):
         raise BootstrapError("stale removal plan: profile or release catalog changed before removal")
     state = load_object(state_path)
@@ -793,8 +1057,16 @@ def remove_reconcile_extras(plan: dict, state_path: Path, profile: dict, catalog
     return state
 
 
-def restore_reconcile_state(plan: dict, state_path: Path) -> dict:
+def restore_reconcile_state(
+    plan: dict,
+    state_path: Path,
+    release_lock: dict,
+    previous_release_lock: dict,
+    catalog_path: Path = DEFAULT_CATALOG,
+) -> dict:
     validate_reconcile_plan(plan)
+    validate_plan_release(plan, release_lock, catalog_path)
+    validate_previous_release_lock(plan, previous_release_lock, include_removals=True)
     state = load_object(state_path)
     validate_reconcile_state(state, plan)
     assert_live_snapshot(plan, snapshot_digest(state.get("installed_after", [])), "restore")
@@ -812,8 +1084,16 @@ def restore_reconcile_state(plan: dict, state_path: Path) -> dict:
     return state
 
 
-def recover_reconcile_state(plan: dict, state_path: Path) -> dict:
+def recover_reconcile_state(
+    plan: dict,
+    state_path: Path,
+    release_lock: dict,
+    previous_release_lock: dict,
+    catalog_path: Path = DEFAULT_CATALOG,
+) -> dict:
     validate_reconcile_plan(plan)
+    validate_plan_release(plan, release_lock, catalog_path)
+    validate_previous_release_lock(plan, previous_release_lock)
     state = load_object(state_path)
     validate_reconcile_state(state, plan)
     interrupted_status = state.get("status")
@@ -822,6 +1102,8 @@ def recover_reconcile_state(plan: dict, state_path: Path) -> dict:
     recovery_action = state.get("recovery_action") or (
         "restore" if interrupted_status == "restoring" else "remove" if interrupted_status == "removing" else "apply"
     )
+    if recovery_action in {"remove", "restore"}:
+        validate_previous_release_lock(plan, previous_release_lock, include_removals=True)
     target_ref = (
         plan["marketplace"].get("previous_ref") or plan["marketplace"]["ref"]
         if recovery_action == "restore"
@@ -858,8 +1140,9 @@ def recover_reconcile_state(plan: dict, state_path: Path) -> dict:
     return state
 
 
-def verify_plan(plan: dict) -> dict:
+def verify_plan(plan: dict, release_lock: dict, catalog_path: Path = DEFAULT_CATALOG) -> dict:
     validate_plan(plan)
+    validate_plan_release(plan, release_lock, catalog_path)
     marketplace = plan["marketplace"]["name"]
     installed = installed_rows(plan["host"], marketplace)
     actual = {item["id"]: item["version"] for item in installed}
@@ -878,11 +1161,14 @@ def build_parser() -> argparse.ArgumentParser:
     plan_parser.add_argument("--ref", required=True)
     plan_parser.add_argument("--marketplace", default=DEFAULT_MARKETPLACE)
     plan_parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
+    plan_parser.add_argument("--release-lock", type=Path, required=True)
     plan_parser.add_argument("--output", type=Path, required=True)
 
     apply_parser = subparsers.add_parser("apply")
     apply_parser.add_argument("plan", type=Path)
     apply_parser.add_argument("--state", type=Path, required=True)
+    apply_parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
+    apply_parser.add_argument("--release-lock", type=Path, required=True)
     apply_parser.add_argument("--confirmed-by-user", action="store_true")
 
     reconcile_parser = subparsers.add_parser("reconcile")
@@ -892,6 +1178,8 @@ def build_parser() -> argparse.ArgumentParser:
     reconcile_parser.add_argument("--ref", required=True)
     reconcile_parser.add_argument("--marketplace", default=DEFAULT_MARKETPLACE)
     reconcile_parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
+    reconcile_parser.add_argument("--release-lock", type=Path, required=True)
+    reconcile_parser.add_argument("--previous-release-lock", type=Path, required=True)
     reconcile_parser.add_argument("--previous-state", type=Path, required=True)
     reconcile_parser.add_argument("--previous-plan", type=Path, required=True)
     reconcile_parser.add_argument("--output", type=Path, required=True)
@@ -901,6 +1189,8 @@ def build_parser() -> argparse.ArgumentParser:
     reconcile_apply_parser.add_argument("--state", type=Path, required=True)
     reconcile_apply_parser.add_argument("--profile", type=Path, required=True)
     reconcile_apply_parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
+    reconcile_apply_parser.add_argument("--release-lock", type=Path, required=True)
+    reconcile_apply_parser.add_argument("--previous-release-lock", type=Path, required=True)
     reconcile_apply_parser.add_argument("--confirmed-by-user", action="store_true")
 
     remove_parser = subparsers.add_parser("remove-extras")
@@ -908,19 +1198,29 @@ def build_parser() -> argparse.ArgumentParser:
     remove_parser.add_argument("--state", type=Path, required=True)
     remove_parser.add_argument("--profile", type=Path, required=True)
     remove_parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
+    remove_parser.add_argument("--release-lock", type=Path, required=True)
+    remove_parser.add_argument("--previous-release-lock", type=Path, required=True)
     remove_parser.add_argument("--confirmed-by-user", action="store_true")
 
     restore_parser = subparsers.add_parser("restore")
     restore_parser.add_argument("plan", type=Path)
     restore_parser.add_argument("--state", type=Path, required=True)
+    restore_parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
+    restore_parser.add_argument("--release-lock", type=Path, required=True)
+    restore_parser.add_argument("--previous-release-lock", type=Path, required=True)
     restore_parser.add_argument("--confirmed-by-user", action="store_true")
 
     recover_parser = subparsers.add_parser("recover")
     recover_parser.add_argument("plan", type=Path)
     recover_parser.add_argument("--state", type=Path, required=True)
+    recover_parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
+    recover_parser.add_argument("--release-lock", type=Path, required=True)
+    recover_parser.add_argument("--previous-release-lock", type=Path, required=True)
 
     verify_parser = subparsers.add_parser("verify")
     verify_parser.add_argument("plan", type=Path)
+    verify_parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
+    verify_parser.add_argument("--release-lock", type=Path, required=True)
     status_parser = subparsers.add_parser("status")
     status_parser.add_argument("state", type=Path)
     return parser
@@ -930,19 +1230,24 @@ def main() -> int:
     args = build_parser().parse_args()
     try:
         if args.command == "plan":
-            plan = make_plan(load_object(args.profile), load_object(args.catalog), args.host, args.source, args.ref, args.marketplace)
+            profile = load_object(args.profile)
+            catalog = load_object(args.catalog)
+            selection_plan = select(profile, catalog)
+            release = release_identity(load_object(args.release_lock), args.ref, args.source, selection_plan, args.catalog)
+            plan = make_plan(profile, catalog, args.host, args.source, args.ref, args.marketplace, release)
             write_json_atomic(args.output, plan)
             print(json.dumps(plan, indent=2, ensure_ascii=False))
             return 0
         if args.command == "apply":
             if not args.confirmed_by_user:
                 raise BootstrapError("installation requires explicit user confirmation")
-            state = apply_plan(load_object(args.plan), args.state)
+            state = apply_plan(load_object(args.plan), args.state, load_object(args.release_lock), args.catalog)
             print(json.dumps(state, indent=2, ensure_ascii=False))
             return 0 if state["status"] == "ready" else 1
         if args.command == "reconcile":
             installed = installed_rows(args.host, args.marketplace)
             previous_ref = None
+            previous_release = None
             if args.previous_state:
                 previous_state = load_object(args.previous_state)
                 previous_plan = load_object(args.previous_plan)
@@ -953,16 +1258,24 @@ def main() -> int:
                     args.marketplace,
                     args.source,
                 )
+                previous_release = previous_release_from_state(previous_state, previous_plan, previous_ref)
+            profile = load_object(args.profile)
+            catalog = load_object(args.catalog)
+            selection_plan = select(profile, catalog)
+            release = release_identity(load_object(args.release_lock), args.ref, args.source, selection_plan, args.catalog)
             plan = make_reconcile_plan(
-                load_object(args.profile),
-                load_object(args.catalog),
+                profile,
+                catalog,
                 args.host,
                 args.source,
                 args.ref,
                 args.marketplace,
                 installed,
                 previous_ref,
+                release,
+                previous_release,
             )
+            validate_previous_release_lock(plan, load_object(args.previous_release_lock))
             write_json_atomic(args.output, plan)
             print(json.dumps(plan, indent=2, ensure_ascii=False))
             return 0
@@ -974,6 +1287,9 @@ def main() -> int:
                 args.state,
                 load_object(args.profile),
                 load_object(args.catalog),
+                load_object(args.release_lock),
+                load_object(args.previous_release_lock),
+                args.catalog,
             )
             print(json.dumps(state, indent=2, ensure_ascii=False))
             return 0 if state["status"] == "ready" else 1
@@ -985,21 +1301,30 @@ def main() -> int:
                 args.state,
                 load_object(args.profile),
                 load_object(args.catalog),
+                load_object(args.release_lock),
+                load_object(args.previous_release_lock),
+                args.catalog,
             )
             print(json.dumps(state, indent=2, ensure_ascii=False))
             return 0 if state["status"] == "removed" else 1
         if args.command == "restore":
             if not args.confirmed_by_user:
                 raise BootstrapError("restore requires explicit user confirmation")
-            state = restore_reconcile_state(load_object(args.plan), args.state)
+            state = restore_reconcile_state(
+                load_object(args.plan), args.state, load_object(args.release_lock),
+                load_object(args.previous_release_lock), args.catalog,
+            )
             print(json.dumps(state, indent=2, ensure_ascii=False))
             return 0 if state["status"] == "restored" else 1
         if args.command == "recover":
-            state = recover_reconcile_state(load_object(args.plan), args.state)
+            state = recover_reconcile_state(
+                load_object(args.plan), args.state, load_object(args.release_lock),
+                load_object(args.previous_release_lock), args.catalog,
+            )
             print(json.dumps(state, indent=2, ensure_ascii=False))
             return 0 if state["status"] in {"ready", "removed", "restored", "failed"} else 1
         if args.command == "verify":
-            result = verify_plan(load_object(args.plan))
+            result = verify_plan(load_object(args.plan), load_object(args.release_lock), args.catalog)
             print(json.dumps(result, indent=2, ensure_ascii=False))
             return 0 if result["ready"] else 1
         print(json.dumps(load_object(args.state), indent=2, ensure_ascii=False))

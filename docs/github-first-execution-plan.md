@@ -49,7 +49,7 @@ ordering, conflict detection, installation, and readiness are deterministic.
 ## What already exists
 
 - Host-neutral `pack.json` files and generated Codex/Claude adapters.
-- Four installable packs with dependencies and independent versions.
+- Thirteen installable packs with dependencies and independent versions.
 - Four-question English/Russian onboarding catalogs.
 - A normalized profile schema and deterministic selector.
 - Installation plans with tamper checks and explicit confirmation.
@@ -193,7 +193,8 @@ Deliverables:
 
 Definition of Done:
 
-- a tag plus release lock reproduces the exact four-pack installation;
+- a tag plus release lock reproduces the exact published 13-pack catalog and any
+  deterministic scenario-selected subset;
 - changing any locked pack content without its version bump fails CI;
 - a tag cannot be published from a dirty or unverified commit;
 - bootstrap records the release tag and lock digest in installation state.
@@ -317,7 +318,7 @@ normalization changes require deterministic schema tests plus quality evals.
 - [x] T6 (P2) Produce scenario-to-capability coverage and pack-boundary report.
 - [x] T7 (P2) Implement approved pack splits/additions with provenance and evals.
 - [x] T8 (P1) Implement reconcile/update/retained-extra/remove/restore lifecycle.
-- [ ] T9 (P1) Add release-lock builder, hashes, CI, and immutable snapshot tags.
+- [x] T9 (P1) Add release-lock builder, hashes, CI, and immutable snapshot tags.
 - [ ] T10 (P1) Complete public-source sanitization and clean-user host acceptance.
 - [ ] T11 (P2) Finalize RU/EN application-facing installation and recovery copy.
 - [ ] T12 (P2) Add secondary CLI documentation and support bundle generation.

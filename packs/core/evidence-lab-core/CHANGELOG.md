@@ -1,5 +1,12 @@
 # Changelog — Evidence Lab Core
 
+## [0.8.0] — 2026-08-26
+
+### Added
+- Stable release-lock validation and immutable release identity in installation and reconciliation state.
+- Exact release tag, source commit, and canonical lock digest checks before plan creation.
+- Mandatory lock revalidation before lifecycle mutations, including the previous release lock before rollback or restore.
+
 ## [0.7.0] — 2026-08-26
 
 ### Added

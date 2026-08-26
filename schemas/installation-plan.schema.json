@@ -3,12 +3,23 @@
   "$id": "evidence-lab-plugins/schemas/installation-plan.schema.json",
   "title": "Evidence Lab installation plan",
   "type": "object",
-  "required": ["schema_version", "plan_id", "host", "marketplace", "selection_plan", "operations"],
+  "required": ["schema_version", "plan_id", "host", "marketplace", "release", "selection_plan", "operations"],
   "additionalProperties": false,
   "properties": {
     "schema_version": {"const": 1},
     "plan_id": {"type": "string", "pattern": "^[a-f0-9]{16}$"},
     "host": {"enum": ["codex", "claude-code"]},
+    "release": {
+      "type": "object",
+      "required": ["tag", "channel", "source_commit", "lock_digest"],
+      "additionalProperties": false,
+      "properties": {
+        "tag": {"type": "string", "pattern": "^release-[0-9]{4}[.](0[1-9]|1[0-2])[.][1-9][0-9]*$"},
+        "channel": {"const": "stable"},
+        "source_commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "lock_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
     "marketplace": {
       "type": "object",
       "required": ["name", "source", "ref"],
