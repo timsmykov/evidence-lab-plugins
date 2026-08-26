@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "questions": [
+    {
+      "id": "domains",
+      "prompt": "Какие области лучше всего описывают ваше исследование?",
+      "multiple": true,
+      "options": [
+        {"id": "life-sciences", "label": "Медицина и науки о жизни"},
+        {"id": "physics", "label": "Физика"},
+        {"id": "engineering", "label": "Инженерные науки"},
+        {"id": "mathematics", "label": "Математика"},
+        {"id": "statistics", "label": "Статистика и анализ данных"},
+        {"id": "social-sciences", "label": "Экономика и общественные науки"},
+        {"id": "humanities", "label": "Гуманитарные науки"},
+        {"id": "interdisciplinary", "label": "Междисциплинарные исследования"}
+      ],
+      "allow_free_text": true
+    },
+    {
+      "id": "workflows",
+      "prompt": "Что вы хотите сделать в первую очередь?",
+      "multiple": true,
+      "options": [
+        {"id": "full-research-cycle", "label": "Вести полный цикл исследования"},
+        {"id": "monitor-publications", "label": "Следить за новыми публикациями"},
+        {"id": "literature-review", "label": "Провести обзор литературы"},
+        {"id": "collect-and-compare-data", "label": "Собрать и сравнить данные"},
+        {"id": "analyze-data", "label": "Проанализировать данные или код"},
+        {"id": "prepare-publication", "label": "Подготовить статью или отчёт"},
+        {"id": "quality-review", "label": "Проверить качество исследования"}
+      ],
+      "allow_free_text": true
+    },
+    {
+      "id": "materials",
+      "prompt": "С какими материалами и методами вы работаете чаще всего?",
+      "multiple": true,
+      "options": [
+        {"id": "papers", "label": "Научные статьи"},
+        {"id": "pdf", "label": "PDF"},
+        {"id": "tables", "label": "Таблицы"},
+        {"id": "datasets", "label": "Наборы данных"},
+        {"id": "code", "label": "Код и вычисления", "profile_field": "methods"},
+        {"id": "formulas", "label": "Формулы", "profile_field": "methods"},
+        {"id": "mathematical-models", "label": "Математические модели", "profile_field": "methods"},
+        {"id": "qualitative-text", "label": "Интервью, опросы или тексты"},
+        {"id": "images", "label": "Исследовательские изображения"}
+      ],
+      "allow_free_text": true
+    },
+    {
+      "id": "stages",
+      "prompt": "На каком этапе находится ваша работа?",
+      "multiple": true,
+      "options": [
+        {"id": "planning", "label": "Выбираю или планирую тему"},
+        {"id": "active-research", "label": "Активно веду исследование"},
+        {"id": "writing", "label": "Готовлю статью, отчёт или заявку"},
+        {"id": "systematic-review", "label": "Провожу систематический обзор или мета-анализ"},
+        {"id": "supervision", "label": "Преподаю или сопровождаю исследования"},
+        {"id": "unknown", "label": "Пока не уверен"}
+      ],
+      "allow_free_text": true
+    }
+  ]
+}

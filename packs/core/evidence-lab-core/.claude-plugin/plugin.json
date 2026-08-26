@@ -1,13 +1,14 @@
 {
   "name": "evidence-lab-core",
   "description": "Agent-first research foundations, fast researcher onboarding, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": {
     "name": "Evidence Lab"
   },
   "keywords": [
     "onboarding",
     "pack-selection",
+    "installation-lifecycle",
     "paper-lookup",
     "citation-management",
     "critical-thinking"

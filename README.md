@@ -29,6 +29,7 @@ The former 16-skill `research-core` bundle was decomposed across these four inst
 python3 scripts/build_adapters.py
 python3 scripts/build_adapters.py --check
 python3 scripts/test_agent_first.py
+python3 scripts/test_bootstrap.py
 python3 scripts/verify_repo.py
 ```
 

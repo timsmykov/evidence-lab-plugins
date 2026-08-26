@@ -29,6 +29,7 @@ SCHEMAS = ROOT / "schemas"
 
 REQUIRED_REPO_FILES = [
     "README.md",
+    "BOOTSTRAP.md",
     "AGENTS.md",
     "CLAUDE.md",
     "CONTRIBUTING.md",
@@ -46,6 +47,9 @@ REQUIRED_REPO_FILES = [
     "schemas/pack.schema.json",
     "schemas/profile.schema.json",
     "schemas/selection-plan.schema.json",
+    "schemas/installation-plan.schema.json",
+    "schemas/installation-state.schema.json",
+    "schemas/onboarding-questions.schema.json",
     "schemas/meta.schema.json",
     "schemas/eval.schema.json",
     "schemas/marketplace.schema.json",

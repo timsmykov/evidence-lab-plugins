@@ -1,5 +1,12 @@
 # Changelog — Evidence Lab Core
 
+## [0.3.0] — 2026-08-26
+
+### Added
+- GitHub-first bootstrap contract for clean Codex and Claude Code installations.
+- Deterministic installation plans, explicit confirmation, atomic state writes, host readback, idempotent retries, and bounded rollback.
+- Canonical English and Russian onboarding question catalogs.
+
 ## [0.2.0] — 2026-08-26
 
 ### Changed

@@ -61,4 +61,4 @@ This is the first real decomposition, not the final catalog. New packs must be j
 
 ## Deferred
 
-Client-side installation transactions, rollback, and persisted installation readback are the next lifecycle layer. Hermes, ChatGPT-specific packaging, a graphical onboarding UI, silent installation, and runtime generation of new skills are outside the current Claude Code and Codex scope.
+Marketplace verification and application-specific visual presentation remain distribution work. Hermes, ChatGPT-specific packaging, a graphical onboarding UI, silent installation, and runtime generation of new skills are outside the current Claude Code and Codex scope. The GitHub-first MVP already includes explicit installation plans, state, readback, idempotent retry, and bounded rollback.

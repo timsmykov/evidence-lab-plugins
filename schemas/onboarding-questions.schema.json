@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evidence-lab-plugins/schemas/onboarding-questions.schema.json",
+  "title": "Evidence Lab onboarding questions",
+  "type": "object",
+  "required": ["schema_version", "questions"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "questions": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["id", "prompt", "multiple", "options", "allow_free_text"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"enum": ["domains", "workflows", "materials", "stages"]},
+          "prompt": {"type": "string", "minLength": 10},
+          "multiple": {"type": "boolean"},
+          "allow_free_text": {"type": "boolean"},
+          "options": {
+            "type": "array",
+            "minItems": 5,
+            "items": {
+              "type": "object",
+              "required": ["id", "label"],
+              "additionalProperties": false,
+              "properties": {
+                "id": {"type": "string"},
+                "label": {"type": "string"},
+                "profile_field": {"enum": ["domains", "workflows", "materials", "stages", "methods"]}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

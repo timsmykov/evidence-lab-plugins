@@ -9,7 +9,7 @@ Set up a useful research workspace through a short, non-technical chat. Ask one 
 
 ## Questions
 
-Collect only what is still unknown:
+Read `onboarding/questions.json` at the pack root and collect only what is still unknown:
 
 1. Research domains or disciplines.
 2. The first workflow, including a full research cycle.
@@ -26,16 +26,24 @@ If a regulated or safety-critical specialization remains ambiguous, keep the saf
 
 ## Build the plan
 
-Save the normalized profile as JSON, then run:
+Before installation, work from the checked-out, pinned Evidence Lab repository and save the normalized profile outside that checkout. Then run:
 
 ```bash
-python3 scripts/select_packs.py profile.json --output selection-plan.json
+python3 scripts/bootstrap.py plan profile.json --host <codex|claude-code> --ref <release-tag> --output installation-plan.json
 ```
 
-The selector is authoritative for package membership and dependencies. Do not add a pack by improvising from the conversation.
+The selector is authoritative for package membership and dependencies. Do not add a pack by improvising from the conversation. The resulting installation plan is deterministic for the same profile, host, source, and ref.
 
 ## Confirm
 
-Explain the selected capabilities and the reason for each in plain language. Show changes before installation and let the researcher confirm using the host's normal plugin flow. After installation, verify the actual pack IDs and versions before saying the workspace is ready.
+Explain the selected capabilities and the reason for each in plain language. Show the complete plan and obtain one explicit confirmation. Only then run:
 
-This skill creates a selection plan. It does not silently install packages, generate unreviewed skills, or claim that a host accepted an installation without readback evidence.
+```bash
+python3 scripts/bootstrap.py apply installation-plan.json \
+  --state .evidence-lab/installation-state.json \
+  --confirmed-by-user
+```
+
+Read the state after the command. Say the workspace is ready only when its status is `ready` and every desired ID and version appears in `installed_after`. Then ask the user to start a new task so the host loads the installed skills.
+
+The installer may add or update the configured Evidence Lab marketplace and install the approved packs. On failure it rolls back only packs added during the current attempt; it never removes a pre-existing plugin. It does not silently install packages, generate unreviewed skills, or claim that a host accepted an installation without readback evidence.

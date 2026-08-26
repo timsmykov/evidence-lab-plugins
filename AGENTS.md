@@ -20,6 +20,7 @@ Use `core`, `workflow`, `domain`, or `local`. A host is not a layer. Do not crea
 python3 scripts/new_pack.py <pack-name> --layer <core|workflow|domain|local> --skill <skill-name> --owner <owner> --reviewer <reviewer>
 python3 scripts/build_adapters.py
 python3 scripts/test_agent_first.py
+python3 scripts/test_bootstrap.py
 python3 scripts/verify_repo.py
 ```
 

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evidence-lab-plugins/schemas/installation-state.schema.json",
+  "title": "Evidence Lab installation state",
+  "type": "object",
+  "required": ["schema_version", "plan_id", "host", "status", "desired", "installed_before", "installed_after", "operations", "error"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "plan_id": {"type": "string"},
+    "host": {"enum": ["codex", "claude-code"]},
+    "status": {"enum": ["planned", "applying", "ready", "failed", "partial"]},
+    "desired": {"type": "array", "items": {"type": "object", "required": ["id", "version"], "additionalProperties": false, "properties": {"id": {"type": "string"}, "version": {"type": "string"}}}},
+    "installed_before": {"type": "array", "items": {"type": "object", "required": ["id", "version"], "additionalProperties": false, "properties": {"id": {"type": "string"}, "version": {"type": "string"}}}},
+    "installed_after": {"type": "array", "items": {"type": "object", "required": ["id", "version"], "additionalProperties": false, "properties": {"id": {"type": "string"}, "version": {"type": "string"}}}},
+    "operations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["action", "target", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "action": {"type": "string"},
+          "target": {"type": "string"},
+          "status": {"enum": ["pending", "skipped", "completed", "failed", "rolled-back", "rollback-failed"]}
+        }
+      }
+    },
+    "error": {"type": ["string", "null"]}
+  }
+}

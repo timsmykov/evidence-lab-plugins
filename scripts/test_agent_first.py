@@ -67,8 +67,22 @@ def check_adapter_parity() -> None:
             raise AssertionError(f"{pack['id']}: no shared skills")
 
 
+def check_onboarding_catalogs() -> None:
+    root = ROOT / "packs" / "core" / "evidence-lab-core" / "onboarding"
+    english = load(root / "questions.json")
+    russian = load(root / "questions.ru.json")
+    validate(english, "onboarding-questions.schema.json")
+    validate(russian, "onboarding-questions.schema.json")
+    for left, right in zip(english["questions"], russian["questions"], strict=True):
+        if left["id"] != right["id"]:
+            raise AssertionError("localized onboarding question IDs drifted")
+        if [item["id"] for item in left["options"]] != [item["id"] for item in right["options"]]:
+            raise AssertionError(f"localized onboarding option IDs drifted for {left['id']}")
+
+
 def main() -> int:
     validate(load(ROOT / ".agents" / "plugins" / "marketplace.json"), "codex-marketplace.schema.json")
+    check_onboarding_catalogs()
     check_fixtures()
     check_adapter_parity()
     print("OK: agent-first onboarding and Claude/Codex adapter parity verified")
