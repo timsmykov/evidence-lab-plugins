@@ -24,7 +24,7 @@ except ImportError:  # pragma: no cover - CI installs it
     raise SystemExit(1)
 
 ROOT = Path(__file__).resolve().parent.parent
-PLUGINS = ROOT / "plugins"
+PACKS = ROOT / "packs"
 SCHEMAS = ROOT / "schemas"
 
 REQUIRED_REPO_FILES = [
@@ -34,22 +34,24 @@ REQUIRED_REPO_FILES = [
     "CONTRIBUTING.md",
     "LICENSE",
     ".claude-plugin/marketplace.json",
+    ".agents/plugins/marketplace.json",
     "docs/architecture.md",
     "docs/authoring.md",
     "docs/review-checklist.md",
     "docs/sanitization-policy.md",
     "docs/release-process.md",
     "schemas/plugin.schema.json",
+    "schemas/codex-plugin.schema.json",
+    "schemas/codex-marketplace.schema.json",
+    "schemas/pack.schema.json",
+    "schemas/profile.schema.json",
+    "schemas/selection-plan.schema.json",
     "schemas/meta.schema.json",
     "schemas/eval.schema.json",
     "schemas/marketplace.schema.json",
-    "templates/plugin/.claude-plugin/plugin.json",
-    "templates/plugin/meta.json",
-    "templates/plugin/skills/__SKILL__/SKILL.md",
-    "templates/plugin/skills/__SKILL__/evals/trigger_eval.json",
 ]
 
-REQUIRED_PLUGIN_FILES = ["README.md", "CHANGELOG.md", "meta.json", ".claude-plugin/plugin.json"]
+REQUIRED_PACK_FILES = ["README.md", "CHANGELOG.md", "pack.json", "meta.json", ".claude-plugin/plugin.json", ".codex-plugin/plugin.json"]
 
 # Anything matching these must never reach a shared plugin.
 PRIVATE_PATTERNS = {
@@ -138,7 +140,7 @@ def check_repo_files() -> None:
             fail(f"missing required file: {rel}")
 
 
-def check_marketplace() -> None:
+def check_marketplaces() -> None:
     path = ROOT / ".claude-plugin" / "marketplace.json"
     if not path.exists():
         return
@@ -150,6 +152,18 @@ def check_marketplace() -> None:
         source = Path(entry.get("source", "").lstrip("./"))
         if not (ROOT / source).is_dir():
             fail(f"marketplace.json: entry {entry.get('name')} points at missing {source}")
+
+    codex_path = ROOT / ".agents" / "plugins" / "marketplace.json"
+    if not codex_path.exists():
+        return
+    codex = load_json(codex_path)
+    if codex is None:
+        return
+    validate(codex, "codex-marketplace.schema.json", "Codex marketplace.json")
+    for entry in codex.get("plugins", []):
+        source = Path(entry.get("source", {}).get("path", "").lstrip("./"))
+        if not (ROOT / source).is_dir():
+            fail(f"Codex marketplace.json: entry {entry.get('name')} points at missing {source}")
 
 
 # ------------------------------------------------------------------------- plugin
@@ -208,24 +222,36 @@ def check_markdown_agents(plugin_dir: Path, plugin: str) -> None:
             fail(f"{plugin}/agents/{agent.name}: frontmatter needs name and description")
 
 
-def check_plugin(plugin_dir: Path) -> None:
-    plugin = plugin_dir.name
-    for rel in REQUIRED_PLUGIN_FILES:
-        if not (plugin_dir / rel).exists():
+def check_pack(pack_dir: Path) -> None:
+    plugin = pack_dir.name
+    for rel in REQUIRED_PACK_FILES:
+        if not (pack_dir / rel).exists():
             fail(f"{plugin}: missing {rel}")
-    manifest_path = plugin_dir / ".claude-plugin" / "plugin.json"
-    meta_path = plugin_dir / "meta.json"
-    if not manifest_path.exists() or not meta_path.exists():
+    pack_path = pack_dir / "pack.json"
+    manifest_path = pack_dir / ".claude-plugin" / "plugin.json"
+    codex_manifest_path = pack_dir / ".codex-plugin" / "plugin.json"
+    meta_path = pack_dir / "meta.json"
+    if not all(path.exists() for path in (pack_path, manifest_path, codex_manifest_path, meta_path)):
         return
 
-    manifest, meta = load_json(manifest_path), load_json(meta_path)
-    if manifest is None or meta is None:
+    pack, manifest, codex_manifest, meta = load_json(pack_path), load_json(manifest_path), load_json(codex_manifest_path), load_json(meta_path)
+    if any(value is None for value in (pack, manifest, codex_manifest, meta)):
         return
+    validate(pack, "pack.schema.json", f"{plugin}/pack.json")
     validate(manifest, "plugin.schema.json", f"{plugin}/plugin.json")
+    validate(codex_manifest, "codex-plugin.schema.json", f"{plugin}/Codex plugin.json")
     validate(meta, "meta.schema.json", f"{plugin}/meta.json")
 
-    if manifest.get("name") != plugin:
-        fail(f"{plugin}: plugin.json name '{manifest.get('name')}' does not match directory")
+    if pack.get("id") != plugin:
+        fail(f"{plugin}: pack.json id '{pack.get('id')}' does not match directory")
+    expected_layer = {"core": "core", "workflows": "workflow", "domains": "domain", "local": "local"}.get(pack_dir.parent.name)
+    if pack.get("layer") != expected_layer:
+        fail(f"{plugin}: layer '{pack.get('layer')}' does not match {pack_dir.parent.name}/")
+    for host, host_manifest in (("Claude", manifest), ("Codex", codex_manifest)):
+        if host_manifest.get("name") != plugin:
+            fail(f"{plugin}: {host} manifest name '{host_manifest.get('name')}' does not match directory")
+        if host_manifest.get("version") != pack.get("version"):
+            fail(f"{plugin}: {host} manifest version does not match pack.json")
     if meta.get("status") == "production":
         if meta.get("owner") == meta.get("reviewer"):
             fail(f"{plugin}: production plugin needs a reviewer different from the owner")
@@ -233,7 +259,7 @@ def check_plugin(plugin_dir: Path) -> None:
             fail(f"{plugin}: production plugin needs provenance.reviewed_at")
 
     declared = {s["name"]: s for s in meta.get("skills", []) if isinstance(s, dict)}
-    skills_dir = plugin_dir / "skills"
+    skills_dir = pack_dir / "skills"
     on_disk = {d.name for d in skills_dir.iterdir() if d.is_dir()} if skills_dir.is_dir() else set()
     if not on_disk:
         fail(f"{plugin}: a plugin must ship at least one skill")
@@ -242,7 +268,7 @@ def check_plugin(plugin_dir: Path) -> None:
     for name in sorted(on_disk):
         check_skill(plugin, skills_dir / name, declared)
 
-    check_markdown_agents(plugin_dir, plugin)
+    check_markdown_agents(pack_dir, plugin)
 
 
 # ------------------------------------------------------------------- hygiene/git
@@ -269,7 +295,7 @@ def check_hygiene() -> None:
     for path in ROOT.rglob("*"):
         rel = path.relative_to(ROOT)
         if rel.parts and rel.parts[0] in {".git", "dist"}:
-            continue  # dist/ is build output, rebuilt by export_portable.py
+            continue  # dist/ is disposable build output
         if path.name in BANNED_NAMES or path.suffix in BANNED_SUFFIXES:
             fail(f"remove generated/private artefact: {rel}")
             continue
@@ -280,7 +306,7 @@ def check_hygiene() -> None:
         text = path.read_text(encoding="utf-8", errors="replace")
         if path.suffix == ".md":
             check_markdown_links(path, text)
-        if rel.parts and rel.parts[0] == "plugins":
+        if rel.parts and rel.parts[0] == "packs":
             placeholder = PLACEHOLDER_PATTERN.search(text)
             if placeholder:
                 fail(f"{rel}: unfilled scaffold placeholder '{placeholder.group(0)}'")
@@ -302,8 +328,8 @@ def check_hygiene() -> None:
                 fail(f"{rel}: {label} leaked ({match.group(0)[:40]})")
 
 
-def changed_plugins() -> set[str]:
-    """Plugins touched relative to origin/main, when that ref exists."""
+def changed_packs() -> set[tuple[str, str]]:
+    """Packs touched relative to origin/main, when that ref exists."""
     for base in ("origin/main", "main"):
         try:
             out = subprocess.run(
@@ -313,41 +339,41 @@ def changed_plugins() -> set[str]:
         except (subprocess.CalledProcessError, FileNotFoundError):
             continue
         return {
-            Path(line).parts[1]
+            (Path(line).parts[1], Path(line).parts[2])
             for line in out.splitlines()
-            if line.startswith("plugins/") and len(Path(line).parts) > 1
+            if line.startswith("packs/") and len(Path(line).parts) > 2
         }
     return set()
 
 
 def check_version_bump() -> None:
-    touched = changed_plugins()
+    touched = changed_packs()
     if not touched:
         return
-    for name in sorted(touched):
-        plugin_dir = PLUGINS / name
-        manifest = plugin_dir / ".claude-plugin" / "plugin.json"
-        if not manifest.exists():
+    for layer, name in sorted(touched):
+        pack_dir = PACKS / layer / name
+        pack_path = pack_dir / "pack.json"
+        if not pack_path.exists():
             continue
         try:
             previous = subprocess.run(
-                ["git", "show", f"origin/main:plugins/{name}/.claude-plugin/plugin.json"],
+                ["git", "show", f"origin/main:packs/{layer}/{name}/pack.json"],
                 cwd=ROOT, capture_output=True, text=True, check=True,
             ).stdout
         except subprocess.CalledProcessError:
             continue  # new plugin
         old = json.loads(previous).get("version")
-        new = load_json(manifest).get("version")
+        new = load_json(pack_path).get("version")
         if old == new:
             fail(f"{name}: content changed but version stayed {old}; bump it and update CHANGELOG.md")
 
 
 def main() -> int:
     check_repo_files()
-    check_marketplace()
-    if PLUGINS.is_dir():
-        for plugin_dir in sorted(p for p in PLUGINS.iterdir() if p.is_dir()):
-            check_plugin(plugin_dir)
+    check_marketplaces()
+    if PACKS.is_dir():
+        for pack_dir in sorted(path.parent for path in PACKS.glob("*/*/pack.json")):
+            check_pack(pack_dir)
     check_hygiene()
     check_version_bump()
 

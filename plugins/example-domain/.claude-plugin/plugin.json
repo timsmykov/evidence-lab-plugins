@@ -1,9 +1,0 @@
-{
-  "name": "example-domain",
-  "description": "Reference implementation of an Evidence Lab domain plugin. Shows the required shape end to end: two skills, an entry command, an adversarial reviewer subagent, deterministic scripts and routing evals. Install it only to study the format — it does no real research work.",
-  "version": "0.1.2",
-  "author": {
-    "name": "Evidence Lab"
-  },
-  "keywords": ["reference", "template"]
-}

@@ -1,0 +1,26 @@
+{
+  "name": "example-domain",
+  "description": "A non-published reference pack that demonstrates the Evidence Lab package structure, routing evaluations, deterministic scripts, and review metadata.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Evidence Lab"
+  },
+  "keywords": [
+    "reference-fixture"
+  ],
+  "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
+  "repository": "https://github.com/timsmykov/evidence-lab-plugins",
+  "license": "MIT AND Apache-2.0",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Example Domain",
+    "shortDescription": "Inspect the reference Evidence Lab pack.",
+    "longDescription": "Demonstrates the complete host-neutral pack layout without shipping subject-matter procedures to researchers.",
+    "developerName": "Evidence Lab",
+    "category": "Reference",
+    "capabilities": [
+      "Reference"
+    ],
+    "defaultPrompt": "Show me how an Evidence Lab pack is structured."
+  }
+}

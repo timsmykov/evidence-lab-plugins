@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evidence-lab-plugins/schemas/codex-plugin.schema.json",
+  "title": "Codex plugin manifest",
+  "type": "object",
+  "required": ["name", "description", "version", "author", "skills", "interface"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"},
+    "description": {"type": "string", "minLength": 60},
+    "version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+    "author": {"type": "object", "required": ["name"], "additionalProperties": false, "properties": {"name": {"type": "string"}}},
+    "skills": {"const": "./skills/"},
+    "keywords": {"type": "array", "items": {"type": "string"}},
+    "homepage": {"type": "string"},
+    "repository": {"type": "string"},
+    "license": {"type": "string"},
+    "interface": {
+      "type": "object",
+      "required": ["displayName", "shortDescription", "longDescription", "developerName", "category", "capabilities", "defaultPrompt"],
+      "additionalProperties": false,
+      "properties": {
+        "displayName": {"type": "string"}, "shortDescription": {"type": "string"},
+        "longDescription": {"type": "string"}, "developerName": {"type": "string"},
+        "category": {"type": "string"}, "capabilities": {"type": "array", "items": {"type": "string"}},
+        "defaultPrompt": {"type": "string"}
+      }
+    }
+  }
+}

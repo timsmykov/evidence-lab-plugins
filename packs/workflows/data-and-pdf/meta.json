@@ -1,0 +1,18 @@
+{
+  "status": "draft",
+  "category": "research",
+  "risk_level": "team_safe",
+  "owner": "Tim",
+  "reviewer": "Tim",
+  "provenance": {
+    "origin": "Evidence Lab decomposition of document, database, and exploratory-analysis procedures from a pinned K-Dense Scientific Agent Skills revision.",
+    "evidence": ["https://github.com/K-Dense-AI/scientific-agent-skills/tree/36d8f13a1e754618794bf42f417884940077b4ae", "Evidence Lab architecture review dated 2026-08-26"],
+    "added_at": "2026-08-26"
+  },
+  "skills": [
+    {"name": "database-lookup", "summary": "Retrieves facts reproducibly from documented public database APIs with explicit filters and provenance.", "deterministic_parts": []},
+    {"name": "exploratory-data-analysis", "summary": "Profiles supported local research data and reports quality, missingness, leakage, and sensitivity diagnostics.", "deterministic_parts": ["scripts/eda_analyzer.py", "scripts/tabular_profile.py", "scripts/missingness_leakage_audit.py"]},
+    {"name": "markitdown", "summary": "Converts supported local documents and selected sources to normalized Markdown for analysis and indexing.", "deterministic_parts": ["scripts/batch_convert.py", "scripts/convert_literature.py", "scripts/inspect_installation.py"]}
+  ],
+  "portable_to": ["claude", "codex"]
+}

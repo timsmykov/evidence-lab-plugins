@@ -1,26 +1,74 @@
 {
   "name": "evidence-lab-plugins",
-  "description": "Evidence Lab plugin marketplace: domain plugins that bundle research skills, commands and subagents into installable units.",
+  "description": "Evidence Lab agent-first research packs for Claude Code and Codex.",
   "owner": {
     "name": "Evidence Lab"
   },
   "plugins": [
     {
-      "name": "research-core",
-      "description": "Core, cross-disciplinary research workflows for literature discovery and citations, study planning, exploratory analysis, statistics, uncertainty, critical review, scientific figures, and evidence-bounded writing. Use for ordinary research work before a domain-specific plugin is needed. It does not provide clinical decisions, laboratory control, domain pipelines, or a dedicated PDF extraction backend.",
+      "name": "evidence-lab-core",
+      "description": "Agent-first research foundations, fast researcher onboarding, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
+      "version": "0.2.0",
+      "author": {
+        "name": "Evidence Lab"
+      },
+      "source": "./packs/core/evidence-lab-core",
+      "category": "research",
+      "keywords": [
+        "onboarding",
+        "pack-selection",
+        "paper-lookup",
+        "citation-management",
+        "critical-thinking"
+      ]
+    },
+    {
+      "name": "quantitative-sciences",
+      "description": "Statistical analysis, power and sample-size planning, uncertainty and units, and publication-grade scientific visualization for quantitative research.",
       "version": "0.1.0",
       "author": {
         "name": "Evidence Lab"
       },
-      "source": "./plugins/research-core",
+      "source": "./packs/domains/quantitative-sciences",
       "category": "research",
       "keywords": [
-        "research",
-        "evidence",
-        "literature",
-        "statistics",
-        "writing",
-        "reproducibility"
+        "statistical-analysis",
+        "statistical-power",
+        "uncertainty-and-units",
+        "scientific-visualization"
+      ]
+    },
+    {
+      "name": "data-and-pdf",
+      "description": "Document conversion, reproducible public-database retrieval, and exploratory analysis for papers, PDFs, tables, and structured research datasets.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Evidence Lab"
+      },
+      "source": "./packs/workflows/data-and-pdf",
+      "category": "research",
+      "keywords": [
+        "document-conversion",
+        "database-lookup",
+        "exploratory-data-analysis"
+      ]
+    },
+    {
+      "name": "full-research-cycle",
+      "description": "A complete research workflow from testable hypotheses and study design through literature synthesis, manuscript writing, diagrams, and evidence-bounded peer review.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Evidence Lab"
+      },
+      "source": "./packs/workflows/full-research-cycle",
+      "category": "research",
+      "keywords": [
+        "hypothesis-generation",
+        "study-design",
+        "literature-review",
+        "academic-writing",
+        "peer-review",
+        "research-diagrams"
       ]
     }
   ]

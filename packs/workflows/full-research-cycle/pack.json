@@ -1,0 +1,20 @@
+{
+  "id": "full-research-cycle",
+  "version": "0.1.0",
+  "layer": "workflow",
+  "display_name": "Full Research Cycle",
+  "description": "A complete research workflow from testable hypotheses and study design through literature synthesis, manuscript writing, diagrams, and evidence-bounded peer review.",
+  "category": "Research",
+  "author": {"name": "Evidence Lab"},
+  "capabilities": ["hypothesis-generation", "study-design", "literature-review", "academic-writing", "peer-review", "research-diagrams"],
+  "selection": {"always": false, "domains": [], "workflows": ["full-research-cycle", "literature-review", "prepare-publication"], "materials": [], "stages": ["planning", "active-research", "writing"], "methods": []},
+  "dependencies": ["evidence-lab-core"],
+  "conflicts": [],
+  "runtimes": ["claude-code", "codex"],
+  "interface": {
+    "short_description": "Run a complete, evidence-bounded research workflow.",
+    "long_description": "Supports research planning, literature synthesis, study design, academic writing, structured diagrams, and critical manuscript review.",
+    "capabilities": ["Research", "Write"],
+    "default_prompt": "Help me continue my research from its current stage."
+  }
+}

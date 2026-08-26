@@ -1,61 +1,38 @@
 # Working in this repository
 
-This is a marketplace of domain plugins for research work. A plugin bundles several skills from one subject area into an installable unit. You are most likely here to add a plugin, extend one, or review a change to one.
+This repository implements the Evidence Lab agent-first research stack. The product architecture and user flow are normative; do not reshape them around one host's current plugin format.
 
-Read this file first. Read `docs/` only when this file points you there.
+## Source of truth
 
-## Layout
+- `packs/<layer>/<id>/pack.json` defines identity, version, layer, selection signals, dependencies, capabilities, and supported hosts.
+- `skills/` contains the shared semantic implementation used by Claude Code and Codex.
+- `meta.json` contains provenance, review state, risk, and the exact skill inventory.
+- `.claude-plugin/`, `.codex-plugin/`, `.claude-plugin/marketplace.json`, `.agents/plugins/marketplace.json`, and the Core catalog are generated. Never hand-edit them.
+- The personal researcher profile and installation state do not belong in package source.
 
-| Path | What it is |
-|---|---|
-| `plugins/<name>/` | a plugin: `.claude-plugin/plugin.json`, `meta.json`, `skills/`, optional `commands/`, `agents/` |
-| `plugins/<name>/skills/<skill>/` | `SKILL.md` plus optional `scripts/`, `templates/`, `references/`, and a required `evals/trigger_eval.json` |
-| `templates/plugin/` | the scaffold; copy it via the script, never by hand |
-| `schemas/` | JSON schemas the verifier enforces |
-| `scripts/` | verifier, marketplace generator, scaffolder, portable export |
-| `.claude-plugin/marketplace.json` | generated shop window — never edit it |
+## Layers
 
-`plugins/example-domain` is a reference implementation. Study it; do not copy it and do not extend it with real work.
+Use `core`, `workflow`, `domain`, or `local`. A host is not a layer. Do not create separate Claude and Codex copies of a skill.
 
-## Adding a plugin
+## Normal workflow
 
 ```bash
-python3 scripts/new_plugin.py <plugin-name> --skill <skill-name> --owner <owner> --reviewer <reviewer>
-# write the real procedure, fill meta.json provenance, replace every eval case
-python3 scripts/build_marketplace.py
-git add -A && git commit          # commit before verifying: the version check diffs against origin/main
+python3 scripts/new_pack.py <pack-name> --layer <core|workflow|domain|local> --skill <skill-name> --owner <owner> --reviewer <reviewer>
+python3 scripts/build_adapters.py
+python3 scripts/test_agent_first.py
 python3 scripts/verify_repo.py
 ```
 
-Then open a pull request. Direct pushes to `main` are rejected; `verify` must be green.
+## Quality rules
 
-## Rules the verifier enforces
+- Every skill has at least eight routing cases and at least three negative near-misses.
+- Deterministic outputs belong in scripts.
+- Material research choices require a researcher confirmation point.
+- `pack.json`, manifests, catalog, and actual skill directories must agree.
+- Claude Code and Codex support is claimed only after native manifest validation and parity tests.
+- Production requires a reviewer different from the owner, a review date, and a real run.
+- Preserve provenance and third-party notices when moving or splitting content.
+- Keep private paths, credentials, identifiers, and client material out of shared packs.
+- Keep English entrypoints; route localized companions explicitly.
 
-Do not try to work around these. If a rule is genuinely wrong, narrow it in a separate reviewed change.
-
-- **English entrypoints.** Cyrillic outside an explicitly named `*.ru.md` / `*.ru.json` localization file fails the build. Localized references are routed from an English `SKILL.md`, never mixed inline.
-- **Every skill needs `evals/trigger_eval.json`** with at least 8 cases and at least 3 negatives. Negatives come from neighbouring skills in the same plugin.
-- **Descriptions are routing, not marketing.** At least 80 characters, naming the phrasings that load the skill and the near misses that must not.
-- **`meta.json` lists every skill on disk**, and `provenance` names whose practice the procedure came from.
-- **Declared deterministic parts exist**, and relative Markdown links resolve inside the repository.
-- **Version bumps are mandatory** when plugin content changes; update the plugin's `CHANGELOG.md` in the same commit.
-- **No placeholders in `plugins/`.** `REPLACE ME` and `__SKILL__` left in a plugin fail the build.
-- **No private data.** Tokens, IPs, private host paths, email addresses, client or student document contents, internal page links, bare UUIDs.
-- **Production status** requires a reviewer different from the owner and a `provenance.reviewed_at` date.
-
-## How to write a skill
-
-The full guidance is in `docs/authoring.md`. The three things that matter most:
-
-1. **Write it after doing the work by hand at least once.** A procedure derived from general reasoning rather than practice is the model paraphrasing itself, and it collapses on the first real task.
-2. **Split the model from the script.** If a step must return the same result on a rerun — deduplication, table assembly, citation formatting, template filling — it belongs in `scripts/`, runnable standalone, not in prompt text.
-3. **Put in a confirmation point.** Where the procedure picks criteria or boundaries, stop and let the researcher approve. Without it a model hypothesis silently becomes the result.
-
-## What not to do
-
-- Do not hand-edit `.claude-plugin/marketplace.json`; run `scripts/build_marketplace.py`.
-- Do not delete or loosen a check in `scripts/verify_repo.py` to get CI green.
-- Do not add a `shared/` skills directory — reuse is deliberately deferred until a real duplicate exists (see `docs/architecture.md`).
-- Do not commit `dist/`; it is build output.
-- Do not export a plugin to Codex, ChatGPT, or Hermes unless that runtime is explicitly listed in `meta.json` → `portable_to`.
-- Do not mark a plugin `production` because it looks finished. That status means it ran on a real task.
+`packs/domains/example-domain` is a reference fixture, not a real capability pack.

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evidence-lab-plugins/schemas/codex-marketplace.schema.json",
+  "title": "Codex repository marketplace",
+  "type": "object",
+  "required": ["name", "interface", "plugins"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {"type": "string"},
+    "interface": {"type": "object", "required": ["displayName"], "additionalProperties": false, "properties": {"displayName": {"type": "string"}}},
+    "plugins": {
+      "type": "array",
+      "items": {
+        "type": "object", "required": ["name", "source", "policy", "category"], "additionalProperties": false,
+        "properties": {
+          "name": {"type": "string"},
+          "source": {"type": "object", "required": ["source", "path"], "additionalProperties": false, "properties": {"source": {"const": "local"}, "path": {"type": "string"}}},
+          "policy": {"type": "object", "required": ["installation", "authentication"], "additionalProperties": false, "properties": {"installation": {"enum": ["NOT_AVAILABLE", "AVAILABLE", "INSTALLED_BY_DEFAULT"]}, "authentication": {"enum": ["ON_INSTALL", "ON_USE"]}}},
+          "category": {"type": "string"}
+        }
+      }
+    }
+  }
+}
