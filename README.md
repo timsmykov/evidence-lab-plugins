@@ -35,6 +35,7 @@ python3 scripts/build_adapters.py
 python3 scripts/build_adapters.py --check
 python3 scripts/test_agent_first.py
 python3 scripts/test_bootstrap.py
+python3 scripts/test_normalization.py
 python3 scripts/verify_repo.py
 ```
 
@@ -45,3 +46,14 @@ python3 scripts/new_pack.py systematic-review --layer workflow --skill screening
 ```
 
 Fill every placeholder, rebuild adapters, and submit a reviewed pull request. English remains the canonical agent-entrypoint language; localized companions use explicit `*.ru.md` or `*.ru.json` names.
+
+## Documentation
+
+- [Bootstrap contract](BOOTSTRAP.md)
+- [Architecture](docs/architecture.md)
+- [Pack and skill authoring](docs/authoring.md)
+- [Release process](docs/release-process.md)
+- [Review checklist](docs/review-checklist.md)
+- [Content privacy](docs/sanitization-policy.md)
+- [GitHub-first execution plan](docs/github-first-execution-plan.md)
+- [Contributing](CONTRIBUTING.md)

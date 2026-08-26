@@ -11,7 +11,7 @@
   },
   "skills": [
     {"name": "citation-management", "summary": "Finds, verifies, deduplicates, and formats scholarly citation metadata and BibTeX.", "deterministic_parts": ["scripts/validate_citations.py", "scripts/format_bibtex.py"]},
-    {"name": "evidence-lab-onboarding", "summary": "Runs onboarding and safely plans, applies, verifies, and records a host-native Evidence Lab installation.", "deterministic_parts": ["scripts/select_packs.py", "scripts/bootstrap.py"]},
+    {"name": "evidence-lab-onboarding", "summary": "Runs onboarding and safely plans, applies, verifies, and records a host-native Evidence Lab installation.", "deterministic_parts": ["scripts/normalize_profile.py", "scripts/select_packs.py", "scripts/bootstrap.py"]},
     {"name": "paper-lookup", "summary": "Searches scholarly APIs and returns deduplicated paper records, identifiers, provenance, and available full text.", "deterministic_parts": ["scripts/paginate.py", "scripts/jats_to_text.py", "scripts/openalex_abstract.py"]},
     {"name": "scientific-critical-thinking", "summary": "Audits claims, assumptions, causal language, bias, confounding, and evidence quality.", "deterministic_parts": []}
   ],

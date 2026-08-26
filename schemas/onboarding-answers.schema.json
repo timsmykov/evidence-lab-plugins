@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://evidence-lab.dev/schemas/onboarding-answers.schema.json",
+  "title": "Evidence Lab onboarding answers",
+  "type": "object",
+  "required": ["schema_version", "locale", "answers"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "locale": {"type": "string", "pattern": "^[a-z]{2}(-[A-Z]{2})?$"},
+    "answers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["question_id", "selected_option_ids"],
+        "additionalProperties": false,
+        "properties": {
+          "question_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+          "selected_option_ids": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"}
+          },
+          "free_text": {"type": "string", "minLength": 1, "maxLength": 10000}
+        }
+      }
+    }
+  }
+}
