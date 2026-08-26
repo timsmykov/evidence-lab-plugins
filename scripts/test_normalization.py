@@ -13,6 +13,8 @@ from pathlib import Path
 from jsonschema import Draft202012Validator
 
 
+sys.dont_write_bytecode = True
+
 ROOT = Path(__file__).resolve().parent.parent
 NORMALIZER = ROOT / "packs/core/evidence-lab-core/skills/evidence-lab-onboarding/scripts/normalize_profile.py"
 QUESTIONS_PATH = ROOT / "packs/core/evidence-lab-core/onboarding/questions.json"
