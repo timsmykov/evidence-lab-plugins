@@ -47,6 +47,7 @@ REQUIRED_REPO_FILES = [
     "schemas/pack.schema.json",
     "schemas/profile.schema.json",
     "schemas/selection-plan.schema.json",
+    "schemas/selection-policy.schema.json",
     "schemas/installation-plan.schema.json",
     "schemas/installation-state.schema.json",
     "schemas/onboarding-questions.schema.json",

@@ -1,0 +1,7 @@
+{
+  "pack_ids": ["evidence-lab-core", "quantitative-sciences"],
+  "rule_ids": {
+    "evidence-lab-core": ["required-foundation"],
+    "quantitative-sciences": ["quantitative-domain", "quantitative-method"]
+  }
+}

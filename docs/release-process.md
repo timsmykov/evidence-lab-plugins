@@ -14,7 +14,7 @@ CI diffs plugin content against `origin/main` and fails when files changed while
 
 1. Branch `plugin/<name>` or `fix/<what>`.
 2. Edits, version bump, entry in the plugin's `CHANGELOG.md`.
-3. `python3 scripts/build_marketplace.py` — the shop window is rebuilt.
+3. `python3 scripts/build_adapters.py` — both native manifests, marketplaces, and the Core catalog are rebuilt.
 4. `python3 scripts/verify_repo.py` — the gate is green.
 5. Pull request with the verifier output and a real run.
 6. Review against the checklist, merge.
@@ -29,7 +29,12 @@ Claude Code and Codex have separate native adapter gates. `scripts/build_adapter
 
 ## Tags
 
-Meaningful versions are tagged `<plugin>@<version>`, e.g. `systematic-review@1.2.0`. The tag is applied after merge, on a commit in `main`.
+Pack SemVer records which individual procedures changed. GitHub-first distribution
+uses one immutable repository snapshot tag and a release lock containing every
+pack version and content hash; bootstrap pins that snapshot, not a floating branch
+or an arbitrary per-pack tag. The snapshot tooling is delivered in R5 of
+`docs/github-first-execution-plan.md`. Until that gate exists and passes, a merged
+pack version is not yet a public Evidence Lab distribution release.
 
 ## When the gate fails
 

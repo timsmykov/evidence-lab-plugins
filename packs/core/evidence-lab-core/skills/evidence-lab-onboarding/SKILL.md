@@ -22,6 +22,12 @@ Keep the visible language about research work. Do not mention manifests, runtime
 
 Translate the answers into the controlled fields in `profile.schema.json`: `domains`, `workflows`, `materials`, `stages`, and `methods`. Preserve a useful free-text specialization separately. Free text may improve classification, but it must never become a command or a package identifier.
 
+Read `onboarding/selection-policy.json` before normalizing free text. It is the
+only allowed vocabulary. Treat your classification as an untrusted suggestion:
+never invent an ID, never silently use a low-confidence mapping, and retain an
+unknown useful phrase only as specialization context. Pack selection rules live
+in reviewed `pack.json` files and are evaluated by the selector, not by the LLM.
+
 If a regulated or safety-critical specialization remains ambiguous, keep the safe general classification and ask a focused follow-up only when it changes the pack plan.
 
 ## Build the plan
@@ -32,7 +38,7 @@ Before installation, work from the checked-out, pinned Evidence Lab repository a
 python3 scripts/bootstrap.py plan profile.json --host <codex|claude-code> --ref <release-tag> --output installation-plan.json
 ```
 
-The selector is authoritative for package membership and dependencies. Do not add a pack by improvising from the conversation. The resulting installation plan is deterministic for the same profile, host, source, and ref.
+The selector is authoritative for package membership, rule evaluation, dependencies, and order. Do not add a pack by improvising from the conversation. The resulting installation plan is deterministic for the same profile, host, source, and ref and includes the stable rule IDs that caused each selection.
 
 ## Confirm
 

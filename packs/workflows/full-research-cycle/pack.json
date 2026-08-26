@@ -1,13 +1,29 @@
 {
   "id": "full-research-cycle",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "layer": "workflow",
   "display_name": "Full Research Cycle",
   "description": "A complete research workflow from testable hypotheses and study design through literature synthesis, manuscript writing, diagrams, and evidence-bounded peer review.",
   "category": "Research",
   "author": {"name": "Evidence Lab"},
   "capabilities": ["hypothesis-generation", "study-design", "literature-review", "academic-writing", "peer-review", "research-diagrams"],
-  "selection": {"always": false, "domains": [], "workflows": ["full-research-cycle", "literature-review", "prepare-publication"], "materials": [], "stages": ["planning", "active-research", "writing"], "methods": []},
+  "selection": {
+    "always": false,
+    "rules": [
+      {
+        "id": "full-cycle-workflow",
+        "priority": 300,
+        "when": {"any": {"workflows": ["full-research-cycle", "literature-review", "prepare-publication", "quality-review"]}},
+        "reason": "The requested workflow uses the end-to-end research procedures."
+      },
+      {
+        "id": "full-cycle-writing-stage",
+        "priority": 200,
+        "when": {"any": {"stages": ["writing", "systematic-review"]}},
+        "reason": "The current stage requires literature, writing, or review procedures."
+      }
+    ]
+  },
   "dependencies": ["evidence-lab-core"],
   "conflicts": [],
   "runtimes": ["claude-code", "codex"],
