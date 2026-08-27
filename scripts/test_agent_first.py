@@ -16,6 +16,8 @@ FIXTURES = ROOT / "tests" / "fixtures" / "onboarding"
 SELECTOR_PATH = ROOT / "packs" / "core" / "evidence-lab-core" / "skills" / "evidence-lab-onboarding" / "scripts" / "select_packs.py"
 CATALOG_PATH = ROOT / "packs" / "core" / "evidence-lab-core" / "catalog" / "packs.json"
 POLICY_PATH = ROOT / "packs" / "core" / "evidence-lab-core" / "onboarding" / "selection-policy.json"
+PLAN_COPY_ROOT = ROOT / "packs" / "core" / "evidence-lab-core" / "onboarding"
+RENDERER_PATH = ROOT / "scripts" / "render_plan.py"
 
 
 def load(path: Path):
@@ -30,6 +32,14 @@ def validate(value, schema_name: str) -> None:
 
 def load_selector():
     spec = importlib.util.spec_from_file_location("evidence_lab_selector", SELECTOR_PATH)
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+    return module
+
+
+def load_renderer():
+    spec = importlib.util.spec_from_file_location("evidence_lab_plan_renderer", RENDERER_PATH)
     module = importlib.util.module_from_spec(spec)
     assert spec.loader is not None
     spec.loader.exec_module(module)
@@ -206,9 +216,65 @@ def check_onboarding_catalogs() -> None:
                 raise AssertionError(f"onboarding option {option['id']} is missing from policy field {field}")
 
 
+def check_plan_copy() -> None:
+    catalog = load(CATALOG_PATH)
+    english = load(PLAN_COPY_ROOT / "plan-copy.json")
+    russian = load(PLAN_COPY_ROOT / "plan-copy.ru.json")
+    validate(english, "onboarding-plan-copy.schema.json")
+    validate(russian, "onboarding-plan-copy.schema.json")
+
+    expected_packs = {pack["id"] for pack in catalog["packs"]}
+    expected_rules = {"required-foundation"}
+    for pack in catalog["packs"]:
+        expected_rules.update(rule["id"] for rule in pack["selection"]["rules"])
+
+    for label, copy in (("English", english), ("Russian", russian)):
+        copy_packs = [item["id"] for item in copy["packs"]]
+        copy_rules = [item["id"] for item in copy["rules"]]
+        if len(copy_packs) != len(set(copy_packs)) or set(copy_packs) != expected_packs:
+            raise AssertionError(f"{label} plan copy does not exactly cover the published pack catalog")
+        if len(copy_rules) != len(set(copy_rules)) or set(copy_rules) != expected_rules:
+            raise AssertionError(f"{label} plan copy does not exactly cover the selection rules")
+    if [item["id"] for item in english["packs"]] != [item["id"] for item in russian["packs"]]:
+        raise AssertionError("localized plan-copy pack IDs drifted")
+    if [item["id"] for item in english["rules"]] != [item["id"] for item in russian["rules"]]:
+        raise AssertionError("localized plan-copy rule IDs drifted")
+
+    selector = load_selector()
+    profile = load(FIXTURES / "quantitative-full-cycle.profile.json")
+    selection_plan = selector.select(profile, catalog, load(POLICY_PATH))
+    installation_plan = {
+        "schema_version": 1,
+        "host": "codex",
+        "release": {"tag": "release-2099.01.1"},
+        "selection_plan": selection_plan,
+    }
+    renderer = load_renderer()
+    for copy in (english, russian):
+        rendered = renderer.render(installation_plan, copy)
+        if f"# {copy['heading']}" not in rendered or copy["confirmation"] not in rendered:
+            raise AssertionError("localized plan renderer omitted required user-facing copy")
+        if "release-2099.01.1" not in rendered or "evidence-lab-core" in rendered:
+            raise AssertionError("plan renderer leaked an internal pack ID or omitted the locked release")
+        for selected in selection_plan["packs"]:
+            title = next(item["title"] for item in copy["packs"] if item["id"] == selected["id"])
+            if title not in rendered:
+                raise AssertionError(f"plan renderer omitted selected capability {selected['id']}")
+
+    broken = json.loads(json.dumps(installation_plan))
+    broken["selection_plan"]["packs"][0]["rule_ids"] = ["unreviewed-rule"]
+    try:
+        renderer.render(broken, english)
+    except renderer.RenderError:
+        pass
+    else:
+        raise AssertionError("plan renderer accepted an unreviewed selection-rule ID")
+
+
 def main() -> int:
     validate(load(ROOT / ".agents" / "plugins" / "marketplace.json"), "codex-marketplace.schema.json")
     check_onboarding_catalogs()
+    check_plan_copy()
     check_policy_boundaries()
     check_fixtures()
     check_adapter_parity()

@@ -6,15 +6,20 @@ plan from their answers, and installs only the capabilities they approve.
 
 ## Install from chat
 
-Open Codex or Claude Code and paste this request into a new task:
+Open Codex or Claude Code and paste the request from [`START.md`](START.md) into
+a new task. A complete Russian user path is available in
+[`START.ru.md`](START.ru.md).
+
+The English request is:
 
 > Install and configure Evidence Lab from
 > `https://github.com/timsmykov/evidence-lab-plugins`. Use the latest published
-> `release-*` GitHub Release and its `release-lock.json`. Follow `BOOTSTRAP.md`,
+> `release-*` GitHub Release and its `release-lock.json`. Follow `START.md` and
+> `BOOTSTRAP.md` from that release,
 > ask me the short onboarding questions one at a time, show the complete pack
 > plan, and install nothing until I confirm it.
 
-The agent will identify the host, ask four plain-language questions about the
+The agent will verify the stable release, identify the host, ask four plain-language questions about the
 researcher's work, explain the recommended capabilities, and request one
 confirmation before installation. A new task is required after setup so Codex
 or Claude Code can load the installed skills.
@@ -95,6 +100,8 @@ Fill every placeholder, rebuild adapters, and submit a reviewed pull request. En
 
 ## Documentation
 
+- [App-first start](START.md)
+- [App-first start in Russian](START.ru.md)
 - [Install and onboarding contract](BOOTSTRAP.md)
 - [Licensing scope](LICENSING.md)
 - [Third-party notices](THIRD_PARTY_NOTICES.md)

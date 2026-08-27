@@ -56,7 +56,18 @@ The selector is authoritative for package membership, rule evaluation, dependenc
 
 ## Confirm
 
-Explain the selected capabilities and the reason for each in plain language. Show the complete plan and obtain one explicit confirmation. Only then run:
+Render the locked installation plan in the conversation language:
+
+```bash
+python3 scripts/render_plan.py installation-plan.json --locale <en|ru> \
+  --output .evidence-lab/recommendation.md
+```
+
+Show that rendered recommendation verbatim. It contains the complete
+plain-language capability list, the stable reason for every selection, the
+application, and the locked release. Do not show pack IDs, raw JSON, or commands
+unless the user asks for technical details. Obtain one explicit confirmation.
+Only then run:
 
 ```bash
 python3 scripts/bootstrap.py apply installation-plan.json \

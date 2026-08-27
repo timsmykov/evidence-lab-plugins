@@ -1,5 +1,11 @@
 # Changelog — Evidence Lab Core
 
+## [0.9.0] — 2026-08-27
+
+### Added
+- App-first Codex and Claude Code entrypoints with a four-question chat contract.
+- Deterministic English and Russian recommendation rendering before installation approval.
+
 ## [0.8.1] — 2026-08-27
 
 ### Changed
