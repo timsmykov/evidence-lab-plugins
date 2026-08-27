@@ -8,7 +8,7 @@
     {
       "name": "evidence-lab-core",
       "description": "Agent-first research foundations, fast researcher onboarding, personal skill creation, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
-      "version": "0.12.1",
+      "version": "0.13.0",
       "author": {
         "name": "Evidence Lab"
       },

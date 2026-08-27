@@ -52,7 +52,7 @@ This is the capability library from which deterministic onboarding selects a res
 
 | Pack | Layer | Version | Skills | Capabilities | Selection | Status |
 |---|---|---:|---:|---|---|---|
-| `evidence-lab-core` | `core` | `0.12.1` | 5 | `onboarding`, `pack-selection`, `companion-plugin-planning`, `installation-lifecycle`, `personal-skill-authoring`, `paper-lookup`, `citation-management`, `critical-thinking` | always | `draft` |
+| `evidence-lab-core` | `core` | `0.13.0` | 5 | `onboarding`, `pack-selection`, `companion-plugin-planning`, `installation-lifecycle`, `personal-skill-authoring`, `paper-lookup`, `citation-management`, `critical-thinking` | always | `draft` |
 | `life-sciences` | `domain` | `0.1.2` | 1 | `life-science-protocols` | `life-science-planning`, `life-science-images` | `draft` |
 | `quantitative-sciences` | `domain` | `0.4.0` | 4 | `statistical-analysis`, `statistical-power`, `uncertainty-and-units`, `scientific-visualization` | `quantitative-method` | `draft` |
 | `data-and-pdf` | `workflow` | `1.0.2` | 1 | `data-and-pdf-compatibility` | `data-and-pdf-full-cycle-datasets`, `data-and-pdf-full-cycle-tables` | `draft` |
@@ -71,7 +71,7 @@ This is the capability library from which deterministic onboarding selects a res
 | Pack | Skill | Role | SKILL.md lines | Scripts | References | Trigger eval | Quality status |
 |---|---|---|---:|---:|---:|---|---|
 | `evidence-lab-core` | `citation-management` | `research` | 328 | 8 | 10 | yes | `needs-representative-testing` |
-| `evidence-lab-core` | `evidence-lab-onboarding` | `onboarding` | 125 | 4 | 1 | yes | `needs-representative-testing` |
+| `evidence-lab-core` | `evidence-lab-onboarding` | `onboarding` | 144 | 5 | 1 | yes | `needs-representative-testing` |
 | `evidence-lab-core` | `paper-lookup` | `research` | 262 | 5 | 11 | yes | `needs-representative-testing` |
 | `evidence-lab-core` | `personal-skill-authoring` | `skill-authoring` | 102 | 2 | 1 | yes | `needs-representative-testing` |
 | `evidence-lab-core` | `scientific-critical-thinking` | `research` | 165 | 0 | 7 | yes | `needs-representative-testing` |

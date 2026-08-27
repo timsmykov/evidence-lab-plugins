@@ -19,6 +19,7 @@ FOUNDATION_PATH = ROOT / "packs" / "core" / "evidence-lab-core" / "catalog" / "f
 POLICY_PATH = ROOT / "packs" / "core" / "evidence-lab-core" / "onboarding" / "selection-policy.json"
 PLAN_COPY_ROOT = ROOT / "packs" / "core" / "evidence-lab-core" / "onboarding"
 RENDERER_PATH = ROOT / "scripts" / "render_plan.py"
+LANGUAGE_SELECTOR_PATH = ROOT / "packs/core/evidence-lab-core/skills/evidence-lab-onboarding/scripts/select_language.py"
 
 
 def load(path: Path):
@@ -41,6 +42,14 @@ def load_selector():
 
 def load_renderer():
     spec = importlib.util.spec_from_file_location("evidence_lab_plan_renderer", RENDERER_PATH)
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+    return module
+
+
+def load_language_selector():
+    spec = importlib.util.spec_from_file_location("evidence_lab_language_selector", LANGUAGE_SELECTOR_PATH)
     module = importlib.util.module_from_spec(spec)
     assert spec.loader is not None
     spec.loader.exec_module(module)
@@ -236,6 +245,31 @@ def check_adapter_parity() -> None:
 
 def check_onboarding_catalogs() -> None:
     root = ROOT / "packs" / "core" / "evidence-lab-core" / "onboarding"
+    language_english = load(root / "language.json")
+    language_russian = load(root / "language.ru.json")
+    validate(language_english, "onboarding-language.schema.json")
+    validate(language_russian, "onboarding-language.schema.json")
+    if [item["id"] for item in language_english["options"]] != ["en", "ru"]:
+        raise AssertionError("English language choice must offer en then ru")
+    if [item["id"] for item in language_russian["options"]] != ["en", "ru"]:
+        raise AssertionError("localized language choice IDs drifted")
+    selector = load_language_selector()
+    catalogs = (language_english, language_russian)
+    expected_answers = {
+        "1": "en", "English": "en", "EN": "en", "\u0410\u043d\u0433\u043b\u0438\u0439\u0441\u043a\u0438\u0439": "en",
+        "2": "ru", "Russian": "ru", "RU": "ru", "\u0420\u0443\u0441\u0441\u043a\u0438\u0439": "ru",
+    }
+    for answer, expected in expected_answers.items():
+        actual = selector.select_language(answer, catalogs)
+        if actual != expected:
+            raise AssertionError(f"language answer {answer!r}: expected {expected}, got {actual}")
+    try:
+        selector.select_language("Deutsch", catalogs)
+    except ValueError as exc:
+        if "unsupported" not in str(exc):
+            raise
+    else:
+        raise AssertionError("language selector accepted an unsupported locale")
     english = load(root / "questions.json")
     russian = load(root / "questions.ru.json")
     policy = load(POLICY_PATH)

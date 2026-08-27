@@ -18,18 +18,24 @@ the entire visible flow in chat and perform the technical steps on their behalf.
 - Show the complete pack plan before any installation mutation.
 - Run installation only after the user explicitly confirms that displayed plan.
 
+Use the documented entrypoints directly. Do not dump the release lock or read
+entire verifier and bootstrap implementations when their commands succeed; this
+adds latency and context without improving the trust decision. Verify a pinned
+checkout with `python3 scripts/release_snapshot.py verify <release-lock>`.
+
 ## User flow
 
 1. Detect whether the current application is Codex or Claude Code from the running host context. Do not ask the user to identify technical runtime details.
-2. Ask the four short questions from `packs/core/evidence-lab-core/onboarding/questions.json`, one at a time. Use the localized companion matching the conversation language when present.
-3. Accept a number, several numbers, or a free-text answer. Run `normalize_profile.py options` first. If no free text needs review, this path uses no LLM classification.
-4. For free text, require the host LLM to return only the candidate described by `references/normalization-contract.md`, then pass it through `normalize_profile.py apply`. Unknown IDs, fields unrelated to the source question, low-confidence mappings, and extra installation fields are rejected. The LLM may suggest profile values but may not select or order packs.
-5. Save only a validated `ready` profile outside the repository, normally under the research project at `.evidence-lab/profile.json`. If the result is `needs-follow-up`, ask its focused question first.
-6. Build an installation plan with `python3 scripts/bootstrap.py plan`. Pass the current host, exact release tag, and matching `release-lock.json` supplied at entry.
+2. Before the research questions, ask the bilingual English-first language choice defined in `packs/core/evidence-lab-core/onboarding/language.json` and its Russian companion. Resolve it with `select_language.py`; support only English and Russian, and use no LLM classification for this choice.
+3. Continue entirely in the selected language. Ask the four short research questions from `packs/core/evidence-lab-core/onboarding/questions.json`, one at a time, using `questions.ru.json` when the selected locale is `ru`.
+4. Accept a number, several numbers, or a free-text answer. Run `normalize_profile.py options` first. If no free text needs review, this path uses no LLM classification.
+5. For free text, require the host LLM to return only the candidate described by `references/normalization-contract.md`, then pass it through `normalize_profile.py apply`. Unknown IDs, fields unrelated to the source question, low-confidence mappings, and extra installation fields are rejected. The LLM may suggest profile values but may not select or order packs.
+6. Save only a validated `ready` profile outside the repository, normally under the research project at `.evidence-lab/profile.json`. If the result is `needs-follow-up`, ask its focused question first.
+7. Build an installation plan with `python3 scripts/bootstrap.py plan`. Pass the current host, exact release tag, and matching `release-lock.json` supplied at entry.
    The plan must contain every pack marked `foundation: true`: together these
    expose the frozen 20-skill researcher foundation. The answers may explain
    relevance and add optional packs, but cannot subtract foundation packs.
-7. Render the locked plan with `python3 scripts/render_plan.py
+8. Render the locked plan with `python3 scripts/render_plan.py
    installation-plan.json --locale <en|ru> --output
    .evidence-lab/recommendation.md`. Show that result verbatim. It is the
    complete plain-language capability list and stable selection-rule reasons;
@@ -37,10 +43,14 @@ the entire visible flow in chat and perform the technical steps on their behalf.
    technical details.
    Do not describe any capability listed as `planned` in
    `catalog/foundation-core.json` as already available.
-8. Ask one confirmation for the whole plan. A reply such as “yes, add these capabilities” is sufficient; silence or an unrelated answer is not.
-9. After confirmation, run `python3 scripts/bootstrap.py apply` with the same `--release-lock`, `--confirmed-by-user`, and state path `.evidence-lab/installation-state.json`.
-10. Read the resulting state. Say the workspace is ready only when `status` is `ready` and every desired pack and version appears in `installed_after`.
-11. Ask the user to open a new task so the host loads the newly installed skills. Start that task with the user's actual research goal, not another setup questionnaire.
+9. Ask one confirmation for the whole plan. A reply such as “yes, add these capabilities” is sufficient; silence or an unrelated answer is not.
+10. After confirmation, run `python3 scripts/bootstrap.py apply` with the same `--release-lock`, `--confirmed-by-user`, and state path `.evidence-lab/installation-state.json`.
+11. Read the resulting state. `bootstrap.py apply` already obtains live host
+    readback through `codex plugin list --json` or the Claude Code equivalent.
+    Do not run an additional ad-hoc host command after a `ready` state. Say the
+    workspace is ready only when `status` is `ready` and every desired pack and
+    version appears in `installed_after`.
+12. Ask the user to open a new task so the host loads the newly installed skills. Start that task with the user's actual research goal, not another setup questionnaire.
 
 ## Existing installation flow
 

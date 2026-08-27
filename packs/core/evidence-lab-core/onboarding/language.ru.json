@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "prompt": "Перед началом выберите язык.",
+  "instruction": "Выберите 1 или 2 либо напишите название языка.",
+  "options": [
+    {"id": "en", "label": "Английский", "accepted_answers": ["1", "en", "английский"]},
+    {"id": "ru", "label": "Русский", "accepted_answers": ["2", "ru", "русский"]}
+  ]
+}

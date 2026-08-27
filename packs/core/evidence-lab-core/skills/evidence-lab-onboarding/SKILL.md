@@ -7,9 +7,23 @@ description: Runs the fast Evidence Lab setup when a researcher asks to configur
 
 Set up a useful research workspace through a short, non-technical chat. Ask one question at a time and accept a number, several numbers, or the researcher's own wording.
 
+## Choose the conversation language
+
+Before any research question, show the English prompt and instruction from
+`onboarding/language.json` exactly once. Render option 1 as `English` and option
+2 with the native Russian label from `onboarding/language.ru.json` so either
+audience can recognize it without technical wording.
+
+Resolve the answer deterministically with `scripts/select_language.py`. Only
+English and Russian are supported for now. If the answer is not recognized,
+repeat only the language choice. Do not use an LLM to infer another language.
+After selection, continue entirely in that language and save its `en` or `ru`
+identifier as `locale` in the onboarding answers.
+
 ## Questions
 
-Read `onboarding/questions.json` at the pack root and collect only what is still unknown:
+Read `onboarding/questions.json` at the pack root, or its Russian companion when
+`locale` is `ru`, and collect only what is still unknown:
 
 1. Research domains or disciplines.
 2. The first workflow, including a full research cycle.
@@ -91,6 +105,11 @@ python3 scripts/bootstrap.py apply installation-plan.json \
 ```
 
 Read the state after the command. Say the workspace is ready only when its status is `ready` and every desired ID and version appears in `installed_after`. Then ask the user to start a new task so the host loads the installed skills.
+
+The apply command already performs live host readback. When it returns a
+`ready` state, do not add a redundant host-list command. If independent Codex
+diagnostics are needed after a non-ready result, the supported command is
+`codex plugin list --json` (singular `plugin`), never `codex plugins list`.
 
 The installer may add or update the configured Evidence Lab marketplace and install the approved packs. On failure it rolls back only packs added during the current attempt; it never removes a pre-existing plugin. It does not silently install packages, generate unreviewed skills, or claim that a host accepted an installation without readback evidence.
 
