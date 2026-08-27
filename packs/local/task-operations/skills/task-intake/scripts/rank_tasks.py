@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Deterministically score and rank executable Evidence Lab tasks.
+"""Deterministically gate, score, and rank executable tasks.
 
-Input is a JSON array of task objects. The script does not write to Notion.
-It returns gate failures, a score breakdown, and a per-owner execution rank.
+Input is a JSON array of task objects. The script does not write to a workspace.
+It returns gate failures, a score breakdown, a global rank, and an owner rank.
 """
 from __future__ import annotations
 
@@ -51,7 +51,6 @@ def gate_failures(task: dict[str, Any]) -> list[str]:
         "owner": "owner",
         "executors": "executor",
         "reviewer": "reviewer",
-        "product_contour": "product contour",
         "result": "result",
         "acceptance_criteria": "acceptance criteria",
         "source": "source",
@@ -63,16 +62,19 @@ def gate_failures(task: dict[str, Any]) -> list[str]:
     for key, label in required.items():
         if task.get(key) in (None, "", []):
             failures.append(f"missing {label}")
-    if task.get("project") in (None, "", []) and task.get("initiative") in (None, "", []):
-        failures.append("missing active project or initiative")
-    if task.get("status") == "Done":
+    scope_fields = ("scope", "project", "initiative", "area")
+    if all(task.get(key) in (None, "", []) for key in scope_fields):
+        failures.append("missing project or work scope")
+    if task.get("status") in {"Done", "Complete", "Completed"} or task.get("done"):
         failures.append("already done")
     if task.get("blocked") or task.get("board_column") == "Blocked" or int(task.get("open_dependencies", 0) or 0) > 0:
         failures.append("blocked")
     if task.get("is_container"):
         failures.append("container is not executable")
-    if task.get("project_active") is False:
-        failures.append("project or initiative is not active")
+    if task.get("scope_active") is False or task.get("project_active") is False:
+        failures.append("project or work scope is not active")
+    if task.get("start_conditions_met") is False:
+        failures.append("start conditions are not met")
     if task.get("priority") == "P0" and not task.get("p0_failure_sentence"):
         failures.append("P0 has no failure sentence")
     return failures
@@ -95,7 +97,7 @@ def evaluate(task: dict[str, Any], today: date) -> dict[str, Any]:
 
     due, due_note = due_points(parse_date(task.get("due")), today)
     breakdown = {
-        "pilot": 100 if task.get("pilot_gate") else 0,
+        "commitment": 100 if task.get("commitment_gate", task.get("pilot_gate", False)) else 0,
         "priority": PRIORITY_POINTS.get(priority, 0),
         "impact": impact * 10,
         "urgency": urgency * 6,
@@ -112,34 +114,41 @@ def evaluate(task: dict[str, Any], today: date) -> dict[str, Any]:
         "score_breakdown": breakdown,
         "due_note": due_note,
         "owner_rank": None,
+        "global_rank": None,
     }
 
 
 def rank(tasks: list[dict[str, Any]], today: date) -> list[dict[str, Any]]:
     rows = [evaluate(task, today) for task in tasks]
+    ready_global = [row for row in rows if row["ready"]]
+    ready_global.sort(key=sort_key)
+    for index, row in enumerate(ready_global, start=1):
+        row["global_rank"] = index * 10
     owners = sorted({str(row.get("owner")) for row in rows if row.get("owner")})
     for owner in owners:
         ready = [row for row in rows if row.get("owner") == owner and row["ready"]]
-        ready.sort(
-            key=lambda row: (
-                -row["priority_score"],
-                parse_date(row.get("due")) or date.max,
-                SIZE_ORDER.get(str(row.get("size")), 99),
-                str(row.get("created_at", "")),
-                str(row.get("title", "")),
-            )
-        )
+        ready.sort(key=sort_key)
         for index, row in enumerate(ready, start=1):
             row["owner_rank"] = index * 10
     rows.sort(
         key=lambda row: (
-            str(row.get("owner", "")),
-            row["owner_rank"] is None,
-            row["owner_rank"] or 10**9,
+            row["global_rank"] is None,
+            row["global_rank"] or 10**9,
             str(row.get("title", "")),
         )
     )
     return rows
+
+
+def sort_key(row: dict[str, Any]) -> tuple[Any, ...]:
+    return (
+        row.get("status") != "In progress",
+        -row["priority_score"],
+        parse_date(row.get("due")) or date.max,
+        SIZE_ORDER.get(str(row.get("size")), 99),
+        str(row.get("created_at", "")),
+        str(row.get("title", "")),
+    )
 
 
 def main() -> int:

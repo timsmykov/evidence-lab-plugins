@@ -1,0 +1,24 @@
+{
+  "status": "reference",
+  "category": "operations",
+  "risk_level": "team_safe",
+  "owner": "Tim",
+  "reviewer": "Misha",
+  "provenance": {
+    "origin": "Generalized from Tim's Hermes Task Intake and later readiness-first queue practices.",
+    "evidence": [
+      "Hermes Task Intake skill",
+      "Lean Focus v2 methodology",
+      "Representative shared project boards"
+    ],
+    "added_at": "2026-08-27"
+  },
+  "skills": [
+    {
+      "name": "task-intake",
+      "summary": "Creates language-consistent task cards, assigns accountable roles, applies readiness gates, and produces deterministic global and per-owner priority order.",
+      "deterministic_parts": ["scripts/rank_tasks.py"]
+    }
+  ],
+  "portable_to": ["claude", "codex"]
+}

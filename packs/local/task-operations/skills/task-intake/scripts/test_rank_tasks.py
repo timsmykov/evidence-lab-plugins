@@ -21,9 +21,8 @@ def task(title: str, **overrides):
         "owner": "Tim",
         "executors": ["Tim"],
         "reviewer": "Misha",
-        "project": "Evidence Lab",
-        "product_contour": ["Skill Pack"],
-        "project_active": True,
+        "project": "Example project",
+        "scope_active": True,
         "result": "Verified artifact",
         "acceptance_criteria": "Artifact is linked and reviewed",
         "source": "request://example",
@@ -47,19 +46,26 @@ def main() -> int:
             task("Blocked", pilot_gate=True, open_dependencies=1),
             task("No executor", executors=[]),
             task("Other owner", owner="Misha", reviewer="Tim", impact=4),
+            task("Current work", status="In progress", priority="P2", impact=1, urgency=1, size="L"),
+            task("Premature", start_conditions_met=False),
         ],
         today,
     )
     by_title = {row["title"]: row for row in rows}
-    assert by_title["Strategic"]["owner_rank"] == 10
-    assert by_title["Quick"]["owner_rank"] == 20
+    assert by_title["Current work"]["owner_rank"] == 10
+    assert by_title["Strategic"]["owner_rank"] == 20
+    assert by_title["Quick"]["owner_rank"] == 30
+    assert by_title["Current work"]["global_rank"] == 10
     assert by_title["Blocked"]["owner_rank"] is None
     assert not by_title["Blocked"]["ready"]
     assert by_title["No executor"]["owner_rank"] is None
     assert "missing executor" in by_title["No executor"]["gate_failures"]
     assert by_title["Other owner"]["owner_rank"] == 10
+    assert by_title["Premature"]["owner_rank"] is None
+    assert "start conditions are not met" in by_title["Premature"]["gate_failures"]
     assert by_title["Strategic"]["priority_score"] > by_title["Quick"]["priority_score"]
-    print("PASS: Evidence Lab task gates, scoring, and per-owner ranking")
+    assert by_title["Other owner"]["global_rank"] == 30
+    print("PASS: universal task gates, scoring, global ranking, and owner ranking")
     return 0
 
 
