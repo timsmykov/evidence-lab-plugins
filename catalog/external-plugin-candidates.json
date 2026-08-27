@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-08-27T10:29:23.043960168Z",
+  "observed_at": "2026-08-27T10:59:31.573949222Z",
   "source": {
     "kind": "openai-codex-plugin-directory",
     "documentation": "https://learn.chatgpt.com/docs/plugins",
-    "snapshot_sha256": "0f8a326bd304f723110e91198145aa2d5ebda96ba6f7b50fb23c6aa92377314d"
+    "snapshot_sha256": "f75688ef6b9fd668c4670d4438a3f90542d7fad41723c384e120db3e3acddbe3"
   },
   "plugins": [
     {

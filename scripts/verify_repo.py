@@ -255,6 +255,7 @@ def check_generated_reports() -> None:
     for command, label in (
         ([sys.executable, "scripts/audit_skill_packs.py", "--check"], "skill-pack readiness report"),
         ([sys.executable, "scripts/audit_openai_plugins.py", "--check"], "OpenAI plugin audit report"),
+        ([sys.executable, "scripts/test_openai_plugin_audit.py"], "OpenAI plugin audit regression tests"),
     ):
         result = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
         if result.returncode:
