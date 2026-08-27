@@ -38,11 +38,23 @@ def load_bootstrap():
     return module
 
 
+def unused_release_tag(module) -> str:
+    """Return a valid stable tag that is guaranteed to be absent in this clone."""
+    existing = set(module.git("tag", "--list", "release-*").splitlines())
+    sequence = 999_999
+    while True:
+        candidate = f"release-9999.12.{sequence}"
+        if candidate not in existing:
+            return candidate
+        sequence += 1
+
+
 def main() -> int:
     module = load_module()
     commit = module.git("rev-parse", "HEAD")
-    first = module.build_lock("release-2026.08.1", commit, module.DEFAULT_REPOSITORY)
-    second = module.build_lock("release-2026.08.1", commit, module.DEFAULT_REPOSITORY)
+    absent_tag = unused_release_tag(module)
+    first = module.build_lock(absent_tag, commit, module.DEFAULT_REPOSITORY)
+    second = module.build_lock(absent_tag, commit, module.DEFAULT_REPOSITORY)
     assert first == second
     assert len(first["packs"]) == 13
     assert [item["id"] for item in first["packs"]] == sorted(item["id"] for item in first["packs"])
