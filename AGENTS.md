@@ -1,5 +1,11 @@
 # Working in this repository
 
+## Shared Evidence Lab workflow
+
+Before substantial work, read the canonical [Evidence Lab operating contract](https://github.com/timsmykov/evidence-lab/blob/main/AGENTS.md). In the standard sibling-checkout layout, read `../evidence-lab/AGENTS.md` instead so the local version is used. The shared contract governs task-board intake and movement, cross-repository routing, coordination with people and parallel sessions, G-Brain use, privacy, review, handoff, and project-level completion. This file specializes that contract for skills, packs, plugins, Bootstrap, and host adapters; it does not replace or weaken it.
+
+If the shared contract is unavailable, follow this repository's source and privacy boundaries, do not guess or mutate team-board state, and report the missing governance context before handoff.
+
 This repository implements the Evidence Lab agent-first research stack. The product architecture and user flow are normative; do not reshape them around one host's current plugin format.
 
 ## Source of truth
