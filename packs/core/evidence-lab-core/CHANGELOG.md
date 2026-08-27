@@ -1,5 +1,13 @@
 # Changelog — Evidence Lab Core
 
+## [0.13.0] — 2026-08-27
+
+### Added
+- An English-first language choice before onboarding, with deterministic English and Russian resolution and no LLM classification.
+
+### Changed
+- The setup contract now avoids redundant source dumps and duplicate host readback after a verified installation state.
+
 ## [0.12.0] — 2026-08-27
 
 ### Added

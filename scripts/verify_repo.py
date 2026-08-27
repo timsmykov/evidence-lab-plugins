@@ -77,6 +77,7 @@ REQUIRED_REPO_FILES = [
     "schemas/reconcile-state.schema.json",
     "schemas/release-lock.schema.json",
     "schemas/onboarding-questions.schema.json",
+    "schemas/onboarding-language.schema.json",
     "schemas/onboarding-plan-copy.schema.json",
     "schemas/onboarding-answers.schema.json",
     "schemas/normalization-candidate.schema.json",
