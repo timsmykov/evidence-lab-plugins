@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "prompt": "Before we begin, which language would you like to use?",
+  "instruction": "Choose 1 or 2, or type the language name.",
+  "options": [
+    {"id": "en", "label": "English", "accepted_answers": ["1", "en", "english"]},
+    {"id": "ru", "label": "Russian", "accepted_answers": ["2", "ru", "russian"]}
+  ]
+}

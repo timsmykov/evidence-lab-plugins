@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evidence-lab-plugins/schemas/onboarding-language.schema.json",
+  "title": "Evidence Lab onboarding language choice",
+  "type": "object",
+  "required": ["schema_version", "prompt", "instruction", "options"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "prompt": {"type": "string", "minLength": 10},
+    "instruction": {"type": "string", "minLength": 10},
+    "options": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "accepted_answers"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"enum": ["en", "ru"]},
+          "label": {"type": "string", "minLength": 2},
+          "accepted_answers": {
+            "type": "array",
+            "minItems": 3,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    }
+  }
+}

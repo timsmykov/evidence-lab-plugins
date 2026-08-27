@@ -13,18 +13,17 @@ commands, plugin manifests, marketplaces, schemas, or Git.
    > Set up Evidence Lab for my research from
    > `https://github.com/timsmykov/evidence-lab-plugins`. Use only the latest
    > published `release-*` GitHub Release and its `release-lock.json`. Follow
-   > `START.md` and `BOOTSTRAP.md` from that same release. Speak in plain
-   > language, ask the four setup questions one at a time, show the complete
+   > `START.md` and `BOOTSTRAP.md` from that same release. First ask me to
+   > choose English or Russian. Then continue entirely in that language, ask
+   > the four setup questions one at a time, show the complete
    > recommendation, and install nothing until I confirm it.
 
-3. Answer four short questions. A number, several numbers, or a personal answer
-   are all valid.
+3. Choose English or Russian, then answer four short research questions. A
+   number, several numbers, or a personal answer are all valid.
 4. Review the universal research foundation and any profile-specific additions,
    then answer yes only if the complete recommendation looks right.
 5. When setup is complete, open a new task and begin with the actual research
    goal.
-
-For Russian-language setup, use [START.ru.md](START.ru.md).
 
 ## What the agent does before the first question
 
@@ -50,7 +49,13 @@ one sentence that setup could not be safely checked. Do not fall back to
 
 ## Conversation contract
 
-Start with a short expectation, then ask question 1 immediately:
+Before the expectation or any research question, show the English prompt and
+instruction from `onboarding/language.json`. Render option 1 as `English` and
+option 2 with the native Russian label from `onboarding/language.ru.json`.
+
+Resolve the choice through the deterministic language selector. If it is not
+recognized, repeat only this choice. After a valid answer, continue entirely in
+English or Russian and show the matching expectation:
 
 > I will ask four short questions, show the complete recommendation, and wait
 > for your approval before adding anything. You can choose one or several
