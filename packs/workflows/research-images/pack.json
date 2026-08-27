@@ -1,5 +1,5 @@
 {
-  "id": "research-images", "version": "0.1.1", "layer": "workflow", "display_name": "Research Images",
+  "id": "research-images", "version": "0.1.2", "layer": "workflow", "display_name": "Research Images",
   "description": "Research-image inspection with explicit source identity, transformation history, measurement definitions, exclusions, and interpretation boundaries.",
   "category": "Research", "author": {"name": "Evidence Lab"}, "license": "MIT",
   "capabilities": ["research-image-analysis"],

@@ -1,5 +1,10 @@
 # Changelog — Document Evidence
 
+## [0.1.2] — 2026-08-27
+
+### Changed
+- Recorded explicit skill quality status without changing document-conversion behavior.
+
 ## [0.1.1] — 2026-08-27
 
 ### Changed

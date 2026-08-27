@@ -1,5 +1,10 @@
 # Changelog — Data and PDF
 
+## [1.0.2] — 2026-08-27
+
+### Changed
+- Recorded the compatibility router quality status without changing routing behavior.
+
 ## [1.0.1] — 2026-08-27
 
 ### Changed

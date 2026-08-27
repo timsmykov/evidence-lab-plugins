@@ -1,5 +1,5 @@
 {
-  "id": "systematic-review", "version": "0.1.1", "layer": "workflow", "display_name": "Systematic Review",
+  "id": "systematic-review", "version": "0.1.2", "layer": "workflow", "display_name": "Systematic Review",
   "description": "Reproducible systematic-search and screening workflow with explicit eligibility criteria, stable record deduplication, and an auditable decision trail.",
   "category": "Research", "author": {"name": "Evidence Lab"}, "license": "MIT",
   "capabilities": ["systematic-search", "screening-and-deduplication"],

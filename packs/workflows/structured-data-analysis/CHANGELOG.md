@@ -1,5 +1,10 @@
 # Changelog — Structured Data Analysis
 
+## [0.1.2] — 2026-08-27
+
+### Changed
+- Recorded explicit per-skill quality states without changing data-analysis behavior.
+
 ## [0.1.1] — 2026-08-27
 
 ### Changed

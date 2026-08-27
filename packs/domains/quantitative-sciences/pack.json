@@ -1,6 +1,6 @@
 {
   "id": "quantitative-sciences",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "layer": "domain",
   "display_name": "Quantitative Sciences",
   "description": "Statistical analysis, power and sample-size planning, uncertainty and units, and publication-grade scientific visualization for quantitative research.",

@@ -53,7 +53,9 @@ REQUIRED_REPO_FILES = [
     "docs/skill-pack-readiness.md",
     "docs/openai-plugin-audit.md",
     "docs/external-plugin-verification.md",
+    "docs/research/open-source-foundation-skill-audit-2026-08-27.md",
     "catalog/foundation-skills.json",
+    "catalog/open-source-skill-candidates.json",
     "catalog/scenarios.json",
     "catalog/pack-boundary-decisions.json",
     "catalog/external-plugin-candidates.json",
@@ -80,6 +82,7 @@ REQUIRED_REPO_FILES = [
     "schemas/external-plugin-candidates.schema.json",
     "schemas/external-plugin-plan.schema.json",
     "schemas/foundation-skills.schema.json",
+    "schemas/open-source-skill-candidates.schema.json",
     "schemas/meta.schema.json",
     "schemas/eval.schema.json",
     "schemas/marketplace.schema.json",
@@ -266,11 +269,20 @@ def check_foundation_skills() -> None:
     if data.get("target_size") != len(rows):
         fail("foundation-skills.json: target_size must equal the number of skill rows")
     metadata = {}
+    candidate_path = ROOT / "catalog" / "open-source-skill-candidates.json"
+    candidate_ids = set()
+    if candidate_path.exists():
+        candidate_data = load_json(candidate_path)
+        if candidate_data:
+            candidate_ids = {item.get("id") for item in candidate_data.get("candidates", [])}
     for meta_path in PACKS.glob("*/*/meta.json"):
         meta = load_json(meta_path)
         if meta:
             metadata.update({item["name"]: item for item in meta.get("skills", [])})
     for row in rows:
+        unknown_candidates = set(row.get("upstream_candidate_ids", [])) - candidate_ids
+        if unknown_candidates:
+            fail(f"foundation-skills.json: {row.get('id')} references unknown upstream candidates: {sorted(unknown_candidates)}")
         current = row.get("current_skill")
         if not current:
             continue
@@ -280,6 +292,29 @@ def check_foundation_skills() -> None:
         expected = "implemented-" + metadata[current]["quality_status"]
         if row.get("state") != expected:
             fail(f"foundation-skills.json: {row.get('id')} state {row.get('state')} disagrees with {current} quality {metadata[current]['quality_status']}")
+
+
+def check_open_source_skill_candidates() -> None:
+    path = ROOT / "catalog" / "open-source-skill-candidates.json"
+    data = load_json(path) if path.exists() else None
+    if data is None:
+        return
+    validate(data, "open-source-skill-candidates.schema.json", "open-source-skill-candidates.json")
+    rows = data.get("candidates", [])
+    ids = [row.get("id") for row in rows]
+    if len(ids) != len(set(ids)):
+        fail("open-source-skill-candidates.json: candidate IDs must be unique")
+    foundation = load_json(ROOT / "catalog" / "foundation-skills.json")
+    foundation_ids = {row.get("id") for row in foundation.get("skills", [])} if foundation else set()
+    for row in rows:
+        if row.get("bundled") is not False:
+            fail(f"open-source-skill-candidates.json: {row.get('id')} must remain source-only until promotion")
+        unknown = set(row.get("capabilities", [])) - foundation_ids
+        if unknown:
+            fail(f"open-source-skill-candidates.json: {row.get('id')} maps unknown capabilities: {sorted(unknown)}")
+        expected_tree = f"{row.get('repository_url')}/tree/{row.get('commit')}/{row.get('skill_path')}"
+        if row.get("skill_url") != expected_tree:
+            fail(f"open-source-skill-candidates.json: {row.get('id')} skill URL is not pinned to its exact path")
 
 
 def check_generated_reports() -> None:
@@ -552,6 +587,7 @@ def main() -> int:
     check_repo_files()
     check_marketplaces()
     check_external_plugin_registry()
+    check_open_source_skill_candidates()
     check_foundation_skills()
     check_generated_reports()
     if PACKS.is_dir():

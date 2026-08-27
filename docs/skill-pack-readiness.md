@@ -14,7 +14,7 @@ Generated deterministically by `python3 scripts/audit_skill_packs.py`.
 
 ## Foundation target
 
-The bounded cross-disciplinary target contains **27 skills**: **7 planned**, **3 implemented but needing substantive work**, and **17 implemented but needing representative testing**.
+The bounded cross-disciplinary target contains **27 skills**: **6 planned**, **3 implemented but needing substantive work**, and **18 implemented but needing representative testing**.
 
 This is the capability library from which deterministic onboarding selects a researcher's setup; it is not a requirement to install all 27 skills for every user. Personal skill authoring is mandatory through Core, while domain and workflow add-ons remain conditional.
 
@@ -30,7 +30,7 @@ This is the capability library from which deterministic onboarding selects a res
 | P0 | `systematic-review` | `synthesis` | `systematic-review` | `implemented-needs-substantive-work` |
 | P0 | `hypothesis-generation` | `design` | `hypothesis-generation` | `implemented-needs-representative-testing` |
 | P0 | `experimental-design` | `design` | `experimental-design` | `implemented-needs-representative-testing` |
-| P1 | `preregistration` | `design` | — | `planned` |
+| P1 | `preregistration` | `design` | `hypothesis-generation` | `implemented-needs-representative-testing` |
 | P0 | `statistical-power` | `design` | `statistical-power` | `implemented-needs-representative-testing` |
 | P1 | `database-lookup` | `data` | `database-lookup` | `implemented-needs-representative-testing` |
 | P0 | `data-cleaning-and-provenance` | `data` | — | `planned` |
@@ -53,18 +53,18 @@ This is the capability library from which deterministic onboarding selects a res
 | Pack | Layer | Version | Skills | Capabilities | Selection | Status |
 |---|---|---:|---:|---|---|---|
 | `evidence-lab-core` | `core` | `0.11.0` | 5 | `onboarding`, `pack-selection`, `companion-plugin-planning`, `installation-lifecycle`, `personal-skill-authoring`, `paper-lookup`, `citation-management`, `critical-thinking` | always | `draft` |
-| `life-sciences` | `domain` | `0.1.1` | 1 | `life-science-protocols` | `life-science-planning`, `life-science-images` | `draft` |
-| `quantitative-sciences` | `domain` | `0.3.1` | 4 | `statistical-analysis`, `statistical-power`, `uncertainty-and-units`, `scientific-visualization` | `quantitative-method` | `draft` |
-| `data-and-pdf` | `workflow` | `1.0.1` | 1 | `data-and-pdf-compatibility` | `data-and-pdf-full-cycle-datasets`, `data-and-pdf-full-cycle-tables` | `draft` |
-| `document-evidence` | `workflow` | `0.1.1` | 1 | `document-conversion` | `document-evidence-material` | `draft` |
-| `full-research-cycle` | `workflow` | `1.0.1` | 1 | `full-research-cycle-compatibility` | `full-cycle-workflow` | `draft` |
-| `literature-publication` | `workflow` | `0.1.1` | 4 | `literature-review`, `academic-writing`, `peer-review`, `research-diagrams` | `literature-publication-workflow`, `literature-publication-writing` | `draft` |
-| `publication-monitoring` | `workflow` | `0.1.1` | 1 | `publication-monitoring` | `publication-monitoring-workflow` | `draft` |
-| `qualitative-research` | `workflow` | `0.1.1` | 1 | `qualitative-analysis` | `qualitative-material` | `draft` |
-| `research-design` | `workflow` | `0.1.1` | 2 | `hypothesis-generation`, `study-design` | `research-design-workflow` | `draft` |
-| `research-images` | `workflow` | `0.1.1` | 1 | `research-image-analysis` | `research-image-material` | `draft` |
-| `structured-data-analysis` | `workflow` | `0.1.1` | 2 | `database-lookup`, `exploratory-data-analysis` | `structured-data-material`, `structured-data-collection` | `draft` |
-| `systematic-review` | `workflow` | `0.1.1` | 1 | `systematic-search`, `screening-and-deduplication` | `systematic-review-stage` | `draft` |
+| `life-sciences` | `domain` | `0.1.2` | 1 | `life-science-protocols` | `life-science-planning`, `life-science-images` | `draft` |
+| `quantitative-sciences` | `domain` | `0.3.2` | 4 | `statistical-analysis`, `statistical-power`, `uncertainty-and-units`, `scientific-visualization` | `quantitative-method` | `draft` |
+| `data-and-pdf` | `workflow` | `1.0.2` | 1 | `data-and-pdf-compatibility` | `data-and-pdf-full-cycle-datasets`, `data-and-pdf-full-cycle-tables` | `draft` |
+| `document-evidence` | `workflow` | `0.1.2` | 1 | `document-conversion` | `document-evidence-material` | `draft` |
+| `full-research-cycle` | `workflow` | `1.0.2` | 1 | `full-research-cycle-compatibility` | `full-cycle-workflow` | `draft` |
+| `literature-publication` | `workflow` | `0.1.2` | 4 | `literature-review`, `academic-writing`, `peer-review`, `research-diagrams` | `literature-publication-workflow`, `literature-publication-writing` | `draft` |
+| `publication-monitoring` | `workflow` | `0.1.2` | 1 | `publication-monitoring` | `publication-monitoring-workflow` | `draft` |
+| `qualitative-research` | `workflow` | `0.1.2` | 1 | `qualitative-analysis` | `qualitative-material` | `draft` |
+| `research-design` | `workflow` | `0.1.2` | 2 | `hypothesis-generation`, `study-design` | `research-design-workflow` | `draft` |
+| `research-images` | `workflow` | `0.1.2` | 1 | `research-image-analysis` | `research-image-material` | `draft` |
+| `structured-data-analysis` | `workflow` | `0.1.2` | 2 | `database-lookup`, `exploratory-data-analysis` | `structured-data-material`, `structured-data-collection` | `draft` |
+| `systematic-review` | `workflow` | `0.1.2` | 1 | `systematic-search`, `screening-and-deduplication` | `systematic-review-stage` | `draft` |
 
 ## Skills
 

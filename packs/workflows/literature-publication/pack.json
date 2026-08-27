@@ -1,6 +1,6 @@
 {
   "id": "literature-publication",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "layer": "workflow",
   "display_name": "Literature and Publication",
   "description": "Literature synthesis, evidence-bounded academic writing, editable research diagrams, and manuscript review without installing study-design procedures.",

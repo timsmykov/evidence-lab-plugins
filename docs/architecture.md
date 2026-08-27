@@ -41,6 +41,13 @@ Components marked `explicit-opt-in` stay out of the visible plan unless the
 researcher names them or a future reviewed detector supplies the equivalent
 explicit signal; a broad domain or `papers` answer is not enough.
 
+Open-source skill examples discovered during capability research live in
+`catalog/open-source-skill-candidates.json`. That registry contains immutable
+upstream paths, license evidence, capability mappings, and promotion work. Its
+entries are source-only (`bundled: false`): they do not enter generated
+adapters, bootstrap selection, or release snapshots until a separate reviewed
+import preserves attribution and passes representative Codex and Claude tests.
+
 Selection Policy owns the allowed profile vocabulary, matching semantics, and
 ordering contract. Reviewed rules in each `pack.json` select packs. The LLM may
 suggest normalized values for free text, but it cannot select a pack directly.

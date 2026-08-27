@@ -1,6 +1,6 @@
 {
   "id": "data-and-pdf",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "layer": "workflow",
   "display_name": "Data and PDF",
   "description": "Compatibility entry point for mixed document-and-data projects; installs focused document-evidence and structured-data-analysis packs as dependencies.",

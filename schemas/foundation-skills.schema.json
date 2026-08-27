@@ -22,7 +22,13 @@
           "state": {"enum": ["planned", "implemented-needs-substantive-work", "implemented-needs-representative-testing", "implemented-review-ready", "implemented-production"]},
           "current_skill": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"},
           "priority": {"enum": ["P0", "P1", "P2"]},
-          "rationale": {"type": "string", "minLength": 30}
+          "rationale": {"type": "string", "minLength": 30},
+          "upstream_candidate_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"}
+          }
         },
         "allOf": [
           {"if": {"properties": {"state": {"const": "planned"}}}, "then": {"not": {"required": ["current_skill"]}}, "else": {"required": ["current_skill"]}}

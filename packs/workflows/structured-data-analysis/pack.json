@@ -1,6 +1,6 @@
 {
   "id": "structured-data-analysis",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "layer": "workflow",
   "display_name": "Structured Data Analysis",
   "description": "Reproducible public-database retrieval and exploratory analysis for tables and datasets without unrelated document-conversion tooling.",

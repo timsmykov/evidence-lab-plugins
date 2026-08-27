@@ -1,6 +1,6 @@
 {
   "id": "document-evidence",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "layer": "workflow",
   "display_name": "Document Evidence",
   "description": "Reproducible conversion of supported research documents into inspectable Markdown without installing database retrieval or dataset analysis tools.",

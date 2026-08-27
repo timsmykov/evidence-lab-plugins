@@ -1,5 +1,10 @@
 # Changelog — Qualitative Research
 
+## [0.1.2] — 2026-08-27
+
+### Changed
+- Recorded the explicit substantive-work quality gate without changing the analysis procedure.
+
 ## [0.1.1] — 2026-08-27
 
 ### Changed

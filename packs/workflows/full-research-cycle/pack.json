@@ -1,6 +1,6 @@
 {
   "id": "full-research-cycle",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "layer": "workflow",
   "display_name": "Full Research Cycle",
   "description": "Compatibility entry point for the complete research cycle; installs the focused research-design and literature-publication packs as declared dependencies.",

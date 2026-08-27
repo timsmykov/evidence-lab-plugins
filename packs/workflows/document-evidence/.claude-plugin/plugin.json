@@ -1,7 +1,7 @@
 {
   "name": "document-evidence",
   "description": "Reproducible conversion of supported research documents into inspectable Markdown without installing database retrieval or dataset analysis tools.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": {
     "name": "Evidence Lab"
   },

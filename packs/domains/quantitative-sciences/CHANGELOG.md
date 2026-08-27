@@ -1,5 +1,10 @@
 # Changelog — Quantitative Sciences
 
+## [0.3.2] — 2026-08-27
+
+### Changed
+- Recorded explicit per-skill quality states without changing quantitative procedures.
+
 ## [0.3.1] — 2026-08-27
 
 ### Changed

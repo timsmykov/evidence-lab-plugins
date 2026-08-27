@@ -1,5 +1,5 @@
 {
-  "id": "life-sciences", "version": "0.1.1", "layer": "domain", "display_name": "Life Sciences",
+  "id": "life-sciences", "version": "0.1.2", "layer": "domain", "display_name": "Life Sciences",
   "description": "Domain checks for life-science protocols, biological controls, bias, biosafety boundaries, reporting context, and image acquisition metadata.",
   "category": "Research", "author": {"name": "Evidence Lab"}, "license": "MIT",
   "capabilities": ["life-science-protocols"],
