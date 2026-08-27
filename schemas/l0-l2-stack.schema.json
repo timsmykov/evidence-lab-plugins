@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://evidence-lab.dev/schemas/l0-l2-stack.schema.json",
+  "title": "Evidence Lab L0-L2 technical stack registry",
+  "type": "object",
+  "required": ["schema_version", "reviewed_at", "scope", "cost_boundary", "profiles", "components"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "reviewed_at": {"type": "string", "format": "date"},
+    "scope": {
+      "type": "object",
+      "required": ["levels", "hosts", "supported_environments"],
+      "additionalProperties": false,
+      "properties": {
+        "levels": {"const": ["L0", "L1", "L2"]},
+        "hosts": {"const": ["codex", "claude-code"]},
+        "supported_environments": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"enum": ["macos", "windows-wsl2", "linux"]}
+        }
+      }
+    },
+    "cost_boundary": {"type": "string", "minLength": 80},
+    "profiles": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": ["id", "purpose", "component_ids"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"enum": ["base", "documents", "data"]},
+          "purpose": {"type": "string", "minLength": 20},
+          "component_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"}
+          }
+        }
+      }
+    },
+    "components": {
+      "type": "array",
+      "minItems": 12,
+      "items": {
+        "type": "object",
+        "required": [
+          "id", "level", "title", "category", "inclusion", "hosts", "maturity",
+          "access_cost", "license", "data", "system_requirements", "lifecycle", "verification"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"},
+          "level": {"enum": ["L0", "L1", "L2"]},
+          "title": {"type": "string", "minLength": 8},
+          "category": {"enum": ["access", "workspace", "policy", "local-tool", "platform-feature", "evidence-lab", "research-toolchain"]},
+          "inclusion": {"enum": ["required", "route-required", "conditional"]},
+          "hosts": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"enum": ["shared", "codex", "claude-code"]}
+          },
+          "maturity": {"enum": ["core", "conditional", "pilot"]},
+          "access_cost": {
+            "type": "object",
+            "required": ["class", "note"],
+            "additionalProperties": false,
+            "properties": {
+              "class": {"enum": ["no-extra-charge", "provider-access-required", "free-local-software", "free-tier-available", "varies"]},
+              "note": {"type": "string", "minLength": 20}
+            }
+          },
+          "license": {
+            "type": "object",
+            "required": ["value", "evidence"],
+            "additionalProperties": false,
+            "properties": {
+              "value": {"type": "string", "minLength": 3},
+              "evidence": {"type": "string", "format": "uri"}
+            }
+          },
+          "data": {
+            "type": "object",
+            "required": ["scope", "leaves_device", "destination"],
+            "additionalProperties": false,
+            "properties": {
+              "scope": {"type": "string", "minLength": 20},
+              "leaves_device": {"enum": ["no", "provider-dependent", "only-on-explicit-network-use"]},
+              "destination": {"type": "string", "minLength": 8}
+            }
+          },
+          "system_requirements": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string", "minLength": 8}
+          },
+          "lifecycle": {
+            "type": "object",
+            "required": ["install", "verify", "update", "remove"],
+            "additionalProperties": false,
+            "properties": {
+              "install": {"type": "string", "minLength": 10},
+              "verify": {"type": "string", "minLength": 10},
+              "update": {"type": "string", "minLength": 10},
+              "remove": {"type": "string", "minLength": 10}
+            }
+          },
+          "verification": {
+            "type": "object",
+            "required": ["status", "evidence_refs", "limitations"],
+            "additionalProperties": false,
+            "properties": {
+              "status": {"enum": ["docs-verified", "locally-observed", "simulated-cross-host", "live-cross-host"]},
+              "evidence_refs": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": {"type": "string", "minLength": 3}
+              },
+              "limitations": {"type": "string", "minLength": 10}
+            }
+          }
+        }
+      }
+    }
+  }
+}
