@@ -17,6 +17,7 @@
     {
       "name": "task-intake",
       "summary": "Creates language-consistent task cards, assigns accountable roles, applies readiness gates, and produces deterministic global and per-owner priority order.",
+      "quality_status": "needs-representative-testing",
       "deterministic_parts": ["scripts/rank_tasks.py"]
     }
   ],

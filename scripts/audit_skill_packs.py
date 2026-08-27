@@ -24,7 +24,7 @@ def inventory() -> dict:
         pack_dir = pack_path.parent
         pack = load(pack_path)
         meta = load(pack_dir / "meta.json")
-        reference_only = pack["id"] == "example-domain"
+        reference_only = meta["status"] == "reference"
         declared = {item["name"]: item for item in meta["skills"]}
         skills = []
         for skill_path in sorted((pack_dir / "skills").glob("*/SKILL.md")):

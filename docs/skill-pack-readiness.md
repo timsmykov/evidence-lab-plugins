@@ -4,7 +4,7 @@ Generated deterministically by `python3 scripts/audit_skill_packs.py`.
 
 ## Summary
 
-- Working packs: **13**; reference-only packs: **1**.
+- Working packs: **13**; reference-only packs: **2**.
 - Working skills: **25** — 21 research skills, 1 onboarding skill, 1 personal skill-authoring skill, and 2 compatibility routers.
 - Lifecycle: **13 of 13 working packs are `draft`**.
 - Trigger eval files present: **25 of 25**.
