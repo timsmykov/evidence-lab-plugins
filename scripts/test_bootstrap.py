@@ -48,6 +48,18 @@ def release_record(ref: str = "release-2026.08.1") -> dict:
     }
 
 
+def test_source_matches_claude_marketplace_url(module) -> None:
+    row = {
+        "name": "evidence-lab-plugins",
+        "source": "git",
+        "url": "https://github.com/timsmykov/evidence-lab-plugins.git",
+        "ref": "release-2026.08.1",
+        "installLocation": "/tmp/evidence-lab-plugins",
+    }
+    assert module.source_matches(row, "timsmykov/evidence-lab-plugins")
+    assert not module.source_matches(row, "another-owner/evidence-lab-plugins")
+
+
 class FakeHost:
     def __init__(
         self,
@@ -713,6 +725,7 @@ def main() -> int:
     test_tampered_plan_is_rejected(module)
     test_release_lock_mismatch_is_rejected_before_host_command(module)
     test_process_diagnostics_redact_secrets(module)
+    test_source_matches_claude_marketplace_url(module)
     print("OK: bootstrap lifecycle verified for Codex and Claude Code")
     return 0
 

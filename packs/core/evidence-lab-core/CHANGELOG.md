@@ -8,6 +8,11 @@
 ### Changed
 - The setup contract now avoids redundant source dumps and duplicate host readback after a verified installation state.
 
+## [0.12.1] — 2026-08-27
+
+### Fixed
+- Claude Code marketplace validation now recognizes the host's canonical `url` readback while continuing to reject a different repository.
+
 ## [0.12.0] — 2026-08-27
 
 ### Added

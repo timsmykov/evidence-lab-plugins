@@ -219,7 +219,13 @@ def canonical_source(source: str) -> str:
 
 
 def source_matches(row: dict, source: str) -> bool:
-    candidates = [row.get("repo"), row.get("source"), row.get("path"), row.get("installLocation")]
+    candidates = [
+        row.get("repo"),
+        row.get("source"),
+        row.get("url"),
+        row.get("path"),
+        row.get("installLocation"),
+    ]
     nested = row.get("marketplaceSource")
     if isinstance(nested, dict):
         candidates.append(nested.get("source"))
