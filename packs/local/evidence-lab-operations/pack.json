@@ -1,0 +1,31 @@
+{
+  "id": "evidence-lab-operations",
+  "version": "0.1.0",
+  "layer": "local",
+  "display_name": "Evidence Lab Operations",
+  "description": "Internal Evidence Lab operations pack for converting incoming work into executable task cards and maintaining a deterministic per-owner queue.",
+  "category": "Operations",
+  "author": {"name": "Evidence Lab"},
+  "license": "MIT",
+  "capabilities": ["task-intake", "task-prioritization", "task-archiving"],
+  "selection": {
+    "always": false,
+    "rules": [
+      {
+        "id": "evidence-lab-task-management",
+        "priority": 500,
+        "when": {"any": {"workflows": ["manage-evidence-lab-tasks"]}},
+        "reason": "The operator needs to create, triage, prioritize, complete, or archive Evidence Lab tasks."
+      }
+    ]
+  },
+  "dependencies": ["evidence-lab-core"],
+  "conflicts": [],
+  "runtimes": ["claude-code", "codex"],
+  "interface": {
+    "short_description": "Create and rank executable Evidence Lab tasks.",
+    "long_description": "Turns raw requests into consistent task cards, verifies their fields, and maintains a gated per-owner execution order without losing completion history.",
+    "capabilities": ["Operations", "Task management"],
+    "default_prompt": "Create these Evidence Lab tasks, assign the required fields, and update the execution order."
+  }
+}

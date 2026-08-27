@@ -1,0 +1,29 @@
+{
+  "name": "evidence-lab-operations",
+  "description": "Internal Evidence Lab operations pack for converting incoming work into executable task cards and maintaining a deterministic per-owner queue.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Evidence Lab"
+  },
+  "keywords": [
+    "task-intake",
+    "task-prioritization",
+    "task-archiving"
+  ],
+  "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
+  "repository": "https://github.com/timsmykov/evidence-lab-plugins",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Evidence Lab Operations",
+    "shortDescription": "Create and rank executable Evidence Lab tasks.",
+    "longDescription": "Turns raw requests into consistent task cards, verifies their fields, and maintains a gated per-owner execution order without losing completion history.",
+    "developerName": "Evidence Lab",
+    "category": "Operations",
+    "capabilities": [
+      "Operations",
+      "Task management"
+    ],
+    "defaultPrompt": "Create these Evidence Lab tasks, assign the required fields, and update the execution order."
+  }
+}
