@@ -1,12 +1,13 @@
 {
   "id": "research-design",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "layer": "workflow",
   "display_name": "Research Design",
   "description": "Testable hypothesis development and reproducible experimental or observational study design without unrelated literature or manuscript tooling.",
   "category": "Research",
   "author": {"name": "Evidence Lab"},
   "license": "MIT",
+  "foundation": true,
   "capabilities": ["hypothesis-generation", "study-design"],
   "selection": {
     "always": false,

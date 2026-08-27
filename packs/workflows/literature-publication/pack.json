@@ -1,12 +1,13 @@
 {
   "id": "literature-publication",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "layer": "workflow",
   "display_name": "Literature and Publication",
   "description": "Literature synthesis, evidence-bounded academic writing, editable research diagrams, and manuscript review without installing study-design procedures.",
   "category": "Research",
   "author": {"name": "Evidence Lab"},
   "license": "MIT AND Apache-2.0",
+  "foundation": true,
   "capabilities": ["literature-review", "academic-writing", "peer-review", "research-diagrams"],
   "selection": {
     "always": false,

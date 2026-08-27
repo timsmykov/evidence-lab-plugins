@@ -12,6 +12,7 @@ PACKS = ROOT / "packs"
 CLAUDE_MARKETPLACE = ROOT / ".claude-plugin" / "marketplace.json"
 CODEX_MARKETPLACE = ROOT / ".agents" / "plugins" / "marketplace.json"
 CORE_CATALOG = PACKS / "core" / "evidence-lab-core" / "catalog" / "packs.json"
+CORE_FOUNDATION = PACKS / "core" / "evidence-lab-core" / "catalog" / "foundation-core.json"
 CORE_EXTERNAL_PLUGINS = PACKS / "core" / "evidence-lab-core" / "catalog" / "external-plugin-candidates.json"
 CORE_EXTERNAL_SELECTOR = PACKS / "core" / "evidence-lab-core" / "skills" / "evidence-lab-onboarding" / "scripts" / "select_external_plugins.py"
 HIDDEN_STATUSES = {"reference", "deprecated"}
@@ -64,11 +65,19 @@ def build_outputs() -> dict[Path, str]:
         if meta["status"] not in HIDDEN_STATUSES:
             published.append((directory, pack, meta))
 
-    catalog = {"schema_version": 1, "packs": [
-        {key: pack[key] for key in ("id", "version", "layer", "display_name", "description", "capabilities", "selection", "dependencies", "conflicts", "runtimes")}
-        for _, pack, _ in published
+    catalog = {"schema_version": 2, "packs": [
+        {
+            **{key: pack[key] for key in ("id", "version", "layer", "display_name", "description", "capabilities", "selection", "dependencies", "conflicts", "runtimes")},
+            "foundation": pack.get("foundation", False),
+            "skills": [
+                {"id": item["name"], "quality_status": item["quality_status"]}
+                for item in meta.get("skills", [])
+            ],
+        }
+        for _, pack, meta in published
     ]}
     outputs[CORE_CATALOG] = rendered_json(catalog)
+    outputs[CORE_FOUNDATION] = (ROOT / "catalog" / "foundation-core.json").read_text(encoding="utf-8")
     outputs[CORE_EXTERNAL_PLUGINS] = (ROOT / "catalog" / "external-plugin-candidates.json").read_text(encoding="utf-8")
     outputs[CORE_EXTERNAL_SELECTOR] = (ROOT / "scripts" / "select_external_plugins.py").read_text(encoding="utf-8")
 

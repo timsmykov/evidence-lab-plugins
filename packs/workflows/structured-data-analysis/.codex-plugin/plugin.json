@@ -1,7 +1,7 @@
 {
   "name": "structured-data-analysis",
   "description": "Reproducible public-database retrieval and exploratory analysis for tables and datasets without unrelated document-conversion tooling.",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "author": {
     "name": "Evidence Lab"
   },

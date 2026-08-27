@@ -1,12 +1,13 @@
 {
   "id": "document-evidence",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "layer": "workflow",
   "display_name": "Document Evidence",
   "description": "Reproducible conversion of supported research documents into inspectable Markdown without installing database retrieval or dataset analysis tools.",
   "category": "Research",
   "author": {"name": "Evidence Lab"},
   "license": "MIT",
+  "foundation": true,
   "capabilities": ["document-conversion"],
   "selection": {"always": false, "rules": [
     {"id": "document-evidence-material", "priority": 300, "when": {"any": {"materials": ["pdf"]}}, "reason": "PDF evidence needs deterministic document conversion and extraction."}

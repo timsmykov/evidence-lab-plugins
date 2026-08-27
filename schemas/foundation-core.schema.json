@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://evidence-lab.dev/schemas/foundation-core.schema.json",
+  "title": "Evidence Lab frozen foundation skill index",
+  "type": "object",
+  "required": [
+    "schema_version", "generated_from", "capability_count",
+    "physical_skill_count", "foundation_pack_ids", "skills",
+    "planned_capabilities"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "generated_from": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {"type": "string"}
+    },
+    "capability_count": {"type": "integer", "minimum": 1},
+    "physical_skill_count": {"type": "integer", "minimum": 1},
+    "foundation_pack_ids": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"}
+    },
+    "skills": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id", "pack_id", "pack_version", "layer", "path",
+          "quality_status", "capabilities", "content_sha256"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"},
+          "pack_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"},
+          "pack_version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+          "layer": {"enum": ["core", "workflow", "domain", "local"]},
+          "path": {"type": "string", "pattern": "^packs/(core|workflows|domains|local)/[a-z0-9-]+/skills/[a-z0-9-]+$"},
+          "quality_status": {
+            "enum": ["needs-substantive-work", "needs-representative-testing", "review-ready", "production"]
+          },
+          "capabilities": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"}
+          },
+          "content_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+        }
+      }
+    },
+    "planned_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "priority", "rationale"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"},
+          "priority": {"enum": ["P0", "P1", "P2"]},
+          "rationale": {"type": "string", "minLength": 30},
+          "upstream_candidate_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"}
+          }
+        }
+      }
+    }
+  }
+}

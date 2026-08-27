@@ -1,5 +1,13 @@
 # Changelog — Evidence Lab Core
 
+## [0.12.0] — 2026-08-27
+
+### Added
+- A generated foundation index that pins all 20 physical researcher skills to owning packs, quality states, capability mappings, and content hashes.
+
+### Changed
+- Bootstrap now includes every declared foundation pack for every researcher profile while keeping unfinished capabilities and optional add-ons outside the base installation.
+
 ## [0.11.0] — 2026-08-27
 
 ### Added

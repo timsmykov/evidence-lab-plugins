@@ -272,13 +272,13 @@ def remove_extras(module, plan: dict, state_path: Path, profile: dict | None = N
 
 
 def test_reconcile_update_retain_remove_restore(module, host: str) -> None:
-    baseline = {"evidence-lab-core": "0.5.0", "qualitative-research": "0.1.0"}
+    baseline = {"evidence-lab-core": "0.5.0", "publication-monitoring": "0.1.0"}
     plan, versions = build_reconcile_plan(module, host, baseline)
     validate(plan, "reconcile-plan.schema.json")
     assert [item["id"] for item in plan["diff"]["update"]] == ["evidence-lab-core"]
-    assert plan["diff"]["retained_extra"] == [{"id": "qualitative-research", "version": "0.1.0"}]
+    assert plan["diff"]["retained_extra"] == [{"id": "publication-monitoring", "version": "0.1.0"}]
     fake = FakeHost(host, versions)
-    fake.versions.setdefault("qualitative-research", baseline["qualitative-research"])
+    fake.versions.setdefault("publication-monitoring", baseline["publication-monitoring"])
     fake.marketplace_source = "timsmykov/evidence-lab-plugins"
     fake.installed = dict(baseline)
     module.run = fake
@@ -287,7 +287,7 @@ def test_reconcile_update_retain_remove_restore(module, host: str) -> None:
         state = apply_reconcile(module, plan, state_path)
         validate(state, "reconcile-state.schema.json")
         assert state["status"] == "ready"
-        assert fake.installed["qualitative-research"] == "0.1.0"
+        assert fake.installed["publication-monitoring"] == "0.1.0"
         marketplace_removals = [
             command for command in fake.commands
             if command[:4] in (
@@ -304,7 +304,7 @@ def test_reconcile_update_retain_remove_restore(module, host: str) -> None:
         removed = remove_extras(module, plan, state_path)
         validate(removed, "reconcile-state.schema.json")
         assert removed["status"] == "removed"
-        assert "qualitative-research" not in fake.installed
+        assert "publication-monitoring" not in fake.installed
 
         fake.version_sequences["evidence-lab-core"] = ["0.5.0"]
         restored = module.restore_reconcile_state(plan, state_path, {}, {})
@@ -664,11 +664,11 @@ def test_interrupted_run_recovery(module, host: str) -> None:
 def test_partial_removal_preserves_exact_readback(module, host: str) -> None:
     baseline = {
         "evidence-lab-core": "0.5.0",
-        "qualitative-research": "0.1.0",
-        "research-images": "0.1.0",
+        "life-sciences": "0.1.0",
+        "publication-monitoring": "0.1.0",
     }
     plan, versions = build_reconcile_plan(module, host, baseline)
-    fake = FakeHost(host, versions, fail_remove="research-images")
+    fake = FakeHost(host, versions, fail_remove="publication-monitoring")
     fake.versions.update({key: value for key, value in baseline.items() if key not in versions})
     fake.marketplace_source = "timsmykov/evidence-lab-plugins"
     fake.installed = dict(baseline)

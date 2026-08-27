@@ -1,5 +1,10 @@
 # Changelog — Literature and Publication
 
+## [0.2.0] — 2026-08-27
+
+### Changed
+- Declared the pack as part of the frozen 20-skill foundation installed by bootstrap.
+
 ## [0.1.2] — 2026-08-27
 
 ### Changed

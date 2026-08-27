@@ -1,5 +1,10 @@
 # Changelog — Structured Data Analysis
 
+## [0.2.0] — 2026-08-27
+
+### Changed
+- Declared database lookup and exploratory data analysis as part of the frozen bootstrap foundation.
+
 ## [0.1.2] — 2026-08-27
 
 ### Changed

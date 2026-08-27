@@ -1,5 +1,10 @@
 # Changelog — Quantitative Sciences
 
+## [0.4.0] — 2026-08-27
+
+### Changed
+- Declared the four cross-disciplinary quantitative skills as part of the frozen bootstrap foundation for every researcher profile.
+
 ## [0.3.2] — 2026-08-27
 
 ### Changed

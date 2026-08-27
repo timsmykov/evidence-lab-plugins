@@ -1,0 +1,320 @@
+{
+  "schema_version": 1,
+  "generated_from": [
+    "catalog/foundation-skills.json",
+    "packs/*/*/pack.json",
+    "packs/*/*/meta.json",
+    "packs/*/*/skills/*"
+  ],
+  "capability_count": 21,
+  "physical_skill_count": 20,
+  "foundation_pack_ids": [
+    "evidence-lab-core",
+    "document-evidence",
+    "literature-publication",
+    "qualitative-research",
+    "research-design",
+    "research-images",
+    "structured-data-analysis",
+    "systematic-review",
+    "quantitative-sciences"
+  ],
+  "skills": [
+    {
+      "id": "citation-management",
+      "pack_id": "evidence-lab-core",
+      "pack_version": "0.12.0",
+      "layer": "core",
+      "path": "packs/core/evidence-lab-core/skills/citation-management",
+      "quality_status": "needs-representative-testing",
+      "capabilities": [
+        "citation-management"
+      ],
+      "content_sha256": "a369a9b7ba5413ba9734a33469178ff982c9734b918302e0a03a40ea5642f2b9"
+    },
+    {
+      "id": "paper-lookup",
+      "pack_id": "evidence-lab-core",
+      "pack_version": "0.12.0",
+      "layer": "core",
+      "path": "packs/core/evidence-lab-core/skills/paper-lookup",
+      "quality_status": "needs-representative-testing",
+      "capabilities": [
+        "paper-lookup"
+      ],
+      "content_sha256": "89218e5fb75f7aeaa3977183a960f4b1452a417b3a57bfd5d1028d32d81570da"
+    },
+    {
+      "id": "personal-skill-authoring",
+      "pack_id": "evidence-lab-core",
+      "pack_version": "0.12.0",
+      "layer": "core",
+      "path": "packs/core/evidence-lab-core/skills/personal-skill-authoring",
+      "quality_status": "needs-representative-testing",
+      "capabilities": [
+        "personal-skill-authoring"
+      ],
+      "content_sha256": "61843f8dd75e624e4347bee4efd4b9d4e5e2d96b2e324db8521ab77b40ab2f54"
+    },
+    {
+      "id": "scientific-critical-thinking",
+      "pack_id": "evidence-lab-core",
+      "pack_version": "0.12.0",
+      "layer": "core",
+      "path": "packs/core/evidence-lab-core/skills/scientific-critical-thinking",
+      "quality_status": "needs-representative-testing",
+      "capabilities": [
+        "scientific-critical-thinking"
+      ],
+      "content_sha256": "e5e3e08c75af6f6aa671148e33873d2f515c0757d74fa80c47b5cbb8890da9d8"
+    },
+    {
+      "id": "markitdown",
+      "pack_id": "document-evidence",
+      "pack_version": "0.2.0",
+      "layer": "workflow",
+      "path": "packs/workflows/document-evidence/skills/markitdown",
+      "quality_status": "needs-representative-testing",
+      "capabilities": [
+        "document-normalization"
+      ],
+      "content_sha256": "14ba1fc4d706a44d83b4b6cd553ac5368c9ad959eccb7dba83800e4a6923e43c"
+    },
+    {
+      "id": "literature-review",
+      "pack_id": "literature-publication",
+      "pack_version": "0.2.0",
+      "layer": "workflow",
+      "path": "packs/workflows/literature-publication/skills/literature-review",
+      "quality_status": "needs-representative-testing",
+      "capabilities": [
+        "literature-review"
+      ],
+      "content_sha256": "cd61fe1f4c869741d23f23ab221c89ed620fd941fd07b43d2b1d25a2d4e88253"
+    },
+    {
+      "id": "markdown-mermaid-writing",
+      "pack_id": "literature-publication",
+      "pack_version": "0.2.0",
+      "layer": "workflow",
+      "path": "packs/workflows/literature-publication/skills/markdown-mermaid-writing",
+      "quality_status": "needs-representative-testing",
+      "capabilities": [
+        "research-diagrams"
+      ],
+      "content_sha256": "fafe1ac066699d29178ab49a69fec784f098dc3234d39deea251c3a618e43df7"
+    },
+    {
+      "id": "peer-review",
+      "pack_id": "literature-publication",
+      "pack_version": "0.2.0",
+      "layer": "workflow",
+      "path": "packs/workflows/literature-publication/skills/peer-review",
+      "quality_status": "needs-representative-testing",
+      "capabilities": [
+        "peer-review"
+      ],
+      "content_sha256": "98f3beb41fd143baf60437f68d11a272f8b110b76d796a76e284c24e03e4795f"
+    },
+    {
+      "id": "writing-skill",
+      "pack_id": "literature-publication",
+      "pack_version": "0.2.0",
+      "layer": "workflow",
+      "path": "packs/workflows/literature-publication/skills/writing-skill",
+      "quality_status": "needs-representative-testing",
+      "capabilities": [
+        "academic-writing"
+      ],
+      "content_sha256": "6f3176e928e40bf9ed0423328b007016d89623a001b77c09c2b41d5b1c2ec9ba"
+    },
+    {
+      "id": "qualitative-analysis",
+      "pack_id": "qualitative-research",
+      "pack_version": "0.2.0",
+      "layer": "workflow",
+      "path": "packs/workflows/qualitative-research/skills/qualitative-analysis",
+      "quality_status": "needs-substantive-work",
+      "capabilities": [
+        "qualitative-analysis"
+      ],
+      "content_sha256": "593154ba9ffede22c92caa512eadc577a113d08cb30167926ef269179d4a02f3"
+    },
+    {
+      "id": "experimental-design",
+      "pack_id": "research-design",
+      "pack_version": "0.2.0",
+      "layer": "workflow",
+      "path": "packs/workflows/research-design/skills/experimental-design",
+      "quality_status": "needs-representative-testing",
+      "capabilities": [
+        "experimental-design"
+      ],
+      "content_sha256": "c7af0b2f1e2984183be93085de9ed5248e5f782b4b30b251a561d99a3ec28bd1"
+    },
+    {
+      "id": "hypothesis-generation",
+      "pack_id": "research-design",
+      "pack_version": "0.2.0",
+      "layer": "workflow",
+      "path": "packs/workflows/research-design/skills/hypothesis-generation",
+      "quality_status": "needs-representative-testing",
+      "capabilities": [
+        "hypothesis-generation",
+        "preregistration"
+      ],
+      "content_sha256": "baebe678742cb948ef40b7bdd57cb373db36ceeafa72fb8b7b0896612e928a72"
+    },
+    {
+      "id": "research-image-analysis",
+      "pack_id": "research-images",
+      "pack_version": "0.2.0",
+      "layer": "workflow",
+      "path": "packs/workflows/research-images/skills/research-image-analysis",
+      "quality_status": "needs-substantive-work",
+      "capabilities": [
+        "research-image-analysis"
+      ],
+      "content_sha256": "48ddc5f5f2c025bbc79504bb96475226a32d9f15f87415cf50fdaeee619477e4"
+    },
+    {
+      "id": "database-lookup",
+      "pack_id": "structured-data-analysis",
+      "pack_version": "0.2.0",
+      "layer": "workflow",
+      "path": "packs/workflows/structured-data-analysis/skills/database-lookup",
+      "quality_status": "needs-representative-testing",
+      "capabilities": [
+        "database-lookup"
+      ],
+      "content_sha256": "3f516717e895ae63c3754471de13d67cb966fea351b3a0b6edbd5b908b4cf8ed"
+    },
+    {
+      "id": "exploratory-data-analysis",
+      "pack_id": "structured-data-analysis",
+      "pack_version": "0.2.0",
+      "layer": "workflow",
+      "path": "packs/workflows/structured-data-analysis/skills/exploratory-data-analysis",
+      "quality_status": "needs-representative-testing",
+      "capabilities": [
+        "exploratory-data-analysis"
+      ],
+      "content_sha256": "2c6496b7050b6bb87b5cecf8a83f300d4ddba6945c2f777731c3db84a688bfe7"
+    },
+    {
+      "id": "systematic-review",
+      "pack_id": "systematic-review",
+      "pack_version": "0.2.0",
+      "layer": "workflow",
+      "path": "packs/workflows/systematic-review/skills/systematic-review",
+      "quality_status": "needs-substantive-work",
+      "capabilities": [
+        "systematic-review"
+      ],
+      "content_sha256": "b567d68be26225368e36e1f8f3e69d32b2f17b98361ee2620776c9f07debacc8"
+    },
+    {
+      "id": "scientific-visualization",
+      "pack_id": "quantitative-sciences",
+      "pack_version": "0.4.0",
+      "layer": "domain",
+      "path": "packs/domains/quantitative-sciences/skills/scientific-visualization",
+      "quality_status": "needs-representative-testing",
+      "capabilities": [
+        "scientific-visualization"
+      ],
+      "content_sha256": "21e86e7a07f287e603e5362e9f92b4581a31ec5820a5fb139d45e5199b784f31"
+    },
+    {
+      "id": "statistical-analysis",
+      "pack_id": "quantitative-sciences",
+      "pack_version": "0.4.0",
+      "layer": "domain",
+      "path": "packs/domains/quantitative-sciences/skills/statistical-analysis",
+      "quality_status": "needs-representative-testing",
+      "capabilities": [
+        "statistical-analysis"
+      ],
+      "content_sha256": "4e30f0d47ddad1cbe419170c8f1c6c4844caa57c6c7faee6d7e23741729d2984"
+    },
+    {
+      "id": "statistical-power",
+      "pack_id": "quantitative-sciences",
+      "pack_version": "0.4.0",
+      "layer": "domain",
+      "path": "packs/domains/quantitative-sciences/skills/statistical-power",
+      "quality_status": "needs-representative-testing",
+      "capabilities": [
+        "statistical-power"
+      ],
+      "content_sha256": "09f924dddff2f13dfc1571ed32bc759cd196a8eb5210a8e16c4ea26f46e2c99b"
+    },
+    {
+      "id": "uncertainty-and-units",
+      "pack_id": "quantitative-sciences",
+      "pack_version": "0.4.0",
+      "layer": "domain",
+      "path": "packs/domains/quantitative-sciences/skills/uncertainty-and-units",
+      "quality_status": "needs-representative-testing",
+      "capabilities": [
+        "uncertainty-and-units"
+      ],
+      "content_sha256": "855663ec5e4ff245c68de5d4a46a1f613a190cb3790b27dbd78f0b32013dd3b8"
+    }
+  ],
+  "planned_capabilities": [
+    {
+      "id": "data-cleaning-and-provenance",
+      "priority": "P0",
+      "rationale": "Records cleaning decisions, transformations, exclusions, and lineage.",
+      "upstream_candidate_ids": [
+        "wentor-data-cleaning-pipeline",
+        "rosetta-research-data-management"
+      ]
+    },
+    {
+      "id": "evidence-extraction",
+      "priority": "P0",
+      "rationale": "Extracts claim-linked passages, tables, figures, and page provenance from source documents.",
+      "upstream_candidate_ids": [
+        "wentor-pdf-extraction-guide"
+      ]
+    },
+    {
+      "id": "latex-and-venue-formatting",
+      "priority": "P0",
+      "rationale": "Builds and validates LaTeX manuscripts, equations, references, and venue constraints.",
+      "upstream_candidate_ids": [
+        "k-dense-venue-templates",
+        "appautomaton-arxiv-paper-writer"
+      ]
+    },
+    {
+      "id": "reproducible-computation",
+      "priority": "P0",
+      "rationale": "Captures environments, commands, seeds, inputs, outputs, and rerun checks.",
+      "upstream_candidate_ids": [
+        "compound-science-reproducible-pipelines",
+        "wentor-python-reproducibility-guide",
+        "rosetta-reproducible-research"
+      ]
+    },
+    {
+      "id": "research-data-management",
+      "priority": "P1",
+      "rationale": "Plans naming, storage, metadata, access, retention, and safe sharing.",
+      "upstream_candidate_ids": [
+        "rosetta-research-data-management",
+        "rosetta-reproducible-research"
+      ]
+    },
+    {
+      "id": "research-log-and-decision-trail",
+      "priority": "P1",
+      "rationale": "Maintains a dated record of decisions, deviations, failures, and evidence changes.",
+      "upstream_candidate_ids": [
+        "orchestra-research-manager"
+      ]
+    }
+  ]
+}

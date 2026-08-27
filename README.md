@@ -1,8 +1,9 @@
 # Evidence Lab Packs
 
 An open-source, agent-first research stack for Codex and Claude Code. Evidence
-Lab gives researchers a short conversational setup, builds a deterministic pack
-plan from their answers, and installs only the capabilities they approve.
+Lab gives researchers a short conversational setup, installs a frozen universal
+foundation, and adds profile-specific capabilities through a deterministic plan
+that the researcher approves.
 
 ## Install from chat
 
@@ -54,6 +55,14 @@ controlled researcher-profile vocabulary and deterministic matching semantics.
 Each pack owns reviewed selection rules with stable IDs; LLM free-text handling
 can only propose vocabulary values before deterministic validation.
 
+The frozen foundation is indexed in
+[`catalog/foundation-core.json`](catalog/foundation-core.json). It currently
+contains 20 physical skills, representing 21 implemented top-level
+capabilities across nine packs. Every profile receives those packs; onboarding
+answers determine relevance and optional additions, not whether the universal
+foundation is present. Six further capabilities remain explicitly `planned`
+and are not presented as installed.
+
 For an existing installation, the same bootstrap builds an exact reconciliation diff. Additions and updates use the first approval, existing extras are retained by default, and removal requires a second approval. Every apply is guarded by the live installed-state digest and records a pre-change snapshot for recovery.
 
 Stable distribution uses immutable `release-YYYY.MM.N` tags and a generated `release-lock.json` GitHub Release asset. The lock records the source commit, catalog hash, and exact content hash/version/host/license tuple for every published pack; bootstrap records its canonical digest in user-owned state.
@@ -78,6 +87,7 @@ The former broad workflow packs remain compatibility entry points; operational s
 ## Build and verify
 
 ```bash
+python3 scripts/build_foundation_index.py --check
 python3 scripts/build_adapters.py
 python3 scripts/build_adapters.py --check
 python3 scripts/test_agent_first.py

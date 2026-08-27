@@ -1,5 +1,10 @@
 # Changelog — Qualitative Research
 
+## [0.2.0] — 2026-08-27
+
+### Changed
+- Declared the current qualitative-analysis skill as part of the evolving bootstrap foundation while retaining its substantive-work status.
+
 ## [0.1.2] — 2026-08-27
 
 ### Changed

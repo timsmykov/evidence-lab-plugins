@@ -44,6 +44,8 @@ def validate_profile(profile: dict, policy: dict) -> None:
 
 
 def validate_catalog(catalog: dict, policy: dict) -> None:
+    if catalog.get("schema_version") != 2:
+        raise ValueError("catalog.schema_version must be 2")
     packs = catalog.get("packs")
     if not isinstance(packs, list) or not packs:
         raise ValueError("catalog.packs must be a non-empty array")
@@ -53,6 +55,14 @@ def validate_catalog(catalog: dict, policy: dict) -> None:
     known_packs = set(pack_ids)
     rule_ids: set[str] = {"required-foundation"}
     for pack in packs:
+        if not isinstance(pack.get("foundation"), bool):
+            raise ValueError(f"{pack.get('id')}: catalog must declare foundation status")
+        skills = pack.get("skills")
+        if not isinstance(skills, list) or not skills:
+            raise ValueError(f"{pack.get('id')}: catalog must index at least one skill")
+        skill_ids = [item.get("id") for item in skills if isinstance(item, dict)]
+        if len(skill_ids) != len(skills) or len(skill_ids) != len(set(skill_ids)):
+            raise ValueError(f"{pack.get('id')}: catalog contains invalid or duplicate skill IDs")
         for related in (*pack.get("dependencies", []), *pack.get("conflicts", [])):
             if related not in known_packs:
                 raise ValueError(f"{pack['id']}: unknown related pack {related}")
@@ -106,8 +116,13 @@ def match_rule(profile: dict, rule: dict) -> dict | None:
 def matches(profile: dict, pack: dict) -> list[dict]:
     selection = pack["selection"]
     matched: list[dict] = []
-    if selection.get("always"):
-        matched.append({"id": "required-foundation", "priority": 1000, "reason": "Required research foundation.", "evidence": {}})
+    if pack.get("foundation") or selection.get("always"):
+        matched.append({
+            "id": "required-foundation",
+            "priority": 1000,
+            "reason": "Frozen researcher foundation installed for every profile.",
+            "evidence": {},
+        })
     for rule in selection.get("rules", []):
         result = match_rule(profile, rule)
         if result:

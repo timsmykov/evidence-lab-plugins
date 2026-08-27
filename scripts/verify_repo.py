@@ -55,6 +55,7 @@ REQUIRED_REPO_FILES = [
     "docs/external-plugin-verification.md",
     "docs/research/open-source-foundation-skill-audit-2026-08-27.md",
     "catalog/foundation-skills.json",
+    "catalog/foundation-core.json",
     "catalog/open-source-skill-candidates.json",
     "catalog/scenarios.json",
     "catalog/pack-boundary-decisions.json",
@@ -82,6 +83,8 @@ REQUIRED_REPO_FILES = [
     "schemas/external-plugin-candidates.schema.json",
     "schemas/external-plugin-plan.schema.json",
     "schemas/foundation-skills.schema.json",
+    "schemas/foundation-core.schema.json",
+    "schemas/pack-catalog.schema.json",
     "schemas/open-source-skill-candidates.schema.json",
     "schemas/meta.schema.json",
     "schemas/eval.schema.json",
@@ -222,6 +225,12 @@ def check_marketplaces() -> None:
         if not (ROOT / source).is_dir():
             fail(f"Codex marketplace.json: entry {entry.get('name')} points at missing {source}")
 
+    catalog_path = PACKS / "core" / "evidence-lab-core" / "catalog" / "packs.json"
+    if catalog_path.exists():
+        catalog = load_json(catalog_path)
+        if catalog is not None:
+            validate(catalog, "pack-catalog.schema.json", "bootstrap packs.json")
+
 
 def check_external_plugin_registry() -> None:
     path = ROOT / "catalog" / "external-plugin-candidates.json"
@@ -294,6 +303,34 @@ def check_foundation_skills() -> None:
             fail(f"foundation-skills.json: {row.get('id')} state {row.get('state')} disagrees with {current} quality {metadata[current]['quality_status']}")
 
 
+def check_foundation_core() -> None:
+    path = ROOT / "catalog" / "foundation-core.json"
+    data = load_json(path) if path.exists() else None
+    if data is None:
+        return
+    validate(data, "foundation-core.schema.json", "foundation-core.json")
+    skills = data.get("skills", [])
+    skill_ids = [item.get("id") for item in skills]
+    if len(skill_ids) != len(set(skill_ids)):
+        fail("foundation-core.json: physical skill IDs must be unique")
+    if data.get("physical_skill_count") != len(skills):
+        fail("foundation-core.json: physical_skill_count does not match indexed skills")
+    capability_count = sum(len(item.get("capabilities", [])) for item in skills)
+    if data.get("capability_count") != capability_count:
+        fail("foundation-core.json: capability_count does not match indexed capability mappings")
+    pack_ids = set(data.get("foundation_pack_ids", []))
+    declared = set()
+    for pack_path in PACKS.glob("*/*/pack.json"):
+        pack = load_json(pack_path)
+        if pack and pack.get("foundation"):
+            declared.add(pack["id"])
+    if pack_ids != declared:
+        fail(f"foundation-core.json: foundation pack set differs from pack declarations: {sorted(pack_ids)} != {sorted(declared)}")
+    runtime_path = PACKS / "core" / "evidence-lab-core" / "catalog" / "foundation-core.json"
+    if runtime_path.exists() and runtime_path.read_text(encoding="utf-8") != path.read_text(encoding="utf-8"):
+        fail("runtime foundation-core.json differs from the canonical index")
+
+
 def check_open_source_skill_candidates() -> None:
     path = ROOT / "catalog" / "open-source-skill-candidates.json"
     data = load_json(path) if path.exists() else None
@@ -319,6 +356,7 @@ def check_open_source_skill_candidates() -> None:
 
 def check_generated_reports() -> None:
     for command, label in (
+        ([sys.executable, "scripts/build_foundation_index.py", "--check"], "foundation core index"),
         ([sys.executable, "scripts/audit_skill_packs.py", "--check"], "skill-pack readiness report"),
         ([sys.executable, "scripts/audit_openai_plugins.py", "--check"], "OpenAI plugin audit report"),
         ([sys.executable, "scripts/test_openai_plugin_audit.py"], "OpenAI plugin audit regression tests"),
@@ -589,6 +627,7 @@ def main() -> int:
     check_external_plugin_registry()
     check_open_source_skill_candidates()
     check_foundation_skills()
+    check_foundation_core()
     check_generated_reports()
     if PACKS.is_dir():
         for pack_dir in sorted(path.parent for path in PACKS.glob("*/*/pack.json")):

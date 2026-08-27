@@ -41,7 +41,12 @@ def analyze(matrix: dict, catalog: dict, policy: dict) -> dict:
     usage = {pack_id: {"selected_by": [], "excluded_by": []} for pack_id in packs}
     for scenario in matrix["scenarios"]:
         plan = selector.select(scenario["profile"], catalog, policy)
-        selected = [pack["id"] for pack in plan["packs"]]
+        installed = [pack["id"] for pack in plan["packs"]]
+        selected = [
+            pack["id"]
+            for pack in plan["packs"]
+            if pack["id"] == baseline or any(rule_id != "required-foundation" for rule_id in pack["rule_ids"])
+        ]
         provided = set().union(*(set(packs[pack_id]["capabilities"]) for pack_id in selected))
         required = set(scenario["required_capabilities"])
         optional = set(scenario["optional_capabilities"])
@@ -55,6 +60,7 @@ def analyze(matrix: dict, catalog: dict, policy: dict) -> dict:
         rows.append({
             "id": scenario["id"],
             "segment": scenario["segment"],
+            "installed_packs": installed,
             "selected_packs": selected,
             "missing_capabilities": missing,
             "overinstalled_capabilities": extra,
@@ -79,6 +85,7 @@ def render(report: dict, decisions: dict) -> str:
         "",
         "Generated deterministically by `python3 scripts/analyze_pack_boundaries.py`.",
         f"It measures the current catalog with R3 boundary status `{decisions['status']}`.",
+        "Bootstrap installs the frozen foundation for every profile. The scenario matrix shows profile-relevant pack activation rules, so the boundary evidence remains useful after physical installation is broadened.",
         "Core capabilities are treated as the mandatory baseline and are not counted as over-installation.",
         "",
         "## Summary",
