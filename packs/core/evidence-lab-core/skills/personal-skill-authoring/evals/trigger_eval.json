@@ -1,0 +1,10 @@
+[
+  {"query": "I repeat this analysis every week. Turn my procedure into a reusable personal skill.", "should_trigger": true},
+  {"query": "Teach Codex my lab's checklist so I can reuse it on future datasets.", "should_trigger": true},
+  {"query": "Create a Claude Code skill for validating the tables I receive from collaborators.", "should_trigger": true},
+  {"query": "Package this recurring literature-screening workflow as my own skill.", "should_trigger": true},
+  {"query": "Improve my existing personal skill and add tests for when it should activate.", "should_trigger": true},
+  {"query": "Analyze this CSV once and summarize the result.", "should_trigger": false, "note": "A one-off analysis belongs to the analysis skill."},
+  {"query": "Install the standard Evidence Lab research pack for me.", "should_trigger": false, "note": "Handled by Evidence Lab onboarding."},
+  {"query": "Explain how statistical power works.", "should_trigger": false, "note": "A knowledge question does not request a reusable personal workflow."}
+]

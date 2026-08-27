@@ -19,7 +19,8 @@ commands, plugin manifests, marketplaces, schemas, or Git.
 
 3. Answer four short questions. A number, several numbers, or a personal answer
    are all valid.
-4. Review the recommendation and answer yes only if it looks right.
+4. Review the universal research foundation and any profile-specific additions,
+   then answer yes only if the complete recommendation looks right.
 5. When setup is complete, open a new task and begin with the actual research
    goal.
 

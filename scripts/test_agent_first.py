@@ -15,6 +15,7 @@ SCHEMAS = ROOT / "schemas"
 FIXTURES = ROOT / "tests" / "fixtures" / "onboarding"
 SELECTOR_PATH = ROOT / "packs" / "core" / "evidence-lab-core" / "skills" / "evidence-lab-onboarding" / "scripts" / "select_packs.py"
 CATALOG_PATH = ROOT / "packs" / "core" / "evidence-lab-core" / "catalog" / "packs.json"
+FOUNDATION_PATH = ROOT / "packs" / "core" / "evidence-lab-core" / "catalog" / "foundation-core.json"
 POLICY_PATH = ROOT / "packs" / "core" / "evidence-lab-core" / "onboarding" / "selection-policy.json"
 PLAN_COPY_ROOT = ROOT / "packs" / "core" / "evidence-lab-core" / "onboarding"
 RENDERER_PATH = ROOT / "scripts" / "render_plan.py"
@@ -64,6 +65,41 @@ def check_fixtures() -> None:
             actual_rules = {pack["id"]: pack["rule_ids"] for pack in plan["packs"]}
             if actual_rules != expected["rule_ids"]:
                 raise AssertionError(f"{profile_path.name}: expected rules {expected['rule_ids']}, got {actual_rules}")
+
+
+def check_frozen_foundation() -> None:
+    selector = load_selector()
+    catalog = load(CATALOG_PATH)
+    foundation = load(FOUNDATION_PATH)
+    policy = load(POLICY_PATH)
+    validate(catalog, "pack-catalog.schema.json")
+    validate(foundation, "foundation-core.schema.json")
+    if foundation["physical_skill_count"] != 20:
+        raise AssertionError("frozen foundation must index exactly 20 current physical skills")
+    if len(foundation["planned_capabilities"]) != 6:
+        raise AssertionError("frozen foundation must retain exactly six planned capabilities")
+    declared_packs = [pack["id"] for pack in catalog["packs"] if pack["foundation"]]
+    if set(declared_packs) != set(foundation["foundation_pack_ids"]):
+        raise AssertionError("runtime catalog foundation packs differ from the frozen skill index")
+    indexed = {
+        item["id"]: (item["pack_id"], item["quality_status"])
+        for item in foundation["skills"]
+    }
+    catalog_skills = {
+        item["id"]: (pack["id"], item["quality_status"])
+        for pack in catalog["packs"] if pack["foundation"]
+        for item in pack["skills"]
+    }
+    if any(catalog_skills.get(skill_id) != owner for skill_id, owner in indexed.items()):
+        raise AssertionError("runtime pack catalog does not account for every frozen foundation skill")
+    profile = load(FIXTURES / "default.profile.json")
+    plan = selector.select(profile, catalog, policy)
+    installed = {item["id"] for item in plan["packs"]}
+    if not set(foundation["foundation_pack_ids"]) <= installed:
+        raise AssertionError("default bootstrap plan omits a frozen foundation pack")
+    for item in plan["packs"]:
+        if item["id"] in foundation["foundation_pack_ids"] and "required-foundation" not in item["rule_ids"]:
+            raise AssertionError(f"{item['id']}: foundation installation reason is missing")
 
 
 def check_policy_boundaries() -> None:
@@ -277,6 +313,7 @@ def main() -> int:
     check_plan_copy()
     check_policy_boundaries()
     check_fixtures()
+    check_frozen_foundation()
     check_adapter_parity()
     print("OK: agent-first onboarding and Claude/Codex adapter parity verified")
     return 0

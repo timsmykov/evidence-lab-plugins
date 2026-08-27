@@ -50,8 +50,17 @@ REQUIRED_REPO_FILES = [
     "docs/sanitization-policy.md",
     "docs/release-process.md",
     "docs/pack-boundary-report.md",
+    "docs/skill-pack-readiness.md",
+    "docs/openai-plugin-audit.md",
+    "docs/external-plugin-verification.md",
+    "docs/research/open-source-foundation-skill-audit-2026-08-27.md",
+    "catalog/foundation-skills.json",
+    "catalog/foundation-core.json",
+    "catalog/open-source-skill-candidates.json",
     "catalog/scenarios.json",
     "catalog/pack-boundary-decisions.json",
+    "catalog/external-plugin-candidates.json",
+    "catalog/openai-plugin-audit.json",
     "schemas/plugin.schema.json",
     "schemas/codex-plugin.schema.json",
     "schemas/codex-marketplace.schema.json",
@@ -71,6 +80,12 @@ REQUIRED_REPO_FILES = [
     "schemas/normalization-result.schema.json",
     "schemas/scenario-matrix.schema.json",
     "schemas/pack-boundary-decisions.schema.json",
+    "schemas/external-plugin-candidates.schema.json",
+    "schemas/external-plugin-plan.schema.json",
+    "schemas/foundation-skills.schema.json",
+    "schemas/foundation-core.schema.json",
+    "schemas/pack-catalog.schema.json",
+    "schemas/open-source-skill-candidates.schema.json",
     "schemas/meta.schema.json",
     "schemas/eval.schema.json",
     "schemas/marketplace.schema.json",
@@ -210,6 +225,146 @@ def check_marketplaces() -> None:
         if not (ROOT / source).is_dir():
             fail(f"Codex marketplace.json: entry {entry.get('name')} points at missing {source}")
 
+    catalog_path = PACKS / "core" / "evidence-lab-core" / "catalog" / "packs.json"
+    if catalog_path.exists():
+        catalog = load_json(catalog_path)
+        if catalog is not None:
+            validate(catalog, "pack-catalog.schema.json", "bootstrap packs.json")
+
+
+def check_external_plugin_registry() -> None:
+    path = ROOT / "catalog" / "external-plugin-candidates.json"
+    if not path.exists():
+        return
+    data = load_json(path)
+    if data is None:
+        return
+    validate(data, "external-plugin-candidates.schema.json", "external-plugin-candidates.json")
+    ids = [plugin.get("id") for plugin in data.get("plugins", [])]
+    if len(ids) != len(set(ids)):
+        fail("external-plugin-candidates.json: plugin IDs must be unique")
+    audit_path = ROOT / "catalog" / "openai-plugin-audit.json"
+    audit = load_json(audit_path) if audit_path.exists() else None
+    if audit is not None:
+        if data.get("observed_at") != audit.get("fetched_at"):
+            fail("external-plugin-candidates.json: observed_at does not match the audited snapshot")
+        if data.get("source", {}).get("snapshot_sha256") != audit.get("snapshot_sha256"):
+            fail("external-plugin-candidates.json: snapshot hash does not match the catalog audit")
+        observed = {row.get("id"): row for row in audit.get("reviewed_candidates", [])}
+        for plugin in data.get("plugins", []):
+            row = observed.get(plugin.get("id"))
+            if row is None:
+                fail(f"external-plugin-candidates.json: {plugin.get('display_name')} is absent from audited candidates")
+                continue
+            if row.get("display_name") != plugin.get("display_name") or row.get("version") != plugin.get("observed_version"):
+                fail(f"external-plugin-candidates.json: {plugin.get('display_name')} identity/version differs from the audit")
+    for plugin in data.get("plugins", []):
+        if plugin.get("component_type") in {"directory-app", "hybrid"} and plugin.get("selection", {}).get("automatic"):
+            fail(f"external-plugin-candidates.json: {plugin.get('display_name')} cannot silently select an app connection")
+        if plugin.get("policy") != "approved-baseline" and plugin.get("selection", {}).get("automatic"):
+            fail(f"external-plugin-candidates.json: {plugin.get('display_name')} cannot be automatic before baseline approval")
+
+
+def check_foundation_skills() -> None:
+    path = ROOT / "catalog" / "foundation-skills.json"
+    data = load_json(path) if path.exists() else None
+    if data is None:
+        return
+    validate(data, "foundation-skills.schema.json", "foundation-skills.json")
+    rows = data.get("skills", [])
+    ids = [row.get("id") for row in rows]
+    if len(ids) != len(set(ids)):
+        fail("foundation-skills.json: skill IDs must be unique")
+    if data.get("target_size") != len(rows):
+        fail("foundation-skills.json: target_size must equal the number of skill rows")
+    metadata = {}
+    candidate_path = ROOT / "catalog" / "open-source-skill-candidates.json"
+    candidate_ids = set()
+    if candidate_path.exists():
+        candidate_data = load_json(candidate_path)
+        if candidate_data:
+            candidate_ids = {item.get("id") for item in candidate_data.get("candidates", [])}
+    for meta_path in PACKS.glob("*/*/meta.json"):
+        meta = load_json(meta_path)
+        if meta:
+            metadata.update({item["name"]: item for item in meta.get("skills", [])})
+    for row in rows:
+        unknown_candidates = set(row.get("upstream_candidate_ids", [])) - candidate_ids
+        if unknown_candidates:
+            fail(f"foundation-skills.json: {row.get('id')} references unknown upstream candidates: {sorted(unknown_candidates)}")
+        current = row.get("current_skill")
+        if not current:
+            continue
+        if current not in metadata:
+            fail(f"foundation-skills.json: implemented skill is absent from pack metadata: {current}")
+            continue
+        expected = "implemented-" + metadata[current]["quality_status"]
+        if row.get("state") != expected:
+            fail(f"foundation-skills.json: {row.get('id')} state {row.get('state')} disagrees with {current} quality {metadata[current]['quality_status']}")
+
+
+def check_foundation_core() -> None:
+    path = ROOT / "catalog" / "foundation-core.json"
+    data = load_json(path) if path.exists() else None
+    if data is None:
+        return
+    validate(data, "foundation-core.schema.json", "foundation-core.json")
+    skills = data.get("skills", [])
+    skill_ids = [item.get("id") for item in skills]
+    if len(skill_ids) != len(set(skill_ids)):
+        fail("foundation-core.json: physical skill IDs must be unique")
+    if data.get("physical_skill_count") != len(skills):
+        fail("foundation-core.json: physical_skill_count does not match indexed skills")
+    capability_count = sum(len(item.get("capabilities", [])) for item in skills)
+    if data.get("capability_count") != capability_count:
+        fail("foundation-core.json: capability_count does not match indexed capability mappings")
+    pack_ids = set(data.get("foundation_pack_ids", []))
+    declared = set()
+    for pack_path in PACKS.glob("*/*/pack.json"):
+        pack = load_json(pack_path)
+        if pack and pack.get("foundation"):
+            declared.add(pack["id"])
+    if pack_ids != declared:
+        fail(f"foundation-core.json: foundation pack set differs from pack declarations: {sorted(pack_ids)} != {sorted(declared)}")
+    runtime_path = PACKS / "core" / "evidence-lab-core" / "catalog" / "foundation-core.json"
+    if runtime_path.exists() and runtime_path.read_text(encoding="utf-8") != path.read_text(encoding="utf-8"):
+        fail("runtime foundation-core.json differs from the canonical index")
+
+
+def check_open_source_skill_candidates() -> None:
+    path = ROOT / "catalog" / "open-source-skill-candidates.json"
+    data = load_json(path) if path.exists() else None
+    if data is None:
+        return
+    validate(data, "open-source-skill-candidates.schema.json", "open-source-skill-candidates.json")
+    rows = data.get("candidates", [])
+    ids = [row.get("id") for row in rows]
+    if len(ids) != len(set(ids)):
+        fail("open-source-skill-candidates.json: candidate IDs must be unique")
+    foundation = load_json(ROOT / "catalog" / "foundation-skills.json")
+    foundation_ids = {row.get("id") for row in foundation.get("skills", [])} if foundation else set()
+    for row in rows:
+        if row.get("bundled") is not False:
+            fail(f"open-source-skill-candidates.json: {row.get('id')} must remain source-only until promotion")
+        unknown = set(row.get("capabilities", [])) - foundation_ids
+        if unknown:
+            fail(f"open-source-skill-candidates.json: {row.get('id')} maps unknown capabilities: {sorted(unknown)}")
+        expected_tree = f"{row.get('repository_url')}/tree/{row.get('commit')}/{row.get('skill_path')}"
+        if row.get("skill_url") != expected_tree:
+            fail(f"open-source-skill-candidates.json: {row.get('id')} skill URL is not pinned to its exact path")
+
+
+def check_generated_reports() -> None:
+    for command, label in (
+        ([sys.executable, "scripts/build_foundation_index.py", "--check"], "foundation core index"),
+        ([sys.executable, "scripts/audit_skill_packs.py", "--check"], "skill-pack readiness report"),
+        ([sys.executable, "scripts/audit_openai_plugins.py", "--check"], "OpenAI plugin audit report"),
+        ([sys.executable, "scripts/test_openai_plugin_audit.py"], "OpenAI plugin audit regression tests"),
+    ):
+        result = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
+        if result.returncode:
+            fail(result.stderr.strip() or result.stdout.strip() or f"{label} is stale")
+
 
 # ------------------------------------------------------------------------- plugin
 
@@ -313,6 +468,17 @@ def check_pack(pack_dir: Path) -> None:
             fail(f"{plugin}: production plugin needs provenance.reviewed_at")
 
     declared = {s["name"]: s for s in meta.get("skills", []) if isinstance(s, dict)}
+    for skill_name, skill_meta in declared.items():
+        quality = skill_meta.get("quality_status")
+        notes = skill_meta.get("development_notes", [])
+        if quality == "needs-substantive-work" and not notes:
+            fail(f"{plugin}: {skill_name} needs substantive work but has no development_notes")
+        if quality == "support-only" and not skill_name.endswith("-router"):
+            fail(f"{plugin}: support-only is reserved for compatibility routers ({skill_name})")
+        if skill_name.endswith("-router") and quality != "support-only":
+            fail(f"{plugin}: compatibility router {skill_name} must be support-only")
+        if quality == "production" and meta.get("status") != "production":
+            fail(f"{plugin}: production skill {skill_name} cannot live in a non-production pack")
     skills_dir = pack_dir / "skills"
     on_disk = {d.name for d in skills_dir.iterdir() if d.is_dir()} if skills_dir.is_dir() else set()
     if not on_disk:
@@ -458,6 +624,11 @@ def check_version_bump() -> None:
 def main() -> int:
     check_repo_files()
     check_marketplaces()
+    check_external_plugin_registry()
+    check_open_source_skill_candidates()
+    check_foundation_skills()
+    check_foundation_core()
+    check_generated_reports()
     if PACKS.is_dir():
         for pack_dir in sorted(path.parent for path in PACKS.glob("*/*/pack.json")):
             check_pack(pack_dir)

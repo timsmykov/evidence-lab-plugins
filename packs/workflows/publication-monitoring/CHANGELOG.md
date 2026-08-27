@@ -1,5 +1,10 @@
 # Changelog — Publication Monitoring
 
+## [0.1.2] — 2026-08-27
+
+### Changed
+- Recorded the explicit substantive-work quality gate without changing monitoring behavior.
+
 ## [0.1.1] — 2026-08-27
 
 ### Changed

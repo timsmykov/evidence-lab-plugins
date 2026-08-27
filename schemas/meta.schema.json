@@ -45,11 +45,21 @@
       "minItems": 1,
       "items": {
         "type": "object",
-        "required": ["name", "summary"],
+        "required": ["name", "summary", "quality_status"],
         "additionalProperties": false,
         "properties": {
           "name": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" },
           "summary": { "type": "string", "minLength": 20 },
+          "quality_status": {
+            "enum": ["needs-substantive-work", "needs-representative-testing", "review-ready", "production", "support-only", "reference-only"],
+            "description": "Explicit skill-level content status. support-only is reserved for routers; reference-only is never installed for real work."
+          },
+          "development_notes": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 20 },
+            "description": "Concrete work required before the next quality state. Required by policy for needs-substantive-work."
+          },
           "deterministic_parts": {
             "type": "array",
             "items": { "type": "string" },

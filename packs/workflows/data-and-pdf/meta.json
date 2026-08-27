@@ -10,7 +10,7 @@
     "added_at": "2026-08-26"
   },
   "skills": [
-    {"name": "data-and-pdf-router", "summary": "Explains and confirms the compatibility route that installs document and structured-data workflow packs together.", "deterministic_parts": []}
+    {"name": "data-and-pdf-router", "summary": "Explains and confirms the compatibility route that installs document and structured-data workflow packs together.", "quality_status": "support-only", "deterministic_parts": []}
   ],
   "portable_to": ["claude", "codex"]
 }

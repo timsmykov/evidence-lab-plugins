@@ -1,7 +1,7 @@
 {
   "name": "qualitative-research",
   "description": "Traceable qualitative-text analysis using an explicit codebook, coded excerpts, reflexive notes, disagreements, and evidence-bounded thematic synthesis.",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "author": {
     "name": "Evidence Lab"
   },

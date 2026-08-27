@@ -1,5 +1,10 @@
 # Changelog — Full Research Cycle
 
+## [1.0.2] — 2026-08-27
+
+### Changed
+- Recorded the compatibility router quality status without changing dependency routing.
+
 ## [1.0.1] — 2026-08-27
 
 ### Changed

@@ -1,5 +1,25 @@
 # Changelog — Evidence Lab Core
 
+## [0.12.0] — 2026-08-27
+
+### Added
+- A generated foundation index that pins all 20 physical researcher skills to owning packs, quality states, capability mappings, and content hashes.
+
+### Changed
+- Bootstrap now includes every declared foundation pack for every researcher profile while keeping unfinished capabilities and optional add-ons outside the base installation.
+
+## [0.11.0] — 2026-08-27
+
+### Added
+- Mandatory host-neutral personal skill authoring with a plain-chat workflow, safe scaffolder, validator, quality checklist, and trigger boundary tests.
+- Explicit skill-level quality states and a 27-capability foundation roadmap with visible implementation gaps.
+
+## [0.10.0] — 2026-08-27
+
+### Added
+- Deterministic Codex companion-plugin planning from a reviewed, version-observed registry.
+- Separate actions for skills-only candidates, explicit opt-ins, app connections, and benchmark-blocked components; Claude Code remains portable and receives no Codex directory actions.
+
 ## [0.9.0] — 2026-08-27
 
 ### Added

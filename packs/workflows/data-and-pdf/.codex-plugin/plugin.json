@@ -1,7 +1,7 @@
 {
   "name": "data-and-pdf",
   "description": "Compatibility entry point for mixed document-and-data projects; installs focused document-evidence and structured-data-analysis packs as dependencies.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": {
     "name": "Evidence Lab"
   },

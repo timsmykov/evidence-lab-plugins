@@ -1,16 +1,18 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "packs": [
     {
       "id": "evidence-lab-core",
-      "version": "0.9.0",
+      "version": "0.12.0",
       "layer": "core",
       "display_name": "Evidence Lab Core",
-      "description": "Agent-first research foundations, fast researcher onboarding, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
+      "description": "Agent-first research foundations, fast researcher onboarding, personal skill creation, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
       "capabilities": [
         "onboarding",
         "pack-selection",
+        "companion-plugin-planning",
         "installation-lifecycle",
+        "personal-skill-authoring",
         "paper-lookup",
         "citation-management",
         "critical-thinking"
@@ -24,11 +26,34 @@
       "runtimes": [
         "claude-code",
         "codex"
+      ],
+      "foundation": true,
+      "skills": [
+        {
+          "id": "citation-management",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "evidence-lab-onboarding",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "paper-lookup",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "personal-skill-authoring",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "scientific-critical-thinking",
+          "quality_status": "needs-representative-testing"
+        }
       ]
     },
     {
       "id": "life-sciences",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "layer": "domain",
       "display_name": "Life Sciences",
       "description": "Domain checks for life-science protocols, biological controls, bias, biosafety boundaries, reporting context, and image acquisition metadata.",
@@ -77,11 +102,18 @@
       "runtimes": [
         "claude-code",
         "codex"
+      ],
+      "foundation": false,
+      "skills": [
+        {
+          "id": "life-science-protocols",
+          "quality_status": "needs-substantive-work"
+        }
       ]
     },
     {
       "id": "quantitative-sciences",
-      "version": "0.3.1",
+      "version": "0.4.0",
       "layer": "domain",
       "display_name": "Quantitative Sciences",
       "description": "Statistical analysis, power and sample-size planning, uncertainty and units, and publication-grade scientific visualization for quantitative research.",
@@ -118,11 +150,30 @@
       "runtimes": [
         "claude-code",
         "codex"
+      ],
+      "foundation": true,
+      "skills": [
+        {
+          "id": "scientific-visualization",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "statistical-analysis",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "statistical-power",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "uncertainty-and-units",
+          "quality_status": "needs-representative-testing"
+        }
       ]
     },
     {
       "id": "data-and-pdf",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "layer": "workflow",
       "display_name": "Data and PDF",
       "description": "Compatibility entry point for mixed document-and-data projects; installs focused document-evidence and structured-data-analysis packs as dependencies.",
@@ -178,11 +229,18 @@
       "runtimes": [
         "claude-code",
         "codex"
+      ],
+      "foundation": false,
+      "skills": [
+        {
+          "id": "data-and-pdf-router",
+          "quality_status": "support-only"
+        }
       ]
     },
     {
       "id": "document-evidence",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "layer": "workflow",
       "display_name": "Document Evidence",
       "description": "Reproducible conversion of supported research documents into inspectable Markdown without installing database retrieval or dataset analysis tools.",
@@ -213,11 +271,18 @@
       "runtimes": [
         "claude-code",
         "codex"
+      ],
+      "foundation": true,
+      "skills": [
+        {
+          "id": "markitdown",
+          "quality_status": "needs-representative-testing"
+        }
       ]
     },
     {
       "id": "full-research-cycle",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "layer": "workflow",
       "display_name": "Full Research Cycle",
       "description": "Compatibility entry point for the complete research cycle; installs the focused research-design and literature-publication packs as declared dependencies.",
@@ -249,11 +314,18 @@
       "runtimes": [
         "claude-code",
         "codex"
+      ],
+      "foundation": false,
+      "skills": [
+        {
+          "id": "full-research-cycle-router",
+          "quality_status": "support-only"
+        }
       ]
     },
     {
       "id": "literature-publication",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "layer": "workflow",
       "display_name": "Literature and Publication",
       "description": "Literature synthesis, evidence-bounded academic writing, editable research diagrams, and manuscript review without installing study-design procedures.",
@@ -301,11 +373,30 @@
       "runtimes": [
         "claude-code",
         "codex"
+      ],
+      "foundation": true,
+      "skills": [
+        {
+          "id": "literature-review",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "markdown-mermaid-writing",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "peer-review",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "writing-skill",
+          "quality_status": "needs-representative-testing"
+        }
       ]
     },
     {
       "id": "publication-monitoring",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "layer": "workflow",
       "display_name": "Publication Monitoring",
       "description": "Repeatable monitoring of new scholarly publications with explicit queries, stable deduplication, checkpoints, and source-linked update digests.",
@@ -336,11 +427,18 @@
       "runtimes": [
         "claude-code",
         "codex"
+      ],
+      "foundation": false,
+      "skills": [
+        {
+          "id": "publication-monitoring",
+          "quality_status": "needs-substantive-work"
+        }
       ]
     },
     {
       "id": "qualitative-research",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "layer": "workflow",
       "display_name": "Qualitative Research",
       "description": "Traceable qualitative-text analysis using an explicit codebook, coded excerpts, reflexive notes, disagreements, and evidence-bounded thematic synthesis.",
@@ -371,11 +469,18 @@
       "runtimes": [
         "claude-code",
         "codex"
+      ],
+      "foundation": true,
+      "skills": [
+        {
+          "id": "qualitative-analysis",
+          "quality_status": "needs-substantive-work"
+        }
       ]
     },
     {
       "id": "research-design",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "layer": "workflow",
       "display_name": "Research Design",
       "description": "Testable hypothesis development and reproducible experimental or observational study design without unrelated literature or manuscript tooling.",
@@ -408,11 +513,22 @@
       "runtimes": [
         "claude-code",
         "codex"
+      ],
+      "foundation": true,
+      "skills": [
+        {
+          "id": "experimental-design",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "hypothesis-generation",
+          "quality_status": "needs-representative-testing"
+        }
       ]
     },
     {
       "id": "research-images",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "layer": "workflow",
       "display_name": "Research Images",
       "description": "Research-image inspection with explicit source identity, transformation history, measurement definitions, exclusions, and interpretation boundaries.",
@@ -443,11 +559,18 @@
       "runtimes": [
         "claude-code",
         "codex"
+      ],
+      "foundation": true,
+      "skills": [
+        {
+          "id": "research-image-analysis",
+          "quality_status": "needs-substantive-work"
+        }
       ]
     },
     {
       "id": "structured-data-analysis",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "layer": "workflow",
       "display_name": "Structured Data Analysis",
       "description": "Reproducible public-database retrieval and exploratory analysis for tables and datasets without unrelated document-conversion tooling.",
@@ -495,11 +618,22 @@
       "runtimes": [
         "claude-code",
         "codex"
+      ],
+      "foundation": true,
+      "skills": [
+        {
+          "id": "database-lookup",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "exploratory-data-analysis",
+          "quality_status": "needs-representative-testing"
+        }
       ]
     },
     {
       "id": "systematic-review",
-      "version": "0.1.1",
+      "version": "0.2.0",
       "layer": "workflow",
       "display_name": "Systematic Review",
       "description": "Reproducible systematic-search and screening workflow with explicit eligibility criteria, stable record deduplication, and an auditable decision trail.",
@@ -532,6 +666,13 @@
       "runtimes": [
         "claude-code",
         "codex"
+      ],
+      "foundation": true,
+      "skills": [
+        {
+          "id": "systematic-review",
+          "quality_status": "needs-substantive-work"
+        }
       ]
     }
   ]

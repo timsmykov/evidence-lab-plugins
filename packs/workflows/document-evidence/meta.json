@@ -1,6 +1,6 @@
 {
   "status": "draft", "category": "research", "risk_level": "team_safe", "owner": "Tim", "reviewer": "Tim",
   "provenance": {"origin": "Evidence Lab split of the former data-and-pdf pack using R3 scenario evidence; the conversion procedure retains pinned K-Dense provenance.", "evidence": ["docs/pack-boundary-report.md", "https://github.com/K-Dense-AI/scientific-agent-skills/tree/36d8f13a1e754618794bf42f417884940077b4ae"], "added_at": "2026-08-26"},
-  "skills": [{"name": "markitdown", "summary": "Converts supported local documents and selected sources to normalized Markdown for analysis and indexing.", "deterministic_parts": ["scripts/batch_convert.py", "scripts/convert_literature.py", "scripts/inspect_installation.py"]}],
+  "skills": [{"name": "markitdown", "summary": "Converts supported local documents and selected sources to normalized Markdown for analysis and indexing.", "quality_status": "needs-representative-testing", "deterministic_parts": ["scripts/batch_convert.py", "scripts/convert_literature.py", "scripts/inspect_installation.py"]}],
   "portable_to": ["claude", "codex"]
 }

@@ -1,6 +1,6 @@
 {
   "id": "example-domain",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "layer": "domain",
   "display_name": "Example Domain",
   "description": "A non-published reference pack that demonstrates the Evidence Lab package structure, routing evaluations, deterministic scripts, and review metadata.",
