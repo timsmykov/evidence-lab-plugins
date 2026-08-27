@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-08-27",
+  "environment": "linux",
+  "method": "Local version checks followed by a live Evidence Lab release lifecycle run against Codex and Claude Code. Evidence Lab packs were absent before the run; unrelated installed plugins were left unchanged.",
+  "observations": [
+    {"component": "codex", "status": "present", "version": "codex-cli 0.150.1"},
+    {"component": "claude-code", "status": "present", "version": "2.1.220"},
+    {"component": "git", "status": "present", "version": "2.43.0"},
+    {"component": "ripgrep", "status": "present", "version": "15.2.0", "note": "Host-bundled binary observed."},
+    {"component": "poppler-pdftotext", "status": "present", "version": "24.02.0"},
+    {"component": "ocrmypdf", "status": "absent"},
+    {"component": "pandoc", "status": "present", "version": "3.1.3"},
+    {"component": "quarto", "status": "absent"},
+    {"component": "uv", "status": "present", "version": "0.12.1"},
+    {"component": "jupyter", "status": "absent"},
+    {"component": "r", "status": "absent"},
+    {"component": "zotero", "status": "absent"}
+  ],
+  "release_lifecycle": {
+    "release": {
+      "tag": "release-2026.08.4",
+      "source_commit": "1b2704bb64e34764ad96ca4a87492f94a6b4c2a7",
+      "pack_count": 9
+    },
+    "hosts": [
+      {
+        "host": "codex",
+        "installed_before": [],
+        "apply_status": "ready",
+        "exact_version_readback": true,
+        "idempotent_same_release_rerun": true,
+        "registered_plugins_removed": true,
+        "marketplace_removed": true,
+        "residual_cache": "none"
+      },
+      {
+        "host": "claude-code",
+        "installed_before": [],
+        "apply_status": "ready",
+        "exact_version_readback": true,
+        "idempotent_same_release_rerun": false,
+        "registered_plugins_removed": true,
+        "marketplace_removed": true,
+        "residual_cache": "The native uninstall left the Evidence Lab cache tree behind; the test removed only that exact cache path after inspection."
+      }
+    ],
+    "installed_versions": [
+      {"id": "document-evidence", "version": "0.2.0"},
+      {"id": "evidence-lab-core", "version": "0.12.0"},
+      {"id": "literature-publication", "version": "0.2.0"},
+      {"id": "qualitative-research", "version": "0.2.0"},
+      {"id": "quantitative-sciences", "version": "0.4.0"},
+      {"id": "research-design", "version": "0.2.0"},
+      {"id": "research-images", "version": "0.2.0"},
+      {"id": "structured-data-analysis", "version": "0.2.0"},
+      {"id": "systematic-review", "version": "0.2.0"}
+    ],
+    "final_readback": {
+      "evidence_lab_plugins_remaining": 0,
+      "evidence_lab_marketplaces_remaining": 0,
+      "evidence_lab_cache_paths_remaining": 0,
+      "unrelated_plugins_changed": false
+    },
+    "limitations": [
+      "The run used existing authenticated clients; sign-in was not retested.",
+      "A version-to-version update was not available to test.",
+      "No representative research task was executed.",
+      "macOS and WSL2 remain untested.",
+      "Claude Code native uninstall did not remove its Evidence Lab cache tree."
+    ]
+  }
+}

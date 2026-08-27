@@ -41,6 +41,7 @@ jobs:
           python3 scripts/test_pack_behaviors.py
           python3 scripts/test_personal_skill_authoring.py
           python3 scripts/test_external_plugins.py
+          python3 scripts/test_l0_l2_stack.py
           python3 scripts/analyze_pack_boundaries.py --check
           python3 scripts/audit_skill_packs.py --check
           python3 scripts/audit_openai_plugins.py --check
