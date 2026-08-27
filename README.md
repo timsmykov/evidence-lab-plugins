@@ -85,8 +85,11 @@ python3 scripts/test_bootstrap.py
 python3 scripts/test_normalization.py
 python3 scripts/test_pack_boundaries.py
 python3 scripts/test_pack_behaviors.py
+python3 scripts/test_external_plugins.py
 python3 scripts/test_release_snapshot.py
 python3 scripts/analyze_pack_boundaries.py --check
+python3 scripts/audit_skill_packs.py --check
+python3 scripts/audit_openai_plugins.py --check
 python3 scripts/verify_repo.py
 ```
 
@@ -112,5 +115,8 @@ Fill every placeholder, rebuild adapters, and submit a reviewed pull request. En
 - [Review checklist](docs/review-checklist.md)
 - [Content privacy](docs/sanitization-policy.md)
 - [Pack-boundary evidence report](docs/pack-boundary-report.md)
+- [Skill-pack readiness inventory](docs/skill-pack-readiness.md)
+- [OpenAI Codex plugin directory audit](docs/openai-plugin-audit.md)
+- [External plugin verification record](docs/external-plugin-verification.md)
 - [GitHub-first execution plan](docs/github-first-execution-plan.md)
 - [Contributing](CONTRIBUTING.md)

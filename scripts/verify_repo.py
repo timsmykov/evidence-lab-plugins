@@ -50,8 +50,13 @@ REQUIRED_REPO_FILES = [
     "docs/sanitization-policy.md",
     "docs/release-process.md",
     "docs/pack-boundary-report.md",
+    "docs/skill-pack-readiness.md",
+    "docs/openai-plugin-audit.md",
+    "docs/external-plugin-verification.md",
     "catalog/scenarios.json",
     "catalog/pack-boundary-decisions.json",
+    "catalog/external-plugin-candidates.json",
+    "catalog/openai-plugin-audit.json",
     "schemas/plugin.schema.json",
     "schemas/codex-plugin.schema.json",
     "schemas/codex-marketplace.schema.json",
@@ -71,6 +76,8 @@ REQUIRED_REPO_FILES = [
     "schemas/normalization-result.schema.json",
     "schemas/scenario-matrix.schema.json",
     "schemas/pack-boundary-decisions.schema.json",
+    "schemas/external-plugin-candidates.schema.json",
+    "schemas/external-plugin-plan.schema.json",
     "schemas/meta.schema.json",
     "schemas/eval.schema.json",
     "schemas/marketplace.schema.json",
@@ -209,6 +216,49 @@ def check_marketplaces() -> None:
         source = Path(entry.get("source", {}).get("path", "").lstrip("./"))
         if not (ROOT / source).is_dir():
             fail(f"Codex marketplace.json: entry {entry.get('name')} points at missing {source}")
+
+
+def check_external_plugin_registry() -> None:
+    path = ROOT / "catalog" / "external-plugin-candidates.json"
+    if not path.exists():
+        return
+    data = load_json(path)
+    if data is None:
+        return
+    validate(data, "external-plugin-candidates.schema.json", "external-plugin-candidates.json")
+    ids = [plugin.get("id") for plugin in data.get("plugins", [])]
+    if len(ids) != len(set(ids)):
+        fail("external-plugin-candidates.json: plugin IDs must be unique")
+    audit_path = ROOT / "catalog" / "openai-plugin-audit.json"
+    audit = load_json(audit_path) if audit_path.exists() else None
+    if audit is not None:
+        if data.get("observed_at") != audit.get("fetched_at"):
+            fail("external-plugin-candidates.json: observed_at does not match the audited snapshot")
+        if data.get("source", {}).get("snapshot_sha256") != audit.get("snapshot_sha256"):
+            fail("external-plugin-candidates.json: snapshot hash does not match the catalog audit")
+        observed = {row.get("id"): row for row in audit.get("reviewed_candidates", [])}
+        for plugin in data.get("plugins", []):
+            row = observed.get(plugin.get("id"))
+            if row is None:
+                fail(f"external-plugin-candidates.json: {plugin.get('display_name')} is absent from audited candidates")
+                continue
+            if row.get("display_name") != plugin.get("display_name") or row.get("version") != plugin.get("observed_version"):
+                fail(f"external-plugin-candidates.json: {plugin.get('display_name')} identity/version differs from the audit")
+    for plugin in data.get("plugins", []):
+        if plugin.get("component_type") in {"directory-app", "hybrid"} and plugin.get("selection", {}).get("automatic"):
+            fail(f"external-plugin-candidates.json: {plugin.get('display_name')} cannot silently select an app connection")
+        if plugin.get("policy") != "approved-baseline" and plugin.get("selection", {}).get("automatic"):
+            fail(f"external-plugin-candidates.json: {plugin.get('display_name')} cannot be automatic before baseline approval")
+
+
+def check_generated_reports() -> None:
+    for command, label in (
+        ([sys.executable, "scripts/audit_skill_packs.py", "--check"], "skill-pack readiness report"),
+        ([sys.executable, "scripts/audit_openai_plugins.py", "--check"], "OpenAI plugin audit report"),
+    ):
+        result = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
+        if result.returncode:
+            fail(result.stderr.strip() or result.stdout.strip() or f"{label} is stale")
 
 
 # ------------------------------------------------------------------------- plugin
@@ -458,6 +508,8 @@ def check_version_bump() -> None:
 def main() -> int:
     check_repo_files()
     check_marketplaces()
+    check_external_plugin_registry()
+    check_generated_reports()
     if PACKS.is_dir():
         for pack_dir in sorted(path.parent for path in PACKS.glob("*/*/pack.json")):
             check_pack(pack_dir)

@@ -23,11 +23,23 @@ chat onboarding
   -> normalized profile
   -> deterministic selector
   -> reviewed selection plan
+  -> Codex companion-plugin plan (Codex only)
   -> native host confirmation
   -> installation readback
 ```
 
 Free text may help normalize a profile. It never becomes an executable package name or installation command.
+
+The optional Codex companion-plugin plan is built from
+`catalog/external-plugin-candidates.json`. It is a separate trust boundary:
+portable Evidence Lab packs are selected first, then reviewed Codex-only
+components are matched against the same normalized profile. Skills-only
+plugins may become installable only after an Evidence Lab promotion gate.
+Directory apps and hybrids always remain a visible connection step and require
+post-connection readback. Claude Code receives no Codex directory actions.
+Components marked `explicit-opt-in` stay out of the visible plan unless the
+researcher names them or a future reviewed detector supplies the equivalent
+explicit signal; a broad domain or `papers` answer is not enough.
 
 Selection Policy owns the allowed profile vocabulary, matching semantics, and
 ordering contract. Reviewed rules in each `pack.json` select packs. The LLM may

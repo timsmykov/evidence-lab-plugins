@@ -1,5 +1,11 @@
 # Changelog — Evidence Lab Core
 
+## [0.10.0] — 2026-08-27
+
+### Added
+- Deterministic Codex companion-plugin planning from a reviewed, version-observed registry.
+- Separate actions for skills-only candidates, explicit opt-ins, app connections, and benchmark-blocked components; Claude Code remains portable and receives no Codex directory actions.
+
 ## [0.9.0] — 2026-08-27
 
 ### Added

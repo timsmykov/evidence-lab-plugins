@@ -12,6 +12,8 @@ PACKS = ROOT / "packs"
 CLAUDE_MARKETPLACE = ROOT / ".claude-plugin" / "marketplace.json"
 CODEX_MARKETPLACE = ROOT / ".agents" / "plugins" / "marketplace.json"
 CORE_CATALOG = PACKS / "core" / "evidence-lab-core" / "catalog" / "packs.json"
+CORE_EXTERNAL_PLUGINS = PACKS / "core" / "evidence-lab-core" / "catalog" / "external-plugin-candidates.json"
+CORE_EXTERNAL_SELECTOR = PACKS / "core" / "evidence-lab-core" / "skills" / "evidence-lab-onboarding" / "scripts" / "select_external_plugins.py"
 HIDDEN_STATUSES = {"reference", "deprecated"}
 
 
@@ -67,6 +69,8 @@ def build_outputs() -> dict[Path, str]:
         for _, pack, _ in published
     ]}
     outputs[CORE_CATALOG] = rendered_json(catalog)
+    outputs[CORE_EXTERNAL_PLUGINS] = (ROOT / "catalog" / "external-plugin-candidates.json").read_text(encoding="utf-8")
+    outputs[CORE_EXTERNAL_SELECTOR] = (ROOT / "scripts" / "select_external_plugins.py").read_text(encoding="utf-8")
 
     claude_entries, codex_entries = [], []
     for directory, pack, meta in published:

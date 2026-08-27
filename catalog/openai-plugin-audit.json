@@ -1,0 +1,232 @@
+{
+  "schema_version": 1,
+  "fetched_at": "2026-08-27T10:29:23.043960168Z",
+  "snapshot_sha256": "0f8a326bd304f723110e91198145aa2d5ebda96ba6f7b50fb23c6aa92377314d",
+  "all_global_entries": 3045,
+  "active_listed_entries": 2717,
+  "all_entry_statuses": {
+    "AVAILABLE": 3031,
+    "DISABLED_BY_ADMIN": 14
+  },
+  "all_entry_discoverability": {
+    "LISTED": 2731,
+    "UNLISTED": 314
+  },
+  "all_entry_installation_policies": {
+    "AVAILABLE": 3028,
+    "INSTALLED_BY_DEFAULT": 3,
+    "NOT_AVAILABLE": 14
+  },
+  "active_component_types": {
+    "app-only": 2444,
+    "hybrid": 244,
+    "skills-only": 29
+  },
+  "active_categories": {
+    "Business & Operations": 565,
+    "Productivity": 505,
+    "Other": 358,
+    "Finance": 277,
+    "Travel": 263,
+    "Developer Tools": 164,
+    "Education & Research": 158,
+    "Data & Analytics": 119,
+    "Creativity": 101,
+    "Entertainment": 97,
+    "Healthcare": 63,
+    "Communication": 25,
+    "Security": 18,
+    "Scientific Research": 4
+  },
+  "top_active_developers": {
+    "OpenAI": 43,
+    "Widget": 35,
+    "Spheric Admin Ltd": 29,
+    "BEIKE YAN": 17,
+    "Pyxl": 11,
+    "Sider AI": 10,
+    "App developer": 10,
+    "Layer 3 Labs": 10,
+    "Wordliner GmbH": 9,
+    "Vidline Inc.": 8,
+    "Maxim Dubovitsky": 8,
+    "Alpic": 6,
+    "Windsor.ai": 5,
+    "Kirill Dubovitskiy": 5,
+    "The Hotels Network": 5,
+    "Beike Yan": 5,
+    "Travel Vibes": 4,
+    "Noodle Seed": 4,
+    "Agentic Hospitality": 4,
+    "Smartsheet Inc.": 3
+  },
+  "exact_tectonic_matches": 0,
+  "latex_name_matches": [],
+  "reviewed_candidates": [
+    {
+      "id": "plugin_connector_691e3de0d2708191a6476a7b36e38779",
+      "display_name": "BioRender",
+      "developer": "BioRender",
+      "category": "Creativity",
+      "version": "2.0.0",
+      "component_type": "app-only",
+      "skill_count": 0,
+      "app_count": 1,
+      "authentication_policy": "ON_INSTALL"
+    },
+    {
+      "id": "Plugin_40dab999fe9c8191bbc2f550371692fc",
+      "display_name": "Build Web Data Visualization",
+      "developer": "OpenAI",
+      "category": "Developer Tools",
+      "version": "0.1.21",
+      "component_type": "skills-only",
+      "skill_count": 18,
+      "app_count": 0,
+      "authentication_policy": "ON_USE"
+    },
+    {
+      "id": "plugin_asdk_app_6943e6f4a928819195962de16fb9ffe4",
+      "display_name": "Consensus",
+      "developer": "Consensus",
+      "category": "Education & Research",
+      "version": "4.0.0",
+      "component_type": "app-only",
+      "skill_count": 0,
+      "app_count": 1,
+      "authentication_policy": "ON_INSTALL"
+    },
+    {
+      "id": "Plugin_fc9843a6fb34819195d6c7802398a8a7",
+      "display_name": "Data Analytics",
+      "developer": "OpenAI",
+      "category": "Data & Analytics",
+      "version": "0.2.8-13ceeea1f599",
+      "component_type": "hybrid",
+      "skill_count": 15,
+      "app_count": 20,
+      "authentication_policy": "ON_USE"
+    },
+    {
+      "id": "plugin_asdk_app_69fcf53d4d8481919b65501a96bbed02",
+      "display_name": "Elicit",
+      "developer": "Elicit, Inc.",
+      "category": "Education & Research",
+      "version": "1.0.0",
+      "component_type": "app-only",
+      "skill_count": 0,
+      "app_count": 1,
+      "authentication_policy": "ON_INSTALL"
+    },
+    {
+      "id": "plugins~Plugin_7113e6f705948191bad2d24c30465361",
+      "display_name": "Life Science Research",
+      "developer": "OpenAI",
+      "category": "Education & Research",
+      "version": "1.0.3",
+      "component_type": "skills-only",
+      "skill_count": 50,
+      "app_count": 0,
+      "authentication_policy": "ON_INSTALL"
+    },
+    {
+      "id": "Plugin_271fcfe114788191b30908b85bd9ade6",
+      "display_name": "Life Sciences NGS Analysis",
+      "developer": "OpenAI",
+      "category": "Education & Research",
+      "version": "1.0.3",
+      "component_type": "skills-only",
+      "skill_count": 18,
+      "app_count": 0,
+      "authentication_policy": "ON_INSTALL"
+    },
+    {
+      "id": "plugin_asdk_app_6a6209a216b48191b731c56b2b0e772e",
+      "display_name": "PaperDock",
+      "developer": "Hanbit Kim",
+      "category": "Education & Research",
+      "version": "1.0.1",
+      "component_type": "app-only",
+      "skill_count": 0,
+      "app_count": 1,
+      "authentication_policy": "ON_INSTALL"
+    },
+    {
+      "id": "plugin_asdk_app_69439d715a7c8191aed9e2f6649e105f",
+      "display_name": "SciSpace",
+      "developer": "SciSpace",
+      "category": "Education & Research",
+      "version": "2.0.0",
+      "component_type": "app-only",
+      "skill_count": 0,
+      "app_count": 1,
+      "authentication_policy": "ON_INSTALL"
+    },
+    {
+      "id": "plugin_asdk_app_6952b3a3f1e881918951582d59483c78",
+      "display_name": "Scite",
+      "developer": "Scite",
+      "category": "Education & Research",
+      "version": "1.0.0",
+      "component_type": "app-only",
+      "skill_count": 0,
+      "app_count": 1,
+      "authentication_policy": "ON_INSTALL"
+    },
+    {
+      "id": "plugin_asdk_app_6948b485f5bc8191adb4df13f369cec7",
+      "display_name": "Sider Scholar",
+      "developer": "Sider AI",
+      "category": "Education & Research",
+      "version": "2.0.0",
+      "component_type": "app-only",
+      "skill_count": 0,
+      "app_count": 1,
+      "authentication_policy": "ON_INSTALL"
+    },
+    {
+      "id": "plugin_asdk_app_6943659c75288191aaff11209f4e4fdd",
+      "display_name": "Strive PDF Generator",
+      "developer": "Strive Math",
+      "category": "Education & Research",
+      "version": "2.0.0",
+      "component_type": "app-only",
+      "skill_count": 0,
+      "app_count": 1,
+      "authentication_policy": "ON_INSTALL"
+    },
+    {
+      "id": "plugin_asdk_app_6a60df60877081919ad4a8109d27535d",
+      "display_name": "Undermind",
+      "developer": "Undermind AI, Inc.",
+      "category": "Scientific Research",
+      "version": "1.0.1",
+      "component_type": "app-only",
+      "skill_count": 0,
+      "app_count": 1,
+      "authentication_policy": "ON_INSTALL"
+    },
+    {
+      "id": "plugin_asdk_app_69fe0bf66c8481919c513d799406436e",
+      "display_name": "Wolfram",
+      "developer": "Wolfram Research",
+      "category": "Education & Research",
+      "version": "3.0.0",
+      "component_type": "app-only",
+      "skill_count": 0,
+      "app_count": 1,
+      "authentication_policy": "ON_INSTALL"
+    },
+    {
+      "id": "Plugin_a572ec6bf27481919ce6fa6e5651eb7b",
+      "display_name": "Zotero",
+      "developer": "OpenAI",
+      "category": "Education & Research",
+      "version": "0.1.2",
+      "component_type": "skills-only",
+      "skill_count": 1,
+      "app_count": 0,
+      "authentication_policy": "ON_INSTALL"
+    }
+  ]
+}

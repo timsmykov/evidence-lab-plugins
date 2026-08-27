@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://evidence-lab.dev/schemas/external-plugin-candidates.schema.json",
+  "title": "Evidence Lab reviewed external plugin candidates",
+  "type": "object",
+  "required": ["schema_version", "observed_at", "source", "plugins"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "observed_at": {"type": "string", "format": "date-time"},
+    "source": {
+      "type": "object",
+      "required": ["kind", "documentation", "snapshot_sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {"const": "openai-codex-plugin-directory"},
+        "documentation": {"type": "string", "format": "uri"},
+        "snapshot_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "plugins": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id", "display_name", "developer", "observed_version", "hosts",
+          "component_type", "credential_mode", "install_mode", "policy",
+          "capabilities", "selection", "rationale", "verification"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {"type": "string", "minLength": 8},
+          "display_name": {"type": "string", "minLength": 2},
+          "developer": {"type": "string", "minLength": 2},
+          "observed_version": {"type": "string", "minLength": 1},
+          "hosts": {
+            "type": "array", "minItems": 1, "uniqueItems": true,
+            "items": {"enum": ["codex"]}
+          },
+          "component_type": {"enum": ["runtime-builtin", "skills-only", "hybrid", "directory-app"]},
+          "credential_mode": {"enum": ["none", "local-app", "account-connection", "mixed", "unknown"]},
+          "install_mode": {"enum": ["already-present", "marketplace", "plugins-ui"]},
+          "policy": {"enum": ["approved-baseline", "candidate", "explicit-opt-in", "benchmark-required", "not-default"]},
+          "capabilities": {
+            "type": "array", "minItems": 1, "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"}
+          },
+          "selection": {
+            "type": "object",
+            "required": ["automatic", "signals"],
+            "additionalProperties": false,
+            "properties": {
+              "automatic": {"type": "boolean"},
+              "signals": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "domains": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+                  "workflows": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+                  "materials": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+                  "stages": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+                  "methods": {"type": "array", "uniqueItems": true, "items": {"type": "string"}}
+                }
+              }
+            }
+          },
+          "rationale": {"type": "string", "minLength": 40},
+          "verification": {
+            "type": "object",
+            "required": ["status", "required_before_default"],
+            "additionalProperties": false,
+            "properties": {
+              "status": {"enum": ["catalog-only", "structure-validated", "behavior-tested", "production-accepted"]},
+              "required_before_default": {"type": "array", "items": {"type": "string", "minLength": 10}}
+            }
+          }
+        }
+      }
+    }
+  }
+}

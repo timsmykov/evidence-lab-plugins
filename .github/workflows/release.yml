@@ -48,7 +48,10 @@ jobs:
           python3 scripts/test_normalization.py
           python3 scripts/test_pack_boundaries.py
           python3 scripts/test_pack_behaviors.py
+          python3 scripts/test_external_plugins.py
           python3 scripts/analyze_pack_boundaries.py --check
+          python3 scripts/audit_skill_packs.py --check
+          python3 scripts/audit_openai_plugins.py --check
           python3 scripts/test_release_snapshot.py
           python3 scripts/verify_repo.py
 

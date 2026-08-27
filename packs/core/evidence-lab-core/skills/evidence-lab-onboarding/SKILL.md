@@ -54,6 +54,20 @@ python3 scripts/bootstrap.py plan profile.json --host <codex|claude-code> \
 
 The selector is authoritative for package membership, rule evaluation, dependencies, and order. Do not add a pack by improvising from the conversation. The resulting installation plan is deterministic for the same profile, host, source, and ref and includes the stable rule IDs that caused each selection.
 
+For Codex, build the separate companion-plugin plan from the same normalized
+profile. For Claude Code this command returns no actions by design:
+
+```bash
+python3 packs/core/evidence-lab-core/skills/evidence-lab-onboarding/scripts/select_external_plugins.py \
+  profile.json --host <codex|claude-code> --output companion-plugin-plan.json
+```
+
+Do not turn a `candidate`, `explicit-opt-in`, app, or hybrid into a silent
+installation. Omit explicit opt-ins unless the researcher named them. Present
+`offer-connection` as a separate Codex Plugins step and verify that Codex can
+use the component afterward. The reviewed registry is version-observed rather
+than vendored; never copy external plugin contents into Evidence Lab state.
+
 ## Confirm
 
 Render the locked installation plan in the conversation language:

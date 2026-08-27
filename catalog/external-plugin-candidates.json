@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-08-27T10:29:23.043960168Z",
+  "source": {
+    "kind": "openai-codex-plugin-directory",
+    "documentation": "https://learn.chatgpt.com/docs/plugins",
+    "snapshot_sha256": "0f8a326bd304f723110e91198145aa2d5ebda96ba6f7b50fb23c6aa92377314d"
+  },
+  "plugins": [
+    {
+      "id": "plugins~Plugin_7113e6f705948191bad2d24c30465361",
+      "display_name": "Life Science Research",
+      "developer": "OpenAI",
+      "observed_version": "1.0.3",
+      "hosts": ["codex"],
+      "component_type": "skills-only",
+      "credential_mode": "none",
+      "install_mode": "plugins-ui",
+      "policy": "candidate",
+      "capabilities": ["life-science-database-retrieval", "bioinformatics-retrieval", "clinical-literature-retrieval"],
+      "selection": {"automatic": false, "signals": {"domains": ["life-sciences"]}},
+      "rationale": "Fifty OpenAI-authored life-science skills complement Evidence Lab protocol and bias checks without duplicating their boundary.",
+      "verification": {
+        "status": "behavior-tested",
+        "required_before_default": ["Run representative genetics, protein, and clinical retrieval tasks", "Review provenance and failure behavior with an independent life-science reviewer"]
+      }
+    },
+    {
+      "id": "Plugin_271fcfe114788191b30908b85bd9ade6",
+      "display_name": "Life Sciences NGS Analysis",
+      "developer": "OpenAI",
+      "observed_version": "1.0.3",
+      "hosts": ["codex"],
+      "component_type": "skills-only",
+      "credential_mode": "none",
+      "install_mode": "plugins-ui",
+      "policy": "explicit-opt-in",
+      "capabilities": ["ngs-analysis", "rna-seq-analysis", "single-cell-analysis"],
+      "selection": {"automatic": false, "signals": {"domains": ["life-sciences"]}},
+      "rationale": "The bundle is valuable for explicit sequencing workflows but its heavy local toolchain and mixed maturity make a broad life-science default unsafe.",
+      "verification": {
+        "status": "behavior-tested",
+        "required_before_default": ["Add an onboarding signal for sequencing and omics work", "Pass isolated tests for every execution lane and dependency preflight"]
+      }
+    },
+    {
+      "id": "Plugin_a572ec6bf27481919ce6fa6e5651eb7b",
+      "display_name": "Zotero",
+      "developer": "OpenAI",
+      "observed_version": "0.1.2",
+      "hosts": ["codex"],
+      "component_type": "skills-only",
+      "credential_mode": "local-app",
+      "install_mode": "plugins-ui",
+      "policy": "explicit-opt-in",
+      "capabilities": ["zotero-library", "bibtex-export", "local-citation-library"],
+      "selection": {"automatic": false, "signals": {"materials": ["papers"]}},
+      "rationale": "Zotero adds local library operations while Evidence Lab retains portable citation validation; it is useful only when Zotero Desktop is present or requested.",
+      "verification": {
+        "status": "structure-validated",
+        "required_before_default": ["Detect Zotero Desktop without changing local settings", "Test read, export, and approved import against an isolated library"]
+      }
+    },
+    {
+      "id": "Plugin_40dab999fe9c8191bbc2f550371692fc",
+      "display_name": "Build Web Data Visualization",
+      "developer": "OpenAI",
+      "observed_version": "0.1.21",
+      "hosts": ["codex"],
+      "component_type": "skills-only",
+      "credential_mode": "none",
+      "install_mode": "plugins-ui",
+      "policy": "explicit-opt-in",
+      "capabilities": ["interactive-data-visualization", "web-dashboards", "data-storytelling"],
+      "selection": {"automatic": false, "signals": {"workflows": ["analyze-data"], "materials": ["tables", "datasets"]}},
+      "rationale": "The bundle covers interactive and browser-native visualization while Evidence Lab scientific visualization remains focused on publication figures.",
+      "verification": {
+        "status": "structure-validated",
+        "required_before_default": ["Add an onboarding choice for interactive outputs", "Benchmark accessibility, source traceability, and export behavior"]
+      }
+    },
+    {
+      "id": "Plugin_fc9843a6fb34819195d6c7802398a8a7",
+      "display_name": "Data Analytics",
+      "developer": "OpenAI",
+      "observed_version": "0.2.8-13ceeea1f599",
+      "hosts": ["codex"],
+      "component_type": "hybrid",
+      "credential_mode": "mixed",
+      "install_mode": "plugins-ui",
+      "policy": "benchmark-required",
+      "capabilities": ["connected-data-analysis", "analytics-app-routing"],
+      "selection": {"automatic": false, "signals": {"workflows": ["analyze-data"], "materials": ["tables", "datasets"]}},
+      "rationale": "The hybrid contains useful skills but also twenty app dependencies, so it cannot be presented as a zero-setup replacement for portable data analysis.",
+      "verification": {
+        "status": "catalog-only",
+        "required_before_default": ["Map every required app and connection interstitial", "Benchmark overlap and failure modes against Evidence Lab structured-data analysis"]
+      }
+    },
+    {
+      "id": "plugin_asdk_app_69fe0bf66c8481919c513d799406436e",
+      "display_name": "Wolfram",
+      "developer": "Wolfram Research",
+      "observed_version": "3.0.0",
+      "hosts": ["codex"],
+      "component_type": "directory-app",
+      "credential_mode": "account-connection",
+      "install_mode": "plugins-ui",
+      "policy": "candidate",
+      "capabilities": ["symbolic-computation", "computational-knowledge", "equation-solving"],
+      "selection": {"automatic": false, "signals": {"domains": ["mathematics", "statistics", "physics", "engineering"], "methods": ["formulas", "mathematical-models"]}},
+      "rationale": "Wolfram is a strong quantitative companion, but it is an external app connection rather than a bundled Evidence Lab skill and requires separate consent.",
+      "verification": {
+        "status": "catalog-only",
+        "required_before_default": ["Test the Codex connection and disconnect flow", "Benchmark equations, units, provenance, and graceful failure on representative tasks"]
+      }
+    },
+    {
+      "id": "plugin_connector_691e3de0d2708191a6476a7b36e38779",
+      "display_name": "BioRender",
+      "developer": "BioRender",
+      "observed_version": "2.0.0",
+      "hosts": ["codex"],
+      "component_type": "directory-app",
+      "credential_mode": "account-connection",
+      "install_mode": "plugins-ui",
+      "policy": "candidate",
+      "capabilities": ["life-science-illustration", "scientific-diagrams"],
+      "selection": {"automatic": false, "signals": {"domains": ["life-sciences"], "materials": ["images"]}},
+      "rationale": "BioRender can complement image analysis with scientific illustration, but it is a separately connected service and must not be silently installed.",
+      "verification": {
+        "status": "catalog-only",
+        "required_before_default": ["Test consent, account requirements, and export ownership", "Benchmark diagram accuracy and editable output on representative life-science tasks"]
+      }
+    }
+  ]
+}
