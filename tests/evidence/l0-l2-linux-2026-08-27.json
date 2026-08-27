@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-08-27",
+  "environment": "linux",
+  "method": "Read-only local version and command-availability checks; no installation or removal was performed.",
+  "observations": [
+    {"component": "codex", "status": "present", "version": "codex-cli 0.150.1"},
+    {"component": "claude-code", "status": "present", "version": "2.1.220"},
+    {"component": "git", "status": "present", "version": "2.43.0"},
+    {"component": "ripgrep", "status": "present", "version": "15.2.0", "note": "Host-bundled binary observed."},
+    {"component": "poppler-pdftotext", "status": "present", "version": "24.02.0"},
+    {"component": "ocrmypdf", "status": "absent"},
+    {"component": "pandoc", "status": "present", "version": "3.1.3"},
+    {"component": "quarto", "status": "absent"},
+    {"component": "uv", "status": "present", "version": "0.12.1"},
+    {"component": "jupyter", "status": "absent"},
+    {"component": "r", "status": "absent"},
+    {"component": "zotero", "status": "absent"}
+  ]
+}
