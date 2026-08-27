@@ -56,6 +56,22 @@
       {"id": "structured-data-analysis", "version": "0.2.0"},
       {"id": "systematic-review", "version": "0.2.0"}
     ],
+    "version_upgrade": {
+      "from_release": "release-2026.08.3",
+      "to_release": "release-2026.08.4",
+      "codex": {
+        "marketplace_repin": "passed",
+        "pack_update": "passed",
+        "exact_version_readback": true
+      },
+      "claude-code": {
+        "marketplace_repin": "passed after correcting source readback for the host's url field",
+        "pack_update": "passed with the native host commands",
+        "rollback_to_previous_release": "passed",
+        "exact_version_readback": true,
+        "fix": "https://github.com/timsmykov/evidence-lab-plugins/pull/21"
+      }
+    },
     "final_readback": {
       "evidence_lab_plugins_remaining": 0,
       "evidence_lab_marketplaces_remaining": 0,
@@ -64,7 +80,6 @@
     },
     "limitations": [
       "The run used existing authenticated clients; sign-in was not retested.",
-      "A version-to-version update was not available to test.",
       "No representative research task was executed.",
       "macOS and WSL2 remain untested.",
       "Claude Code native uninstall did not remove its Evidence Lab cache tree."
