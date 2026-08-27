@@ -16,8 +16,9 @@ CI diffs plugin content against `origin/main` and fails when files changed while
 2. Edits, version bump, entry in the plugin's `CHANGELOG.md`.
 3. `python3 scripts/build_adapters.py` — both native manifests, marketplaces, and the Core catalog are rebuilt.
 4. `python3 scripts/verify_repo.py` — the gate is green.
-5. Pull request with the verifier output and a real run.
-6. Review against the checklist, merge.
+5. Run Gitleaks against the working tree and complete Git history.
+6. Pull request with the verifier output and a real run.
+7. Review against the checklist, merge.
 
 Claude Code and Codex have separate native adapter gates. `scripts/build_adapters.py` generates both manifests from `pack.json`, and `scripts/test_agent_first.py` checks their semantic parity. A host must be listed in `pack.json` and `meta.json` only after its native acceptance checks pass.
 
@@ -50,6 +51,11 @@ until that workflow publishes its lock.
 The repository also protects `release-*` tags against updates and deletion with
 an active GitHub tag ruleset. Bootstrap independently verifies that the requested
 tag still resolves to the commit recorded in the lock.
+
+The canonical repository is public and MIT-licensed, but a release is supported
+only when GitHub publishes the immutable tag and its verified lock asset. A
+branch, fork, or untagged commit is source code, not an official Evidence Lab
+distribution snapshot.
 
 ## When the gate fails
 

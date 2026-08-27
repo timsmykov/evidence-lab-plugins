@@ -1,7 +1,7 @@
 {
-  "id": "publication-monitoring", "version": "0.1.0", "layer": "workflow", "display_name": "Publication Monitoring",
+  "id": "publication-monitoring", "version": "0.1.1", "layer": "workflow", "display_name": "Publication Monitoring",
   "description": "Repeatable monitoring of new scholarly publications with explicit queries, stable deduplication, checkpoints, and source-linked update digests.",
-  "category": "Research", "author": {"name": "Evidence Lab"}, "license": "LicenseRef-Evidence-Lab-Proprietary",
+  "category": "Research", "author": {"name": "Evidence Lab"}, "license": "MIT",
   "capabilities": ["publication-monitoring"],
   "selection": {"always": false, "rules": [{"id": "publication-monitoring-workflow", "priority": 300, "when": {"any": {"workflows": ["monitor-publications"]}}, "reason": "The researcher wants a repeatable update and deduplication workflow for new publications."}]},
   "dependencies": ["evidence-lab-core"], "conflicts": [], "runtimes": ["claude-code", "codex"],

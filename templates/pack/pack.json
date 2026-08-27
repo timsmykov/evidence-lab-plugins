@@ -6,7 +6,7 @@
   "description": "REPLACE ME with a routing description of at least sixty characters for this host-neutral research pack.",
   "category": "Research",
   "author": {"name": "Evidence Lab"},
-  "license": "LicenseRef-Evidence-Lab-Proprietary",
+  "license": "MIT",
   "capabilities": ["REPLACE-ME"],
   "selection": {"always": false, "domains": [], "workflows": [], "materials": [], "stages": [], "methods": []},
   "dependencies": ["evidence-lab-core"],

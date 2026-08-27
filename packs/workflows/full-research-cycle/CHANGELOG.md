@@ -1,5 +1,10 @@
 # Changelog — Full Research Cycle
 
+## [1.0.1] — 2026-08-27
+
+### Changed
+- Relicensed the compatibility pack under MIT.
+
 ## [1.0.0] — 2026-08-26
 
 ### Changed

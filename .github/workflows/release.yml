@@ -30,6 +30,9 @@ jobs:
       - name: Install dependencies
         run: pip install --quiet --require-hashes -r requirements-ci.txt
 
+      - name: Scan working tree and complete history for secrets
+        run: scripts/verify_secrets.sh
+
       - name: Verify immutable tag identity
         run: |
           git fetch origin main

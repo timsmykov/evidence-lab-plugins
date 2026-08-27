@@ -34,7 +34,12 @@ REQUIRED_REPO_FILES = [
     "CLAUDE.md",
     "CONTRIBUTING.md",
     "LICENSE",
+    "LICENSING.md",
+    "SECURITY.md",
+    "THIRD_PARTY_NOTICES.md",
+    "TRADEMARKS.md",
     "requirements-ci.txt",
+    ".gitleaks.toml",
     ".claude-plugin/marketplace.json",
     ".agents/plugins/marketplace.json",
     "docs/architecture.md",
@@ -69,6 +74,13 @@ REQUIRED_REPO_FILES = [
 ]
 
 REQUIRED_PACK_FILES = ["README.md", "CHANGELOG.md", "pack.json", "meta.json", ".claude-plugin/plugin.json", ".codex-plugin/plugin.json"]
+ALLOWED_PACK_LICENSES = {"MIT", "MIT AND Apache-2.0"}
+PROPRIETARY_LICENSE_MARKER = "LicenseRef-Evidence-Lab-" + "Proprietary"
+MIT_LICENSE_MARKERS = (
+    "MIT License",
+    "Permission is hereby granted, free of charge",
+    'THE SOFTWARE IS PROVIDED "AS IS"',
+)
 
 # Anything matching these must never reach a shared plugin.
 PRIVATE_PATTERNS = {
@@ -155,6 +167,19 @@ def check_repo_files() -> None:
     for rel in REQUIRED_REPO_FILES:
         if not (ROOT / rel).exists():
             fail(f"missing required file: {rel}")
+
+    license_path = ROOT / "LICENSE"
+    if license_path.exists():
+        license_text = license_path.read_text(encoding="utf-8")
+        for marker in MIT_LICENSE_MARKERS:
+            if marker not in license_text:
+                fail(f"LICENSE: missing canonical MIT text marker {marker!r}")
+
+    template_pack = ROOT / "templates" / "pack" / "pack.json"
+    if template_pack.exists():
+        template = load_json(template_pack)
+        if template is not None and template.get("license") != "MIT":
+            fail("templates/pack/pack.json: new Evidence Lab packs must default to MIT")
 
 
 def check_marketplaces() -> None:
@@ -259,6 +284,13 @@ def check_pack(pack_dir: Path) -> None:
     validate(codex_manifest, "codex-plugin.schema.json", f"{plugin}/Codex plugin.json")
     validate(meta, "meta.schema.json", f"{plugin}/meta.json")
 
+    declared_license = pack.get("license")
+    if declared_license not in ALLOWED_PACK_LICENSES:
+        fail(
+            f"{plugin}: unsupported pack license {declared_license!r}; "
+            f"allowed expressions are {sorted(ALLOWED_PACK_LICENSES)}"
+        )
+
     if pack.get("id") != plugin:
         fail(f"{plugin}: pack.json id '{pack.get('id')}' does not match directory")
     expected_layer = {"core": "core", "workflows": "workflow", "domains": "domain", "local": "local"}.get(pack_dir.parent.name)
@@ -286,6 +318,27 @@ def check_pack(pack_dir: Path) -> None:
         fail(f"{plugin}: meta.json declares skill '{missing}' with no directory")
     for name in sorted(on_disk):
         check_skill(plugin, skills_dir / name, declared)
+
+    skill_texts = [
+        path.read_text(encoding="utf-8", errors="replace")
+        for path in sorted(skills_dir.glob("*/SKILL.md"))
+    ]
+    has_k_dense_content = any("K-Dense" in text for text in skill_texts)
+    has_apache_content = any(
+        parse_frontmatter(text).get("license") == "Apache-2.0"
+        for text in skill_texts
+    )
+    if has_k_dense_content:
+        for rel in ("THIRD_PARTY_NOTICES.md", "LICENSES/K-Dense-MIT.txt"):
+            if not (pack_dir / rel).is_file():
+                fail(f"{plugin}: K-Dense-derived content requires {rel}")
+    if has_apache_content:
+        if declared_license != "MIT AND Apache-2.0":
+            fail(f"{plugin}: Apache-2.0 skill is shipped but pack license omits it")
+        if not (pack_dir / "LICENSES" / "Apache-2.0.txt").is_file():
+            fail(f"{plugin}: Apache-2.0 skill requires LICENSES/Apache-2.0.txt")
+    elif declared_license == "MIT AND Apache-2.0":
+        fail(f"{plugin}: pack declares Apache-2.0 but ships no Apache-licensed skill")
 
     check_markdown_agents(pack_dir, plugin)
 
@@ -323,6 +376,8 @@ def check_hygiene() -> None:
         if rel.parts and rel.parts[0] == "templates":
             continue  # placeholders are not real content
         text = path.read_text(encoding="utf-8", errors="replace")
+        if PROPRIETARY_LICENSE_MARKER in text:
+            fail(f"{rel}: obsolete proprietary license marker remains")
         if path.suffix == ".md":
             check_markdown_links(path, text)
         if rel.parts and rel.parts[0] == "packs":

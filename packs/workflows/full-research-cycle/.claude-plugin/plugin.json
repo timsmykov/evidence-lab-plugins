@@ -1,7 +1,7 @@
 {
   "name": "full-research-cycle",
   "description": "Compatibility entry point for the complete research cycle; installs the focused research-design and literature-publication packs as declared dependencies.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": {
     "name": "Evidence Lab"
   },
@@ -10,5 +10,5 @@
   ],
   "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
   "repository": "https://github.com/timsmykov/evidence-lab-plugins",
-  "license": "LicenseRef-Evidence-Lab-Proprietary"
+  "license": "MIT"
 }

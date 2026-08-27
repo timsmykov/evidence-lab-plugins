@@ -1,5 +1,10 @@
 # Changelog — Quantitative Sciences
 
+## [0.3.1] — 2026-08-27
+
+### Changed
+- Relicensed Evidence Lab-owned content under MIT while preserving bundled MIT notices.
+
 ## [0.3.0] — 2026-08-26
 
 ### Changed

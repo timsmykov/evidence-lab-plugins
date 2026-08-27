@@ -1,7 +1,7 @@
 {
   "name": "systematic-review",
   "description": "Reproducible systematic-search and screening workflow with explicit eligibility criteria, stable record deduplication, and an auditable decision trail.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Evidence Lab"
   },
@@ -11,7 +11,7 @@
   ],
   "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
   "repository": "https://github.com/timsmykov/evidence-lab-plugins",
-  "license": "LicenseRef-Evidence-Lab-Proprietary",
+  "license": "MIT",
   "skills": "./skills/",
   "interface": {
     "displayName": "Systematic Review",

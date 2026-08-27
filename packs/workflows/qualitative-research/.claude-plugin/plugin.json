@@ -1,7 +1,7 @@
 {
   "name": "qualitative-research",
   "description": "Traceable qualitative-text analysis using an explicit codebook, coded excerpts, reflexive notes, disagreements, and evidence-bounded thematic synthesis.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Evidence Lab"
   },
@@ -10,5 +10,5 @@
   ],
   "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
   "repository": "https://github.com/timsmykov/evidence-lab-plugins",
-  "license": "LicenseRef-Evidence-Lab-Proprietary"
+  "license": "MIT"
 }

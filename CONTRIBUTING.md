@@ -2,6 +2,14 @@
 
 There is one path: propose → review → publish. No manual exceptions, because an exception to the process quickly becomes the process.
 
+## Contribution license
+
+By submitting a contribution, you agree that Evidence Lab-owned contributions
+are licensed under the repository's MIT License. Adapted or bundled third-party
+material must keep its original copyright, license text, and a focused notice in
+the affected pack. Do not submit material that you do not have the right to
+redistribute.
+
 ## 1. Propose
 
 Open an issue answering five questions:
@@ -32,6 +40,8 @@ python3 scripts/test_pack_boundaries.py
 python3 scripts/test_pack_behaviors.py
 python3 scripts/analyze_pack_boundaries.py --check
 python3 scripts/verify_repo.py
+gitleaks dir . --redact --no-banner
+gitleaks git . --log-opts="--all" --redact --no-banner
 ```
 
 ## 3. Review
