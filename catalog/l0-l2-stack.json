@@ -1,0 +1,606 @@
+{
+  "schema_version": 1,
+  "reviewed_at": "2026-08-27",
+  "scope": {
+    "levels": ["L0", "L1", "L2"],
+    "hosts": ["codex", "claude-code"],
+    "supported_environments": ["macos", "windows-wsl2", "linux"]
+  },
+  "cost_boundary": "The L0-L2 stack avoids mandatory paid extensions, MCP services, and external memory. Access to the selected primary agent is a separate prerequisite and may require an eligible subscription, organizational entitlement, API billing, or cloud-provider account.",
+  "profiles": [
+    {
+      "id": "base",
+      "purpose": "Required foundation for a safe, reviewable local research workspace.",
+      "component_ids": [
+        "primary-agent-access", "primary-agent-client", "isolated-project-workspace",
+        "data-boundary-and-backup", "project-control-files", "local-git", "local-file-search",
+        "permission-baseline", "source-verification", "change-review", "evidence-lab-foundation",
+        "research-records", "installation-state-and-recovery"
+      ]
+    },
+    {
+      "id": "documents",
+      "purpose": "Adds local extraction, OCR, conversion, publishing, and bibliography tools when the research materials require them.",
+      "component_ids": ["pdf-text-extraction", "scanned-pdf-ocr", "document-conversion", "reproducible-publishing", "zotero-bibliography"]
+    },
+    {
+      "id": "data",
+      "purpose": "Adds a reproducible Python notebook environment; R remains a discipline-specific branch.",
+      "component_ids": ["python-data-environment", "r-data-environment"]
+    }
+  ],
+  "components": [
+    {
+      "id": "primary-agent-access",
+      "level": "L0",
+      "title": "Primary agent account and access",
+      "category": "access",
+      "inclusion": "route-required",
+      "hosts": ["codex", "claude-code"],
+      "maturity": "core",
+      "access_cost": {
+        "class": "provider-access-required",
+        "note": "Choose one provider route. Provider access is not counted as a free Evidence Lab extension."
+      },
+      "license": {
+        "value": "Provider terms",
+        "evidence": "https://learn.chatgpt.com/docs/codex/cli"
+      },
+      "data": {
+        "scope": "Prompts and the project context selected for an agent task.",
+        "leaves_device": "provider-dependent",
+        "destination": "Selected AI provider or approved cloud provider"
+      },
+      "system_requirements": ["Supported provider region and an eligible account route"],
+      "lifecycle": {
+        "install": "Create or use an approved personal or organizational account for one primary host.",
+        "verify": "Start the host and confirm the active account and billing route without exposing credentials.",
+        "update": "Review entitlement, billing route, and organizational policy when the provider terms change.",
+        "remove": "Sign out, revoke the local session, and remove the account connection under the provider policy."
+      },
+      "verification": {
+        "status": "docs-verified",
+        "evidence_refs": ["https://learn.chatgpt.com/docs/codex/cli", "https://code.claude.com/docs/en/authentication"],
+        "limitations": "Pricing and data controls depend on the selected account and must be checked at consultation time."
+      }
+    },
+    {
+      "id": "primary-agent-client",
+      "level": "L0",
+      "title": "Codex or Claude Code client",
+      "category": "access",
+      "inclusion": "route-required",
+      "hosts": ["codex", "claude-code"],
+      "maturity": "core",
+      "access_cost": {
+        "class": "no-extra-charge",
+        "note": "The client has no separate Evidence Lab charge; provider access remains a separate prerequisite."
+      },
+      "license": {
+        "value": "Host-specific distribution terms",
+        "evidence": "https://learn.chatgpt.com/docs/codex/cli"
+      },
+      "data": {
+        "scope": "Files opened by the client, commands, prompts, results, and local configuration.",
+        "leaves_device": "provider-dependent",
+        "destination": "Local machine and selected AI provider"
+      },
+      "system_requirements": ["macOS, supported Linux, or Windows through the supported host route", "Internet access for authentication and model use"],
+      "lifecycle": {
+        "install": "Codex: run the official standalone installer. Claude Code: use the current native installer documented by Anthropic.",
+        "verify": "Run `codex --version` or `claude --version`, then complete one read-only task in a test folder.",
+        "update": "Codex: rerun the official installer. Claude Code: use automatic updates or `claude update`.",
+        "remove": "Use the host's documented uninstall route, then inspect and remove only host-owned configuration after exporting required settings."
+      },
+      "verification": {
+        "status": "locally-observed",
+        "evidence_refs": ["tests/evidence/l0-l2-linux-2026-08-27.json", "https://learn.chatgpt.com/docs/codex/cli", "https://code.claude.com/docs/en/setup"],
+        "limitations": "Both clients were observed on Linux; clean install and removal still need macOS and WSL2 runs."
+      }
+    },
+    {
+      "id": "isolated-project-workspace",
+      "level": "L0",
+      "title": "Isolated project workspace",
+      "category": "workspace",
+      "inclusion": "required",
+      "hosts": ["shared"],
+      "maturity": "core",
+      "access_cost": {"class": "no-extra-charge", "note": "Uses a dedicated local folder and existing approved storage."},
+      "license": {"value": "Not applicable", "evidence": "https://github.com/timsmykov/evidence-lab-plugins/blob/main/docs/l0-l2-technical-stack.md"},
+      "data": {
+        "scope": "Source files, notes, data, outputs, and checks for one research project.",
+        "leaves_device": "only-on-explicit-network-use",
+        "destination": "Local project folder and explicitly approved backup"
+      },
+      "system_requirements": ["Writable project directory", "Sufficient storage for source files and generated outputs"],
+      "lifecycle": {
+        "install": "Create one project folder with separate source, data, note, output, and check areas.",
+        "verify": "Confirm the agent can read the folder and create one disposable test artifact only after approval.",
+        "update": "Add folders through reviewed project instructions; preserve existing source paths.",
+        "remove": "Export required outputs, then archive or delete the project folder under the researcher's retention policy."
+      },
+      "verification": {
+        "status": "docs-verified",
+        "evidence_refs": ["BOOTSTRAP.md", "docs/architecture.md"],
+        "limitations": "Backup provider and retention rules are client-specific."
+      }
+    },
+    {
+      "id": "data-boundary-and-backup",
+      "level": "L0",
+      "title": "Data boundary, backup, and secret handling",
+      "category": "policy",
+      "inclusion": "required",
+      "hosts": ["shared"],
+      "maturity": "core",
+      "access_cost": {"class": "varies", "note": "Uses the client's approved backup and password-management services; Evidence Lab adds no service requirement."},
+      "license": {"value": "Client policy and selected service terms", "evidence": "https://github.com/timsmykov/evidence-lab-plugins/blob/main/SECURITY.md"},
+      "data": {
+        "scope": "Project data classification, backup copies, credentials, and excluded locations.",
+        "leaves_device": "provider-dependent",
+        "destination": "Only client-approved storage and secret-management systems"
+      },
+      "system_requirements": ["Written data classification", "Approved backup target", "Existing password or secret manager"],
+      "lifecycle": {
+        "install": "Record allowed data classes, excluded folders, backup destination, and credential-handling rule.",
+        "verify": "Restore one harmless test file and confirm secrets are absent from the project and agent transcript.",
+        "update": "Review the boundary when sources, collaborators, or provider settings change.",
+        "remove": "Revoke project credentials and apply the client's retention and deletion policy to backups."
+      },
+      "verification": {
+        "status": "docs-verified",
+        "evidence_refs": ["SECURITY.md", "docs/sanitization-policy.md"],
+        "limitations": "Evidence Lab cannot certify a client's organizational backup or retention implementation."
+      }
+    },
+    {
+      "id": "project-control-files",
+      "level": "L1",
+      "title": "Portable project instructions and structure",
+      "category": "workspace",
+      "inclusion": "required",
+      "hosts": ["shared", "codex", "claude-code"],
+      "maturity": "core",
+      "access_cost": {"class": "no-extra-charge", "note": "Plain Markdown and JSON files stored with the project."},
+      "license": {"value": "Client-owned content; Evidence Lab templates follow repository terms", "evidence": "https://github.com/timsmykov/evidence-lab-plugins/blob/main/LICENSE"},
+      "data": {
+        "scope": "Project purpose, constraints, folder map, acceptance checks, and non-secret operating rules.",
+        "leaves_device": "only-on-explicit-network-use",
+        "destination": "Project repository and the active agent context"
+      },
+      "system_requirements": ["Text editor or agent file access", "Project folder from L0"],
+      "lifecycle": {
+        "install": "Create `AGENTS.md`, a Claude adapter when needed, `README.md`, decision log, acceptance checklist, and standard folders.",
+        "verify": "Ask each host to state the project boundary and complete a small task under the same acceptance rule.",
+        "update": "Review changes through Git and keep shared rules in `AGENTS.md` rather than duplicating them by host.",
+        "remove": "Remove the template files only after exporting project-specific rules that must be retained."
+      },
+      "verification": {
+        "status": "simulated-cross-host",
+        "evidence_refs": ["scripts/test_agent_first.py", "docs/architecture.md"],
+        "limitations": "Behavior parity is structurally tested; a novice-user observation is still required."
+      }
+    },
+    {
+      "id": "local-git",
+      "level": "L1",
+      "title": "Local Git history",
+      "category": "local-tool",
+      "inclusion": "required",
+      "hosts": ["shared"],
+      "maturity": "core",
+      "access_cost": {"class": "free-local-software", "note": "Git is free and does not require a remote repository."},
+      "license": {"value": "GPL-2.0-only", "evidence": "https://git-scm.com/about"},
+      "data": {
+        "scope": "Tracked project files, diffs, commit metadata, and local history.",
+        "leaves_device": "only-on-explicit-network-use",
+        "destination": "Local `.git` directory; remote only when explicitly configured"
+      },
+      "system_requirements": ["Git available for the selected operating system"],
+      "lifecycle": {
+        "install": "Install Git from the operating-system package or official distribution and initialize the project locally.",
+        "verify": "Run `git --version`, inspect status, and create a reversible checkpoint without adding sensitive files.",
+        "update": "Use the operating-system package manager or approved enterprise distribution.",
+        "remove": "Archive required history, remove the project `.git` directory if requested, and uninstall Git through the package manager."
+      },
+      "verification": {
+        "status": "locally-observed",
+        "evidence_refs": ["tests/evidence/l0-l2-linux-2026-08-27.json", "https://git-scm.com/about"],
+        "limitations": "Local Linux availability was checked; platform-specific installation remains to be run on macOS and WSL2."
+      }
+    },
+    {
+      "id": "local-file-search",
+      "level": "L1",
+      "title": "Local file search with ripgrep",
+      "category": "local-tool",
+      "inclusion": "required",
+      "hosts": ["shared"],
+      "maturity": "core",
+      "access_cost": {"class": "free-local-software", "note": "ripgrep is a local open-source command-line tool."},
+      "license": {"value": "MIT OR Unlicense", "evidence": "https://github.com/BurntSushi/ripgrep/blob/master/FAQ.md"},
+      "data": {
+        "scope": "Local file names and matching text within the paths searched.",
+        "leaves_device": "no",
+        "destination": "Local process output"
+      },
+      "system_requirements": ["Supported ripgrep binary or a host-bundled copy"],
+      "lifecycle": {
+        "install": "Use the host-bundled binary when available or install ripgrep from an approved package source.",
+        "verify": "Run `rg --version` and search a test phrase inside the project boundary.",
+        "update": "Update with the host or operating-system package that supplied the binary.",
+        "remove": "Uninstall the standalone package; a host-bundled copy is removed with that host."
+      },
+      "verification": {
+        "status": "locally-observed",
+        "evidence_refs": ["tests/evidence/l0-l2-linux-2026-08-27.json", "https://github.com/BurntSushi/ripgrep/blob/master/FAQ.md"],
+        "limitations": "The observed Linux host uses the copy bundled with Codex."
+      }
+    },
+    {
+      "id": "permission-baseline",
+      "level": "L1",
+      "title": "Permission and approval baseline",
+      "category": "platform-feature",
+      "inclusion": "required",
+      "hosts": ["codex", "claude-code"],
+      "maturity": "core",
+      "access_cost": {"class": "no-extra-charge", "note": "Uses the selected host's built-in permission controls."},
+      "license": {"value": "Provider terms", "evidence": "https://learn.chatgpt.com/docs/config-file/config-basic"},
+      "data": {
+        "scope": "Allowed file paths, command execution, network access, and approval decisions.",
+        "leaves_device": "provider-dependent",
+        "destination": "Local host configuration and selected AI provider"
+      },
+      "system_requirements": ["Installed primary agent client", "Known writable project boundary"],
+      "lifecycle": {
+        "install": "Select a conservative permission profile and deny secret or unrelated folders.",
+        "verify": "Confirm read access, require approval for a test write, and reject access outside the project boundary.",
+        "update": "Review the profile before adding network access, automation, or new writable roots.",
+        "remove": "Delete project overrides and restore the host's reviewed user defaults."
+      },
+      "verification": {
+        "status": "docs-verified",
+        "evidence_refs": ["https://learn.chatgpt.com/docs/config-file/config-basic", "https://code.claude.com/docs/en/permissions"],
+        "limitations": "Exact controls differ by host version and organization policy."
+      }
+    },
+    {
+      "id": "source-verification",
+      "level": "L1",
+      "title": "Web search with primary-source verification",
+      "category": "platform-feature",
+      "inclusion": "required",
+      "hosts": ["codex", "claude-code"],
+      "maturity": "core",
+      "access_cost": {"class": "varies", "note": "Uses host capabilities included in the selected access route; no third-party research service is required."},
+      "license": {"value": "Provider terms", "evidence": "https://learn.chatgpt.com/docs/codex/cli"},
+      "data": {
+        "scope": "Search queries, opened public pages, and citations retained in project outputs.",
+        "leaves_device": "provider-dependent",
+        "destination": "Host search service and visited public websites"
+      },
+      "system_requirements": ["Network access approved for the task", "A source-recording convention in the project"],
+      "lifecycle": {
+        "install": "Enable only the built-in search route available to the selected host; add no external MCP at L1.",
+        "verify": "Find one current fact, open the primary source, and save the source URL with the claim.",
+        "update": "Recheck host availability and source policy when the platform changes.",
+        "remove": "Disable network or search access in the host profile and remove stored test queries if policy requires it."
+      },
+      "verification": {
+        "status": "docs-verified",
+        "evidence_refs": ["https://learn.chatgpt.com/docs/codex/cli", "https://code.claude.com/docs/en/features-overview"],
+        "limitations": "Availability and quotas depend on the host account and current product surface."
+      }
+    },
+    {
+      "id": "change-review",
+      "level": "L1",
+      "title": "Diff, checkpoint, and acceptance check",
+      "category": "workspace",
+      "inclusion": "required",
+      "hosts": ["shared"],
+      "maturity": "core",
+      "access_cost": {"class": "no-extra-charge", "note": "Uses local Git, project acceptance criteria, and host review features."},
+      "license": {"value": "Not applicable", "evidence": "https://github.com/timsmykov/evidence-lab-plugins/blob/main/docs/l0-l2-technical-stack.md"},
+      "data": {
+        "scope": "Changed files, diffs, validation output, and the acceptance decision.",
+        "leaves_device": "only-on-explicit-network-use",
+        "destination": "Local project history and agent context"
+      },
+      "system_requirements": ["Local Git initialized", "Project acceptance checklist exists"],
+      "lifecycle": {
+        "install": "Add a short acceptance checklist and require a checkpoint before material edits.",
+        "verify": "Complete a small edit, inspect the diff, run its check, and restore the checkpoint once.",
+        "update": "Revise acceptance criteria when the output type or research risk changes.",
+        "remove": "Archive the final acceptance record before removing project-specific checks."
+      },
+      "verification": {
+        "status": "simulated-cross-host",
+        "evidence_refs": ["scripts/test_agent_first.py", "docs/review-checklist.md"],
+        "limitations": "The repository gate covers the pattern; client-specific acceptance checks still require a consultation run."
+      }
+    },
+    {
+      "id": "evidence-lab-foundation",
+      "level": "L2",
+      "title": "Evidence Lab frozen foundation",
+      "category": "evidence-lab",
+      "inclusion": "required",
+      "hosts": ["codex", "claude-code"],
+      "maturity": "pilot",
+      "access_cost": {"class": "free-local-software", "note": "Evidence Lab-owned packs are distributed under MIT with preserved third-party notices."},
+      "license": {"value": "MIT; bundled third-party notices may add Apache-2.0", "evidence": "https://github.com/timsmykov/evidence-lab-plugins/blob/main/LICENSING.md"},
+      "data": {
+        "scope": "Research prompts, local files, generated artifacts, and explicit tool outputs used by an activated skill.",
+        "leaves_device": "provider-dependent",
+        "destination": "Primary agent provider; external destinations only for separately approved tools"
+      },
+      "system_requirements": ["Validated Evidence Lab profile", "Supported Codex or Claude Code plugin host", "Immutable release lock"],
+      "lifecycle": {
+        "install": "Render the locked plan, obtain confirmation, apply exact pack versions, and read back the installed state.",
+        "verify": "Require `status: ready`, exact installed versions, adapter parity, and a representative task before production acceptance.",
+        "update": "Build a reconciliation plan against live readback; confirm additions and updates before applying them.",
+        "remove": "Confirm removal separately, uninstall selected packs, read back the host, and retain a recovery record."
+      },
+      "verification": {
+        "status": "simulated-cross-host",
+        "evidence_refs": ["catalog/foundation-core.json", "scripts/test_bootstrap.py", "scripts/test_agent_first.py", "docs/skill-pack-readiness.md", "tests/evidence/l0-l2-linux-2026-08-27.json"],
+        "limitations": "A clean Evidence Lab install and exact post-removal readback passed on existing Linux Codex and Claude Code clients. Version-to-version update, representative research use, macOS, WSL2, and independent review remain open; Claude Code native uninstall left a cache tree that required exact-path cleanup."
+      }
+    },
+    {
+      "id": "research-records",
+      "level": "L2",
+      "title": "Source ledger and decision trail",
+      "category": "evidence-lab",
+      "inclusion": "required",
+      "hosts": ["shared"],
+      "maturity": "pilot",
+      "access_cost": {"class": "no-extra-charge", "note": "Stored as project-owned structured files and Markdown records."},
+      "license": {"value": "Client-owned records; template terms follow Evidence Lab licensing", "evidence": "https://github.com/timsmykov/evidence-lab-plugins/blob/main/LICENSING.md"},
+      "data": {
+        "scope": "Source identity, retrieval path, decisions, exclusions, checks, and unresolved risks.",
+        "leaves_device": "only-on-explicit-network-use",
+        "destination": "Project source register and decision log"
+      },
+      "system_requirements": ["Project control files from L1", "Defined record format for the selected workflow"],
+      "lifecycle": {
+        "install": "Create the source register and decision log from reviewed templates.",
+        "verify": "Trace one output claim back to its source and one methodological choice back to its decision entry.",
+        "update": "Append dated entries; change the schema only through a reviewed migration.",
+        "remove": "Export the records with the project handoff before applying the retention policy."
+      },
+      "verification": {
+        "status": "docs-verified",
+        "evidence_refs": ["catalog/foundation-core.json", "docs/skill-pack-readiness.md"],
+        "limitations": "A dedicated research-log capability is planned; source-ledger behavior is not yet accepted as an implemented foundation capability."
+      }
+    },
+    {
+      "id": "installation-state-and-recovery",
+      "level": "L2",
+      "title": "Installation state, update, and recovery",
+      "category": "evidence-lab",
+      "inclusion": "required",
+      "hosts": ["codex", "claude-code"],
+      "maturity": "core",
+      "access_cost": {"class": "no-extra-charge", "note": "State and plans are local project files generated by the Evidence Lab bootstrap."},
+      "license": {"value": "MIT", "evidence": "https://github.com/timsmykov/evidence-lab-plugins/blob/main/LICENSE"},
+      "data": {
+        "scope": "Pack IDs, versions, release identity, installation operations, and readback state without credentials.",
+        "leaves_device": "no",
+        "destination": "Project-local `.evidence-lab` state"
+      },
+      "system_requirements": ["Evidence Lab bootstrap and immutable release lock", "Writable project state directory"],
+      "lifecycle": {
+        "install": "Save the validated profile, locked plan, and exact post-install readback outside package source.",
+        "verify": "Run bootstrap status or verify and compare the current host snapshot with the locked desired state.",
+        "update": "Reconcile from the previous and new release locks; preserve the pre-change snapshot.",
+        "remove": "Use the confirmed remove flow, verify absence through host readback, and keep the recovery receipt."
+      },
+      "verification": {
+        "status": "simulated-cross-host",
+        "evidence_refs": ["scripts/test_bootstrap.py", "BOOTSTRAP.md", "tests/evidence/l0-l2-linux-2026-08-27.json"],
+        "limitations": "Exact lifecycle behavior is test-covered with fake hosts. Live Linux install and post-removal readback passed on both clients, but version-to-version update, restore, macOS, and WSL2 remain unevidenced; Claude Code native uninstall left a cache tree that required exact-path cleanup."
+      }
+    },
+    {
+      "id": "pdf-text-extraction",
+      "level": "L2",
+      "title": "PDF text extraction with Poppler",
+      "category": "research-toolchain",
+      "inclusion": "conditional",
+      "hosts": ["shared"],
+      "maturity": "conditional",
+      "access_cost": {"class": "free-local-software", "note": "Poppler tools run locally and are available through operating-system packages."},
+      "license": {"value": "GPL-2.0-or-later", "evidence": "https://gitlab.freedesktop.org/poppler/poppler"},
+      "data": {
+        "scope": "Local PDF contents and extracted text files.",
+        "leaves_device": "no",
+        "destination": "Local process output"
+      },
+      "system_requirements": ["Poppler package for the selected operating system", "Readable PDF input"],
+      "lifecycle": {
+        "install": "Install Poppler from an approved operating-system package source.",
+        "verify": "Run `pdftotext -v` and compare extracted text with one known text-layer PDF.",
+        "update": "Update through the same package source.",
+        "remove": "Uninstall the Poppler package and retain only project outputs required by policy."
+      },
+      "verification": {
+        "status": "locally-observed",
+        "evidence_refs": ["tests/evidence/l0-l2-linux-2026-08-27.json"],
+        "limitations": "Binary availability was observed on Linux; extraction quality still needs the shared fixture set."
+      }
+    },
+    {
+      "id": "scanned-pdf-ocr",
+      "level": "L2",
+      "title": "Scanned PDF OCR with OCRmyPDF",
+      "category": "research-toolchain",
+      "inclusion": "conditional",
+      "hosts": ["shared"],
+      "maturity": "pilot",
+      "access_cost": {"class": "free-local-software", "note": "OCRmyPDF is open-source local software; system dependencies vary by OS."},
+      "license": {"value": "MPL-2.0", "evidence": "https://github.com/ocrmypdf/OCRmyPDF"},
+      "data": {
+        "scope": "Scanned PDF pages, generated OCR text layer, and diagnostic output.",
+        "leaves_device": "no",
+        "destination": "Local process output"
+      },
+      "system_requirements": ["OCRmyPDF and its documented native dependencies", "Scanned PDF without a usable text layer"],
+      "lifecycle": {
+        "install": "Install only in the Documents profile using the approved platform package route.",
+        "verify": "Run OCR on a disposable scan and compare page count, text search, and visual rendering.",
+        "update": "Update through the same package environment after a fixture regression test.",
+        "remove": "Uninstall the package environment and its dedicated dependencies; retain source scans unchanged."
+      },
+      "verification": {
+        "status": "docs-verified",
+        "evidence_refs": ["https://github.com/ocrmypdf/OCRmyPDF", "tests/evidence/l0-l2-linux-2026-08-27.json"],
+        "limitations": "OCRmyPDF was absent on the observed Linux host and has not passed the Evidence Lab fixture run."
+      }
+    },
+    {
+      "id": "document-conversion",
+      "level": "L2",
+      "title": "Document conversion with Pandoc",
+      "category": "research-toolchain",
+      "inclusion": "conditional",
+      "hosts": ["shared"],
+      "maturity": "conditional",
+      "access_cost": {"class": "free-local-software", "note": "Pandoc runs locally; output engines may add separate dependencies."},
+      "license": {"value": "GPL-2.0-or-later", "evidence": "https://github.com/jgm/pandoc/blob/main/README.md"},
+      "data": {
+        "scope": "Local source documents, templates, metadata, and converted outputs.",
+        "leaves_device": "no",
+        "destination": "Local process output"
+      },
+      "system_requirements": ["Pandoc binary", "Additional output engine only when the chosen format requires it"],
+      "lifecycle": {
+        "install": "Install Pandoc from the official or approved operating-system package.",
+        "verify": "Convert a fixture between Markdown and DOCX and compare required structure and references.",
+        "update": "Update through the same package source and rerun conversion fixtures.",
+        "remove": "Uninstall Pandoc and separately remove optional output engines if no longer used."
+      },
+      "verification": {
+        "status": "locally-observed",
+        "evidence_refs": ["tests/evidence/l0-l2-linux-2026-08-27.json", "https://github.com/jgm/pandoc/blob/main/README.md"],
+        "limitations": "The binary was observed on Linux; Evidence Lab conversion fixtures remain to be formalized."
+      }
+    },
+    {
+      "id": "reproducible-publishing",
+      "level": "L2",
+      "title": "Reproducible publishing with Quarto",
+      "category": "research-toolchain",
+      "inclusion": "conditional",
+      "hosts": ["shared"],
+      "maturity": "pilot",
+      "access_cost": {"class": "free-local-software", "note": "Quarto is open-source local software; rendering dependencies vary by output format."},
+      "license": {"value": "MIT", "evidence": "https://github.com/quarto-dev/quarto-cli"},
+      "data": {
+        "scope": "Project source, code cells, data references, citations, and rendered outputs.",
+        "leaves_device": "only-on-explicit-network-use",
+        "destination": "Local renderer and any explicitly used remote resources"
+      },
+      "system_requirements": ["Quarto CLI", "Pandoc bundled with Quarto or compatible local installation", "Selected computation engine when code is executed"],
+      "lifecycle": {
+        "install": "Install only for projects that need multi-format or computation-backed publication.",
+        "verify": "Render a fixture with a citation, table, formula, and code cell into the required format.",
+        "update": "Update through the approved distribution and rerun the render fixture.",
+        "remove": "Uninstall Quarto and optional render engines while retaining project source and final outputs."
+      },
+      "verification": {
+        "status": "docs-verified",
+        "evidence_refs": ["https://github.com/quarto-dev/quarto-cli", "tests/evidence/l0-l2-linux-2026-08-27.json"],
+        "limitations": "Quarto was absent on the observed Linux host and has not passed the Evidence Lab render fixture."
+      }
+    },
+    {
+      "id": "zotero-bibliography",
+      "level": "L2",
+      "title": "Bibliography with Zotero Desktop and managed export",
+      "category": "research-toolchain",
+      "inclusion": "conditional",
+      "hosts": ["shared"],
+      "maturity": "pilot",
+      "access_cost": {"class": "free-tier-available", "note": "The local application is free; hosted storage beyond the free allowance is optional and separately priced."},
+      "license": {"value": "AGPL-3.0", "evidence": "https://github.com/zotero/zotero"},
+      "data": {
+        "scope": "Bibliographic metadata, notes, attachments, and exported BibTeX, BibLaTeX, RIS, or CSV files.",
+        "leaves_device": "provider-dependent",
+        "destination": "Local Zotero library; Zotero services only when synchronization is enabled"
+      },
+      "system_requirements": ["Zotero Desktop for the selected operating system", "Approved export format for the project"],
+      "lifecycle": {
+        "install": "Install Zotero Desktop and keep agent access export-based until a plugin is separately approved.",
+        "verify": "Export a small library and trace selected citations back to Zotero records and source files.",
+        "update": "Update Zotero through its supported route and rerun the export fixture.",
+        "remove": "Export the library and attachments, disable sync, sign out, and uninstall the desktop application."
+      },
+      "verification": {
+        "status": "docs-verified",
+        "evidence_refs": ["https://github.com/zotero/zotero", "tests/evidence/l0-l2-linux-2026-08-27.json"],
+        "limitations": "Zotero was absent on the observed Linux host; the canonical export combination is still an open product decision."
+      }
+    },
+    {
+      "id": "python-data-environment",
+      "level": "L2",
+      "title": "Python data environment with uv and Jupyter",
+      "category": "research-toolchain",
+      "inclusion": "conditional",
+      "hosts": ["shared"],
+      "maturity": "pilot",
+      "access_cost": {"class": "free-local-software", "note": "Python tooling is local and open source; project packages retain their own licenses."},
+      "license": {"value": "uv: Apache-2.0 OR MIT; Jupyter Notebook: BSD-3-Clause", "evidence": "https://github.com/astral-sh/uv"},
+      "data": {
+        "scope": "Project datasets, environments, notebooks, scripts, caches, and generated analysis outputs.",
+        "leaves_device": "only-on-explicit-network-use",
+        "destination": "Local project environment and explicitly contacted data sources"
+      },
+      "system_requirements": ["Supported Python runtime managed through uv", "Jupyter only when notebook interaction is required"],
+      "lifecycle": {
+        "install": "Create a project-local uv environment and add only pinned packages required by the analysis; add Jupyter conditionally.",
+        "verify": "Recreate the environment from its lock and run a deterministic notebook or script fixture.",
+        "update": "Change dependencies through a reviewed lock update and rerun the analysis fixture.",
+        "remove": "Delete the project-local environment and caches after preserving lock files, source, and required outputs."
+      },
+      "verification": {
+        "status": "locally-observed",
+        "evidence_refs": ["tests/evidence/l0-l2-linux-2026-08-27.json", "https://github.com/astral-sh/uv", "https://github.com/jupyter/notebook/blob/main/LICENSE"],
+        "limitations": "uv was present but Jupyter was absent on the observed Linux host; a locked end-to-end data fixture remains open."
+      }
+    },
+    {
+      "id": "r-data-environment",
+      "level": "L2",
+      "title": "R data environment",
+      "category": "research-toolchain",
+      "inclusion": "conditional",
+      "hosts": ["shared"],
+      "maturity": "pilot",
+      "access_cost": {"class": "free-local-software", "note": "R is an optional discipline-specific branch, not part of every L2 installation."},
+      "license": {"value": "GPL-2.0-only OR GPL-3.0-only", "evidence": "https://www.r-project.org/Licenses/"},
+      "data": {
+        "scope": "Project datasets, R scripts, package library, lock file, and generated outputs.",
+        "leaves_device": "only-on-explicit-network-use",
+        "destination": "Local project environment and explicitly contacted data sources"
+      },
+      "system_requirements": ["R for the selected operating system", "Project-local dependency lock when reproducibility is required"],
+      "lifecycle": {
+        "install": "Install only when the discipline or laboratory uses R; create a project-local dependency record.",
+        "verify": "Restore the dependency set and run one deterministic analysis fixture.",
+        "update": "Review R and package changes together and rerun the fixture before adoption.",
+        "remove": "Remove the project library and R installation only after preserving scripts, lock files, and required outputs."
+      },
+      "verification": {
+        "status": "docs-verified",
+        "evidence_refs": ["https://www.r-project.org/Licenses/", "tests/evidence/l0-l2-linux-2026-08-27.json"],
+        "limitations": "R was absent on the observed Linux host; no Evidence Lab R fixture has been executed."
+      }
+    }
+  ]
+}

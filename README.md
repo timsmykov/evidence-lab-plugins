@@ -96,6 +96,7 @@ python3 scripts/test_normalization.py
 python3 scripts/test_pack_boundaries.py
 python3 scripts/test_pack_behaviors.py
 python3 scripts/test_external_plugins.py
+python3 scripts/test_l0_l2_stack.py
 python3 scripts/test_release_snapshot.py
 python3 scripts/analyze_pack_boundaries.py --check
 python3 scripts/audit_skill_packs.py --check
@@ -128,5 +129,7 @@ Fill every placeholder, rebuild adapters, and submit a reviewed pull request. En
 - [Skill-pack readiness inventory](docs/skill-pack-readiness.md)
 - [OpenAI Codex plugin directory audit](docs/openai-plugin-audit.md)
 - [External plugin verification record](docs/external-plugin-verification.md)
+- [L0-L2 technical stack](docs/l0-l2-technical-stack.md)
+- [L0-L2 technical stack in Russian](docs/l0-l2-technical-stack.ru.md)
 - [GitHub-first execution plan](docs/github-first-execution-plan.md)
 - [Contributing](CONTRIBUTING.md)
