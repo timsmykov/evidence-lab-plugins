@@ -1,7 +1,7 @@
 {
-  "id": "life-sciences", "version": "0.1.0", "layer": "domain", "display_name": "Life Sciences",
+  "id": "life-sciences", "version": "0.1.1", "layer": "domain", "display_name": "Life Sciences",
   "description": "Domain checks for life-science protocols, biological controls, bias, biosafety boundaries, reporting context, and image acquisition metadata.",
-  "category": "Research", "author": {"name": "Evidence Lab"}, "license": "LicenseRef-Evidence-Lab-Proprietary",
+  "category": "Research", "author": {"name": "Evidence Lab"}, "license": "MIT",
   "capabilities": ["life-science-protocols"],
   "selection": {"always": false, "rules": [
     {"id": "life-science-planning", "priority": 300, "when": {"all": {"domains": ["life-sciences"], "stages": ["planning"]}}, "reason": "Life-science study planning needs domain-specific protocol and bias checks."},

@@ -1,12 +1,12 @@
 {
   "id": "quantitative-sciences",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "layer": "domain",
   "display_name": "Quantitative Sciences",
   "description": "Statistical analysis, power and sample-size planning, uncertainty and units, and publication-grade scientific visualization for quantitative research.",
   "category": "Research",
   "author": {"name": "Evidence Lab"},
-  "license": "LicenseRef-Evidence-Lab-Proprietary AND MIT",
+  "license": "MIT",
   "capabilities": ["statistical-analysis", "statistical-power", "uncertainty-and-units", "scientific-visualization"],
   "selection": {
     "always": false,

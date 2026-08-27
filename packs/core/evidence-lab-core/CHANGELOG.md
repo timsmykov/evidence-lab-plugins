@@ -1,5 +1,10 @@
 # Changelog — Evidence Lab Core
 
+## [0.8.1] — 2026-08-27
+
+### Changed
+- Relicensed Evidence Lab-owned content under MIT while preserving bundled MIT notices.
+
 ## [0.8.0] — 2026-08-26
 
 ### Added

@@ -43,4 +43,9 @@ Always filled in `meta.json`: whose practice, which run, which materials. This i
 
 ## License
 
-Declare the complete pack-level license expression in `pack.json`. Preserve upstream license texts and focused third-party notices beside any moved or adapted skill. Generated Claude Code and Codex manifests must carry exactly the same expression; a split never erases provenance or license obligations.
+Evidence Lab-owned pack content uses MIT. Declare the complete pack-level
+expression in `pack.json`: `MIT` for MIT-only packs, or `MIT AND Apache-2.0`
+when a bundled skill is Apache-2.0. Preserve upstream license texts and focused
+third-party notices beside every moved or adapted skill. Generated Claude Code
+and Codex manifests must carry exactly the same expression; moving or splitting
+a skill never erases provenance or license obligations.

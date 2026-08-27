@@ -1,7 +1,7 @@
 {
   "name": "research-images",
   "description": "Research-image inspection with explicit source identity, transformation history, measurement definitions, exclusions, and interpretation boundaries.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Evidence Lab"
   },
@@ -10,7 +10,7 @@
   ],
   "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
   "repository": "https://github.com/timsmykov/evidence-lab-plugins",
-  "license": "LicenseRef-Evidence-Lab-Proprietary",
+  "license": "MIT",
   "skills": "./skills/",
   "interface": {
     "displayName": "Research Images",

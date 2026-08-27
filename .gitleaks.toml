@@ -1,0 +1,15 @@
+title = "Evidence Lab secret scanning"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Documented NOAA authentication placeholder only"
+targetRules = ["curl-auth-header"]
+condition = "AND"
+regexTarget = "line"
+paths = [
+  '''(^|/)packs/workflows/structured-data-analysis/skills/database-lookup/references/noaa\.md$''',
+  '''(^|/)plugins/research-core/skills/database-lookup/references/noaa\.md$''',
+]
+regexes = ['''curl -H "Token: YOUR_TOKEN"''']

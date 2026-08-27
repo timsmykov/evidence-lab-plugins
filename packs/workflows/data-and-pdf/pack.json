@@ -1,12 +1,12 @@
 {
   "id": "data-and-pdf",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "layer": "workflow",
   "display_name": "Data and PDF",
   "description": "Compatibility entry point for mixed document-and-data projects; installs focused document-evidence and structured-data-analysis packs as dependencies.",
   "category": "Research",
   "author": {"name": "Evidence Lab"},
-  "license": "LicenseRef-Evidence-Lab-Proprietary",
+  "license": "MIT",
   "capabilities": ["data-and-pdf-compatibility"],
   "selection": {
     "always": false,

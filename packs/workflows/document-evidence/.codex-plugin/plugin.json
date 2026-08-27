@@ -1,7 +1,7 @@
 {
   "name": "document-evidence",
   "description": "Reproducible conversion of supported research documents into inspectable Markdown without installing database retrieval or dataset analysis tools.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Evidence Lab"
   },
@@ -10,7 +10,7 @@
   ],
   "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
   "repository": "https://github.com/timsmykov/evidence-lab-plugins",
-  "license": "LicenseRef-Evidence-Lab-Proprietary AND MIT",
+  "license": "MIT",
   "skills": "./skills/",
   "interface": {
     "displayName": "Document Evidence",

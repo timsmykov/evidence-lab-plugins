@@ -37,6 +37,7 @@ python3 scripts/verify_repo.py
 - Claude Code and Codex support is claimed only after native manifest validation and parity tests.
 - Production requires a reviewer different from the owner, a review date, and a real run.
 - Preserve provenance and third-party notices when moving or splitting content.
+- License Evidence Lab-owned contributions under MIT; declare Apache-2.0 only when the pack actually bundles Apache-licensed content.
 - Keep private paths, credentials, identifiers, and client material out of shared packs.
 - Keep English entrypoints; route localized companions explicitly.
 

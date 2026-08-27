@@ -1,12 +1,12 @@
 {
   "id": "structured-data-analysis",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "layer": "workflow",
   "display_name": "Structured Data Analysis",
   "description": "Reproducible public-database retrieval and exploratory analysis for tables and datasets without unrelated document-conversion tooling.",
   "category": "Research",
   "author": {"name": "Evidence Lab"},
-  "license": "LicenseRef-Evidence-Lab-Proprietary AND MIT",
+  "license": "MIT",
   "capabilities": ["database-lookup", "exploratory-data-analysis"],
   "selection": {"always": false, "rules": [
     {"id": "structured-data-material", "priority": 300, "when": {"any": {"materials": ["tables", "datasets"]}}, "reason": "Structured research materials need retrieval or exploratory data-quality analysis."},

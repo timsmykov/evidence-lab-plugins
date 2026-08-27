@@ -1,6 +1,8 @@
-# Content privacy
+# Public-source content privacy
 
-The catalogue is shared, and the material entering it comes from personal instances and client work. So the boundary is drawn on the way in, not after an incident.
+The repository and catalogue are public. Material entering them may originate
+in personal instances or client work, so the boundary is drawn before a commit,
+not after an incident.
 
 ## Never enters the repository
 
@@ -18,7 +20,12 @@ The catalogue is shared, and the material entering it comes from personal instan
 
 ## How this is checked
 
-`scripts/verify_repo.py` looks for private paths, IPs, tokens, email addresses, links to private pages and bare UUIDs. The gate is blunt and will occasionally fire on something harmless. The correct response is to narrow the rule in a reviewed change — not to delete the check and not to work around it.
+`scripts/verify_repo.py` looks for private paths, IPs, tokens, email addresses,
+links to private pages, bare UUIDs, and obsolete proprietary license markers.
+Gitleaks independently scans both the current tree and the complete Git history.
+The gates are deliberately conservative and will occasionally flag harmless
+examples. Narrow an exception to the exact rule, path, and documented placeholder
+in a reviewed change; never disable the check or add a broad allowlist.
 
 Email addresses are allowed only in `LICENSE` and `SECURITY.md`.
 

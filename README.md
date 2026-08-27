@@ -1,6 +1,36 @@
 # Evidence Lab Packs
 
-An agent-first research stack for Claude Code and Codex. Evidence Lab stores every capability once as a host-neutral pack and generates native manifests and marketplaces for both agents.
+An open-source, agent-first research stack for Codex and Claude Code. Evidence
+Lab gives researchers a short conversational setup, builds a deterministic pack
+plan from their answers, and installs only the capabilities they approve.
+
+## Install from chat
+
+Open Codex or Claude Code and paste this request into a new task:
+
+> Install and configure Evidence Lab from
+> `https://github.com/timsmykov/evidence-lab-plugins`. Use the latest published
+> `release-*` GitHub Release and its `release-lock.json`. Follow `BOOTSTRAP.md`,
+> ask me the short onboarding questions one at a time, show the complete pack
+> plan, and install nothing until I confirm it.
+
+The agent will identify the host, ask four plain-language questions about the
+researcher's work, explain the recommended capabilities, and request one
+confirmation before installation. A new task is required after setup so Codex
+or Claude Code can load the installed skills.
+
+The release tag, source commit, catalog, pack versions, licenses, and content
+hashes are bound by the release lock. Do not install from a floating branch when
+a stable release exists.
+
+## License and project boundary
+
+This repository is MIT-licensed. Bundled third-party components retain their
+MIT or Apache-2.0 notices. The separate Evidence Lab methodology repository,
+client deliverables, personal or local overlays, private data, consulting
+materials, and hosted services are not part of this repository or its license.
+See [LICENSING.md](LICENSING.md), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md),
+and [TRADEMARKS.md](TRADEMARKS.md).
 
 ## Product layers
 
@@ -65,7 +95,10 @@ Fill every placeholder, rebuild adapters, and submit a reviewed pull request. En
 
 ## Documentation
 
-- [Bootstrap contract](BOOTSTRAP.md)
+- [Install and onboarding contract](BOOTSTRAP.md)
+- [Licensing scope](LICENSING.md)
+- [Third-party notices](THIRD_PARTY_NOTICES.md)
+- [Security policy](SECURITY.md)
 - [Architecture](docs/architecture.md)
 - [Pack and skill authoring](docs/authoring.md)
 - [Release process](docs/release-process.md)

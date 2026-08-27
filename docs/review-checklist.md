@@ -14,6 +14,7 @@ The reviewer checks whether it works, not whether it reads well. The order below
 - [ ] `provenance.evidence` points at material that can be opened.
 - [ ] The procedure was tried on two different cases, not one.
 - [ ] `pack.json` declares the complete license expression and every adapted skill retains its upstream notice and license text.
+- [ ] Evidence Lab-owned content is MIT; any Apache-2.0 expression corresponds to an Apache-licensed file actually shipped by that pack.
 
 ## Routing
 
@@ -40,6 +41,7 @@ The reviewer checks whether it works, not whether it reads well. The order below
 ## Formalities
 
 - [ ] `verify_repo.py` is green and its output is attached.
+- [ ] Gitleaks is green for both the current tree and complete Git history.
 - [ ] Version bumped, `CHANGELOG.md` updated.
 - [ ] For `status: production`: reviewer differs from owner, `reviewed_at` is set.
 
