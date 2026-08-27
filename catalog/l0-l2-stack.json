@@ -346,8 +346,8 @@
       },
       "verification": {
         "status": "simulated-cross-host",
-        "evidence_refs": ["catalog/foundation-core.json", "scripts/test_bootstrap.py", "scripts/test_agent_first.py", "docs/skill-pack-readiness.md"],
-        "limitations": "Installation mechanics pass both-host tests, but all research packs remain draft pending representative runs and independent review."
+        "evidence_refs": ["catalog/foundation-core.json", "scripts/test_bootstrap.py", "scripts/test_agent_first.py", "docs/skill-pack-readiness.md", "tests/evidence/l0-l2-linux-2026-08-27.json"],
+        "limitations": "A clean Evidence Lab install and exact post-removal readback passed on existing Linux Codex and Claude Code clients. Version-to-version update, representative research use, macOS, WSL2, and independent review remain open; Claude Code native uninstall left a cache tree that required exact-path cleanup."
       }
     },
     {
@@ -402,8 +402,8 @@
       },
       "verification": {
         "status": "simulated-cross-host",
-        "evidence_refs": ["scripts/test_bootstrap.py", "BOOTSTRAP.md"],
-        "limitations": "Exact lifecycle behavior is test-covered with fake hosts; clean live removal is not yet evidenced for every supported OS."
+        "evidence_refs": ["scripts/test_bootstrap.py", "BOOTSTRAP.md", "tests/evidence/l0-l2-linux-2026-08-27.json"],
+        "limitations": "Exact lifecycle behavior is test-covered with fake hosts. Live Linux install and post-removal readback passed on both clients, but version-to-version update, restore, macOS, and WSL2 remain unevidenced; Claude Code native uninstall left a cache tree that required exact-path cleanup."
       }
     },
     {

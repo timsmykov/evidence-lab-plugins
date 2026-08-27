@@ -38,9 +38,9 @@ The second agent is optional. No L0-L2 component may require both hosts.
 | L1 | Permission baseline | Required | Included with host | Docs verified | Start conservatively and expand only for a demonstrated task. |
 | L1 | Primary-source verification | Required | Host-route dependent | Docs verified | Built-in search is enough at L1; external research MCP is not part of the base. |
 | L1 | Diff, checkpoint, and acceptance | Required | No extra charge | Simulated on both hosts | Every material task ends with a visible check. |
-| L2 | Evidence Lab frozen foundation | Required | Free local software | Simulated on both hosts | Installation mechanics are covered; research packs remain draft until representative runs and independent review. |
+| L2 | Evidence Lab frozen foundation | Required | Free local software | Live lifecycle on Linux | Exact install and post-removal readback passed on existing Codex and Claude Code clients. Research use, version-to-version update, macOS, WSL2, and independent review remain open. |
 | L2 | Source ledger and decision trail | Required | No extra charge | Docs verified | The dedicated capabilities are still planned gaps, so L2 cannot yet be called complete. |
-| L2 | Installation state and recovery | Required | No extra charge | Simulated on both hosts | Exact plan, readback, reconciliation, removal, and restore paths are test-covered with fake hosts. |
+| L2 | Installation state and recovery | Required | No extra charge | Live lifecycle on Linux | Plan, apply, exact readback, and removal passed on both clients. Claude Code uninstall left its Evidence Lab cache tree; update between releases and restore remain open. |
 | L2 | Poppler text extraction | Conditional | Free local software | Observed on Linux | Add for PDF work after a fixture test. |
 | L2 | OCRmyPDF | Conditional | Free local software | Docs verified | Absent on the observed host; remains Pilot. |
 | L2 | Pandoc | Conditional | Free local software | Observed on Linux | Add when conversion is required; formal fixtures remain open. |
@@ -58,8 +58,8 @@ The second agent is optional. No L0-L2 component may require both hosts.
 
 ## What remains before the task is Done
 
-1. Run the Base profile on clean macOS, WSL2, and Linux environments for Codex and Claude Code.
-2. Record install, sign-in, update, removal, and residual-file readback without storing credentials.
+1. Run the Base profile on clean macOS and WSL2 environments for Codex and Claude Code; repeat Linux in a disposable clean environment.
+2. Record sign-in, version-to-version update, restore, and residual-file readback without storing credentials.
 3. Add one fixture for every conditional Documents and Data component before promoting it from Pilot.
 4. Implement and test the source-ledger and research-log gaps in the frozen foundation.
 5. Have an independent reviewer accept the matrix and the saved run evidence.
