@@ -1,20 +1,20 @@
 {
   "id": "evidence-lab-core",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "layer": "core",
   "display_name": "Evidence Lab Core",
-  "description": "Agent-first research foundations, fast researcher onboarding, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
+  "description": "Agent-first research foundations, fast researcher onboarding, personal skill creation, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
   "category": "Research",
   "author": {"name": "Evidence Lab"},
   "license": "MIT",
-  "capabilities": ["onboarding", "pack-selection", "companion-plugin-planning", "installation-lifecycle", "paper-lookup", "citation-management", "critical-thinking"],
+  "capabilities": ["onboarding", "pack-selection", "companion-plugin-planning", "installation-lifecycle", "personal-skill-authoring", "paper-lookup", "citation-management", "critical-thinking"],
   "selection": {"always": true, "rules": []},
   "dependencies": [],
   "conflicts": [],
   "runtimes": ["claude-code", "codex"],
   "interface": {
     "short_description": "Set up a reproducible research workspace.",
-    "long_description": "Runs a short chat onboarding, builds a transparent pack plan, and provides the universal evidence and source-handling foundation.",
+    "long_description": "Runs a short chat onboarding, builds a transparent pack plan, creates portable personal skills, and provides the universal evidence and source-handling foundation.",
     "capabilities": ["Interactive", "Research"],
     "default_prompt": "Set up Evidence Lab for my research work."
   }

@@ -10,10 +10,11 @@
     "added_at": "2026-08-25"
   },
   "skills": [
-    {"name": "citation-management", "summary": "Finds, verifies, deduplicates, and formats scholarly citation metadata and BibTeX.", "deterministic_parts": ["scripts/validate_citations.py", "scripts/format_bibtex.py"]},
-    {"name": "evidence-lab-onboarding", "summary": "Runs onboarding and safely plans, applies, verifies, and records a host-native Evidence Lab installation.", "deterministic_parts": ["scripts/normalize_profile.py", "scripts/select_packs.py", "scripts/select_external_plugins.py", "scripts/bootstrap.py"]},
-    {"name": "paper-lookup", "summary": "Searches scholarly APIs and returns deduplicated paper records, identifiers, provenance, and available full text.", "deterministic_parts": ["scripts/paginate.py", "scripts/jats_to_text.py", "scripts/openalex_abstract.py"]},
-    {"name": "scientific-critical-thinking", "summary": "Audits claims, assumptions, causal language, bias, confounding, and evidence quality.", "deterministic_parts": []}
+    {"name": "citation-management", "summary": "Finds, verifies, deduplicates, and formats scholarly citation metadata and BibTeX.", "quality_status": "needs-representative-testing", "deterministic_parts": ["scripts/validate_citations.py", "scripts/format_bibtex.py"]},
+    {"name": "evidence-lab-onboarding", "summary": "Runs onboarding and safely plans, applies, verifies, and records a host-native Evidence Lab installation.", "quality_status": "needs-representative-testing", "deterministic_parts": ["scripts/normalize_profile.py", "scripts/select_packs.py", "scripts/select_external_plugins.py", "scripts/bootstrap.py"]},
+    {"name": "paper-lookup", "summary": "Searches scholarly APIs and returns deduplicated paper records, identifiers, provenance, and available full text.", "quality_status": "needs-representative-testing", "deterministic_parts": ["scripts/paginate.py", "scripts/jats_to_text.py", "scripts/openalex_abstract.py"]},
+    {"name": "personal-skill-authoring", "summary": "Turns a researcher's recurring workflow into a small, portable, validated personal skill.", "quality_status": "needs-representative-testing", "deterministic_parts": ["scripts/scaffold_personal_skill.py", "scripts/validate_personal_skill.py"]},
+    {"name": "scientific-critical-thinking", "summary": "Audits claims, assumptions, causal language, bias, confounding, and evidence quality.", "quality_status": "needs-representative-testing", "deterministic_parts": []}
   ],
   "portable_to": ["claude", "codex"]
 }

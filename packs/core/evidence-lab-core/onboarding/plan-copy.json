@@ -12,7 +12,7 @@
     "claude-code": "Claude Code"
   },
   "packs": [
-    {"id": "evidence-lab-core", "title": "Research foundation", "purpose": "Source checks, citations, critical review, and reproducible Evidence Lab setup."},
+    {"id": "evidence-lab-core", "title": "Research foundation", "purpose": "Source checks, citations, critical review, personal skill creation, and reproducible Evidence Lab setup."},
     {"id": "document-evidence", "title": "PDF and document evidence", "purpose": "Turns supported documents into inspectable material for analysis."},
     {"id": "literature-publication", "title": "Literature and publication", "purpose": "Supports literature synthesis, academic writing, diagrams, and manuscript review."},
     {"id": "research-design", "title": "Research design", "purpose": "Helps formulate testable hypotheses and defensible study or experiment designs."},

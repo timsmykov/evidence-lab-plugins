@@ -3,15 +3,16 @@
   "packs": [
     {
       "id": "evidence-lab-core",
-      "version": "0.10.0",
+      "version": "0.11.0",
       "layer": "core",
       "display_name": "Evidence Lab Core",
-      "description": "Agent-first research foundations, fast researcher onboarding, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
+      "description": "Agent-first research foundations, fast researcher onboarding, personal skill creation, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
       "capabilities": [
         "onboarding",
         "pack-selection",
         "companion-plugin-planning",
         "installation-lifecycle",
+        "personal-skill-authoring",
         "paper-lookup",
         "citation-management",
         "critical-thinking"

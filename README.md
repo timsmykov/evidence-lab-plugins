@@ -41,7 +41,7 @@ and [TRADEMARKS.md](TRADEMARKS.md).
 
 | Layer | Purpose | Path |
 |---|---|---|
-| Core | onboarding, profile, selection, universal evidence foundations | `packs/core/` |
+| Core | onboarding, profile, selection, personal skill authoring, universal evidence foundations | `packs/core/` |
 | Workflow | complete research routes and material-specific work | `packs/workflows/` |
 | Domain | discipline-specific methods and checks | `packs/domains/` |
 | Local | organization, laboratory, journal, or programme rules | `packs/local/` |

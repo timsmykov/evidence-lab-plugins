@@ -1,5 +1,11 @@
 # Changelog — Evidence Lab Core
 
+## [0.11.0] — 2026-08-27
+
+### Added
+- Mandatory host-neutral personal skill authoring with a plain-chat workflow, safe scaffolder, validator, quality checklist, and trigger boundary tests.
+- Explicit skill-level quality states and a 27-capability foundation roadmap with visible implementation gaps.
+
 ## [0.10.0] — 2026-08-27
 
 ### Added

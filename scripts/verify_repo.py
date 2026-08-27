@@ -53,6 +53,7 @@ REQUIRED_REPO_FILES = [
     "docs/skill-pack-readiness.md",
     "docs/openai-plugin-audit.md",
     "docs/external-plugin-verification.md",
+    "catalog/foundation-skills.json",
     "catalog/scenarios.json",
     "catalog/pack-boundary-decisions.json",
     "catalog/external-plugin-candidates.json",
@@ -78,6 +79,7 @@ REQUIRED_REPO_FILES = [
     "schemas/pack-boundary-decisions.schema.json",
     "schemas/external-plugin-candidates.schema.json",
     "schemas/external-plugin-plan.schema.json",
+    "schemas/foundation-skills.schema.json",
     "schemas/meta.schema.json",
     "schemas/eval.schema.json",
     "schemas/marketplace.schema.json",
@@ -251,6 +253,35 @@ def check_external_plugin_registry() -> None:
             fail(f"external-plugin-candidates.json: {plugin.get('display_name')} cannot be automatic before baseline approval")
 
 
+def check_foundation_skills() -> None:
+    path = ROOT / "catalog" / "foundation-skills.json"
+    data = load_json(path) if path.exists() else None
+    if data is None:
+        return
+    validate(data, "foundation-skills.schema.json", "foundation-skills.json")
+    rows = data.get("skills", [])
+    ids = [row.get("id") for row in rows]
+    if len(ids) != len(set(ids)):
+        fail("foundation-skills.json: skill IDs must be unique")
+    if data.get("target_size") != len(rows):
+        fail("foundation-skills.json: target_size must equal the number of skill rows")
+    metadata = {}
+    for meta_path in PACKS.glob("*/*/meta.json"):
+        meta = load_json(meta_path)
+        if meta:
+            metadata.update({item["name"]: item for item in meta.get("skills", [])})
+    for row in rows:
+        current = row.get("current_skill")
+        if not current:
+            continue
+        if current not in metadata:
+            fail(f"foundation-skills.json: implemented skill is absent from pack metadata: {current}")
+            continue
+        expected = "implemented-" + metadata[current]["quality_status"]
+        if row.get("state") != expected:
+            fail(f"foundation-skills.json: {row.get('id')} state {row.get('state')} disagrees with {current} quality {metadata[current]['quality_status']}")
+
+
 def check_generated_reports() -> None:
     for command, label in (
         ([sys.executable, "scripts/audit_skill_packs.py", "--check"], "skill-pack readiness report"),
@@ -364,6 +395,17 @@ def check_pack(pack_dir: Path) -> None:
             fail(f"{plugin}: production plugin needs provenance.reviewed_at")
 
     declared = {s["name"]: s for s in meta.get("skills", []) if isinstance(s, dict)}
+    for skill_name, skill_meta in declared.items():
+        quality = skill_meta.get("quality_status")
+        notes = skill_meta.get("development_notes", [])
+        if quality == "needs-substantive-work" and not notes:
+            fail(f"{plugin}: {skill_name} needs substantive work but has no development_notes")
+        if quality == "support-only" and not skill_name.endswith("-router"):
+            fail(f"{plugin}: support-only is reserved for compatibility routers ({skill_name})")
+        if skill_name.endswith("-router") and quality != "support-only":
+            fail(f"{plugin}: compatibility router {skill_name} must be support-only")
+        if quality == "production" and meta.get("status") != "production":
+            fail(f"{plugin}: production skill {skill_name} cannot live in a non-production pack")
     skills_dir = pack_dir / "skills"
     on_disk = {d.name for d in skills_dir.iterdir() if d.is_dir()} if skills_dir.is_dir() else set()
     if not on_disk:
@@ -510,6 +552,7 @@ def main() -> int:
     check_repo_files()
     check_marketplaces()
     check_external_plugin_registry()
+    check_foundation_skills()
     check_generated_reports()
     if PACKS.is_dir():
         for pack_dir in sorted(path.parent for path in PACKS.glob("*/*/pack.json")):

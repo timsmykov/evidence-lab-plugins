@@ -1,6 +1,6 @@
 {
   "status": "draft", "category": "research", "risk_level": "team_safe", "owner": "Tim", "reviewer": "Tim",
   "provenance": {"origin": "Evidence Lab R3 material workflow derived from engineering and life-science image scenarios; domain-specific expert review remains required.", "evidence": ["docs/pack-boundary-report.md", "catalog/scenarios.json#research-images-engineering", "catalog/scenarios.json#research-images-life-sciences"], "added_at": "2026-08-26"},
-  "skills": [{"name": "research-image-analysis", "summary": "Produces a provenance record for research images, transformations, measurements, exclusions, and interpretation limits.", "deterministic_parts": ["scripts/validate_image_provenance.py"]}],
+  "skills": [{"name": "research-image-analysis", "summary": "Produces a provenance record for research images, transformations, measurements, exclusions, and interpretation limits.", "quality_status": "needs-substantive-work", "development_notes": ["Expand the compact procedure with modality boundaries, manipulation checks, measurement uncertainty, and representative image workflows."], "deterministic_parts": ["scripts/validate_image_provenance.py"]}],
   "portable_to": ["claude", "codex"]
 }

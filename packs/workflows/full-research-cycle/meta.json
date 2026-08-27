@@ -10,7 +10,7 @@
     "added_at": "2026-08-26"
   },
   "skills": [
-    {"name": "full-research-cycle-router", "summary": "Explains and confirms the compatibility route that installs both focused full-cycle workflow packs.", "deterministic_parts": []}
+    {"name": "full-research-cycle-router", "summary": "Explains and confirms the compatibility route that installs both focused full-cycle workflow packs.", "quality_status": "support-only", "deterministic_parts": []}
   ],
   "portable_to": ["claude", "codex"]
 }

@@ -11,6 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PACKS = ROOT / "packs"
 DEFAULT_OUTPUT = ROOT / "docs" / "skill-pack-readiness.md"
+FOUNDATION = ROOT / "catalog" / "foundation-skills.json"
 
 
 def load(path: Path):
@@ -24,6 +25,7 @@ def inventory() -> dict:
         pack = load(pack_path)
         meta = load(pack_dir / "meta.json")
         reference_only = pack["id"] == "example-domain"
+        declared = {item["name"]: item for item in meta["skills"]}
         skills = []
         for skill_path in sorted((pack_dir / "skills").glob("*/SKILL.md")):
             skill_dir = skill_path.parent
@@ -31,10 +33,12 @@ def inventory() -> dict:
             role = "research"
             if skill_dir.name == "evidence-lab-onboarding":
                 role = "onboarding"
+            elif skill_dir.name == "personal-skill-authoring":
+                role = "skill-authoring"
             elif skill_dir.name.endswith("-router"):
                 role = "compatibility-router"
-            scripts = len(list((skill_dir / "scripts").glob("*"))) if (skill_dir / "scripts").exists() else 0
-            references = len(list((skill_dir / "references").glob("*"))) if (skill_dir / "references").exists() else 0
+            scripts = sum(path.is_file() for path in (skill_dir / "scripts").glob("*")) if (skill_dir / "scripts").exists() else 0
+            references = sum(path.is_file() for path in (skill_dir / "references").glob("*")) if (skill_dir / "references").exists() else 0
             skills.append({
                 "name": skill_dir.name,
                 "role": role,
@@ -42,7 +46,8 @@ def inventory() -> dict:
                 "scripts": scripts,
                 "references": references,
                 "has_eval": (skill_dir / "evals" / "trigger_eval.json").is_file(),
-                "compact": role == "research" and line_count < 60 and references == 0,
+                "quality_status": declared[skill_dir.name]["quality_status"],
+                "development_notes": declared[skill_dir.name].get("development_notes", []),
             })
         rows.append({
             "id": pack["id"],
@@ -69,7 +74,16 @@ def render(data: dict) -> str:
     working = [row for row in data["packs"] if not row["reference_only"]]
     reference = [row for row in data["packs"] if row["reference_only"]]
     skills = [skill for row in working for skill in row["skills"]]
-    roles = {role: sum(skill["role"] == role for skill in skills) for role in ("research", "onboarding", "compatibility-router")}
+    roles = {role: sum(skill["role"] == role for skill in skills) for role in ("research", "onboarding", "skill-authoring", "compatibility-router")}
+    quality = {
+        state: sum(skill["quality_status"] == state for skill in skills)
+        for state in ("needs-substantive-work", "needs-representative-testing", "review-ready", "production", "support-only")
+    }
+    foundation = load(FOUNDATION)
+    foundation_states = {
+        state: sum(row["state"] == state for row in foundation["skills"])
+        for state in ("planned", "implemented-needs-substantive-work", "implemented-needs-representative-testing", "implemented-review-ready", "implemented-production")
+    }
     lines = [
         "# Skill-pack readiness inventory",
         "",
@@ -78,18 +92,32 @@ def render(data: dict) -> str:
         "## Summary",
         "",
         f"- Working packs: **{len(working)}**; reference-only packs: **{len(reference)}**.",
-        f"- Working skills: **{len(skills)}** — {roles['research']} research skills, {roles['onboarding']} onboarding skill, and {roles['compatibility-router']} compatibility routers.",
+        f"- Working skills: **{len(skills)}** — {roles['research']} research skills, {roles['onboarding']} onboarding skill, {roles['skill-authoring']} personal skill-authoring skill, and {roles['compatibility-router']} compatibility routers.",
         f"- Lifecycle: **{sum(row['status'] == 'draft' for row in working)} of {len(working)} working packs are `draft`**.",
         f"- Trigger eval files present: **{sum(skill['has_eval'] for skill in skills)} of {len(skills)}**.",
-        f"- Compact research skills needing deeper representative review: **{sum(skill['compact'] for skill in skills)}**.",
+        f"- Explicit quality states: **{quality['needs-substantive-work']} need substantive work**, **{quality['needs-representative-testing']} need representative testing**, **{quality['review-ready']} review-ready**, **{quality['production']} production**, and **{quality['support-only']} support-only**.",
         "",
         "`draft` does not mean that the package is un-installable. It means scientific/content acceptance is incomplete even when repository, selection, release, and bootstrap checks pass.",
+        "",
+        "## Foundation target",
+        "",
+        f"The bounded cross-disciplinary target contains **{foundation['target_size']} skills**: **{foundation_states['planned']} planned**, **{foundation_states['implemented-needs-substantive-work']} implemented but needing substantive work**, and **{foundation_states['implemented-needs-representative-testing']} implemented but needing representative testing**.",
+        "",
+        "This is the capability library from which deterministic onboarding selects a researcher's setup; it is not a requirement to install all 27 skills for every user. Personal skill authoring is mandatory through Core, while domain and workflow add-ons remain conditional.",
+        "",
+        "| Priority | Foundation capability | Group | Current implementation | State |",
+        "|---|---|---|---|---|",
+    ]
+    for row in foundation["skills"]:
+        current = f"`{row['current_skill']}`" if row.get("current_skill") else "—"
+        lines.append(f"| {row['priority']} | `{row['id']}` | `{row['group']}` | {current} | `{row['state']}` |")
+    lines.extend([
         "",
         "## Packs, boundaries, and current status",
         "",
         "| Pack | Layer | Version | Skills | Capabilities | Selection | Status |",
         "|---|---|---:|---:|---|---|---|",
-    ]
+    ])
     for row in working:
         selection = "always" if row["always"] else cell(row["selection_rules"])
         lines.append(
@@ -100,15 +128,14 @@ def render(data: dict) -> str:
         "",
         "## Skills",
         "",
-        "| Pack | Skill | Role | SKILL.md lines | Scripts | References | Trigger eval | Review signal |",
+        "| Pack | Skill | Role | SKILL.md lines | Scripts | References | Trigger eval | Quality status |",
         "|---|---|---|---:|---:|---:|---|---|",
     ])
     for row in working:
         for skill in row["skills"]:
-            signal = "deeper representative review" if skill["compact"] else "standard draft review"
             lines.append(
                 f"| `{row['id']}` | `{skill['name']}` | `{skill['role']}` | {skill['lines']} | "
-                f"{skill['scripts']} | {skill['references']} | {'yes' if skill['has_eval'] else 'no'} | {signal} |"
+                f"{skill['scripts']} | {skill['references']} | {'yes' if skill['has_eval'] else 'no'} | `{skill['quality_status']}` |"
             )
     lines.extend([
         "",
@@ -116,7 +143,8 @@ def render(data: dict) -> str:
         "",
         "- **Mechanically ready:** both hosts can receive immutable pack versions; schemas, trigger evals, deterministic scenario selection, installation planning, and host readback are covered by repository tests.",
         "- **Not yet production-accepted:** all working packs remain `draft`; representative real research runs and independent domain review are still required.",
-        "- **Highest content-review priority:** compact additions with little reference depth, currently life-science protocols, publication monitoring, qualitative analysis, research-image analysis, and systematic review.",
+        "- **Highest content-development priority:** skills explicitly marked `needs-substantive-work`, currently life-science protocols, publication monitoring, qualitative analysis, research-image analysis, and systematic review. Their exact work items live in `meta.json`.",
+        "- **Host-independent skill creation:** `personal-skill-authoring` is part of mandatory Core. Native Codex or Claude authoring tools may accelerate it, but bootstrap does not assume that an optional host plugin is installed.",
         "- **Compatibility only:** `data-and-pdf-router` and `full-research-cycle-router` carry no independent research method; their packs compose focused dependencies.",
         "",
         "## Deterministic installation path",

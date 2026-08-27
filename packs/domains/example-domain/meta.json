@@ -16,11 +16,13 @@
     {
       "name": "example-procedure",
       "summary": "An end-to-end procedure with a human confirmation point and deterministic table assembly.",
+      "quality_status": "reference-only",
       "deterministic_parts": ["scripts/build_table.py"]
     },
     {
       "name": "example-checklist",
-      "summary": "Checks a finished artefact against formal criteria before it is handed on."
+      "summary": "Checks a finished artefact against formal criteria before it is handed on.",
+      "quality_status": "reference-only"
     }
   ],
   "portable_to": ["claude", "codex"]
