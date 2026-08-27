@@ -74,4 +74,4 @@ Further splits or additions must be justified by tested user routes rather than 
 
 ## Deferred
 
-Marketplace verification and application-specific visual presentation remain distribution work. Hermes, ChatGPT-specific packaging, a graphical onboarding UI, silent installation, and runtime generation of new skills are outside the current Claude Code and Codex scope. The GitHub-first MVP already includes explicit installation plans, state, readback, idempotent retry, and bounded rollback.
+Marketplace verification and application-specific graphical presentation remain distribution work. Hermes, ChatGPT-specific packaging, a graphical onboarding UI, silent installation, and runtime generation of new skills are outside the current Claude Code and Codex scope. The GitHub-first MVP already includes an app-first chat entrypoint, localized deterministic recommendations, explicit installation plans, state, readback, idempotent retry, and bounded rollback.

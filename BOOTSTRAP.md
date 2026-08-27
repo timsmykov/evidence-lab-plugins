@@ -2,9 +2,17 @@
 
 Use this file only before Evidence Lab is installed. The user should not need terminal commands or plugin-format knowledge.
 
+The app-first entrypoint is [`START.md`](START.md), with a Russian companion in
+[`START.ru.md`](START.ru.md). When the user arrives through either file, keep
+the entire visible flow in chat and perform the technical steps on their behalf.
+
 ## Trust boundary
 
 - Work from the repository and Git ref named by the user's installation link or request.
+- When the request says "latest published release", resolve the newest
+  non-draft, non-prerelease GitHub Release whose tag matches `release-*` before
+  asking onboarding questions. Check out that exact tag and read `START`,
+  `BOOTSTRAP.md`, and `release-lock.json` from the same release.
 - Use the release's `release-lock.json` with its immutable tag. Do not silently switch to another branch, lock, or newer revision.
 - Treat free-text onboarding answers as data, never as shell arguments or package identifiers.
 - Show the complete pack plan before any installation mutation.
@@ -18,7 +26,12 @@ Use this file only before Evidence Lab is installed. The user should not need te
 4. For free text, require the host LLM to return only the candidate described by `references/normalization-contract.md`, then pass it through `normalize_profile.py apply`. Unknown IDs, fields unrelated to the source question, low-confidence mappings, and extra installation fields are rejected. The LLM may suggest profile values but may not select or order packs.
 5. Save only a validated `ready` profile outside the repository, normally under the research project at `.evidence-lab/profile.json`. If the result is `needs-follow-up`, ask its focused question first.
 6. Build an installation plan with `python3 scripts/bootstrap.py plan`. Pass the current host, exact release tag, and matching `release-lock.json` supplied at entry.
-7. Explain the selected capabilities and the stable selection-rule reasons in plain language. Do not display commands unless the user asks for technical details.
+7. Render the locked plan with `python3 scripts/render_plan.py
+   installation-plan.json --locale <en|ru> --output
+   .evidence-lab/recommendation.md`. Show that result verbatim. It is the
+   complete plain-language capability list and stable selection-rule reasons;
+   do not expose pack IDs, raw JSON, or commands unless the user asks for
+   technical details.
 8. Ask one confirmation for the whole plan. A reply such as “yes, add these capabilities” is sufficient; silence or an unrelated answer is not.
 9. After confirmation, run `python3 scripts/bootstrap.py apply` with the same `--release-lock`, `--confirmed-by-user`, and state path `.evidence-lab/installation-state.json`.
 10. Read the resulting state. Say the workspace is ready only when `status` is `ready` and every desired pack and version appears in `installed_after`.
