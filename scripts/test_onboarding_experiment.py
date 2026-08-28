@@ -438,7 +438,7 @@ class ExperimentCoreTests(unittest.TestCase):
     def test_runtime_directory_is_not_part_of_reviewable_index(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory) / "cohort"
-            runtime = root / "runtime"
+            runtime = root / "runs" / "scenario-0" / "attempt-01" / "runtime"
             runtime.mkdir(parents=True, mode=0o700)
             os.chmod(root, 0o700)
             write_secure_json(runtime / "resume.json", {"session_id": "private"})
