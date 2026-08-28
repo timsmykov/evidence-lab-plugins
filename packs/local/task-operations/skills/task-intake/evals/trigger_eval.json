@@ -1,0 +1,13 @@
+[
+  {"query":"Add these tasks to the project board and assign owners.","should_trigger":true},
+  {"query":"Record three incoming tasks and put them in priority order.","should_trigger":true},
+  {"query":"Rewrite this vague request as a task with acceptance criteria and an executor.","should_trigger":true},
+  {"query":"What should each owner pull from the backlog next?","should_trigger":true},
+  {"query":"Mark these tasks complete and verify that they appear in the archive.","should_trigger":true},
+  {"query":"Create these tasks in English and rank the shared and owner queues.","should_trigger":true},
+  {"query":"This task is too broad; split it into executable cards and retain the parent result.","should_trigger":true},
+  {"query":"Check why a blocked task ranks first and recompute the queue.","should_trigger":true},
+  {"query":"Explain the difference between P0 and P1 without changing the board.","should_trigger":false,"note":"explanation only"},
+  {"query":"Create a product roadmap from scratch.","should_trigger":false,"note":"product planning, not task intake"},
+  {"query":"Archive this GitHub repository.","should_trigger":false,"note":"repository administration"}
+]
