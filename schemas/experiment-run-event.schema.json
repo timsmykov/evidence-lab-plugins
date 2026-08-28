@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://evidence-lab.local/schemas/experiment-run-event.schema.json",
+  "title": "Evidence Lab onboarding experiment run event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "sequence",
+    "timestamp",
+    "run_id",
+    "previous_state",
+    "next_state",
+    "event_type",
+    "payload",
+    "previous_event_hash",
+    "event_hash"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "sequence": {"type": "integer", "minimum": 1},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "run_id": {"type": "string", "pattern": "^[A-Za-z0-9._/-]+$"},
+    "previous_state": {"type": ["string", "null"]},
+    "next_state": {"type": "string", "minLength": 1},
+    "event_type": {"type": "string", "pattern": "^[A-Z0-9_]+$"},
+    "payload": {"type": "object"},
+    "previous_event_hash": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "event_hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

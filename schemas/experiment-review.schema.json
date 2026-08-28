@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://evidence-lab.local/schemas/experiment-review.schema.json",
+  "title": "Evidence Lab onboarding experiment independent review",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "candidate_id", "artifact_index_sha256", "reviewer", "reviewed_at", "decision", "checks", "reservations"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "candidate_id": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact_index_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "reviewer": {"const": "Tim"},
+    "reviewed_at": {"type": "string", "format": "date-time"},
+    "decision": {"enum": ["ACCEPT", "REJECT", "ACCEPT_WITH_RESERVATIONS"]},
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["manifest", "all_primary_receipts", "abnormal_attempts", "two_language_examples", "artifact_hashes", "repository_gate", "claim_scope"],
+      "properties": {
+        "manifest": {"type": "boolean"},
+        "all_primary_receipts": {"type": "boolean"},
+        "abnormal_attempts": {"type": "boolean"},
+        "two_language_examples": {"type": "boolean"},
+        "artifact_hashes": {"type": "boolean"},
+        "repository_gate": {"type": "boolean"},
+        "claim_scope": {"type": "boolean"}
+      }
+    },
+    "reservations": {"type": "array", "items": {"type": "string"}}
+  }
+}

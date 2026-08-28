@@ -34,6 +34,7 @@ jobs:
           python3 scripts/test_agent_first.py
           python3 scripts/test_bootstrap.py
           python3 scripts/test_normalization.py
+          python3 scripts/test_onboarding_experiment.py
 
       - name: Pack-boundary evidence is valid and reproducible
         run: |
