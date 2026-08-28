@@ -65,6 +65,7 @@ def sample_manifest() -> dict:
             "commit": "1" * 40,
             "release_tag": "release-2026.08.5",
             "release_lock_sha256": "2" * 64,
+            "release_lock_digest": "a" * 64,
             "catalog_sha256": "3" * 64,
         },
         harness={
@@ -127,7 +128,7 @@ def completed_run(root: Path, manifest: dict, scenario_id: str) -> dict:
                 "tag": manifest["product"]["release_tag"],
                 "channel": "stable",
                 "source_commit": manifest["product"]["commit"],
-                "lock_digest": manifest["product"]["release_lock_sha256"],
+                "lock_digest": manifest["product"]["release_lock_digest"],
             },
             "selection_plan": {},
             "operations": [
@@ -146,7 +147,7 @@ def completed_run(root: Path, manifest: dict, scenario_id: str) -> dict:
                 "tag": manifest["product"]["release_tag"],
                 "channel": "stable",
                 "source_commit": manifest["product"]["commit"],
-                "lock_digest": manifest["product"]["release_lock_sha256"],
+                "lock_digest": manifest["product"]["release_lock_digest"],
             },
             "status": "ready",
             "desired": [{"id": "evidence-lab-core", "version": "1.0.0"}],
