@@ -8,7 +8,7 @@
     {
       "name": "evidence-lab-core",
       "description": "Agent-first research foundations, fast researcher onboarding, personal skill creation, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
-      "version": "0.13.0",
+      "version": "0.14.0",
       "author": {
         "name": "Evidence Lab"
       },
@@ -78,6 +78,19 @@
       "category": "research",
       "keywords": [
         "document-conversion"
+      ]
+    },
+    {
+      "name": "evidence-lab-meeting-capture",
+      "description": "Turn Evidence Lab meeting transcripts or notes into source-bounded summaries and register each completed summary in the canonical Notion meeting database.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Evidence Lab"
+      },
+      "source": "./packs/workflows/evidence-lab-meeting-capture",
+      "category": "research",
+      "keywords": [
+        "evidence-lab-meeting-capture"
       ]
     },
     {

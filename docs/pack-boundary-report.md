@@ -7,7 +7,7 @@ Core capabilities are treated as the mandatory baseline and are not counted as o
 
 ## Summary
 
-- Scenarios: **17**
+- Scenarios: **18**
 - Missing required capability occurrences: **0**
 - Over-installed optional-pack capability occurrences: **13**
 
@@ -15,6 +15,7 @@ Core capabilities are treated as the mandatory baseline and are not counted as o
 
 | Scenario | Selected packs | Missing required capabilities | Over-installed capabilities |
 |---|---|---|---|
+| `evidence-lab-meeting-capture-operations` | `evidence-lab-core`, `evidence-lab-meeting-capture` | — | — |
 | `general-paper-lookup` | `evidence-lab-core` | — | — |
 | `pdf-evidence-extraction` | `evidence-lab-core`, `document-evidence` | — | — |
 | `structured-data-analysis` | `evidence-lab-core`, `structured-data-analysis` | — | — |
@@ -35,19 +36,20 @@ Core capabilities are treated as the mandatory baseline and are not counted as o
 
 ## Current pack coverage
 
-- `evidence-lab-core`: selected by 17 scenario(s); mandatory baseline; exclusion is intentionally not applicable.
-- `life-sciences`: selected by 2 scenario(s); negative scenarios include `general-paper-lookup`.
-- `quantitative-sciences`: selected by 3 scenario(s); negative scenarios include `general-paper-lookup`.
-- `data-and-pdf`: selected by 1 scenario(s); negative scenarios include `general-paper-lookup`.
-- `document-evidence`: selected by 5 scenario(s); negative scenarios include `general-paper-lookup`.
-- `full-research-cycle`: selected by 2 scenario(s); negative scenarios include `general-paper-lookup`.
-- `literature-publication`: selected by 7 scenario(s); negative scenarios include `general-paper-lookup`.
-- `publication-monitoring`: selected by 2 scenario(s); negative scenarios include `general-paper-lookup`.
-- `qualitative-research`: selected by 2 scenario(s); negative scenarios include `general-paper-lookup`.
-- `research-design`: selected by 3 scenario(s); negative scenarios include `general-paper-lookup`.
-- `research-images`: selected by 2 scenario(s); negative scenarios include `general-paper-lookup`.
-- `structured-data-analysis`: selected by 4 scenario(s); negative scenarios include `general-paper-lookup`.
-- `systematic-review`: selected by 2 scenario(s); negative scenarios include `general-paper-lookup`.
+- `evidence-lab-core`: selected by 18 scenario(s); mandatory baseline; exclusion is intentionally not applicable.
+- `life-sciences`: selected by 2 scenario(s); negative scenarios include `evidence-lab-meeting-capture-operations`.
+- `quantitative-sciences`: selected by 3 scenario(s); negative scenarios include `evidence-lab-meeting-capture-operations`.
+- `data-and-pdf`: selected by 1 scenario(s); negative scenarios include `evidence-lab-meeting-capture-operations`.
+- `document-evidence`: selected by 5 scenario(s); negative scenarios include `evidence-lab-meeting-capture-operations`.
+- `evidence-lab-meeting-capture`: selected by 1 scenario(s); negative scenarios include `general-paper-lookup`.
+- `full-research-cycle`: selected by 2 scenario(s); negative scenarios include `evidence-lab-meeting-capture-operations`.
+- `literature-publication`: selected by 7 scenario(s); negative scenarios include `evidence-lab-meeting-capture-operations`.
+- `publication-monitoring`: selected by 2 scenario(s); negative scenarios include `evidence-lab-meeting-capture-operations`.
+- `qualitative-research`: selected by 2 scenario(s); negative scenarios include `evidence-lab-meeting-capture-operations`.
+- `research-design`: selected by 3 scenario(s); negative scenarios include `evidence-lab-meeting-capture-operations`.
+- `research-images`: selected by 2 scenario(s); negative scenarios include `evidence-lab-meeting-capture-operations`.
+- `structured-data-analysis`: selected by 4 scenario(s); negative scenarios include `evidence-lab-meeting-capture-operations`.
+- `systematic-review`: selected by 2 scenario(s); negative scenarios include `evidence-lab-meeting-capture-operations`.
 
 ## Split or keep decisions
 
@@ -119,6 +121,7 @@ Evidence: `structured-data-analysis`, `full-cycle-quantitative-paper`.
 
 | Priority | Pack | Target capabilities | Lifecycle | Scenario evidence |
 |---|---|---|---|---|
+| P1 | `evidence-lab-meeting-capture` | `evidence-lab-meeting-capture` | `draft` | `evidence-lab-meeting-capture-operations` |
 | P1 | `publication-monitoring` | `publication-monitoring` | `draft` | `publication-monitoring-life-sciences`, `publication-monitoring-physics` |
 | P1 | `systematic-review` | `systematic-search`, `screening-and-deduplication` | `draft` | `systematic-review-life-sciences`, `systematic-review-social-sciences` |
 | P1 | `qualitative-research` | `qualitative-analysis` | `draft` | `qualitative-social-analysis`, `qualitative-humanities-analysis` |

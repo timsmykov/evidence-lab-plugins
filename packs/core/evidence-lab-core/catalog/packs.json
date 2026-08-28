@@ -3,7 +3,7 @@
   "packs": [
     {
       "id": "evidence-lab-core",
-      "version": "0.13.0",
+      "version": "0.14.0",
       "layer": "core",
       "display_name": "Evidence Lab Core",
       "description": "Agent-first research foundations, fast researcher onboarding, personal skill creation, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
@@ -276,6 +276,48 @@
       "skills": [
         {
           "id": "markitdown",
+          "quality_status": "needs-representative-testing"
+        }
+      ]
+    },
+    {
+      "id": "evidence-lab-meeting-capture",
+      "version": "0.1.0",
+      "layer": "workflow",
+      "display_name": "Evidence Lab Meeting Capture",
+      "description": "Turn Evidence Lab meeting transcripts or notes into source-bounded summaries and register each completed summary in the canonical Notion meeting database.",
+      "capabilities": [
+        "evidence-lab-meeting-capture"
+      ],
+      "selection": {
+        "always": false,
+        "rules": [
+          {
+            "id": "evidence-lab-meeting-capture-workflow",
+            "priority": 300,
+            "when": {
+              "any": {
+                "workflows": [
+                  "evidence-lab-meeting-capture"
+                ]
+              }
+            },
+            "reason": "An Evidence Lab operator needs to summarize a meeting and register the result in the canonical Notion database."
+          }
+        ]
+      },
+      "dependencies": [
+        "evidence-lab-core"
+      ],
+      "conflicts": [],
+      "runtimes": [
+        "claude-code",
+        "codex"
+      ],
+      "foundation": false,
+      "skills": [
+        {
+          "id": "evidence-lab-meeting-capture",
           "quality_status": "needs-representative-testing"
         }
       ]

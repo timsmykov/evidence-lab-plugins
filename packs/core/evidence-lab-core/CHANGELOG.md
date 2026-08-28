@@ -1,5 +1,10 @@
 # Changelog — Evidence Lab Core
 
+## [0.14.0] — 2026-08-28
+
+### Added
+- Optional onboarding selection and localized plan copy for the Evidence Lab meeting-capture workflow.
+
 ## [0.13.0] — 2026-08-27
 
 ### Added

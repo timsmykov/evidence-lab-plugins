@@ -65,6 +65,18 @@
       "category": "Research"
     },
     {
+      "name": "evidence-lab-meeting-capture",
+      "source": {
+        "source": "local",
+        "path": "./packs/workflows/evidence-lab-meeting-capture"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Research"
+    },
+    {
       "name": "full-research-cycle",
       "source": {
         "source": "local",

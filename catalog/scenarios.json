@@ -3,6 +3,16 @@
   "baseline_pack": "evidence-lab-core",
   "scenarios": [
     {
+      "id": "evidence-lab-meeting-capture-operations",
+      "segment": "Evidence Lab operator documenting a team meeting",
+      "research_goal": "Turn a meeting source into a reviewed summary and store it in the canonical Notion meeting register.",
+      "profile": {"schema_version": 1, "domains": ["interdisciplinary"], "workflows": ["evidence-lab-meeting-capture"], "materials": [], "stages": ["active-research"], "methods": []},
+      "required_capabilities": ["evidence-lab-meeting-capture", "critical-thinking"],
+      "optional_capabilities": [],
+      "expected_selected_packs": ["evidence-lab-core", "evidence-lab-meeting-capture"],
+      "expected_missing_capabilities": []
+    },
+    {
       "id": "general-paper-lookup",
       "segment": "Cross-disciplinary researcher checking one paper",
       "research_goal": "Find a paper, verify its metadata, and manage its citation.",

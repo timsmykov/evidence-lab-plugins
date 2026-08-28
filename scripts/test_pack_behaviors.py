@@ -13,7 +13,7 @@ sys.dont_write_bytecode = True
 ROOT = Path(__file__).resolve().parent.parent
 TESTED_PACK_IDS = {
     "publication-monitoring", "systematic-review", "qualitative-research",
-    "research-images", "life-sciences",
+    "research-images", "life-sciences", "evidence-lab-meeting-capture",
 }
 
 
@@ -37,6 +37,26 @@ def fails(script: Path, payload, message: str) -> None:
 
 
 def main() -> int:
+    meeting = ROOT / "packs/workflows/evidence-lab-meeting-capture/skills/evidence-lab-meeting-capture/scripts/validate_meeting_record.py"
+    meeting_record = {
+        "title": "2026-08-28 — Evidence Lab: meeting capture",
+        "date": "2026-08-28",
+        "project": "Evidence Lab",
+        "meeting_type": "Team meeting",
+        "participants": "Tim, Artem",
+        "source_url": "https://example.org/transcript",
+        "summary_checked": True,
+        "source_review_complete": True,
+    }
+    if not run(meeting, meeting_record)["valid"]:
+        raise AssertionError("valid Evidence Lab meeting record rejected")
+    invalid_meeting = dict(meeting_record, title="Meeting capture", source_review_complete=False)
+    invalid_result = run(meeting, invalid_meeting, expected_code=1)
+    if invalid_result["valid"] or len(invalid_result["errors"]) != 2:
+        raise AssertionError("invalid meeting title or review state accepted")
+    if run(meeting, [], expected_code=1)["valid"]:
+        raise AssertionError("non-object meeting record accepted")
+
     monitor = ROOT / "packs/workflows/publication-monitoring/skills/publication-monitoring/scripts/update_monitor_state.py"
     monitored = run(monitor, {
         "checkpoint": "2026-08-26", "previous_ids": ["doi:old"],

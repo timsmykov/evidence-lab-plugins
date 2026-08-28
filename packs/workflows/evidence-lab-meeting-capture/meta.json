@@ -1,0 +1,24 @@
+{
+  "status": "draft",
+  "category": "research",
+  "risk_level": "team_safe",
+  "owner": "Tim",
+  "reviewer": "Artem",
+  "provenance": {
+    "origin": "Evidence Lab operating practice for source-bounded meeting summaries and canonical Notion registration.",
+    "evidence": [
+      "Evidence Lab meeting-register migration and read-back verification performed on 2026-08-28"
+    ],
+    "added_at": "2026-08-28"
+  },
+  "skills": [
+    {
+      "name": "evidence-lab-meeting-capture",
+      "summary": "Turns Evidence Lab meeting sources into reviewed summaries and verified records in the canonical Notion meeting database.",
+      "quality_status": "needs-representative-testing",
+      "development_notes": ["Run the workflow on a new external meeting transcript and obtain independent editorial review before promotion to production."],
+      "deterministic_parts": ["scripts/validate_meeting_record.py"]
+    }
+  ],
+  "portable_to": ["claude", "codex"]
+}

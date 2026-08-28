@@ -61,6 +61,14 @@
   ],
   "prioritized_additions": [
     {
+      "pack_id": "evidence-lab-meeting-capture",
+      "priority": "P1",
+      "capabilities": ["evidence-lab-meeting-capture"],
+      "trigger_scenarios": ["evidence-lab-meeting-capture-operations"],
+      "cross_taxonomy_reason": "Meeting capture combines source-bounded documentation with a workspace-specific Notion registration and read-back contract; it is an optional Evidence Lab operations workflow rather than a universal research skill.",
+      "lifecycle_status": "draft"
+    },
+    {
       "pack_id": "publication-monitoring",
       "priority": "P1",
       "capabilities": ["publication-monitoring"],

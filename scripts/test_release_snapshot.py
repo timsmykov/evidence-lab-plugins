@@ -56,7 +56,7 @@ def main() -> int:
     first = module.build_lock(absent_tag, commit, module.DEFAULT_REPOSITORY)
     second = module.build_lock(absent_tag, commit, module.DEFAULT_REPOSITORY)
     assert first == second
-    assert len(first["packs"]) == 13
+    assert len(first["packs"]) == 14
     assert [item["id"] for item in first["packs"]] == sorted(item["id"] for item in first["packs"])
     assert not list(Draft202012Validator(json.loads(SCHEMA.read_text(encoding="utf-8"))).iter_errors(first))
     module.validate_lock(first, require_tag=False)
@@ -330,7 +330,7 @@ def main() -> int:
         module.write(output, json.dumps(first, indent=2) + "\n")
         assert json.loads(output.read_text(encoding="utf-8")) == first
 
-    print("OK: immutable release lock verified for 13 published packs")
+    print("OK: immutable release lock verified for 14 published packs")
     return 0
 
 
