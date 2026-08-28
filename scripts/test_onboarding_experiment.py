@@ -409,6 +409,7 @@ class ExperimentCoreTests(unittest.TestCase):
     def test_frozen_bibtex_probe_is_reproducible(self) -> None:
         self.assertTrue(FORMATTER.is_file())
         probe_prompt = experiment_cli.PROBE_PROMPT.read_text(encoding="utf-8")
+        self.assertIn("python3 <installed-format_bibtex.py-path>", probe_prompt)
         self.assertIn("--output\n/workspace/citation-probe-output.bib", probe_prompt)
         self.assertIn(">/dev/null 2>&1", probe_prompt)
         self.assertIn("cat\n/workspace/citation-probe-output.bib", probe_prompt)
