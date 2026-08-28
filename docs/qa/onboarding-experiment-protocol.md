@@ -19,6 +19,12 @@ The candidate identity binds all inputs that can change the observation:
 
 Changing any bound input creates a new candidate and cohort. A product failure cannot be repaired and replaced inside the same cohort.
 
+`prepare` resolves the Codex version from the executable, verifies the release
+lock inside a clean checkout of the tagged commit, checks the catalog digest,
+and runs a Terra medium capability probe inside Bubblewrap. The manifest is
+written only after these checks pass. Versions, commits, catalogs, and
+preflight results cannot be supplied as operator assertions.
+
 ## Cohort rules
 
 - Run exactly ten valid primary scenarios: five English and five Russian.
@@ -34,11 +40,28 @@ Real artifacts live under `${XDG_STATE_HOME:-~/.local/state}/evidence-lab/experi
 
 Receipts contain hashes, normalized outcomes, selected pack IDs and versions, checks, and durations. They exclude credentials, tokens, session IDs, raw environment dumps, account identifiers, and absolute private paths. Runtime material required to resume a Codex thread remains protected and is not part of the reviewable receipt or product report.
 
+For a completed run, `finish-run` derives every pass check from the verified
+event chain. It derives hashes from the fixed plan, installation-state,
+new-task-probe, and journal paths, then derives pack IDs and versions from host
+readback. The CLI does not accept separate checks, hashes, or selected-pack
+files. `status`, `validate`, `summarize`, and `seal` recompute these bindings
+before they can report a passing gate.
+
+`capture-artifacts` copies only
+`.evidence-lab/installation-plan.json` and
+`.evidence-lab/installation-state.json` from the isolated run workspace. It
+does not accept alternate source paths.
+
 ## Observable new-task check
 
 After installation, a new Codex task runs without access to the source or release checkout. It must invoke the installed `citation-management/scripts/format_bibtex.py` with `--rekey --deduplicate --sort key` on the bundled synthetic fixture.
 
 The check passes only when a `command_execution` event resolves to the run-specific installed plugin cache and stdout matches the frozen expected SHA-256. A model statement that it used the skill is not evidence.
+
+The probe reads its JSONL stream from the run-specific runtime directory and
+uses the frozen BibTeX input and expected output bound into `candidate_id`. It
+also uses a frozen prompt and turn label. It does not accept an
+operator-selected plugin root, prompt, or output file.
 
 ## Outcomes
 
@@ -90,6 +113,10 @@ improvement requires returning to Phase 1 and freezing a new candidate.
 Exit condition: deterministic tests pass and the live adapter can start and
 resume a task without exposing the operator's home or repository checkout.
 
+The sandbox mounts only the system binaries and the small `/etc` allowlist
+needed for name resolution and TLS. Host password files, SSH host keys, the
+operator home, and unrelated repository paths are absent.
+
 ### Phase 3 — Execute ten primary simulations
 
 For each frozen profile, create a fresh Bubblewrap workspace and Codex home.
@@ -101,6 +128,11 @@ confirm once, and verify the resulting host readback.
 Record every transition in the append-only journal. Continue after a product
 failure. Stop the cohort immediately after a safety failure. Only an
 infrastructure-invalid attempt may be superseded.
+
+The runner enforces the frozen scenario order and permits only one unfinished
+attempt. `resume` reports `START`, `RESUME`, `FINISH`, `RETRY`, or `DONE` for
+each scenario without rewriting its journal. A safety terminal event stops the
+next run even if interruption occurred before its receipt was written.
 
 Exit condition: either ten valid primary receipts exist or the safety-stop rule
 has fired.

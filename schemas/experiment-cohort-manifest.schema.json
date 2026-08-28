@@ -34,22 +34,34 @@
     "harness": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["commit", "schema_bundle_sha256", "scenario_bundle_sha256"],
+      "required": ["commit", "schema_bundle_sha256", "scenario_bundle_sha256", "probe_input_sha256", "probe_expected_sha256", "probe_prompt_sha256"],
       "properties": {
         "commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
         "schema_bundle_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
-        "scenario_bundle_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+        "scenario_bundle_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "probe_input_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "probe_expected_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "probe_prompt_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
       }
     },
     "runtime": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["codex_version", "model", "reasoning_effort", "isolation", "timeouts_seconds"],
+      "required": ["codex_version", "model", "reasoning_effort", "isolation", "timeouts_seconds", "model_preflight"],
       "properties": {
         "codex_version": {"type": "string", "minLength": 1},
         "model": {"const": "gpt-5.6-terra"},
         "reasoning_effort": {"const": "medium"},
         "isolation": {"const": "bubblewrap-linux-v1"},
+        "model_preflight": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "probe"],
+          "properties": {
+            "status": {"const": "passed"},
+            "probe": {"const": "terra-medium-response-v1"}
+          }
+        },
         "timeouts_seconds": {
           "type": "object",
           "additionalProperties": false,

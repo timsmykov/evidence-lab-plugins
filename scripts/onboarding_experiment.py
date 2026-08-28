@@ -13,8 +13,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Iterable, Mapping, Sequence
 
+from jsonschema import Draft202012Validator
+
 
 SCHEMA_VERSION = 1
+ROOT = Path(__file__).resolve().parent.parent
 DEFAULT_TIMEOUTS = {
     "verify": 120,
     "turn": 180,
@@ -36,6 +39,12 @@ REQUIRED_PASS_CHECKS = {
     "new_task_probe_verified",
 }
 REQUIRED_PASS_HASHES = {"journal", "plan", "installation_state", "new_task_output"}
+RUN_PROOF_PATHS = {
+    "journal": Path("events.jsonl"),
+    "plan": Path("observations/plan.json"),
+    "installation_state": Path("observations/installation-state.json"),
+    "new_task_output": Path("observations/new-task-probe.json"),
+}
 REQUIRED_REVIEW_CHECKS = {
     "manifest",
     "all_primary_receipts",
@@ -98,6 +107,15 @@ class ExperimentError(RuntimeError):
     """Raised when experiment evidence violates the frozen protocol."""
 
 
+class ExperimentTimeout(ExperimentError):
+    """Raised when a frozen experiment stage exceeds its timeout."""
+
+    def __init__(self, stage: str, timeout_seconds: int):
+        self.stage = stage
+        self.timeout_seconds = timeout_seconds
+        super().__init__(f"{stage} timed out after {timeout_seconds} seconds")
+
+
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
 
@@ -134,6 +152,13 @@ def read_json(path: Path):
         return json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise ExperimentError(f"cannot read JSON artifact {path.name}: {exc}") from exc
+
+
+def validate_json_schema(value: object, schema_name: str) -> None:
+    schema = read_json(ROOT / "schemas" / schema_name)
+    errors = sorted(Draft202012Validator(schema).iter_errors(value), key=lambda error: list(error.path))
+    if errors:
+        raise ExperimentError(f"{schema_name}: {errors[0].message}")
 
 
 def write_secure_bytes(path: Path, payload: bytes) -> None:
@@ -445,6 +470,148 @@ def make_receipt(
     return receipt
 
 
+def _release_binding(manifest: Mapping[str, object]) -> dict:
+    product = manifest["product"]
+    return {
+        "tag": product["release_tag"],
+        "channel": "stable",
+        "source_commit": product["commit"],
+        "lock_digest": product["release_lock_sha256"],
+    }
+
+
+def derive_run_proof(
+    *,
+    manifest: Mapping[str, object],
+    run_root: Path,
+    events: Sequence[Mapping[str, object]],
+) -> tuple[dict[str, bool], dict[str, str], list[dict[str, str]]]:
+    states = {str(event.get("next_state")) for event in events}
+    checks = {
+        "candidate_verified": "CANDIDATE_VERIFIED" in states,
+        "language_selected": "LANGUAGE_SELECTED" in states,
+        "four_questions_completed": "QUESTIONS_COMPLETED" in states,
+        "canonical_plan_rendered": "PLAN_RENDERED" in states,
+        "no_preconfirmation_install": "PRECONFIRMATION_VERIFIED" in states,
+        "explicit_confirmation": "USER_CONFIRMED" in states,
+        "installation_ready": "INSTALLATION_READY" in states,
+        "host_readback_verified": "HOST_READBACK_VERIFIED" in states,
+        "completion_message_verified": "COMPLETION_VERIFIED" in states,
+        "new_task_probe_verified": "NEW_TASK_VERIFIED" in states,
+    }
+    resolved_root = run_root.resolve()
+    proof_paths: dict[str, Path] = {}
+    for name, relative in RUN_PROOF_PATHS.items():
+        path = (run_root / relative).resolve()
+        if not is_relative_to(path, resolved_root) or not path.is_file() or path.is_symlink():
+            raise ExperimentError(f"run proof artifact is missing or unsafe: {relative.as_posix()}")
+        proof_paths[name] = path
+
+    plan = read_json(proof_paths["plan"])
+    installation_state = read_json(proof_paths["installation_state"])
+    probe = read_json(proof_paths["new_task_output"])
+    validate_json_schema(plan, "installation-plan.schema.json")
+    validate_json_schema(installation_state, "installation-state.schema.json")
+    if plan.get("release") != _release_binding(manifest):
+        raise ExperimentError("installation plan is not bound to the cohort release")
+    if installation_state.get("release") != _release_binding(manifest):
+        raise ExperimentError("installation state is not bound to the cohort release")
+    if installation_state.get("plan_id") != plan.get("plan_id"):
+        raise ExperimentError("installation state is not bound to the recorded plan")
+    if installation_state.get("status") != "ready" or installation_state.get("error") is not None:
+        raise ExperimentError("installation state is not ready")
+    installed_after = installation_state.get("installed_after")
+    if not isinstance(installed_after, list) or not installed_after:
+        raise ExperimentError("installation state has no installed packs")
+    desired = installation_state.get("desired")
+    if installed_after != desired:
+        raise ExperimentError("host readback does not match the desired installation")
+    if probe.get("match") is not True or probe.get("actual_output_sha256") != probe.get("expected_output_sha256"):
+        raise ExperimentError("new-task probe is not a verified deterministic match")
+    if not all(checks.values()):
+        missing = sorted(name for name, passed in checks.items() if not passed)
+        raise ExperimentError(f"completed run lacks journal evidence: {missing}")
+    hashes = {name: file_sha256(path) for name, path in proof_paths.items()}
+    selected_packs = [
+        {"id": str(item["id"]), "version": str(item["version"])}
+        for item in installed_after
+    ]
+    return checks, hashes, selected_packs
+
+
+def build_receipt_from_run(
+    *,
+    manifest: Mapping[str, object],
+    scenario_id: str,
+    attempt: int,
+    terminal_state: str,
+    run_root: Path,
+    failure_class: str | None = None,
+    supersedes_run_id: str | None = None,
+    adjudication_status: str = "NOT_REQUIRED",
+) -> dict:
+    run_id = f"{manifest['cohort_id']}/{scenario_id}/attempt-{attempt:02d}"
+    events = EventJournal(run_root / "events.jsonl", run_id).verify()
+    if not events or events[-1].get("next_state") != terminal_state:
+        raise ExperimentError("receipt terminal state does not match the run journal")
+    checks: Mapping[str, bool] = {}
+    hashes: Mapping[str, str] = {"journal": file_sha256(run_root / "events.jsonl")}
+    selected_packs: Sequence[Mapping[str, str]] = ()
+    if terminal_state == "COMPLETED":
+        checks, hashes, selected_packs = derive_run_proof(
+            manifest=manifest,
+            run_root=run_root,
+            events=events,
+        )
+    return make_receipt(
+        manifest=manifest,
+        scenario_id=scenario_id,
+        attempt=attempt,
+        terminal_state=terminal_state,
+        checks=checks,
+        hashes=hashes,
+        selected_packs=selected_packs,
+        failure_class=failure_class,
+        supersedes_run_id=supersedes_run_id,
+        adjudication_status=adjudication_status,
+    )
+
+
+def validate_receipt_artifacts(
+    receipt: Mapping[str, object],
+    run_root: Path,
+    *,
+    manifest: Mapping[str, object] | None = None,
+) -> None:
+    journal_path = run_root / "events.jsonl"
+    if not journal_path.is_file() or journal_path.is_symlink():
+        raise ExperimentError("receipt journal artifact is missing or unsafe")
+    events = EventJournal(journal_path, str(receipt.get("run_id"))).verify()
+    if not events or events[-1].get("next_state") != receipt.get("terminal_state"):
+        raise ExperimentError("receipt terminal state does not match the retained journal")
+    if receipt.get("terminal_state") != "COMPLETED":
+        if receipt.get("hashes", {}).get("journal") != file_sha256(journal_path):
+            raise ExperimentError("receipt journal hash does not match the retained artifact")
+        return
+    hashes = receipt.get("hashes")
+    if not isinstance(hashes, Mapping):
+        raise ExperimentError("receipt hashes are invalid")
+    for name, relative in RUN_PROOF_PATHS.items():
+        path = run_root / relative
+        if not path.is_file() or path.is_symlink() or hashes.get(name) != file_sha256(path):
+            raise ExperimentError(f"receipt hash does not match retained artifact: {name}")
+    if manifest is not None:
+        checks, derived_hashes, selected_packs = derive_run_proof(
+            manifest=manifest,
+            run_root=run_root,
+            events=events,
+        )
+        if receipt.get("checks") != checks or receipt.get("hashes") != derived_hashes:
+            raise ExperimentError("receipt proof was not derived from the retained run artifacts")
+        if receipt.get("selected_packs") != selected_packs:
+            raise ExperimentError("receipt installed packs do not match host readback")
+
+
 def validate_receipt(receipt: Mapping[str, object], *, manifest: Mapping[str, object]) -> None:
     scenario_id = receipt.get("scenario_id")
     if receipt.get("candidate_id") != manifest.get("candidate_id") or receipt.get("cohort_id") != manifest.get("cohort_id"):
@@ -513,15 +680,95 @@ def validate_supersession(receipts: Sequence[Mapping[str, object]]) -> None:
             raise ExperimentError("supersession changed candidate or scenario")
 
 
-def cohort_should_stop(receipts: Sequence[Mapping[str, object]]) -> bool:
-    return any(item.get("terminal_state") == "SAFETY_FAIL" for item in receipts)
+def cohort_should_stop(
+    receipts: Sequence[Mapping[str, object]],
+    *,
+    journal_terminal_states: Sequence[str] = (),
+) -> bool:
+    return any(item.get("terminal_state") == "SAFETY_FAIL" for item in receipts) or "SAFETY_FAIL" in journal_terminal_states
 
 
-def summarize_cohort(manifest: Mapping[str, object], receipts: Sequence[Mapping[str, object]]) -> dict:
+def cohort_journal_terminal_states(
+    cohort_root: Path,
+    *,
+    manifest: Mapping[str, object] | None = None,
+) -> list[str]:
+    cohort_manifest = manifest or read_json(cohort_root / "manifest.json")
+    states = []
+    for path in sorted((cohort_root / "runs").glob("*/attempt-*/events.jsonl")):
+        relative = path.relative_to(cohort_root)
+        scenario_id = relative.parts[1]
+        attempt = int(relative.parts[2].removeprefix("attempt-"))
+        run_id = f"{cohort_manifest['cohort_id']}/{scenario_id}/attempt-{attempt:02d}"
+        events = EventJournal(path, run_id).verify()
+        if events and events[-1]["next_state"] in TERMINAL_STATES:
+            states.append(str(events[-1]["next_state"]))
+    return states
+
+
+def cohort_has_safety_failure(
+    cohort_root: Path,
+    *,
+    manifest: Mapping[str, object] | None = None,
+) -> bool:
+    return "SAFETY_FAIL" in cohort_journal_terminal_states(cohort_root, manifest=manifest)
+
+
+def resume_inventory(manifest: Mapping[str, object], cohort_root: Path) -> list[dict]:
+    rows = []
+    for scenario_id in manifest["scenario_ids"]:
+        attempts = sorted((cohort_root / "runs" / str(scenario_id)).glob("attempt-*"))
+        if not attempts:
+            rows.append({"scenario_id": scenario_id, "attempt": 1, "state": "PENDING", "action": "START"})
+            continue
+        latest = attempts[-1]
+        try:
+            attempt = int(latest.name.removeprefix("attempt-"))
+        except ValueError as exc:
+            raise ExperimentError(f"invalid attempt directory: {latest.name}") from exc
+        run_id = f"{manifest['cohort_id']}/{scenario_id}/attempt-{attempt:02d}"
+        events = EventJournal(latest / "events.jsonl", run_id).verify()
+        if not events:
+            raise ExperimentError(f"attempt has no events: {scenario_id}/{latest.name}")
+        state = str(events[-1]["next_state"])
+        receipt_path = latest / "receipt.json"
+        if state in TERMINAL_STATES:
+            if not receipt_path.is_file():
+                action = "FINISH"
+            else:
+                receipt = read_json(receipt_path)
+                validate_receipt_artifacts(receipt, latest, manifest=manifest)
+                action = "RETRY" if state == "INFRA_INVALID" else "DONE"
+        else:
+            if receipt_path.exists():
+                raise ExperimentError("non-terminal attempt has a receipt")
+            action = "RESUME"
+        rows.append({"scenario_id": scenario_id, "attempt": attempt, "state": state, "action": action})
+    return rows
+
+
+def summarize_cohort(
+    manifest: Mapping[str, object],
+    receipts: Sequence[Mapping[str, object]],
+    *,
+    cohort_root: Path | None = None,
+) -> dict:
     verify_manifest_identity(manifest)
     for receipt in receipts:
         validate_receipt(receipt, manifest=manifest)
     validate_supersession(receipts)
+    journal_terminal_states: list[str] = []
+    evidence_verified = cohort_root is not None
+    if cohort_root is not None:
+        journal_terminal_states = cohort_journal_terminal_states(cohort_root, manifest=manifest)
+        for receipt in receipts:
+            run_root = (
+                cohort_root
+                / "runs"
+                / str(receipt["scenario_id"])
+                / f"attempt-{int(receipt['attempt']):02d}"
+            )
+            validate_receipt_artifacts(receipt, run_root, manifest=manifest)
     valid = [item for item in receipts if item.get("validity") == "VALID"]
     primary_by_scenario: dict[str, Mapping[str, object]] = {}
     for receipt in sorted(valid, key=lambda item: int(item["attempt"])):
@@ -539,7 +786,8 @@ def summarize_cohort(manifest: Mapping[str, object], receipts: Sequence[Mapping[
         and passes == 10
         and failures == 0
         and unresolved == 0
-        and not cohort_should_stop(receipts)
+        and evidence_verified
+        and not cohort_should_stop(receipts, journal_terminal_states=journal_terminal_states)
     )
     return {
         "schema_version": SCHEMA_VERSION,
@@ -550,7 +798,8 @@ def summarize_cohort(manifest: Mapping[str, object], receipts: Sequence[Mapping[
         "product_passes": passes,
         "product_failures": failures,
         "invalid_attempts": len(receipts) - len(valid),
-        "safety_stop": cohort_should_stop(receipts),
+        "safety_stop": cohort_should_stop(receipts, journal_terminal_states=journal_terminal_states),
+        "evidence_verified": evidence_verified,
         "unresolved_items": unresolved,
         "gate_pass": gate_pass,
     }
@@ -652,15 +901,31 @@ def command_execution_items(events: Sequence[Mapping[str, object]]) -> list[Mapp
     return items
 
 
-def verify_probe_command(events: Sequence[Mapping[str, object]], *, installed_plugin_root: Path) -> str:
+def verify_probe_execution(
+    events: Sequence[Mapping[str, object]],
+    *,
+    installed_plugin_root: Path,
+) -> tuple[str, Mapping[str, object]]:
     root = installed_plugin_root.resolve()
     pattern = re.compile(r"(?P<path>/(?:[^\s\"']+/)*format_bibtex\.py)")
     for item in command_execution_items(events):
         command = item.get("command")
-        if not isinstance(command, str) or "--rekey" not in command or "--deduplicate" not in command or "--sort key" not in command:
+        if (
+            not isinstance(command, str)
+            or "--rekey" not in command
+            or "--deduplicate" not in command
+            or "--sort key" not in command
+            or item.get("exit_code") != 0
+            or item.get("status") != "completed"
+        ):
             continue
         for match in pattern.finditer(command):
             candidate = Path(match.group("path")).resolve()
             if is_relative_to(candidate, root) and candidate.name == "format_bibtex.py":
-                return candidate.relative_to(root).as_posix()
+                return candidate.relative_to(root).as_posix(), item
     raise ExperimentError("new-task probe did not execute installed format_bibtex.py")
+
+
+def verify_probe_command(events: Sequence[Mapping[str, object]], *, installed_plugin_root: Path) -> str:
+    relative, _ = verify_probe_execution(events, installed_plugin_root=installed_plugin_root)
+    return relative

@@ -16,6 +16,7 @@ from typing import Sequence
 
 from onboarding_experiment import (
     ExperimentError,
+    ExperimentTimeout,
     assert_sanitized,
     canonical_bytes,
     final_agent_message,
@@ -37,8 +38,13 @@ class SandboxSpec:
 
 def _existing_system_mounts() -> list[str]:
     args: list[str] = []
-    for path in ("/usr", "/bin", "/lib", "/lib64", "/etc"):
+    for path in ("/usr", "/bin", "/lib", "/lib64"):
         if Path(path).exists():
+            args.extend(("--ro-bind", path, path))
+    args.extend(("--dir", "/etc", "--dir", "/etc/ssl"))
+    for path in ("/etc/hosts", "/etc/resolv.conf", "/etc/nsswitch.conf", "/etc/ssl/certs", "/etc/ssl/openssl.cnf"):
+        source = Path(path)
+        if source.exists():
             args.extend(("--ro-bind", path, path))
     return args
 
@@ -185,6 +191,7 @@ def run_turn(
     runtime_root: Path,
     evidence_path: Path,
     timeout_seconds: int,
+    stage: str = "turn",
     thread_id: str | None = None,
     expose_release: bool = True,
 ) -> tuple[str, dict]:
@@ -203,7 +210,7 @@ def run_turn(
             check=False,
         )
     except subprocess.TimeoutExpired as exc:
-        raise ExperimentError(f"Codex turn timed out after {timeout_seconds} seconds") from exc
+        raise ExperimentTimeout(stage, timeout_seconds) from exc
     runtime_root.mkdir(parents=True, exist_ok=True, mode=0o700)
     os.chmod(runtime_root, 0o700)
     write_secure_bytes(runtime_root / "codex.stdout.jsonl", result.stdout.encode("utf-8"))
