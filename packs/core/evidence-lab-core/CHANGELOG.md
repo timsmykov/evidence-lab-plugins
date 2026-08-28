@@ -1,5 +1,27 @@
 # Changelog — Evidence Lab Core
 
+## [0.15.3] — 2026-08-28
+
+### Fixed
+- Clean installation now requires a supported locale, so a successful apply cannot omit the canonical completion and new-task instruction.
+
+## [0.15.2] — 2026-08-28
+
+### Fixed
+- The copy-paste entry prompt directly invokes the deterministic language renderer after release verification.
+- Confirmed apply can print the canonical localized completion and new-task instruction instead of raw state JSON.
+
+## [0.15.1] — 2026-08-28
+
+### Fixed
+- The plan command can now write and print the canonical localized recommendation in the same deterministic operation, preventing a raw package list from replacing the user-facing plan.
+
+## [0.15.0] — 2026-08-28
+
+### Changed
+- Language choice and all four onboarding questions now have a deterministic renderer whose output must be shown verbatim.
+- Plan confirmation now fails closed unless the canonical localized recommendation heading is visible; raw package IDs are not an acceptable substitute.
+
 ## [0.14.0] — 2026-08-28
 
 ### Added

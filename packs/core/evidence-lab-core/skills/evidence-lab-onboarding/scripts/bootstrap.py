@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
 import re
@@ -40,6 +41,35 @@ def write_json_atomic(path: Path, value: dict) -> None:
         handle.write(rendered)
         temporary = Path(handle.name)
     os.replace(temporary, path)
+
+
+def render_recommendation(plan: dict, locale: str, output: Path) -> str:
+    renderer_path = REPO_ROOT / "scripts" / "render_plan.py"
+    if not renderer_path.exists():
+        raise BootstrapError("canonical recommendation renderer is unavailable")
+    spec = importlib.util.spec_from_file_location("evidence_lab_plan_renderer", renderer_path)
+    if spec is None or spec.loader is None:
+        raise BootstrapError("canonical recommendation renderer could not be loaded")
+    renderer = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(renderer)
+    try:
+        rendered = renderer.render(plan, renderer.load_copy(locale))
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        raise BootstrapError(f"canonical recommendation could not be rendered: {exc}") from exc
+    output.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=output.parent, delete=False) as handle:
+        handle.write(rendered)
+        temporary = Path(handle.name)
+    os.replace(temporary, output)
+    return rendered
+
+
+def render_completion(locale: str) -> str:
+    suffix = ".ru.json" if locale == "ru" else ".json"
+    copy = load_object(PACK_ROOT / "onboarding" / f"chat-copy{suffix}")
+    if copy.get("locale") != locale or not isinstance(copy.get("completion"), str):
+        raise BootstrapError("canonical completion copy is unavailable")
+    return copy["completion"] + "\n"
 
 
 def plan_id_for(host: str, source: str, ref: str, selection_plan: dict, release: dict | None = None) -> str:
@@ -1169,6 +1199,8 @@ def build_parser() -> argparse.ArgumentParser:
     plan_parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
     plan_parser.add_argument("--release-lock", type=Path, required=True)
     plan_parser.add_argument("--output", type=Path, required=True)
+    plan_parser.add_argument("--locale", choices=("en", "ru"))
+    plan_parser.add_argument("--recommendation", type=Path)
 
     apply_parser = subparsers.add_parser("apply")
     apply_parser.add_argument("plan", type=Path)
@@ -1176,6 +1208,7 @@ def build_parser() -> argparse.ArgumentParser:
     apply_parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
     apply_parser.add_argument("--release-lock", type=Path, required=True)
     apply_parser.add_argument("--confirmed-by-user", action="store_true")
+    apply_parser.add_argument("--locale", choices=("en", "ru"), required=True)
 
     reconcile_parser = subparsers.add_parser("reconcile")
     reconcile_parser.add_argument("profile", type=Path)
@@ -1242,13 +1275,21 @@ def main() -> int:
             release = release_identity(load_object(args.release_lock), args.ref, args.source, selection_plan, args.catalog)
             plan = make_plan(profile, catalog, args.host, args.source, args.ref, args.marketplace, release)
             write_json_atomic(args.output, plan)
-            print(json.dumps(plan, indent=2, ensure_ascii=False))
+            if bool(args.locale) != bool(args.recommendation):
+                raise BootstrapError("--locale and --recommendation must be used together")
+            if args.recommendation:
+                print(render_recommendation(plan, args.locale, args.recommendation), end="")
+            else:
+                print(json.dumps(plan, indent=2, ensure_ascii=False))
             return 0
         if args.command == "apply":
             if not args.confirmed_by_user:
                 raise BootstrapError("installation requires explicit user confirmation")
             state = apply_plan(load_object(args.plan), args.state, load_object(args.release_lock), args.catalog)
-            print(json.dumps(state, indent=2, ensure_ascii=False))
+            if state["status"] == "ready":
+                print(render_completion(args.locale), end="")
+            else:
+                print(json.dumps(state, indent=2, ensure_ascii=False))
             return 0 if state["status"] == "ready" else 1
         if args.command == "reconcile":
             installed = installed_rows(args.host, args.marketplace)

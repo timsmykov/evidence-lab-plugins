@@ -19,6 +19,7 @@ FOUNDATION_PATH = ROOT / "packs" / "core" / "evidence-lab-core" / "catalog" / "f
 POLICY_PATH = ROOT / "packs" / "core" / "evidence-lab-core" / "onboarding" / "selection-policy.json"
 PLAN_COPY_ROOT = ROOT / "packs" / "core" / "evidence-lab-core" / "onboarding"
 RENDERER_PATH = ROOT / "scripts" / "render_plan.py"
+ONBOARDING_RENDERER_PATH = ROOT / "scripts" / "render_onboarding.py"
 LANGUAGE_SELECTOR_PATH = ROOT / "packs/core/evidence-lab-core/skills/evidence-lab-onboarding/scripts/select_language.py"
 
 
@@ -42,6 +43,14 @@ def load_selector():
 
 def load_renderer():
     spec = importlib.util.spec_from_file_location("evidence_lab_plan_renderer", RENDERER_PATH)
+    module = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(module)
+    return module
+
+
+def load_onboarding_renderer():
+    spec = importlib.util.spec_from_file_location("evidence_lab_onboarding_renderer", ONBOARDING_RENDERER_PATH)
     module = importlib.util.module_from_spec(spec)
     assert spec.loader is not None
     spec.loader.exec_module(module)
@@ -272,9 +281,13 @@ def check_onboarding_catalogs() -> None:
         raise AssertionError("language selector accepted an unsupported locale")
     english = load(root / "questions.json")
     russian = load(root / "questions.ru.json")
+    chat_english = load(root / "chat-copy.json")
+    chat_russian = load(root / "chat-copy.ru.json")
     policy = load(POLICY_PATH)
     validate(english, "onboarding-questions.schema.json")
     validate(russian, "onboarding-questions.schema.json")
+    validate(chat_english, "onboarding-chat-copy.schema.json")
+    validate(chat_russian, "onboarding-chat-copy.schema.json")
     for left, right in zip(english["questions"], russian["questions"], strict=True):
         if left["id"] != right["id"]:
             raise AssertionError("localized onboarding question IDs drifted")
@@ -284,6 +297,22 @@ def check_onboarding_catalogs() -> None:
             field = option.get("profile_field", left["id"])
             if option["id"] not in policy["profile_fields"][field]["values"]:
                 raise AssertionError(f"onboarding option {option['id']} is missing from policy field {field}")
+
+    renderer = load_onboarding_renderer()
+    language = renderer.language_message()
+    english_option = next(item for item in language_english["options"] if item["id"] == "en")
+    russian_option = next(item for item in language_russian["options"] if item["id"] == "ru")
+    expected_language = f"{language_english['prompt']}\n\n1. {english_option['label']}\n2. {russian_option['label']}\n\n{language_english['instruction']}\n"
+    if language != expected_language:
+        raise AssertionError("canonical language renderer drifted")
+    for locale, localized in (("en", english), ("ru", russian)):
+        for number, question in enumerate(localized["questions"], 1):
+            rendered = renderer.question_message(locale, number, include_expectation=number == 1)
+            if question["prompt"] not in rendered:
+                raise AssertionError(f"renderer omitted {locale} question {number}")
+            for option_number, option in enumerate(question["options"], 1):
+                if f"{option_number}. {option['label']}" not in rendered:
+                    raise AssertionError(f"renderer omitted {locale} option {number}.{option_number}")
 
 
 def check_plan_copy() -> None:

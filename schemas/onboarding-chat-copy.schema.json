@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evidence-lab-plugins/schemas/onboarding-chat-copy.schema.json",
+  "title": "Evidence Lab onboarding chat copy",
+  "type": "object",
+  "required": ["schema_version", "locale", "expectation", "question_heading", "footer", "completion"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": 1},
+    "locale": {"enum": ["en", "ru"]},
+    "expectation": {"type": "string", "minLength": 40},
+    "question_heading": {"type": "string", "pattern": "\\{number\\}.*\\{total\\}"},
+    "footer": {"type": "string", "minLength": 20},
+    "completion": {"type": "string", "minLength": 80}
+  }
+}

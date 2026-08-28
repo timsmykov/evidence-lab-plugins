@@ -1,0 +1,17 @@
+{
+  "schema_version": 1,
+  "model": "gpt-5.6-terra",
+  "reasoning_effort": "medium",
+  "scenarios": [
+    {"id": "en-11-epidemiology", "language": "1", "answers": ["Medicine, epidemiology, and biostatistics", "Run a systematic review, compare evidence, and prepare a publication", "Papers, PDFs, tables, datasets, and code", "4"]},
+    {"id": "en-12-astrophysics", "language": "English", "answers": ["2, 4, 5", "1, 6, 7", "1, 2, 3, 4, 5, 6, 7, 9", "2, 3"]},
+    {"id": "en-13-civil-engineering", "language": "english", "answers": ["3", "2, 5, 6, 8", "2, 3, 4, 5, 6, 7, 9", "1, 2"]},
+    {"id": "en-14-machine-learning", "language": "1", "answers": ["Statistics, machine learning, and data science", "Analyze datasets and code, compare models, then write a paper", "Papers, datasets, tables, code, formulas, and mathematical models", "2, 3"]},
+    {"id": "en-15-sociology", "language": "English", "answers": ["6", "2, 4, 5, 8", "1, 2, 3, 4, 8", "2"]},
+    {"id": "en-16-literature", "language": "1", "answers": ["Humanities, comparative literature, and digital text analysis", "Conduct a literature review and prepare a critical article", "Papers, PDFs, qualitative texts, and a small amount of code", "3"]},
+    {"id": "en-17-chemistry", "language": "English", "answers": ["Experimental chemistry at the boundary of materials science and physics", "Design experiments, monitor publications, analyze results, and prepare a report", "Papers, PDFs, datasets, tables, code, formulas, and research images", "1, 2"]},
+    {"id": "en-18-neuroscience", "language": "1", "answers": ["Neuroscience and biomedical imaging", "Collect and compare data, analyze it, and review research quality", "Papers, PDFs, datasets, code, tables, and images", "2"]},
+    {"id": "en-19-operations-research", "language": "english", "answers": ["Applied mathematics, engineering, and operations research", "Build mathematical models, analyze scenarios, and prepare a publication", "Papers, tables, datasets, code, formulas, and mathematical models", "2, 3"]},
+    {"id": "en-20-early-career", "language": "1", "answers": ["8", "1, 2, 4", "1, 2, 3, 4", "6"]}
+  ]
+}

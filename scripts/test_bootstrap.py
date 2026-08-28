@@ -697,6 +697,27 @@ def test_partial_removal_preserves_exact_readback(module, host: str) -> None:
         assert state["error"]
 
 
+def test_fused_plan_recommendation(module) -> None:
+    profile = load(PROFILE)
+    catalog = load(CATALOG)
+    plan = module.make_plan(
+        profile, catalog, "codex", "timsmykov/evidence-lab-plugins",
+        "release-2026.08.1", "evidence-lab-plugins", release_record(),
+    )
+    with tempfile.TemporaryDirectory() as temporary:
+        output = Path(temporary) / "recommendation.md"
+        rendered = module.render_recommendation(plan, "en", output)
+        assert rendered.startswith("# Your Evidence Lab setup\n")
+        assert output.read_text(encoding="utf-8") == rendered
+        russian = module.render_recommendation(plan, "ru", output)
+        assert russian.startswith("# ") and russian != rendered
+        assert output.read_text(encoding="utf-8") == russian
+    english_completion = module.render_completion("en")
+    russian_completion = module.render_completion("ru")
+    assert "Open a new task" in english_completion
+    assert english_completion != russian_completion
+
+
 def main() -> int:
     module = load_bootstrap()
     module.release_identity = lambda lock, ref, source, selection, catalog_path: release_record(ref)
@@ -726,6 +747,7 @@ def main() -> int:
     test_release_lock_mismatch_is_rejected_before_host_command(module)
     test_process_diagnostics_redact_secrets(module)
     test_source_matches_claude_marketplace_url(module)
+    test_fused_plan_recommendation(module)
     print("OK: bootstrap lifecycle verified for Codex and Claude Code")
     return 0
 

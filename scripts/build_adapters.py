@@ -15,6 +15,7 @@ CORE_CATALOG = PACKS / "core" / "evidence-lab-core" / "catalog" / "packs.json"
 CORE_FOUNDATION = PACKS / "core" / "evidence-lab-core" / "catalog" / "foundation-core.json"
 CORE_EXTERNAL_PLUGINS = PACKS / "core" / "evidence-lab-core" / "catalog" / "external-plugin-candidates.json"
 CORE_EXTERNAL_SELECTOR = PACKS / "core" / "evidence-lab-core" / "skills" / "evidence-lab-onboarding" / "scripts" / "select_external_plugins.py"
+CORE_ONBOARDING_RENDERER = PACKS / "core" / "evidence-lab-core" / "skills" / "evidence-lab-onboarding" / "scripts" / "render_onboarding.py"
 HIDDEN_STATUSES = {"reference", "deprecated"}
 
 
@@ -80,6 +81,7 @@ def build_outputs() -> dict[Path, str]:
     outputs[CORE_FOUNDATION] = (ROOT / "catalog" / "foundation-core.json").read_text(encoding="utf-8")
     outputs[CORE_EXTERNAL_PLUGINS] = (ROOT / "catalog" / "external-plugin-candidates.json").read_text(encoding="utf-8")
     outputs[CORE_EXTERNAL_SELECTOR] = (ROOT / "scripts" / "select_external_plugins.py").read_text(encoding="utf-8")
+    outputs[CORE_ONBOARDING_RENDERER] = (ROOT / "scripts" / "render_onboarding.py").read_text(encoding="utf-8")
 
     claude_entries, codex_entries = [], []
     for directory, pack, meta in published:
