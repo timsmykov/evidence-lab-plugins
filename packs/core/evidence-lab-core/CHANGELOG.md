@@ -1,5 +1,10 @@
 # Changelog — Evidence Lab Core
 
+## [0.15.1] — 2026-08-28
+
+### Fixed
+- The plan command can now write and print the canonical localized recommendation in the same deterministic operation, preventing a raw package list from replacing the user-facing plan.
+
 ## [0.15.0] — 2026-08-28
 
 ### Changed

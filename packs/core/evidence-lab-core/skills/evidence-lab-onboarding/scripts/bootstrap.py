@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
 import re
@@ -40,6 +41,27 @@ def write_json_atomic(path: Path, value: dict) -> None:
         handle.write(rendered)
         temporary = Path(handle.name)
     os.replace(temporary, path)
+
+
+def render_recommendation(plan: dict, locale: str, output: Path) -> str:
+    renderer_path = REPO_ROOT / "scripts" / "render_plan.py"
+    if not renderer_path.exists():
+        raise BootstrapError("canonical recommendation renderer is unavailable")
+    spec = importlib.util.spec_from_file_location("evidence_lab_plan_renderer", renderer_path)
+    if spec is None or spec.loader is None:
+        raise BootstrapError("canonical recommendation renderer could not be loaded")
+    renderer = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(renderer)
+    try:
+        rendered = renderer.render(plan, renderer.load_copy(locale))
+    except (OSError, ValueError, KeyError, TypeError) as exc:
+        raise BootstrapError(f"canonical recommendation could not be rendered: {exc}") from exc
+    output.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=output.parent, delete=False) as handle:
+        handle.write(rendered)
+        temporary = Path(handle.name)
+    os.replace(temporary, output)
+    return rendered
 
 
 def plan_id_for(host: str, source: str, ref: str, selection_plan: dict, release: dict | None = None) -> str:
@@ -1169,6 +1191,8 @@ def build_parser() -> argparse.ArgumentParser:
     plan_parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
     plan_parser.add_argument("--release-lock", type=Path, required=True)
     plan_parser.add_argument("--output", type=Path, required=True)
+    plan_parser.add_argument("--locale", choices=("en", "ru"))
+    plan_parser.add_argument("--recommendation", type=Path)
 
     apply_parser = subparsers.add_parser("apply")
     apply_parser.add_argument("plan", type=Path)
@@ -1242,7 +1266,12 @@ def main() -> int:
             release = release_identity(load_object(args.release_lock), args.ref, args.source, selection_plan, args.catalog)
             plan = make_plan(profile, catalog, args.host, args.source, args.ref, args.marketplace, release)
             write_json_atomic(args.output, plan)
-            print(json.dumps(plan, indent=2, ensure_ascii=False))
+            if bool(args.locale) != bool(args.recommendation):
+                raise BootstrapError("--locale and --recommendation must be used together")
+            if args.recommendation:
+                print(render_recommendation(plan, args.locale, args.recommendation), end="")
+            else:
+                print(json.dumps(plan, indent=2, ensure_ascii=False))
             return 0
         if args.command == "apply":
             if not args.confirmed_by_user:

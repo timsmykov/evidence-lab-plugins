@@ -65,7 +65,8 @@ Before installation, work from the checked-out, pinned Evidence Lab repository a
 ```bash
 python3 scripts/bootstrap.py plan profile.json --host <codex|claude-code> \
   --ref <release-tag> --release-lock release-lock.json \
-  --output installation-plan.json
+  --output installation-plan.json --locale <en|ru> \
+  --recommendation .evidence-lab/recommendation.md
 ```
 
 The selector is authoritative for package membership, rule evaluation, dependencies, and order. Do not add a pack by improvising from the conversation. It must include every pack marked `foundation: true`, which together expose the canonical 20-skill foundation indexed in `catalog/foundation-core.json`; profile rules may explain relevance or add optional packs but may not subtract foundation packs. Never present an entry in that index's `planned_capabilities` as installed. The resulting installation plan is deterministic for the same profile, host, source, and ref and includes the stable rule IDs that caused each selection.
@@ -86,7 +87,8 @@ than vendored; never copy external plugin contents into Evidence Lab state.
 
 ## Confirm
 
-Render the locked installation plan in the conversation language:
+The fused plan command writes and prints the locked recommendation in the
+conversation language. If handling a legacy plan without that output, render it:
 
 ```bash
 python3 scripts/render_plan.py installation-plan.json --locale <en|ru> \

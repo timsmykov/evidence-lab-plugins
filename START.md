@@ -72,8 +72,9 @@ question. In particular:
 - ask only one question in a message;
 - do not repeat an answer that is already clear from the conversation.
 
-After normalization, build the locked installation plan and render it through
-`scripts/render_plan.py`. Show the renderer's stdout verbatim instead of raw
+After normalization, build the locked installation plan with `bootstrap.py
+plan --locale <en|ru> --recommendation .evidence-lab/recommendation.md`; this
+fused command prints the canonical recommendation. Show its stdout verbatim instead of raw
 JSON, pack manifests, commands, or internal rule IDs. If the output does not
 start with the locale's canonical recommendation heading, stop and rerun the
 renderer; never replace it with a technical summary. Installation
