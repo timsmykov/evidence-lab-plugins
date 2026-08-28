@@ -177,6 +177,16 @@ def completed_run(root: Path, manifest: dict, scenario_id: str) -> dict:
 
 
 class ExperimentCoreTests(unittest.TestCase):
+    def test_new_task_turn_observation_does_not_collide_with_verified_probe(self) -> None:
+        self.assertEqual(
+            "new-task-probe-turn.json",
+            experiment_cli.turn_observation_name("new-task-probe", new_task=True),
+        )
+        self.assertNotEqual(
+            "new-task-probe.json",
+            experiment_cli.turn_observation_name("new-task-probe", new_task=True),
+        )
+
     def test_scenario_bundle_has_frozen_quotas(self) -> None:
         scenarios = validate_scenario_bundle(json.loads(SCENARIOS.read_text(encoding="utf-8")))
         self.assertEqual(10, len(scenarios))
