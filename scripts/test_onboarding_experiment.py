@@ -585,7 +585,13 @@ class ExperimentCoreTests(unittest.TestCase):
             auth.write_text("{}\n", encoding="utf-8")
             auth.chmod(0o600)
             spec = SandboxSpec(binary, auth, temp / "home", temp / "workspace")
-            with mock.patch("onboarding_experiment_adapter.subprocess.run", side_effect=subprocess.TimeoutExpired("codex", 1)):
+            with (
+                mock.patch("onboarding_experiment_adapter.shutil.which", return_value="/usr/bin/bwrap"),
+                mock.patch(
+                    "onboarding_experiment_adapter.subprocess.run",
+                    side_effect=subprocess.TimeoutExpired("codex", 1),
+                ),
+            ):
                 with self.assertRaisesRegex(ExperimentTimeout, "plan timed out") as timeout:
                     run_turn(
                         spec,
