@@ -1,0 +1,16 @@
+{
+  "name": "task-operations",
+  "description": "Reusable operations pack for turning incoming work into executable task cards and maintaining deterministic shared and per-owner queues.",
+  "version": "0.2.0",
+  "author": {
+    "name": "Evidence Lab"
+  },
+  "keywords": [
+    "task-intake",
+    "task-prioritization",
+    "task-archiving"
+  ],
+  "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
+  "repository": "https://github.com/timsmykov/evidence-lab-plugins",
+  "license": "MIT"
+}

@@ -1,0 +1,29 @@
+{
+  "name": "task-operations",
+  "description": "Reusable operations pack for turning incoming work into executable task cards and maintaining deterministic shared and per-owner queues.",
+  "version": "0.2.0",
+  "author": {
+    "name": "Evidence Lab"
+  },
+  "keywords": [
+    "task-intake",
+    "task-prioritization",
+    "task-archiving"
+  ],
+  "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
+  "repository": "https://github.com/timsmykov/evidence-lab-plugins",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Task Operations",
+    "shortDescription": "Create, assign, and rank executable tasks.",
+    "longDescription": "Turns raw requests into consistent task cards, verifies readiness and role assignments, and maintains deterministic global and per-owner execution order without losing completion history.",
+    "developerName": "Evidence Lab",
+    "category": "Operations",
+    "capabilities": [
+      "Operations",
+      "Task management"
+    ],
+    "defaultPrompt": "Create these tasks, assign the required fields, verify readiness, and update the execution order."
+  }
+}
