@@ -114,8 +114,10 @@ Exit condition: deterministic tests pass and the live adapter can start and
 resume a task without exposing the operator's home or repository checkout.
 
 The sandbox mounts only the system binaries and the small `/etc` allowlist
-needed for name resolution and TLS. Host password files, SSH host keys, the
-operator home, and unrelated repository paths are absent.
+needed for name resolution and TLS. It mounts the pinned Codex executable and
+its sibling `codex-code-mode-host`; the live preflight must execute a command
+through that host before a candidate can be prepared. Host password files, SSH
+host keys, the operator home, and unrelated repository paths are absent.
 
 ### Phase 3 — Execute ten primary simulations
 

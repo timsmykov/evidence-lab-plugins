@@ -537,6 +537,9 @@ class ExperimentCoreTests(unittest.TestCase):
             binary = temp / "codex"
             binary.write_text("#!/bin/sh\n", encoding="utf-8")
             binary.chmod(0o700)
+            code_mode_host = temp / "codex-code-mode-host"
+            code_mode_host.write_text("#!/bin/sh\n", encoding="utf-8")
+            code_mode_host.chmod(0o700)
             auth = temp / "auth.json"
             auth.write_text("{}\n", encoding="utf-8")
             auth.chmod(0o600)
@@ -551,6 +554,25 @@ class ExperimentCoreTests(unittest.TestCase):
             self.assertIn("/", new_task)
             self.assertNotIn(("--ro-bind", "/etc", "/etc"), list(zip(new_task, new_task[1:], new_task[2:])))
 
+    def test_bubblewrap_mounts_codex_code_mode_host(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            temp = Path(directory)
+            binary = temp / "codex"
+            binary.write_text("#!/bin/sh\n", encoding="utf-8")
+            binary.chmod(0o700)
+            code_mode_host = temp / "codex-code-mode-host"
+            code_mode_host.write_text("#!/bin/sh\n", encoding="utf-8")
+            code_mode_host.chmod(0o700)
+            auth = temp / "auth.json"
+            auth.write_text("{}\n", encoding="utf-8")
+            auth.chmod(0o600)
+            spec = SandboxSpec(binary, auth, temp / "home", temp / "workspace")
+            command = bwrap_prefix(spec, expose_release=False)
+            self.assertIn(
+                ("--ro-bind", str(code_mode_host), "/opt/codex-code-mode-host"),
+                list(zip(command, command[1:], command[2:])),
+            )
+
     @unittest.skipUnless(shutil.which("bwrap"), "bubblewrap is not installed")
     def test_real_sandbox_cannot_read_host_secret_files(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
@@ -558,6 +580,9 @@ class ExperimentCoreTests(unittest.TestCase):
             binary = temp / "codex"
             binary.write_text("#!/bin/sh\n", encoding="utf-8")
             binary.chmod(0o700)
+            code_mode_host = temp / "codex-code-mode-host"
+            code_mode_host.write_text("#!/bin/sh\n", encoding="utf-8")
+            code_mode_host.chmod(0o700)
             auth = temp / "auth.json"
             auth.write_text("{}\n", encoding="utf-8")
             auth.chmod(0o600)
@@ -581,6 +606,9 @@ class ExperimentCoreTests(unittest.TestCase):
             binary = temp / "codex"
             binary.write_text("#!/bin/sh\n", encoding="utf-8")
             binary.chmod(0o700)
+            code_mode_host = temp / "codex-code-mode-host"
+            code_mode_host.write_text("#!/bin/sh\n", encoding="utf-8")
+            code_mode_host.chmod(0o700)
             auth = temp / "auth.json"
             auth.write_text("{}\n", encoding="utf-8")
             auth.chmod(0o600)
@@ -660,10 +688,14 @@ class ExperimentCoreTests(unittest.TestCase):
             binary.write_text(
                 "#!/bin/sh\n"
                 "printf '%s\\n' '{\"type\":\"thread.started\",\"thread_id\":\"fake-thread\"}'\n"
+                "printf '%s\\n' '{\"type\":\"item.completed\",\"item\":{\"type\":\"command_execution\",\"command\":\"printf EVIDENCE_LAB_TOOL_HOST_OK\",\"aggregated_output\":\"EVIDENCE_LAB_TOOL_HOST_OK\",\"exit_code\":0,\"status\":\"completed\"}}'\n"
                 "printf '%s\\n' '{\"type\":\"item.completed\",\"item\":{\"type\":\"agent_message\",\"text\":\"EVIDENCE_LAB_PREFLIGHT_OK\"}}'\n",
                 encoding="utf-8",
             )
             binary.chmod(0o700)
+            code_mode_host = temp / "codex-code-mode-host"
+            code_mode_host.write_text("#!/bin/sh\n", encoding="utf-8")
+            code_mode_host.chmod(0o700)
             auth = temp / "auth.json"
             auth.write_text("{}\n", encoding="utf-8")
             auth.chmod(0o600)
@@ -671,6 +703,28 @@ class ExperimentCoreTests(unittest.TestCase):
                 "terra-medium-response-v1",
                 experiment_cli.verify_model_preflight(root=temp, codex_binary=binary, auth_file=auth),
             )
+
+    def test_model_preflight_rejects_missing_tool_execution(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            temp = Path(directory)
+            binary = temp / "codex"
+            binary.write_text("#!/bin/sh\n", encoding="utf-8")
+            binary.chmod(0o700)
+            code_mode_host = temp / "codex-code-mode-host"
+            code_mode_host.write_text("#!/bin/sh\n", encoding="utf-8")
+            code_mode_host.chmod(0o700)
+            auth = temp / "auth.json"
+            auth.write_text("{}\n", encoding="utf-8")
+            auth.chmod(0o600)
+            with (
+                mock.patch.object(experiment_cli.shutil, "which", return_value="/usr/bin/bwrap"),
+                mock.patch(
+                    "onboarding_experiment_adapter.run_turn",
+                    return_value=("thread", {"final_message": "EVIDENCE_LAB_PREFLIGHT_OK", "commands": []}),
+                ),
+            ):
+                with self.assertRaisesRegex(ExperimentError, "tool execution"):
+                    experiment_cli.verify_model_preflight(root=temp, codex_binary=binary, auth_file=auth)
 
     def test_codex_command_pins_terra_medium_for_start_and_resume(self) -> None:
         start = codex_exec_args(prompt="start", thread_id=None)
@@ -692,6 +746,9 @@ class ExperimentCoreTests(unittest.TestCase):
                 encoding="utf-8",
             )
             binary.chmod(0o700)
+            code_mode_host = temp / "codex-code-mode-host"
+            code_mode_host.write_text("#!/bin/sh\n", encoding="utf-8")
+            code_mode_host.chmod(0o700)
             auth = temp / "auth.json"
             auth.write_text("{}\n", encoding="utf-8")
             auth.chmod(0o600)

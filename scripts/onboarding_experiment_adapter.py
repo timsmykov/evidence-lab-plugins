@@ -36,6 +36,10 @@ class SandboxSpec:
     release_checkout: Path | None = None
 
 
+def code_mode_host_for(codex_binary: Path) -> Path:
+    return codex_binary.resolve().with_name("codex-code-mode-host")
+
+
 def _existing_system_mounts() -> list[str]:
     args: list[str] = []
     for path in ("/usr", "/bin", "/lib", "/lib64"):
@@ -52,6 +56,9 @@ def _existing_system_mounts() -> list[str]:
 def validate_spec(spec: SandboxSpec) -> None:
     if not spec.codex_binary.is_file() or not os.access(spec.codex_binary, os.X_OK):
         raise ExperimentError("Codex binary is missing or not executable")
+    code_mode_host = code_mode_host_for(spec.codex_binary)
+    if not code_mode_host.is_file() or not os.access(code_mode_host, os.X_OK):
+        raise ExperimentError("Codex code-mode host is missing or not executable")
     if not spec.auth_file.is_file() or spec.auth_file.is_symlink():
         raise ExperimentError("Codex auth file must be a regular non-symlink file")
     if spec.release_checkout is not None and not spec.release_checkout.is_dir():
@@ -63,6 +70,7 @@ def validate_spec(spec: SandboxSpec) -> None:
 
 def bwrap_prefix(spec: SandboxSpec, *, expose_release: bool) -> list[str]:
     validate_spec(spec)
+    code_mode_host = code_mode_host_for(spec.codex_binary)
     args = [
         "bwrap",
         "--unshare-all",
@@ -87,6 +95,9 @@ def bwrap_prefix(spec: SandboxSpec, *, expose_release: bool) -> list[str]:
         "--ro-bind",
         str(spec.codex_binary.resolve()),
         "/opt/codex",
+        "--ro-bind",
+        str(code_mode_host),
+        "/opt/codex-code-mode-host",
         "--bind",
         str(spec.codex_home.resolve()),
         "/home/researcher/.codex",
