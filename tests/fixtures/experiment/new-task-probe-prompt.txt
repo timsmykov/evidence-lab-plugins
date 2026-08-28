@@ -1,5 +1,9 @@
 Use the installed Evidence Lab citation-management capability to normalize the
-file `/workspace/citation-probe-input.bib`. Run the installed
-`format_bibtex.py` script with `--rekey --deduplicate --sort key`, do not read
-or execute anything from a source or release checkout, and return the command
-output without rewriting it.
+file `/workspace/citation-probe-input.bib`. Locate `format_bibtex.py` only in
+the installed Evidence Lab plugin cache; do not read or execute anything from a
+source or release checkout. Then run one final shell command that invokes that
+installed script with `/workspace/citation-probe-input.bib --output
+/workspace/citation-probe-output.bib --rekey --deduplicate --sort key`, adds
+`>/dev/null 2>&1`, and, only if the formatter succeeds, uses `cat
+/workspace/citation-probe-output.bib` in the same command. Return that final
+command output without rewriting it.
