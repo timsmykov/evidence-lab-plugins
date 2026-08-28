@@ -486,6 +486,19 @@ def _release_binding(manifest: Mapping[str, object]) -> dict:
     }
 
 
+def normalized_pack_snapshot(value: object) -> list[tuple[str, str]]:
+    if not isinstance(value, list):
+        raise ExperimentError("installation snapshot must be a list")
+    rows: list[tuple[str, str]] = []
+    for item in value:
+        if not isinstance(item, Mapping) or not isinstance(item.get("id"), str) or not isinstance(item.get("version"), str):
+            raise ExperimentError("installation snapshot has an invalid pack entry")
+        rows.append((item["id"], item["version"]))
+    if len({item[0] for item in rows}) != len(rows):
+        raise ExperimentError("installation snapshot has duplicate pack IDs")
+    return sorted(rows)
+
+
 def derive_run_proof(
     *,
     manifest: Mapping[str, object],
@@ -530,7 +543,7 @@ def derive_run_proof(
     if not isinstance(installed_after, list) or not installed_after:
         raise ExperimentError("installation state has no installed packs")
     desired = installation_state.get("desired")
-    if installed_after != desired:
+    if normalized_pack_snapshot(installed_after) != normalized_pack_snapshot(desired):
         raise ExperimentError("host readback does not match the desired installation")
     if probe.get("match") is not True or probe.get("actual_output_sha256") != probe.get("expected_output_sha256"):
         raise ExperimentError("new-task probe is not a verified deterministic match")

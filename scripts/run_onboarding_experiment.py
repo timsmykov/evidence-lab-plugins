@@ -26,6 +26,7 @@ from onboarding_experiment import (
     compact_object_sha256,
     cohort_has_safety_failure,
     default_artifact_root,
+    derive_run_proof,
     file_sha256,
     final_agent_message,
     files_sha256,
@@ -329,6 +330,12 @@ def cmd_finish_run(args: argparse.Namespace) -> None:
     if not events:
         raise ExperimentError("run has no journal")
     if events[-1]["next_state"] != args.terminal_state:
+        if args.terminal_state == "COMPLETED":
+            derive_run_proof(
+                manifest=manifest,
+                run_root=run_root,
+                events=[*events, {"next_state": "COMPLETED"}],
+            )
         journal.append(
             args.terminal_state,
             "RUN_TERMINATED",

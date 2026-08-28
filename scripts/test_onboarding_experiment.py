@@ -28,6 +28,7 @@ from onboarding_experiment import (
     cohort_should_stop,
     file_sha256,
     make_receipt,
+    normalized_pack_snapshot,
     object_sha256,
     parse_codex_jsonl,
     prepare_artifact_root,
@@ -177,6 +178,40 @@ def completed_run(root: Path, manifest: dict, scenario_id: str) -> dict:
 
 
 class ExperimentCoreTests(unittest.TestCase):
+    def test_pack_snapshot_comparison_is_order_insensitive(self) -> None:
+        desired = [
+            {"id": "evidence-lab-core", "version": "1.0.0"},
+            {"id": "document-evidence", "version": "2.0.0"},
+        ]
+        self.assertEqual(normalized_pack_snapshot(desired), normalized_pack_snapshot(list(reversed(desired))))
+
+    def test_completed_event_is_not_appended_before_proof_preflight(self) -> None:
+        manifest = sample_manifest()
+        with tempfile.TemporaryDirectory() as directory:
+            artifact_root = Path(directory)
+            artifact_root.chmod(0o700)
+            cohort = artifact_root / manifest["cohort_id"]
+            cohort.mkdir(mode=0o700)
+            write_secure_json(cohort / "manifest.json", manifest)
+            run_root = cohort / "runs/scenario-0/attempt-01"
+            journal = EventJournal(run_root / "events.jsonl", f'{manifest["cohort_id"]}/scenario-0/attempt-01')
+            for state in SUCCESS_STATES[:-1]:
+                journal.append(state, state)
+            args = argparse.Namespace(
+                artifact_root=str(artifact_root),
+                cohort_id=manifest["cohort_id"],
+                scenario_id="scenario-0",
+                attempt=1,
+                terminal_state="COMPLETED",
+                failure_class=None,
+                supersedes=None,
+                adjudication_status="NOT_REQUIRED",
+            )
+            with mock.patch.object(experiment_cli, "verify_harness_candidate"):
+                with self.assertRaisesRegex(ExperimentError, "run proof artifact"):
+                    experiment_cli.cmd_finish_run(args)
+            self.assertEqual("NEW_TASK_VERIFIED", journal.verify()[-1]["next_state"])
+
     def test_new_task_turn_observation_does_not_collide_with_verified_probe(self) -> None:
         self.assertEqual(
             "new-task-probe-turn.json",
