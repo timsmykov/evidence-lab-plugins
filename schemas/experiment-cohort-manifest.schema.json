@@ -23,11 +23,12 @@
     "product": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["commit", "release_tag", "release_lock_sha256", "catalog_sha256"],
+      "required": ["commit", "release_tag", "release_lock_sha256", "release_lock_digest", "catalog_sha256"],
       "properties": {
         "commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
         "release_tag": {"type": "string", "pattern": "^release-[A-Za-z0-9._-]+$"},
         "release_lock_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "release_lock_digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
         "catalog_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
       }
     },

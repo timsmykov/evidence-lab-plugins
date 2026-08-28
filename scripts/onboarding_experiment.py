@@ -128,6 +128,12 @@ def object_sha256(value: object) -> str:
     return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
+def compact_object_sha256(value: object) -> str:
+    """Match Bootstrap's digest for a parsed JSON object."""
+    rendered = json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(rendered).hexdigest()
+
+
 def file_sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -476,7 +482,7 @@ def _release_binding(manifest: Mapping[str, object]) -> dict:
         "tag": product["release_tag"],
         "channel": "stable",
         "source_commit": product["commit"],
-        "lock_digest": product["release_lock_sha256"],
+        "lock_digest": product["release_lock_digest"],
     }
 
 

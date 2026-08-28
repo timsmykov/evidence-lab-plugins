@@ -23,6 +23,7 @@ from onboarding_experiment import (
     ExperimentTimeout,
     artifact_index,
     build_receipt_from_run,
+    compact_object_sha256,
     cohort_has_safety_failure,
     default_artifact_root,
     file_sha256,
@@ -227,6 +228,7 @@ def cmd_prepare(args: argparse.Namespace) -> None:
             "commit": lock["source"]["commit"],
             "release_tag": args.release_tag,
             "release_lock_sha256": file_sha256(args.release_lock),
+            "release_lock_digest": compact_object_sha256(lock),
             "catalog_sha256": file_sha256(catalog),
         },
         harness={
@@ -451,7 +453,7 @@ def cmd_capture_artifacts(args: argparse.Namespace) -> None:
         "tag": manifest["product"]["release_tag"],
         "channel": "stable",
         "source_commit": manifest["product"]["commit"],
-        "lock_digest": manifest["product"]["release_lock_sha256"],
+        "lock_digest": manifest["product"]["release_lock_digest"],
     }
     if plan.get("release") != expected_release or state.get("release") != expected_release:
         raise ExperimentError("captured Bootstrap artifacts do not match the cohort release")
