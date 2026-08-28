@@ -4,11 +4,11 @@ Generated deterministically by `python3 scripts/audit_skill_packs.py`.
 
 ## Summary
 
-- Working packs: **13**; reference-only packs: **1**.
-- Working skills: **25** — 21 research skills, 1 onboarding skill, 1 personal skill-authoring skill, and 2 compatibility routers.
-- Lifecycle: **13 of 13 working packs are `draft`**.
-- Trigger eval files present: **25 of 25**.
-- Explicit quality states: **5 need substantive work**, **18 need representative testing**, **0 review-ready**, **0 production**, and **2 support-only**.
+- Working packs: **14**; reference-only packs: **1**.
+- Working skills: **26** — 22 research skills, 1 onboarding skill, 1 personal skill-authoring skill, and 2 compatibility routers.
+- Lifecycle: **14 of 14 working packs are `draft`**.
+- Trigger eval files present: **26 of 26**.
+- Explicit quality states: **5 need substantive work**, **19 need representative testing**, **0 review-ready**, **0 production**, and **2 support-only**.
 
 `draft` does not mean that the package is un-installable. It means scientific/content acceptance is incomplete even when repository, selection, release, and bootstrap checks pass.
 
@@ -57,6 +57,7 @@ This is the capability library from which deterministic onboarding selects a res
 | `quantitative-sciences` | `domain` | `0.4.0` | 4 | `statistical-analysis`, `statistical-power`, `uncertainty-and-units`, `scientific-visualization` | `quantitative-method` | `draft` |
 | `data-and-pdf` | `workflow` | `1.0.2` | 1 | `data-and-pdf-compatibility` | `data-and-pdf-full-cycle-datasets`, `data-and-pdf-full-cycle-tables` | `draft` |
 | `document-evidence` | `workflow` | `0.2.0` | 1 | `document-conversion` | `document-evidence-material` | `draft` |
+| `evidence-lab-meeting-capture` | `workflow` | `0.1.0` | 1 | `evidence-lab-meeting-capture` | `evidence-lab-meeting-capture-workflow` | `draft` |
 | `full-research-cycle` | `workflow` | `1.0.2` | 1 | `full-research-cycle-compatibility` | `full-cycle-workflow` | `draft` |
 | `literature-publication` | `workflow` | `0.2.0` | 4 | `literature-review`, `academic-writing`, `peer-review`, `research-diagrams` | `literature-publication-workflow`, `literature-publication-writing` | `draft` |
 | `publication-monitoring` | `workflow` | `0.1.2` | 1 | `publication-monitoring` | `publication-monitoring-workflow` | `draft` |
@@ -82,6 +83,7 @@ This is the capability library from which deterministic onboarding selects a res
 | `quantitative-sciences` | `uncertainty-and-units` | `research` | 383 | 7 | 6 | yes | `needs-representative-testing` |
 | `data-and-pdf` | `data-and-pdf-router` | `compatibility-router` | 10 | 0 | 0 | yes | `support-only` |
 | `document-evidence` | `markitdown` | `research` | 263 | 3 | 7 | yes | `needs-representative-testing` |
+| `evidence-lab-meeting-capture` | `evidence-lab-meeting-capture` | `research` | 68 | 1 | 1 | yes | `needs-representative-testing` |
 | `full-research-cycle` | `full-research-cycle-router` | `compatibility-router` | 10 | 0 | 0 | yes | `support-only` |
 | `literature-publication` | `literature-review` | `research` | 187 | 3 | 5 | yes | `needs-representative-testing` |
 | `literature-publication` | `markdown-mermaid-writing` | `research` | 278 | 0 | 2 | yes | `needs-representative-testing` |

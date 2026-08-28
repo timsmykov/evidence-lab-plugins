@@ -1,0 +1,21 @@
+{
+  "id": "evidence-lab-meeting-capture",
+  "version": "0.1.0",
+  "layer": "workflow",
+  "display_name": "Evidence Lab Meeting Capture",
+  "description": "Turn Evidence Lab meeting transcripts or notes into source-bounded summaries and register each completed summary in the canonical Notion meeting database.",
+  "category": "Research",
+  "author": {"name": "Evidence Lab"},
+  "license": "MIT",
+  "capabilities": ["evidence-lab-meeting-capture"],
+  "selection": {"always": false, "rules": [{"id": "evidence-lab-meeting-capture-workflow", "priority": 300, "when": {"any": {"workflows": ["evidence-lab-meeting-capture"]}}, "reason": "An Evidence Lab operator needs to summarize a meeting and register the result in the canonical Notion database."}]},
+  "dependencies": ["evidence-lab-core"],
+  "conflicts": [],
+  "runtimes": ["claude-code", "codex"],
+  "interface": {
+    "short_description": "Capture an Evidence Lab meeting in the canonical register.",
+    "long_description": "Produces a source-bounded meeting summary, preserves decisions and open questions, writes the page into the canonical Notion meeting register, and verifies the stored record.",
+    "capabilities": ["Research", "Documentation"],
+    "default_prompt": "Summarize this Evidence Lab meeting and save the verified note in the canonical meeting register."
+  }
+}

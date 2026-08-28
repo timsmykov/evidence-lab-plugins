@@ -281,6 +281,48 @@
       ]
     },
     {
+      "id": "evidence-lab-meeting-capture",
+      "version": "0.1.0",
+      "layer": "workflow",
+      "display_name": "Evidence Lab Meeting Capture",
+      "description": "Turn Evidence Lab meeting transcripts or notes into source-bounded summaries and register each completed summary in the canonical Notion meeting database.",
+      "capabilities": [
+        "evidence-lab-meeting-capture"
+      ],
+      "selection": {
+        "always": false,
+        "rules": [
+          {
+            "id": "evidence-lab-meeting-capture-workflow",
+            "priority": 300,
+            "when": {
+              "any": {
+                "workflows": [
+                  "evidence-lab-meeting-capture"
+                ]
+              }
+            },
+            "reason": "An Evidence Lab operator needs to summarize a meeting and register the result in the canonical Notion database."
+          }
+        ]
+      },
+      "dependencies": [
+        "evidence-lab-core"
+      ],
+      "conflicts": [],
+      "runtimes": [
+        "claude-code",
+        "codex"
+      ],
+      "foundation": false,
+      "skills": [
+        {
+          "id": "evidence-lab-meeting-capture",
+          "quality_status": "needs-representative-testing"
+        }
+      ]
+    },
+    {
       "id": "full-research-cycle",
       "version": "1.0.2",
       "layer": "workflow",
