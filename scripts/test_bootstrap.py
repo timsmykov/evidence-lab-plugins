@@ -712,6 +712,10 @@ def test_fused_plan_recommendation(module) -> None:
         russian = module.render_recommendation(plan, "ru", output)
         assert russian.startswith("# ") and russian != rendered
         assert output.read_text(encoding="utf-8") == russian
+    english_completion = module.render_completion("en")
+    russian_completion = module.render_completion("ru")
+    assert "Open a new task" in english_completion
+    assert english_completion != russian_completion
 
 
 def main() -> int:

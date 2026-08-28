@@ -64,6 +64,14 @@ def render_recommendation(plan: dict, locale: str, output: Path) -> str:
     return rendered
 
 
+def render_completion(locale: str) -> str:
+    suffix = ".ru.json" if locale == "ru" else ".json"
+    copy = load_object(PACK_ROOT / "onboarding" / f"chat-copy{suffix}")
+    if copy.get("locale") != locale or not isinstance(copy.get("completion"), str):
+        raise BootstrapError("canonical completion copy is unavailable")
+    return copy["completion"] + "\n"
+
+
 def plan_id_for(host: str, source: str, ref: str, selection_plan: dict, release: dict | None = None) -> str:
     identity_value = {"host": host, "source": source, "ref": ref, "selection_plan": selection_plan}
     if release is not None:
@@ -1200,6 +1208,7 @@ def build_parser() -> argparse.ArgumentParser:
     apply_parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
     apply_parser.add_argument("--release-lock", type=Path, required=True)
     apply_parser.add_argument("--confirmed-by-user", action="store_true")
+    apply_parser.add_argument("--locale", choices=("en", "ru"))
 
     reconcile_parser = subparsers.add_parser("reconcile")
     reconcile_parser.add_argument("profile", type=Path)
@@ -1277,7 +1286,10 @@ def main() -> int:
             if not args.confirmed_by_user:
                 raise BootstrapError("installation requires explicit user confirmation")
             state = apply_plan(load_object(args.plan), args.state, load_object(args.release_lock), args.catalog)
-            print(json.dumps(state, indent=2, ensure_ascii=False))
+            if state["status"] == "ready" and args.locale:
+                print(render_completion(args.locale), end="")
+            else:
+                print(json.dumps(state, indent=2, ensure_ascii=False))
             return 0 if state["status"] == "ready" else 1
         if args.command == "reconcile":
             installed = installed_rows(args.host, args.marketplace)

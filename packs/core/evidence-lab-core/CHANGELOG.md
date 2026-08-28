@@ -1,5 +1,11 @@
 # Changelog — Evidence Lab Core
 
+## [0.15.2] — 2026-08-28
+
+### Fixed
+- The copy-paste entry prompt directly invokes the deterministic language renderer after release verification.
+- Confirmed apply can print the canonical localized completion and new-task instruction instead of raw state JSON.
+
 ## [0.15.1] — 2026-08-28
 
 ### Fixed

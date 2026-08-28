@@ -3,5 +3,6 @@
   "locale": "en",
   "expectation": "I will ask four short questions, show the complete recommendation, and wait for your approval before adding anything. You can choose one or several numbers, or write your own answer.",
   "question_heading": "Question {number} of {total}",
-  "footer": "Choose one or several numbers, or write your own answer."
+  "footer": "Choose one or several numbers, or write your own answer.",
+  "completion": "Evidence Lab is ready. Open a new task so the application can load the new research capabilities. Start that task with what you actually want to work on; you will not need to repeat setup."
 }

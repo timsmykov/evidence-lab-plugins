@@ -13,8 +13,9 @@ commands, plugin manifests, marketplaces, schemas, or Git.
    > Set up Evidence Lab for my research from
    > `https://github.com/timsmykov/evidence-lab-plugins`. Use only the latest
    > published `release-*` GitHub Release and its `release-lock.json`. Follow
-   > `START.md` and `BOOTSTRAP.md` from that same release. First ask me to
-   > choose English or Russian. Then continue entirely in that language, ask
+   > `START.md` and `BOOTSTRAP.md` from that same release. After verification,
+   > run `python3 scripts/render_onboarding.py language` from the pinned release
+   > and show its output verbatim. Then continue entirely in my chosen language, ask
    > the four setup questions one at a time, show the complete
    > recommendation, and install nothing until I confirm it.
 
@@ -84,7 +85,8 @@ question.
 ## Completion contract
 
 Say setup is complete only after host readback confirms every selected pack and
-version. Then tell the researcher:
+version. The confirmed apply command must use `--locale <en|ru>` and its
+canonical completion stdout must be shown verbatim:
 
 > Evidence Lab is ready. Open a new task so the application can load the new
 > research capabilities. Start that task with what you actually want to work

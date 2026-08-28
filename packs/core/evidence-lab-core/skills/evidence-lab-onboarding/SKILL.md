@@ -108,10 +108,10 @@ Only then run:
 python3 scripts/bootstrap.py apply installation-plan.json \
   --release-lock release-lock.json \
   --state .evidence-lab/installation-state.json \
-  --confirmed-by-user
+  --confirmed-by-user --locale <en|ru>
 ```
 
-Read the state after the command. Say the workspace is ready only when its status is `ready` and every desired ID and version appears in `installed_after`. Then ask the user to start a new task so the host loads the installed skills.
+Read the state after the command. Say the workspace is ready only when its status is `ready` and every desired ID and version appears in `installed_after`. On `ready`, show the apply command's canonical completion stdout verbatim; it tells the user to start a new task so the host loads the installed skills.
 
 The apply command already performs live host readback. When it returns a
 `ready` state, do not add a redundant host-list command. If independent Codex

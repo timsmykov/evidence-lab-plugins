@@ -47,7 +47,7 @@ checkout with `python3 scripts/release_snapshot.py verify <release-lock>`.
    recommendation heading; never
    substitute raw IDs, versions, JSON, or a technical package list.
 9. Ask one confirmation for the whole plan. A reply such as “yes, add these capabilities” is sufficient; silence or an unrelated answer is not.
-10. After confirmation, run `python3 scripts/bootstrap.py apply` with the same `--release-lock`, `--confirmed-by-user`, and state path `.evidence-lab/installation-state.json`.
+10. After confirmation, run `python3 scripts/bootstrap.py apply` with the same `--release-lock`, `--confirmed-by-user`, `--locale <en|ru>`, and state path `.evidence-lab/installation-state.json`. On `ready`, this command prints the canonical completion message; show it verbatim.
 11. Read the resulting state. `bootstrap.py apply` already obtains live host
     readback through `codex plugin list --json` or the Claude Code equivalent.
     Do not run an additional ad-hoc host command after a `ready` state. Say the
