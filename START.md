@@ -49,9 +49,9 @@ one sentence that setup could not be safely checked. Do not fall back to
 
 ## Conversation contract
 
-Before the expectation or any research question, show the English prompt and
-instruction from `onboarding/language.json`. Render option 1 as `English` and
-option 2 with the native Russian label from `onboarding/language.ru.json`.
+Before the expectation or any research question, run
+`python3 scripts/render_onboarding.py language` and show its stdout verbatim.
+Do not compose, shorten, translate, or paraphrase that message.
 
 Resolve the choice through the deterministic language selector. If it is not
 recognized, repeat only this choice. After a valid answer, continue entirely in
@@ -61,7 +61,10 @@ English or Russian and show the matching expectation:
 > for your approval before adding anything. You can choose one or several
 > numbers, or write your own answer.
 
-For each question:
+For each question, run `python3 scripts/render_onboarding.py question --locale
+<en|ru> --number <1|2|3|4>`. Add `--include-expectation` only for question 1.
+Show stdout verbatim. Do not invent a profile quiz or substitute another
+question. In particular:
 
 - show `Question N of 4`;
 - render every option as a numbered plain-language choice;
@@ -70,9 +73,12 @@ For each question:
 - do not repeat an answer that is already clear from the conversation.
 
 After normalization, build the locked installation plan and render it through
-`scripts/render_plan.py`. Show that rendered recommendation instead of raw JSON,
-pack manifests, commands, or internal rule IDs. Installation begins only after
-an explicit affirmative answer to the rendered confirmation question.
+`scripts/render_plan.py`. Show the renderer's stdout verbatim instead of raw
+JSON, pack manifests, commands, or internal rule IDs. If the output does not
+start with the locale's canonical recommendation heading, stop and rerun the
+renderer; never replace it with a technical summary. Installation
+begins only after an explicit affirmative answer to that rendered confirmation
+question.
 
 ## Completion contract
 

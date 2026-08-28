@@ -1,5 +1,11 @@
 # Changelog — Evidence Lab Core
 
+## [0.15.0] — 2026-08-28
+
+### Changed
+- Language choice and all four onboarding questions now have a deterministic renderer whose output must be shown verbatim.
+- Plan confirmation now fails closed unless the canonical localized recommendation heading is visible; raw package IDs are not an acceptable substitute.
+
 ## [0.14.0] — 2026-08-28
 
 ### Added

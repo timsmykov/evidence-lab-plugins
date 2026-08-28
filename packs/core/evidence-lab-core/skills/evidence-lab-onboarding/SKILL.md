@@ -9,10 +9,9 @@ Set up a useful research workspace through a short, non-technical chat. Ask one 
 
 ## Choose the conversation language
 
-Before any research question, show the English prompt and instruction from
-`onboarding/language.json` exactly once. Render option 1 as `English` and option
-2 with the native Russian label from `onboarding/language.ru.json` so either
-audience can recognize it without technical wording.
+Before any research question, run `scripts/render_onboarding.py language` and
+show stdout verbatim exactly once. Do not compose, shorten, translate, or
+paraphrase it.
 
 Resolve the answer deterministically with `scripts/select_language.py`. Only
 English and Russian are supported for now. If the answer is not recognized,
@@ -22,8 +21,11 @@ identifier as `locale` in the onboarding answers.
 
 ## Questions
 
-Read `onboarding/questions.json` at the pack root, or its Russian companion when
-`locale` is `ru`, and collect only what is still unknown:
+Render each visible question with `scripts/render_onboarding.py question
+--locale <en|ru> --number <1|2|3|4>` and show stdout verbatim. Use
+`--include-expectation` only for question 1. Never invent another profile quiz.
+The renderer reads `onboarding/questions.json` at the pack root, or its Russian
+companion when `locale` is `ru`, and collects only what is still unknown:
 
 1. Research domains or disciplines.
 2. The first workflow, including a full research cycle.
@@ -94,7 +96,10 @@ python3 scripts/render_plan.py installation-plan.json --locale <en|ru> \
 Show that rendered recommendation verbatim. It contains the complete
 plain-language capability list, the stable reason for every selection, the
 application, and the locked release. Do not show pack IDs, raw JSON, or commands
-unless the user asks for technical details. Obtain one explicit confirmation.
+unless the user asks for technical details. Do not request confirmation unless
+the rendered file starts with the locale's canonical recommendation heading; a
+raw ID/version list is not an acceptable substitute. Obtain
+one explicit confirmation.
 Only then run:
 
 ```bash
