@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://evidence-lab.local/schemas/experiment-cohort-manifest.schema.json",
+  "title": "Evidence Lab onboarding experiment cohort manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "candidate_id",
+    "cohort_id",
+    "created_at",
+    "product",
+    "harness",
+    "runtime",
+    "scenario_ids",
+    "artifact_policy"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "candidate_id": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "cohort_id": {"type": "string", "pattern": "^codex-terra10-[0-9]{8}-[a-f0-9]{12}$"},
+    "created_at": {"type": "string", "format": "date-time"},
+    "product": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit", "release_tag", "release_lock_sha256", "catalog_sha256"],
+      "properties": {
+        "commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "release_tag": {"type": "string", "pattern": "^release-[A-Za-z0-9._-]+$"},
+        "release_lock_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "catalog_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "harness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit", "schema_bundle_sha256", "scenario_bundle_sha256", "probe_input_sha256", "probe_expected_sha256", "probe_prompt_sha256"],
+      "properties": {
+        "commit": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+        "schema_bundle_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "scenario_bundle_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "probe_input_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "probe_expected_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "probe_prompt_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["codex_version", "model", "reasoning_effort", "isolation", "timeouts_seconds", "model_preflight"],
+      "properties": {
+        "codex_version": {"type": "string", "minLength": 1},
+        "model": {"const": "gpt-5.6-terra"},
+        "reasoning_effort": {"const": "medium"},
+        "isolation": {"const": "bubblewrap-linux-v1"},
+        "model_preflight": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "probe"],
+          "properties": {
+            "status": {"const": "passed"},
+            "probe": {"const": "terra-medium-response-v1"}
+          }
+        },
+        "timeouts_seconds": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["verify", "turn", "plan", "apply", "new_task", "attempt"],
+          "properties": {
+            "verify": {"type": "integer", "minimum": 1},
+            "turn": {"type": "integer", "minimum": 1},
+            "plan": {"type": "integer", "minimum": 1},
+            "apply": {"type": "integer", "minimum": 1},
+            "new_task": {"type": "integer", "minimum": 1},
+            "attempt": {"type": "integer", "minimum": 1}
+          }
+        }
+      }
+    },
+    "scenario_ids": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^[a-z0-9-]+$"}
+    },
+    "artifact_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["local_only", "root_kind", "directory_mode", "file_mode"],
+      "properties": {
+        "local_only": {"const": true},
+        "root_kind": {"const": "xdg-state-outside-worktree"},
+        "directory_mode": {"const": "0700"},
+        "file_mode": {"const": "0600"}
+      }
+    }
+  }
+}

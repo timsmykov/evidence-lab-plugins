@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://evidence-lab.local/schemas/experiment-scenario-bundle.schema.json",
+  "title": "Evidence Lab frozen onboarding experiment scenarios",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "model", "reasoning_effort", "scenarios"],
+  "properties": {
+    "schema_version": {"const": 2},
+    "model": {"const": "gpt-5.6-terra"},
+    "reasoning_effort": {"const": "medium"},
+    "scenarios": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "source", "language", "language_answer", "answer_style", "stages", "answers"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+          "source": {"enum": ["regression", "holdout"]},
+          "language": {"enum": ["en", "ru"]},
+          "language_answer": {"type": "string", "minLength": 1},
+          "answer_style": {"enum": ["numeric", "free-text", "mixed"]},
+          "stages": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"enum": ["planning", "active-research", "writing", "systematic-review", "supervision", "unknown"]}
+          },
+          "answers": {
+            "type": "array",
+            "minItems": 4,
+            "maxItems": 4,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    }
+  }
+}

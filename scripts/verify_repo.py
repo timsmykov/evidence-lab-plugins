@@ -52,11 +52,16 @@ REQUIRED_REPO_FILES = [
     "docs/pack-boundary-report.md",
     "docs/skill-pack-readiness.md",
     "docs/openai-plugin-audit.md",
+    "docs/qa/onboarding-experiment-protocol.md",
     "docs/external-plugin-verification.md",
     "docs/l0-l2-technical-stack.md",
     "docs/l0-l2-technical-stack.ru.md",
     "docs/research/open-source-foundation-skill-audit-2026-08-27.md",
     "scripts/render_onboarding.py",
+    "scripts/onboarding_experiment.py",
+    "scripts/onboarding_experiment_adapter.py",
+    "scripts/run_onboarding_experiment.py",
+    "scripts/test_onboarding_experiment.py",
     "catalog/foundation-skills.json",
     "catalog/foundation-core.json",
     "catalog/open-source-skill-candidates.json",
@@ -96,6 +101,15 @@ REQUIRED_REPO_FILES = [
     "schemas/meta.schema.json",
     "schemas/eval.schema.json",
     "schemas/marketplace.schema.json",
+    "schemas/experiment-scenario-bundle.schema.json",
+    "schemas/experiment-cohort-manifest.schema.json",
+    "schemas/experiment-run-event.schema.json",
+    "schemas/experiment-run-receipt.schema.json",
+    "schemas/experiment-adjudication.schema.json",
+    "schemas/experiment-review.schema.json",
+    "tests/acceptance/onboarding-terra-10.scenarios.ru.json",
+    "tests/fixtures/experiment/citation-probe-input.bib",
+    "tests/fixtures/experiment/citation-probe-expected.bib",
 ]
 
 REQUIRED_PACK_FILES = ["README.md", "CHANGELOG.md", "pack.json", "meta.json", ".claude-plugin/plugin.json", ".codex-plugin/plugin.json"]
@@ -205,6 +219,12 @@ def check_repo_files() -> None:
         template = load_json(template_pack)
         if template is not None and template.get("license") != "MIT":
             fail("templates/pack/pack.json: new Evidence Lab packs must default to MIT")
+
+    scenarios_path = ROOT / "tests" / "acceptance" / "onboarding-terra-10.scenarios.ru.json"
+    if scenarios_path.exists():
+        scenarios = load_json(scenarios_path)
+        if scenarios is not None:
+            validate(scenarios, "experiment-scenario-bundle.schema.json", str(scenarios_path.relative_to(ROOT)))
 
 
 def check_marketplaces() -> None:

@@ -1,0 +1,5 @@
+Use the installed Evidence Lab citation-management capability to normalize the
+file `/workspace/citation-probe-input.bib`. Run the installed
+`format_bibtex.py` script with `--rekey --deduplicate --sort key`, do not read
+or execute anything from a source or release checkout, and return the command
+output without rewriting it.

@@ -1,0 +1,132 @@
+{
+  "schema_version": 2,
+  "model": "gpt-5.6-terra",
+  "reasoning_effort": "medium",
+  "scenarios": [
+    {
+      "id": "ru-02-clinical-review",
+      "source": "regression",
+      "language": "ru",
+      "language_answer": "Русский",
+      "answer_style": "free-text",
+      "stages": ["systematic-review"],
+      "answers": [
+        "Я врач-исследователь, работаю с клиническими исследованиями и эпидемиологией",
+        "Хочу провести систематический обзор и мета-анализ, затем подготовить статью",
+        "Научные статьи, PDF, таблицы и наборы данных",
+        "4"
+      ]
+    },
+    {
+      "id": "ru-05-econometrics",
+      "source": "regression",
+      "language": "ru",
+      "language_answer": "Русский",
+      "answer_style": "free-text",
+      "stages": ["active-research", "writing"],
+      "answers": [
+        "Эконометрика и причинно-следственный анализ в общественных науках",
+        "Собрать панельные данные, оценить модели и написать статью",
+        "Статьи, таблицы, датасеты, код и формулы",
+        "2, 3"
+      ]
+    },
+    {
+      "id": "ru-06-history-qualitative",
+      "source": "regression",
+      "language": "ru",
+      "language_answer": "2",
+      "answer_style": "numeric",
+      "stages": ["writing"],
+      "answers": ["7", "4, 7, 8", "1, 2, 8", "3"]
+    },
+    {
+      "id": "en-12-astrophysics",
+      "source": "regression",
+      "language": "en",
+      "language_answer": "English",
+      "answer_style": "numeric",
+      "stages": ["active-research", "writing"],
+      "answers": ["2, 4, 5", "1, 6, 7", "1, 2, 3, 4, 5, 6, 7, 9", "2, 3"]
+    },
+    {
+      "id": "en-17-chemistry",
+      "source": "regression",
+      "language": "en",
+      "language_answer": "English",
+      "answer_style": "free-text",
+      "stages": ["planning", "active-research"],
+      "answers": [
+        "Experimental chemistry at the boundary of materials science and physics",
+        "Design experiments, monitor publications, analyze results, and prepare a report",
+        "Papers, PDFs, datasets, tables, code, formulas, and research images",
+        "1, 2"
+      ]
+    },
+    {
+      "id": "ru-h01-pure-mathematics",
+      "source": "holdout",
+      "language": "ru",
+      "language_answer": "2",
+      "answer_style": "numeric",
+      "stages": ["writing"],
+      "answers": ["4", "4, 7, 8", "1, 2, 5, 6, 7", "3"]
+    },
+    {
+      "id": "ru-h02-education-supervision",
+      "source": "holdout",
+      "language": "ru",
+      "language_answer": "русский",
+      "answer_style": "mixed",
+      "stages": ["supervision"],
+      "answers": [
+        "Педагогические исследования и смешанные методы",
+        "2, 4, 8",
+        "Статьи, PDF, таблицы, опросы и качественные интервью",
+        "5"
+      ]
+    },
+    {
+      "id": "en-h01-environmental-science",
+      "source": "holdout",
+      "language": "en",
+      "language_answer": "1",
+      "answer_style": "free-text",
+      "stages": ["active-research"],
+      "answers": [
+        "Environmental science, spatial ecology, and applied statistics",
+        "Compare field datasets, analyze code, and prepare a reproducible report",
+        "Papers, PDFs, tables, datasets, code, maps, and research images",
+        "2"
+      ]
+    },
+    {
+      "id": "en-h02-civil-engineering",
+      "source": "holdout",
+      "language": "en",
+      "language_answer": "English",
+      "answer_style": "mixed",
+      "stages": ["planning", "unknown"],
+      "answers": [
+        "3, 4",
+        "Design an engineering study and build a mathematical model before data collection",
+        "2, 3, 4, 5, 6, 7, 9",
+        "1, 6"
+      ]
+    },
+    {
+      "id": "en-h03-archaeology",
+      "source": "holdout",
+      "language": "en",
+      "language_answer": "english",
+      "answer_style": "free-text",
+      "stages": ["writing"],
+      "answers": [
+        "Archaeology and digital humanities with a qualitative emphasis",
+        "Synthesize literature, review source quality, and prepare an article",
+        "Research papers, scanned PDFs, qualitative notes, tables, and site images",
+        "3"
+      ]
+    }
+  ]
+}
