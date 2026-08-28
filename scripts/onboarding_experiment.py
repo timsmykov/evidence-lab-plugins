@@ -817,7 +817,14 @@ def artifact_index(
     rows = []
     for path in sorted(cohort_root.rglob("*")):
         relative_lexical = path.relative_to(cohort_root).as_posix()
-        if any(relative_lexical.startswith(prefix) for prefix in exclude_prefixes):
+        relative_parts = Path(relative_lexical).parts
+        run_runtime = (
+            len(relative_parts) >= 4
+            and relative_parts[0] == "runs"
+            and relative_parts[2].startswith("attempt-")
+            and relative_parts[3] == "runtime"
+        )
+        if run_runtime or any(relative_lexical.startswith(prefix) for prefix in exclude_prefixes):
             continue
         if path.is_symlink():
             raise ExperimentError(f"artifact symlink is forbidden: {path.name}")
