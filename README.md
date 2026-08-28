@@ -129,6 +129,7 @@ Fill every placeholder, rebuild adapters, and submit a reviewed pull request. En
 - [Skill-pack readiness inventory](docs/skill-pack-readiness.md)
 - [OpenAI Codex plugin directory audit](docs/openai-plugin-audit.md)
 - [External plugin verification record](docs/external-plugin-verification.md)
+- [20-scenario Terra onboarding acceptance](docs/qa/onboarding-terra-20-2026-08-28.md)
 - [L0-L2 technical stack](docs/l0-l2-technical-stack.md)
 - [L0-L2 technical stack in Russian](docs/l0-l2-technical-stack.ru.md)
 - [GitHub-first execution plan](docs/github-first-execution-plan.md)
