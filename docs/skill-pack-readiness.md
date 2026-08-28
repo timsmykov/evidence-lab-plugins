@@ -52,7 +52,7 @@ This is the capability library from which deterministic onboarding selects a res
 
 | Pack | Layer | Version | Skills | Capabilities | Selection | Status |
 |---|---|---:|---:|---|---|---|
-| `evidence-lab-core` | `core` | `0.15.2` | 5 | `onboarding`, `pack-selection`, `companion-plugin-planning`, `installation-lifecycle`, `personal-skill-authoring`, `paper-lookup`, `citation-management`, `critical-thinking` | always | `draft` |
+| `evidence-lab-core` | `core` | `0.15.3` | 5 | `onboarding`, `pack-selection`, `companion-plugin-planning`, `installation-lifecycle`, `personal-skill-authoring`, `paper-lookup`, `citation-management`, `critical-thinking` | always | `draft` |
 | `life-sciences` | `domain` | `0.1.2` | 1 | `life-science-protocols` | `life-science-planning`, `life-science-images` | `draft` |
 | `quantitative-sciences` | `domain` | `0.4.0` | 4 | `statistical-analysis`, `statistical-power`, `uncertainty-and-units`, `scientific-visualization` | `quantitative-method` | `draft` |
 | `data-and-pdf` | `workflow` | `1.0.2` | 1 | `data-and-pdf-compatibility` | `data-and-pdf-full-cycle-datasets`, `data-and-pdf-full-cycle-tables` | `draft` |

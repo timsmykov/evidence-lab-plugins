@@ -23,7 +23,7 @@
     {
       "id": "citation-management",
       "pack_id": "evidence-lab-core",
-      "pack_version": "0.15.2",
+      "pack_version": "0.15.3",
       "layer": "core",
       "path": "packs/core/evidence-lab-core/skills/citation-management",
       "quality_status": "needs-representative-testing",
@@ -35,7 +35,7 @@
     {
       "id": "paper-lookup",
       "pack_id": "evidence-lab-core",
-      "pack_version": "0.15.2",
+      "pack_version": "0.15.3",
       "layer": "core",
       "path": "packs/core/evidence-lab-core/skills/paper-lookup",
       "quality_status": "needs-representative-testing",
@@ -47,7 +47,7 @@
     {
       "id": "personal-skill-authoring",
       "pack_id": "evidence-lab-core",
-      "pack_version": "0.15.2",
+      "pack_version": "0.15.3",
       "layer": "core",
       "path": "packs/core/evidence-lab-core/skills/personal-skill-authoring",
       "quality_status": "needs-representative-testing",
@@ -59,7 +59,7 @@
     {
       "id": "scientific-critical-thinking",
       "pack_id": "evidence-lab-core",
-      "pack_version": "0.15.2",
+      "pack_version": "0.15.3",
       "layer": "core",
       "path": "packs/core/evidence-lab-core/skills/scientific-critical-thinking",
       "quality_status": "needs-representative-testing",

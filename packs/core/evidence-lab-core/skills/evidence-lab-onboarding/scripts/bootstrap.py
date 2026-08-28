@@ -1208,7 +1208,7 @@ def build_parser() -> argparse.ArgumentParser:
     apply_parser.add_argument("--catalog", type=Path, default=DEFAULT_CATALOG)
     apply_parser.add_argument("--release-lock", type=Path, required=True)
     apply_parser.add_argument("--confirmed-by-user", action="store_true")
-    apply_parser.add_argument("--locale", choices=("en", "ru"))
+    apply_parser.add_argument("--locale", choices=("en", "ru"), required=True)
 
     reconcile_parser = subparsers.add_parser("reconcile")
     reconcile_parser.add_argument("profile", type=Path)
@@ -1286,7 +1286,7 @@ def main() -> int:
             if not args.confirmed_by_user:
                 raise BootstrapError("installation requires explicit user confirmation")
             state = apply_plan(load_object(args.plan), args.state, load_object(args.release_lock), args.catalog)
-            if state["status"] == "ready" and args.locale:
+            if state["status"] == "ready":
                 print(render_completion(args.locale), end="")
             else:
                 print(json.dumps(state, indent=2, ensure_ascii=False))

@@ -1,5 +1,10 @@
 # Changelog — Evidence Lab Core
 
+## [0.15.3] — 2026-08-28
+
+### Fixed
+- Clean installation now requires a supported locale, so a successful apply cannot omit the canonical completion and new-task instruction.
+
 ## [0.15.2] — 2026-08-28
 
 ### Fixed
