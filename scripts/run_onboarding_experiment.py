@@ -136,7 +136,10 @@ def verify_model_preflight(
         )
         _, observation = run_turn(
             spec,
-            prompt="Reply with exactly EVIDENCE_LAB_PREFLIGHT_OK and nothing else.",
+            prompt=(
+                "Run `printf EVIDENCE_LAB_TOOL_HOST_OK` with the command tool. "
+                "If it succeeds, reply with exactly EVIDENCE_LAB_PREFLIGHT_OK and nothing else."
+            ),
             runtime_root=temp / "runtime",
             evidence_path=temp / "observation.json",
             timeout_seconds=DEFAULT_TIMEOUTS["verify"],
@@ -145,6 +148,13 @@ def verify_model_preflight(
         )
         if observation.get("final_message", "").strip() != "EVIDENCE_LAB_PREFLIGHT_OK":
             raise ExperimentError("Terra medium preflight returned an unexpected response")
+        commands = observation.get("commands")
+        if not isinstance(commands, list) or not any(
+            item.get("exit_code") == 0 and item.get("status") == "completed"
+            for item in commands
+            if isinstance(item, dict)
+        ):
+            raise ExperimentError("Terra medium preflight did not verify command tool execution")
     return "terra-medium-response-v1"
 
 
