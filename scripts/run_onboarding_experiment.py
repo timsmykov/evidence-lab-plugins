@@ -267,6 +267,12 @@ def run_paths(root: Path, scenario_id: str, attempt: int) -> tuple[Path, str]:
     return root / "runs" / scenario_id / f"attempt-{attempt:02d}", run_id
 
 
+def turn_observation_name(turn_label: str, *, new_task: bool) -> str:
+    if new_task:
+        return f"{turn_label}-turn.json"
+    return f"{turn_label}.json"
+
+
 def cmd_start_run(args: argparse.Namespace) -> None:
     root = cohort_root(args)
     manifest = load_manifest(root)
@@ -374,7 +380,10 @@ def cmd_codex_turn(args: argparse.Namespace) -> None:
         prompt = args.prompt_file.read_text(encoding="utf-8")
     runtime = run_root / "runtime"
     turn_runtime = runtime / "turns" / args.turn_label
-    evidence_path = run_root / "observations" / f"{args.turn_label}.json"
+    evidence_path = run_root / "observations" / turn_observation_name(
+        args.turn_label,
+        new_task=args.new_task,
+    )
     if turn_runtime.exists() or evidence_path.exists():
         raise ExperimentError("turn label already exists; observations are immutable")
     resume_path = runtime / "onboarding-thread.json"
