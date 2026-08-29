@@ -52,27 +52,27 @@ This is the capability library from which deterministic onboarding selects a res
 
 | Pack | Layer | Version | Skills | Capabilities | Selection | Status |
 |---|---|---:|---:|---|---|---|
-| `evidence-lab-core` | `core` | `0.15.3` | 5 | `onboarding`, `pack-selection`, `companion-plugin-planning`, `installation-lifecycle`, `personal-skill-authoring`, `paper-lookup`, `citation-management`, `critical-thinking` | always | `draft` |
+| `evidence-lab-core` | `core` | `0.16.0` | 5 | `onboarding`, `pack-selection`, `companion-plugin-planning`, `installation-lifecycle`, `personal-skill-authoring`, `paper-lookup`, `citation-management`, `critical-thinking` | always | `draft` |
 | `life-sciences` | `domain` | `0.1.2` | 1 | `life-science-protocols` | `life-science-planning`, `life-science-images` | `draft` |
-| `quantitative-sciences` | `domain` | `0.4.0` | 4 | `statistical-analysis`, `statistical-power`, `uncertainty-and-units`, `scientific-visualization` | `quantitative-method` | `draft` |
+| `quantitative-sciences` | `domain` | `0.5.0` | 4 | `statistical-analysis`, `statistical-power`, `uncertainty-and-units`, `scientific-visualization` | `quantitative-method`, `life-science-systematic-review` | `draft` |
 | `data-and-pdf` | `workflow` | `1.0.2` | 1 | `data-and-pdf-compatibility` | `data-and-pdf-full-cycle-datasets`, `data-and-pdf-full-cycle-tables` | `draft` |
-| `document-evidence` | `workflow` | `0.2.0` | 1 | `document-conversion` | `document-evidence-material` | `draft` |
+| `document-evidence` | `workflow` | `0.3.0` | 1 | `document-conversion` | `document-evidence-material` | `draft` |
 | `evidence-lab-meeting-capture` | `workflow` | `0.1.0` | 1 | `evidence-lab-meeting-capture` | `evidence-lab-meeting-capture-workflow` | `draft` |
 | `full-research-cycle` | `workflow` | `1.0.2` | 1 | `full-research-cycle-compatibility` | `full-cycle-workflow` | `draft` |
-| `literature-publication` | `workflow` | `0.2.0` | 4 | `literature-review`, `academic-writing`, `peer-review`, `research-diagrams` | `literature-publication-workflow`, `literature-publication-writing` | `draft` |
+| `literature-publication` | `workflow` | `0.3.0` | 4 | `literature-review`, `academic-writing`, `peer-review`, `research-diagrams` | `literature-publication-workflow`, `literature-publication-writing` | `draft` |
 | `publication-monitoring` | `workflow` | `0.1.2` | 1 | `publication-monitoring` | `publication-monitoring-workflow` | `draft` |
-| `qualitative-research` | `workflow` | `0.2.0` | 1 | `qualitative-analysis` | `qualitative-material` | `draft` |
-| `research-design` | `workflow` | `0.2.0` | 2 | `hypothesis-generation`, `study-design` | `research-design-workflow` | `draft` |
-| `research-images` | `workflow` | `0.2.0` | 1 | `research-image-analysis` | `research-image-material` | `draft` |
-| `structured-data-analysis` | `workflow` | `0.2.0` | 2 | `database-lookup`, `exploratory-data-analysis` | `structured-data-material`, `structured-data-collection` | `draft` |
-| `systematic-review` | `workflow` | `0.2.0` | 1 | `systematic-search`, `screening-and-deduplication` | `systematic-review-stage` | `draft` |
+| `qualitative-research` | `workflow` | `0.3.0` | 1 | `qualitative-analysis` | `qualitative-material` | `draft` |
+| `research-design` | `workflow` | `0.3.0` | 2 | `hypothesis-generation`, `study-design` | `research-design-workflow` | `draft` |
+| `research-images` | `workflow` | `0.3.0` | 1 | `research-image-analysis` | `research-image-material` | `draft` |
+| `structured-data-analysis` | `workflow` | `0.3.0` | 2 | `database-lookup`, `exploratory-data-analysis` | `structured-data-material`, `structured-data-collection` | `draft` |
+| `systematic-review` | `workflow` | `0.3.0` | 1 | `systematic-search`, `screening-and-deduplication` | `systematic-review-stage` | `draft` |
 
 ## Skills
 
 | Pack | Skill | Role | SKILL.md lines | Scripts | References | Trigger eval | Quality status |
 |---|---|---|---:|---:|---:|---|---|
 | `evidence-lab-core` | `citation-management` | `research` | 328 | 8 | 10 | yes | `needs-representative-testing` |
-| `evidence-lab-core` | `evidence-lab-onboarding` | `onboarding` | 151 | 6 | 1 | yes | `needs-representative-testing` |
+| `evidence-lab-core` | `evidence-lab-onboarding` | `onboarding` | 131 | 7 | 1 | yes | `needs-representative-testing` |
 | `evidence-lab-core` | `paper-lookup` | `research` | 262 | 5 | 11 | yes | `needs-representative-testing` |
 | `evidence-lab-core` | `personal-skill-authoring` | `skill-authoring` | 102 | 2 | 1 | yes | `needs-representative-testing` |
 | `evidence-lab-core` | `scientific-critical-thinking` | `research` | 165 | 0 | 7 | yes | `needs-representative-testing` |

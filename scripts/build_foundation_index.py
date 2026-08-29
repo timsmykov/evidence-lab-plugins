@@ -89,13 +89,18 @@ def build() -> dict:
         })
 
     rows.sort(key=lambda item: (layer_order[item["layer"]], item["pack_id"], item["id"]))
-    pack_ids = []
+    library_pack_ids = []
     for row in rows:
-        if row["pack_id"] not in pack_ids:
-            pack_ids.append(row["pack_id"])
+        if row["pack_id"] not in library_pack_ids:
+            library_pack_ids.append(row["pack_id"])
+    mandatory_pack_ids = sorted({
+        owner["pack"]["id"]
+        for owner in owners.values()
+        if owner["pack"].get("foundation")
+    })
     planned.sort(key=lambda item: (item["priority"], item["id"]))
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "generated_from": [
             "catalog/foundation-skills.json",
             "packs/*/*/pack.json",
@@ -104,7 +109,8 @@ def build() -> dict:
         ],
         "capability_count": sum(len(item["capabilities"]) for item in rows),
         "physical_skill_count": len(rows),
-        "foundation_pack_ids": pack_ids,
+        "library_pack_ids": library_pack_ids,
+        "mandatory_pack_ids": mandatory_pack_ids,
         "skills": rows,
         "planned_capabilities": planned,
     }

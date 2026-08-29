@@ -1,5 +1,10 @@
 # Changelog — Structured Data Analysis
 
+## [0.3.0] — 2026-08-29
+
+### Changed
+- Made the pack conditional on structured-data and analysis needs instead of universally installing it.
+
 ## [0.2.0] — 2026-08-27
 
 ### Changed

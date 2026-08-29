@@ -36,6 +36,8 @@ jobs:
           python3 scripts/test_normalization.py
           python3 scripts/test_onboarding_experiment.py
           python3 scripts/test_semantic_oracle.py
+          python3 scripts/test_onboarding_driver.py
+          python3 scripts/test_post_install_probes.py
 
       - name: Pack-boundary evidence is valid and reproducible
         run: |

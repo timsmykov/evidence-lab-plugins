@@ -1,7 +1,7 @@
 {
   "name": "research-design",
   "description": "Testable hypothesis development and reproducible experimental or observational study design without unrelated literature or manuscript tooling.",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": {
     "name": "Evidence Lab"
   },

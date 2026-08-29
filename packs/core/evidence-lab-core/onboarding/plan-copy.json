@@ -37,6 +37,7 @@
     {"id": "structured-data-material", "reason": "You work with tables or datasets."},
     {"id": "structured-data-collection", "reason": "Your route includes collecting and comparing structured data."},
     {"id": "quantitative-method", "reason": "You use statistics, code, formulas, or mathematical models."},
+    {"id": "life-science-systematic-review", "reason": "Your life-science systematic review needs quantitative synthesis and uncertainty checks."},
     {"id": "life-science-planning", "reason": "Your life-science work is at a planning or active-research stage."},
     {"id": "life-science-images", "reason": "Your life-science work includes research images."},
     {"id": "publication-monitoring-workflow", "reason": "You want to follow newly published research."},

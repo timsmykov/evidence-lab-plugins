@@ -97,15 +97,15 @@ def check_frozen_foundation() -> None:
     if len(foundation["planned_capabilities"]) != 6:
         raise AssertionError("frozen foundation must retain exactly six planned capabilities")
     declared_packs = [pack["id"] for pack in catalog["packs"] if pack["foundation"]]
-    if set(declared_packs) != set(foundation["foundation_pack_ids"]):
-        raise AssertionError("runtime catalog foundation packs differ from the frozen skill index")
+    if set(declared_packs) != set(foundation["mandatory_pack_ids"]):
+        raise AssertionError("runtime catalog mandatory packs differ from the frozen skill index")
     indexed = {
         item["id"]: (item["pack_id"], item["quality_status"])
         for item in foundation["skills"]
     }
     catalog_skills = {
         item["id"]: (pack["id"], item["quality_status"])
-        for pack in catalog["packs"] if pack["foundation"]
+        for pack in catalog["packs"] if pack["id"] in foundation["library_pack_ids"]
         for item in pack["skills"]
     }
     if any(catalog_skills.get(skill_id) != owner for skill_id, owner in indexed.items()):
@@ -113,10 +113,10 @@ def check_frozen_foundation() -> None:
     profile = load(FIXTURES / "default.profile.json")
     plan = selector.select(profile, catalog, policy)
     installed = {item["id"] for item in plan["packs"]}
-    if not set(foundation["foundation_pack_ids"]) <= installed:
-        raise AssertionError("default bootstrap plan omits a frozen foundation pack")
+    if set(foundation["mandatory_pack_ids"]) != installed:
+        raise AssertionError("default bootstrap plan must contain only the mandatory core")
     for item in plan["packs"]:
-        if item["id"] in foundation["foundation_pack_ids"] and "required-foundation" not in item["rule_ids"]:
+        if item["id"] in foundation["mandatory_pack_ids"] and "required-foundation" not in item["rule_ids"]:
             raise AssertionError(f"{item['id']}: foundation installation reason is missing")
 
 

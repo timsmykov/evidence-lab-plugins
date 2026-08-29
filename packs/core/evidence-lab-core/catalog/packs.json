@@ -3,7 +3,7 @@
   "packs": [
     {
       "id": "evidence-lab-core",
-      "version": "0.15.3",
+      "version": "0.16.0",
       "layer": "core",
       "display_name": "Evidence Lab Core",
       "description": "Agent-first research foundations, fast researcher onboarding, personal skill creation, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
@@ -113,7 +113,7 @@
     },
     {
       "id": "quantitative-sciences",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "layer": "domain",
       "display_name": "Quantitative Sciences",
       "description": "Statistical analysis, power and sample-size planning, uncertainty and units, and publication-grade scientific visualization for quantitative research.",
@@ -140,6 +140,21 @@
               }
             },
             "reason": "The stated methods require quantitative analysis or mathematical checks."
+          },
+          {
+            "id": "life-science-systematic-review",
+            "priority": 250,
+            "when": {
+              "all": {
+                "domains": [
+                  "life-sciences"
+                ],
+                "stages": [
+                  "systematic-review"
+                ]
+              }
+            },
+            "reason": "A life-science systematic review may require quantitative synthesis and uncertainty checks."
           }
         ]
       },
@@ -151,7 +166,7 @@
         "claude-code",
         "codex"
       ],
-      "foundation": true,
+      "foundation": false,
       "skills": [
         {
           "id": "scientific-visualization",
@@ -240,7 +255,7 @@
     },
     {
       "id": "document-evidence",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "layer": "workflow",
       "display_name": "Document Evidence",
       "description": "Reproducible conversion of supported research documents into inspectable Markdown without installing database retrieval or dataset analysis tools.",
@@ -272,7 +287,7 @@
         "claude-code",
         "codex"
       ],
-      "foundation": true,
+      "foundation": false,
       "skills": [
         {
           "id": "markitdown",
@@ -367,7 +382,7 @@
     },
     {
       "id": "literature-publication",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "layer": "workflow",
       "display_name": "Literature and Publication",
       "description": "Literature synthesis, evidence-bounded academic writing, editable research diagrams, and manuscript review without installing study-design procedures.",
@@ -416,7 +431,7 @@
         "claude-code",
         "codex"
       ],
-      "foundation": true,
+      "foundation": false,
       "skills": [
         {
           "id": "literature-review",
@@ -480,7 +495,7 @@
     },
     {
       "id": "qualitative-research",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "layer": "workflow",
       "display_name": "Qualitative Research",
       "description": "Traceable qualitative-text analysis using an explicit codebook, coded excerpts, reflexive notes, disagreements, and evidence-bounded thematic synthesis.",
@@ -512,7 +527,7 @@
         "claude-code",
         "codex"
       ],
-      "foundation": true,
+      "foundation": false,
       "skills": [
         {
           "id": "qualitative-analysis",
@@ -522,7 +537,7 @@
     },
     {
       "id": "research-design",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "layer": "workflow",
       "display_name": "Research Design",
       "description": "Testable hypothesis development and reproducible experimental or observational study design without unrelated literature or manuscript tooling.",
@@ -556,7 +571,7 @@
         "claude-code",
         "codex"
       ],
-      "foundation": true,
+      "foundation": false,
       "skills": [
         {
           "id": "experimental-design",
@@ -570,7 +585,7 @@
     },
     {
       "id": "research-images",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "layer": "workflow",
       "display_name": "Research Images",
       "description": "Research-image inspection with explicit source identity, transformation history, measurement definitions, exclusions, and interpretation boundaries.",
@@ -602,7 +617,7 @@
         "claude-code",
         "codex"
       ],
-      "foundation": true,
+      "foundation": false,
       "skills": [
         {
           "id": "research-image-analysis",
@@ -612,7 +627,7 @@
     },
     {
       "id": "structured-data-analysis",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "layer": "workflow",
       "display_name": "Structured Data Analysis",
       "description": "Reproducible public-database retrieval and exploratory analysis for tables and datasets without unrelated document-conversion tooling.",
@@ -661,7 +676,7 @@
         "claude-code",
         "codex"
       ],
-      "foundation": true,
+      "foundation": false,
       "skills": [
         {
           "id": "database-lookup",
@@ -675,7 +690,7 @@
     },
     {
       "id": "systematic-review",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "layer": "workflow",
       "display_name": "Systematic Review",
       "description": "Reproducible systematic-search and screening workflow with explicit eligibility criteria, stable record deduplication, and an auditable decision trail.",
@@ -709,7 +724,7 @@
         "claude-code",
         "codex"
       ],
-      "foundation": true,
+      "foundation": false,
       "skills": [
         {
           "id": "systematic-review",

@@ -1,14 +1,7 @@
 {
-  "pack_ids": ["evidence-lab-core", "document-evidence", "literature-publication", "qualitative-research", "research-design", "research-images", "structured-data-analysis", "quantitative-sciences", "systematic-review"],
+  "pack_ids": ["evidence-lab-core", "qualitative-research"],
   "rule_ids": {
     "evidence-lab-core": ["required-foundation"],
-    "document-evidence": ["required-foundation"],
-    "literature-publication": ["required-foundation"],
-    "qualitative-research": ["required-foundation", "qualitative-material"],
-    "research-design": ["required-foundation"],
-    "research-images": ["required-foundation"],
-    "structured-data-analysis": ["required-foundation"],
-    "quantitative-sciences": ["required-foundation"],
-    "systematic-review": ["required-foundation"]
+    "qualitative-research": ["qualitative-material"]
   }
 }

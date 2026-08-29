@@ -1,7 +1,7 @@
 {
-  "id": "systematic-review", "version": "0.2.0", "layer": "workflow", "display_name": "Systematic Review",
+  "id": "systematic-review", "version": "0.3.0", "layer": "workflow", "display_name": "Systematic Review",
   "description": "Reproducible systematic-search and screening workflow with explicit eligibility criteria, stable record deduplication, and an auditable decision trail.",
-  "category": "Research", "author": {"name": "Evidence Lab"}, "license": "MIT", "foundation": true,
+  "category": "Research", "author": {"name": "Evidence Lab"}, "license": "MIT", "foundation": false,
   "capabilities": ["systematic-search", "screening-and-deduplication"],
   "selection": {"always": false, "rules": [{"id": "systematic-review-stage", "priority": 400, "when": {"any": {"stages": ["systematic-review"]}}, "reason": "A systematic-review stage requires protocol-driven search, screening, and deduplication."}]},
   "dependencies": ["evidence-lab-core", "literature-publication"], "conflicts": [], "runtimes": ["claude-code", "codex"],
