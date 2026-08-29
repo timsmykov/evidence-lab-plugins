@@ -52,6 +52,46 @@ before they can report a passing gate.
 `.evidence-lab/installation-state.json` from the isolated run workspace. It
 does not accept alternate source paths.
 
+## Independent semantic oracle
+
+Technical installation evidence cannot determine whether the recommended pack
+set is scientifically appropriate for the profile. The frozen ten-scenario
+bundle therefore has a separate, versioned oracle in
+`catalog/onboarding-semantic-oracle.json`.
+
+For every scenario, the oracle exhaustively classifies every published pack
+and capability as:
+
+- `required`: omission is a semantic failure;
+- `allowed`: acceptable but not necessary for the stated first workflow;
+- `forbidden`: selection is over-installation or an unrelated workflow.
+
+The oracle is bound to the scenario-bundle SHA-256 and the live pack catalog.
+Its validator rejects missing scenarios, overlapping classifications, unknown
+IDs, incomplete catalog coverage, and capability classifications that drift
+from their packs. It deliberately does not call the selector, so a
+self-consistent selector defect cannot redefine the expected result.
+
+Run the structural check with:
+
+```bash
+python3 scripts/validate_semantic_oracle.py
+```
+
+Evaluate a plan by repeating `--selected-pack` for every selected pack. The
+command exits with status `1` when required packs or capabilities are missing,
+forbidden ones are selected, or an unknown pack appears:
+
+```bash
+python3 scripts/validate_semantic_oracle.py \
+  --scenario-id en-h03-archaeology \
+  --selected-pack evidence-lab-core \
+  --selected-pack document-evidence \
+  --selected-pack literature-publication \
+  --selected-pack qualitative-research \
+  --selected-pack research-images
+```
+
 ## Observable new-task check
 
 After installation, a new Codex task runs without access to the source or release checkout. It must invoke the installed `citation-management/scripts/format_bibtex.py` with `--rekey --deduplicate --sort key` on the bundled synthetic fixture.
