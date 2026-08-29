@@ -62,6 +62,8 @@ REQUIRED_REPO_FILES = [
     "scripts/onboarding_experiment_adapter.py",
     "scripts/run_onboarding_experiment.py",
     "scripts/test_onboarding_experiment.py",
+    "scripts/validate_semantic_oracle.py",
+    "scripts/test_semantic_oracle.py",
     "catalog/foundation-skills.json",
     "catalog/foundation-core.json",
     "catalog/open-source-skill-candidates.json",
@@ -70,6 +72,7 @@ REQUIRED_REPO_FILES = [
     "catalog/external-plugin-candidates.json",
     "catalog/openai-plugin-audit.json",
     "catalog/l0-l2-stack.json",
+    "catalog/onboarding-semantic-oracle.json",
     "schemas/plugin.schema.json",
     "schemas/codex-plugin.schema.json",
     "schemas/codex-marketplace.schema.json",
@@ -107,6 +110,7 @@ REQUIRED_REPO_FILES = [
     "schemas/experiment-run-receipt.schema.json",
     "schemas/experiment-adjudication.schema.json",
     "schemas/experiment-review.schema.json",
+    "schemas/onboarding-semantic-oracle.schema.json",
     "tests/acceptance/onboarding-terra-10.scenarios.ru.json",
     "tests/fixtures/experiment/citation-probe-input.bib",
     "tests/fixtures/experiment/citation-probe-expected.bib",
@@ -225,6 +229,18 @@ def check_repo_files() -> None:
         scenarios = load_json(scenarios_path)
         if scenarios is not None:
             validate(scenarios, "experiment-scenario-bundle.schema.json", str(scenarios_path.relative_to(ROOT)))
+
+    oracle_validator = ROOT / "scripts/validate_semantic_oracle.py"
+    if oracle_validator.exists():
+        result = subprocess.run(
+            [sys.executable, str(oracle_validator)],
+            cwd=ROOT,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+        if result.returncode:
+            fail(result.stdout.strip() or result.stderr.strip() or "semantic oracle validation failed")
 
 
 def check_marketplaces() -> None:

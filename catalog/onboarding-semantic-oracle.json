@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "scenario_bundle": {
+    "path": "tests/acceptance/onboarding-terra-10.scenarios.ru.json",
+    "sha256": "574a38be3c57d15fc63cb0243d6f6027d416f9e79dddc78fb1daf91907254c5c"
+  },
+  "scenarios": [
+    {
+      "id": "ru-02-clinical-review",
+      "rationale": "A clinical systematic review needs reproducible document extraction, literature synthesis, quantitative synthesis, and review-specific searching and screening. Life-science protocol and structured-data packs are acceptable only when the review design or extracted data requires them.",
+      "packs": {
+        "required": ["evidence-lab-core", "document-evidence", "literature-publication", "quantitative-sciences", "systematic-review"],
+        "allowed": ["life-sciences", "structured-data-analysis"],
+        "forbidden": ["data-and-pdf", "evidence-lab-meeting-capture", "full-research-cycle", "publication-monitoring", "qualitative-research", "research-design", "research-images"]
+      },
+      "capabilities": {
+        "required": ["academic-writing", "citation-management", "critical-thinking", "document-conversion", "literature-review", "paper-lookup", "peer-review", "screening-and-deduplication", "statistical-analysis", "systematic-search"],
+        "allowed": ["companion-plugin-planning", "database-lookup", "exploratory-data-analysis", "installation-lifecycle", "life-science-protocols", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams", "scientific-visualization", "statistical-power", "uncertainty-and-units"],
+        "forbidden": ["data-and-pdf-compatibility", "evidence-lab-meeting-capture", "full-research-cycle-compatibility", "hypothesis-generation", "publication-monitoring", "qualitative-analysis", "research-image-analysis", "study-design"]
+      }
+    },
+    {
+      "id": "ru-05-econometrics",
+      "rationale": "Econometric panel-data work requires structured-data analysis, quantitative methods, source handling, and publication support. Study design may be added for a causal design, but unrelated document, image, qualitative, monitoring, and systematic-review workflows are excluded.",
+      "packs": {
+        "required": ["evidence-lab-core", "literature-publication", "quantitative-sciences", "structured-data-analysis"],
+        "allowed": ["research-design"],
+        "forbidden": ["life-sciences", "data-and-pdf", "document-evidence", "evidence-lab-meeting-capture", "full-research-cycle", "publication-monitoring", "qualitative-research", "research-images", "systematic-review"]
+      },
+      "capabilities": {
+        "required": ["academic-writing", "citation-management", "critical-thinking", "database-lookup", "exploratory-data-analysis", "paper-lookup", "peer-review", "scientific-visualization", "statistical-analysis", "uncertainty-and-units"],
+        "allowed": ["companion-plugin-planning", "hypothesis-generation", "installation-lifecycle", "literature-review", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams", "statistical-power", "study-design"],
+        "forbidden": ["data-and-pdf-compatibility", "document-conversion", "evidence-lab-meeting-capture", "full-research-cycle-compatibility", "life-science-protocols", "publication-monitoring", "qualitative-analysis", "research-image-analysis", "screening-and-deduplication", "systematic-search"]
+      }
+    },
+    {
+      "id": "ru-06-history-qualitative",
+      "rationale": "A humanities researcher reviewing literature and qualitative source text while writing needs document evidence, literature and publication support, and qualitative analysis. Quantitative, image, study-design, monitoring, and systematic-review packs are out of scope for the stated first workflow.",
+      "packs": {
+        "required": ["evidence-lab-core", "document-evidence", "literature-publication", "qualitative-research"],
+        "allowed": [],
+        "forbidden": ["life-sciences", "quantitative-sciences", "data-and-pdf", "evidence-lab-meeting-capture", "full-research-cycle", "publication-monitoring", "research-design", "research-images", "structured-data-analysis", "systematic-review"]
+      },
+      "capabilities": {
+        "required": ["academic-writing", "citation-management", "critical-thinking", "document-conversion", "literature-review", "paper-lookup", "peer-review", "qualitative-analysis"],
+        "allowed": ["companion-plugin-planning", "installation-lifecycle", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams"],
+        "forbidden": ["data-and-pdf-compatibility", "database-lookup", "evidence-lab-meeting-capture", "exploratory-data-analysis", "full-research-cycle-compatibility", "hypothesis-generation", "life-science-protocols", "publication-monitoring", "research-image-analysis", "scientific-visualization", "screening-and-deduplication", "statistical-analysis", "statistical-power", "study-design", "systematic-search", "uncertainty-and-units"]
+      }
+    },
+    {
+      "id": "en-12-astrophysics",
+      "rationale": "The astrophysics profile explicitly requests a full quantitative research cycle using papers, PDFs, datasets, code, formulas, models, and images. Every pack needed for that workflow is required; the compatibility data-and-PDF aggregate is tolerated but not necessary.",
+      "packs": {
+        "required": ["evidence-lab-core", "document-evidence", "literature-publication", "quantitative-sciences", "research-design", "research-images", "structured-data-analysis", "full-research-cycle"],
+        "allowed": ["data-and-pdf"],
+        "forbidden": ["life-sciences", "evidence-lab-meeting-capture", "publication-monitoring", "qualitative-research", "systematic-review"]
+      },
+      "capabilities": {
+        "required": ["academic-writing", "citation-management", "critical-thinking", "database-lookup", "document-conversion", "exploratory-data-analysis", "full-research-cycle-compatibility", "hypothesis-generation", "literature-review", "paper-lookup", "peer-review", "research-diagrams", "research-image-analysis", "scientific-visualization", "statistical-analysis", "statistical-power", "study-design", "uncertainty-and-units"],
+        "allowed": ["companion-plugin-planning", "data-and-pdf-compatibility", "installation-lifecycle", "onboarding", "pack-selection", "personal-skill-authoring"],
+        "forbidden": ["evidence-lab-meeting-capture", "life-science-protocols", "publication-monitoring", "qualitative-analysis", "screening-and-deduplication", "systematic-search"]
+      }
+    },
+    {
+      "id": "en-17-chemistry",
+      "rationale": "Experimental chemistry at a materials and physics boundary needs study design, monitoring, quantitative and structured-data analysis, image handling, document evidence, and publication support. The compatibility data-and-PDF aggregate is acceptable but redundant.",
+      "packs": {
+        "required": ["evidence-lab-core", "document-evidence", "literature-publication", "publication-monitoring", "quantitative-sciences", "research-design", "research-images", "structured-data-analysis"],
+        "allowed": ["data-and-pdf"],
+        "forbidden": ["life-sciences", "evidence-lab-meeting-capture", "full-research-cycle", "qualitative-research", "systematic-review"]
+      },
+      "capabilities": {
+        "required": ["academic-writing", "citation-management", "critical-thinking", "database-lookup", "document-conversion", "exploratory-data-analysis", "hypothesis-generation", "literature-review", "paper-lookup", "peer-review", "publication-monitoring", "research-image-analysis", "scientific-visualization", "statistical-analysis", "study-design", "uncertainty-and-units"],
+        "allowed": ["companion-plugin-planning", "data-and-pdf-compatibility", "installation-lifecycle", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams", "statistical-power"],
+        "forbidden": ["evidence-lab-meeting-capture", "full-research-cycle-compatibility", "life-science-protocols", "qualitative-analysis", "screening-and-deduplication", "systematic-search"]
+      }
+    },
+    {
+      "id": "ru-h01-pure-mathematics",
+      "rationale": "A pure-mathematics writing and quality-review workflow using papers, PDFs, code, formulas, and mathematical models needs document, publication, and quantitative support. It does not justify data, images, qualitative analysis, study design, monitoring, or systematic review.",
+      "packs": {
+        "required": ["evidence-lab-core", "document-evidence", "literature-publication", "quantitative-sciences"],
+        "allowed": [],
+        "forbidden": ["life-sciences", "data-and-pdf", "evidence-lab-meeting-capture", "full-research-cycle", "publication-monitoring", "qualitative-research", "research-design", "research-images", "structured-data-analysis", "systematic-review"]
+      },
+      "capabilities": {
+        "required": ["academic-writing", "citation-management", "critical-thinking", "document-conversion", "literature-review", "paper-lookup", "peer-review", "uncertainty-and-units"],
+        "allowed": ["companion-plugin-planning", "installation-lifecycle", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams", "scientific-visualization", "statistical-analysis", "statistical-power"],
+        "forbidden": ["data-and-pdf-compatibility", "database-lookup", "evidence-lab-meeting-capture", "exploratory-data-analysis", "full-research-cycle-compatibility", "hypothesis-generation", "life-science-protocols", "publication-monitoring", "qualitative-analysis", "research-image-analysis", "screening-and-deduplication", "study-design", "systematic-search"]
+      }
+    },
+    {
+      "id": "ru-h02-education-supervision",
+      "rationale": "Supervision of mixed-methods education research needs study design, literature and publication review, document evidence, and qualitative analysis. Quantitative and structured-data packs are allowed when the supervised project uses its survey tables quantitatively.",
+      "packs": {
+        "required": ["evidence-lab-core", "document-evidence", "literature-publication", "qualitative-research", "research-design"],
+        "allowed": ["quantitative-sciences", "structured-data-analysis"],
+        "forbidden": ["life-sciences", "data-and-pdf", "evidence-lab-meeting-capture", "full-research-cycle", "publication-monitoring", "research-images", "systematic-review"]
+      },
+      "capabilities": {
+        "required": ["citation-management", "critical-thinking", "document-conversion", "hypothesis-generation", "literature-review", "paper-lookup", "peer-review", "qualitative-analysis", "study-design"],
+        "allowed": ["academic-writing", "companion-plugin-planning", "database-lookup", "exploratory-data-analysis", "installation-lifecycle", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams", "scientific-visualization", "statistical-analysis", "statistical-power", "uncertainty-and-units"],
+        "forbidden": ["data-and-pdf-compatibility", "evidence-lab-meeting-capture", "full-research-cycle-compatibility", "life-science-protocols", "publication-monitoring", "research-image-analysis", "screening-and-deduplication", "systematic-search"]
+      }
+    },
+    {
+      "id": "en-h01-environmental-science",
+      "rationale": "Environmental science and spatial ecology with field datasets, code, maps, PDFs, and research images requires document, quantitative, structured-data, image, and reporting support. Life-science, study-design, and compatibility additions are acceptable but not required by the stated active-analysis task.",
+      "packs": {
+        "required": ["evidence-lab-core", "document-evidence", "literature-publication", "quantitative-sciences", "research-images", "structured-data-analysis"],
+        "allowed": ["life-sciences", "research-design", "data-and-pdf"],
+        "forbidden": ["evidence-lab-meeting-capture", "full-research-cycle", "publication-monitoring", "qualitative-research", "systematic-review"]
+      },
+      "capabilities": {
+        "required": ["academic-writing", "citation-management", "critical-thinking", "database-lookup", "document-conversion", "exploratory-data-analysis", "literature-review", "paper-lookup", "research-image-analysis", "scientific-visualization", "statistical-analysis", "uncertainty-and-units"],
+        "allowed": ["companion-plugin-planning", "data-and-pdf-compatibility", "hypothesis-generation", "installation-lifecycle", "life-science-protocols", "onboarding", "pack-selection", "peer-review", "personal-skill-authoring", "research-diagrams", "statistical-power", "study-design"],
+        "forbidden": ["evidence-lab-meeting-capture", "full-research-cycle-compatibility", "publication-monitoring", "qualitative-analysis", "screening-and-deduplication", "systematic-search"]
+      }
+    },
+    {
+      "id": "en-h02-civil-engineering",
+      "rationale": "A civil-engineering study and mathematical model before data collection requires study design, quantitative methods, core research safeguards, and the requested PDF handling. Publication, image, and structured-data packs are acceptable later, but not required for the stated planning task.",
+      "packs": {
+        "required": ["evidence-lab-core", "document-evidence", "quantitative-sciences", "research-design"],
+        "allowed": ["literature-publication", "research-images", "structured-data-analysis"],
+        "forbidden": ["life-sciences", "data-and-pdf", "evidence-lab-meeting-capture", "full-research-cycle", "publication-monitoring", "qualitative-research", "systematic-review"]
+      },
+      "capabilities": {
+        "required": ["citation-management", "critical-thinking", "document-conversion", "hypothesis-generation", "paper-lookup", "statistical-power", "study-design", "uncertainty-and-units"],
+        "allowed": ["academic-writing", "companion-plugin-planning", "database-lookup", "exploratory-data-analysis", "installation-lifecycle", "literature-review", "onboarding", "pack-selection", "peer-review", "personal-skill-authoring", "research-diagrams", "research-image-analysis", "scientific-visualization", "statistical-analysis"],
+        "forbidden": ["data-and-pdf-compatibility", "evidence-lab-meeting-capture", "full-research-cycle-compatibility", "life-science-protocols", "publication-monitoring", "qualitative-analysis", "screening-and-deduplication", "systematic-search"]
+      }
+    },
+    {
+      "id": "en-h03-archaeology",
+      "rationale": "Digital-humanities archaeology with scanned PDFs, qualitative notes, site images, literature synthesis, and article preparation requires document, publication, qualitative, and image packs. Structured-data analysis is acceptable for the tables, but quantitative and unrelated workflow packs are excluded.",
+      "packs": {
+        "required": ["evidence-lab-core", "document-evidence", "literature-publication", "qualitative-research", "research-images"],
+        "allowed": ["structured-data-analysis"],
+        "forbidden": ["life-sciences", "quantitative-sciences", "data-and-pdf", "evidence-lab-meeting-capture", "full-research-cycle", "publication-monitoring", "research-design", "systematic-review"]
+      },
+      "capabilities": {
+        "required": ["academic-writing", "citation-management", "critical-thinking", "document-conversion", "literature-review", "paper-lookup", "peer-review", "qualitative-analysis", "research-image-analysis"],
+        "allowed": ["companion-plugin-planning", "database-lookup", "exploratory-data-analysis", "installation-lifecycle", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams"],
+        "forbidden": ["data-and-pdf-compatibility", "evidence-lab-meeting-capture", "full-research-cycle-compatibility", "hypothesis-generation", "life-science-protocols", "publication-monitoring", "scientific-visualization", "screening-and-deduplication", "statistical-analysis", "statistical-power", "study-design", "systematic-search", "uncertainty-and-units"]
+      }
+    }
+  ]
+}
