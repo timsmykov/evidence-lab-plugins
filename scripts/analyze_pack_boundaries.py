@@ -85,7 +85,7 @@ def render(report: dict, decisions: dict) -> str:
         "",
         "Generated deterministically by `python3 scripts/analyze_pack_boundaries.py`.",
         f"It measures the current catalog with R3 boundary status `{decisions['status']}`.",
-        "Bootstrap installs the frozen foundation for every profile. The scenario matrix shows profile-relevant pack activation rules, so the boundary evidence remains useful after physical installation is broadened.",
+        "Bootstrap installs only the universal Core for every profile and adds the remaining research-library packs through deterministic profile rules.",
         "Core capabilities are treated as the mandatory baseline and are not counted as over-installation.",
         "",
         "## Summary",

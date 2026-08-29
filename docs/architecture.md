@@ -22,7 +22,7 @@ Evidence Lab is defined by its researcher experience and five product layers, no
 chat onboarding
   -> normalized profile
   -> deterministic selector
-  -> frozen 20-skill foundation + profile-specific additions
+  -> mandatory Core + profile-selected packs from the 20-skill library
   -> reviewed selection plan
   -> Codex companion-plugin plan (Codex only)
   -> native host confirmation
@@ -57,12 +57,11 @@ declared field, `contains_all` requires every listed value within a field, and
 `none` excludes a match.
 
 `catalog/foundation-core.json` is the canonical generated inventory of the
-universal researcher foundation. It maps 21 implemented capabilities to 20
+bounded researcher capability library. It maps 21 implemented capabilities to 20
 unique physical skill directories, records their owning packs, quality state,
 and content hashes, and lists six planned gaps separately. Packs marked
-`foundation: true` are installed for every validated profile. Profile rules
-still explain which parts are immediately relevant and may add optional packs;
-they cannot remove the foundation. A planned capability enters bootstrap only
+Only packs marked `foundation: true` are installed for every validated profile.
+The remaining library packs are added by reviewed profile rules. A planned capability enters bootstrap only
 after it has a reviewed physical skill and is regenerated into this index.
 
 For an existing workspace, selection feeds a reconciliation plan instead of a clean-install plan. The plan hashes live installed readback, separates add/update/retain/remove-candidate groups, and keeps extras by default. Additions and updates share one approval; removal requires a second approval. The state records the old release ref and exact pre-change pack snapshot so a failed or interrupted run can be inspected and restored without claiming success before exact readback.
@@ -98,7 +97,7 @@ Further splits or additions must be justified by tested user routes rather than 
 - A changed profile, release ref, or installed snapshot invalidates an unexecuted reconcile plan.
 - Reconciliation never removes an extra pack without a separate confirmation.
 - Partial installation must not be recorded as ready.
-- Every frozen foundation skill is owned by exactly one foundation pack and is
+- Every indexed research-library skill is owned by exactly one pack and is
   present in both the canonical and Core runtime indexes with the same hash.
 - A runtime is not supported until its adapter and representative behavior pass.
 - Provenance, licensing, deterministic scripts, and negative routing evals survive every split.

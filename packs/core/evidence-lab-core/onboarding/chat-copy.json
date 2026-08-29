@@ -4,5 +4,10 @@
   "expectation": "I will ask four short questions, show the complete recommendation, and wait for your approval before adding anything. You can choose one or several numbers, or write your own answer.",
   "question_heading": "Question {number} of {total}",
   "footer": "Choose one or several numbers, or write your own answer.",
+  "normalizing": "Thank you. I am matching your own wording to the research capabilities now.",
+  "confirmation_retry": "Please answer yes to approve the complete recommendation, or no to stop without installing anything.",
+  "installing": "Thank you. I am installing the approved research capabilities and will verify them before saying the workspace is ready.",
+  "declined": "Nothing was installed. You can restart setup whenever you want.",
+  "installation_failed": "Setup could not be completed safely. Nothing will be described as ready until the installed state is verified.",
   "completion": "Evidence Lab is ready. Open a new task so the application can load the new research capabilities. Start that task with what you actually want to work on; you will not need to repeat setup."
 }

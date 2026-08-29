@@ -1,5 +1,10 @@
 # Changelog — Literature and Publication
 
+## [0.3.0] — 2026-08-29
+
+### Changed
+- Made the pack profile-selected instead of universally installed; literature and publication workflows still select it deterministically.
+
 ## [0.2.0] — 2026-08-27
 
 ### Changed

@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "generated_from": [
     "catalog/foundation-skills.json",
     "packs/*/*/pack.json",
@@ -8,7 +8,7 @@
   ],
   "capability_count": 21,
   "physical_skill_count": 20,
-  "foundation_pack_ids": [
+  "library_pack_ids": [
     "evidence-lab-core",
     "document-evidence",
     "literature-publication",
@@ -19,11 +19,14 @@
     "systematic-review",
     "quantitative-sciences"
   ],
+  "mandatory_pack_ids": [
+    "evidence-lab-core"
+  ],
   "skills": [
     {
       "id": "citation-management",
       "pack_id": "evidence-lab-core",
-      "pack_version": "0.15.3",
+      "pack_version": "0.16.0",
       "layer": "core",
       "path": "packs/core/evidence-lab-core/skills/citation-management",
       "quality_status": "needs-representative-testing",
@@ -35,7 +38,7 @@
     {
       "id": "paper-lookup",
       "pack_id": "evidence-lab-core",
-      "pack_version": "0.15.3",
+      "pack_version": "0.16.0",
       "layer": "core",
       "path": "packs/core/evidence-lab-core/skills/paper-lookup",
       "quality_status": "needs-representative-testing",
@@ -47,7 +50,7 @@
     {
       "id": "personal-skill-authoring",
       "pack_id": "evidence-lab-core",
-      "pack_version": "0.15.3",
+      "pack_version": "0.16.0",
       "layer": "core",
       "path": "packs/core/evidence-lab-core/skills/personal-skill-authoring",
       "quality_status": "needs-representative-testing",
@@ -59,7 +62,7 @@
     {
       "id": "scientific-critical-thinking",
       "pack_id": "evidence-lab-core",
-      "pack_version": "0.15.3",
+      "pack_version": "0.16.0",
       "layer": "core",
       "path": "packs/core/evidence-lab-core/skills/scientific-critical-thinking",
       "quality_status": "needs-representative-testing",
@@ -71,7 +74,7 @@
     {
       "id": "markitdown",
       "pack_id": "document-evidence",
-      "pack_version": "0.2.0",
+      "pack_version": "0.3.0",
       "layer": "workflow",
       "path": "packs/workflows/document-evidence/skills/markitdown",
       "quality_status": "needs-representative-testing",
@@ -83,7 +86,7 @@
     {
       "id": "literature-review",
       "pack_id": "literature-publication",
-      "pack_version": "0.2.0",
+      "pack_version": "0.3.0",
       "layer": "workflow",
       "path": "packs/workflows/literature-publication/skills/literature-review",
       "quality_status": "needs-representative-testing",
@@ -95,7 +98,7 @@
     {
       "id": "markdown-mermaid-writing",
       "pack_id": "literature-publication",
-      "pack_version": "0.2.0",
+      "pack_version": "0.3.0",
       "layer": "workflow",
       "path": "packs/workflows/literature-publication/skills/markdown-mermaid-writing",
       "quality_status": "needs-representative-testing",
@@ -107,7 +110,7 @@
     {
       "id": "peer-review",
       "pack_id": "literature-publication",
-      "pack_version": "0.2.0",
+      "pack_version": "0.3.0",
       "layer": "workflow",
       "path": "packs/workflows/literature-publication/skills/peer-review",
       "quality_status": "needs-representative-testing",
@@ -119,7 +122,7 @@
     {
       "id": "writing-skill",
       "pack_id": "literature-publication",
-      "pack_version": "0.2.0",
+      "pack_version": "0.3.0",
       "layer": "workflow",
       "path": "packs/workflows/literature-publication/skills/writing-skill",
       "quality_status": "needs-representative-testing",
@@ -131,7 +134,7 @@
     {
       "id": "qualitative-analysis",
       "pack_id": "qualitative-research",
-      "pack_version": "0.2.0",
+      "pack_version": "0.3.0",
       "layer": "workflow",
       "path": "packs/workflows/qualitative-research/skills/qualitative-analysis",
       "quality_status": "needs-substantive-work",
@@ -143,7 +146,7 @@
     {
       "id": "experimental-design",
       "pack_id": "research-design",
-      "pack_version": "0.2.0",
+      "pack_version": "0.3.0",
       "layer": "workflow",
       "path": "packs/workflows/research-design/skills/experimental-design",
       "quality_status": "needs-representative-testing",
@@ -155,7 +158,7 @@
     {
       "id": "hypothesis-generation",
       "pack_id": "research-design",
-      "pack_version": "0.2.0",
+      "pack_version": "0.3.0",
       "layer": "workflow",
       "path": "packs/workflows/research-design/skills/hypothesis-generation",
       "quality_status": "needs-representative-testing",
@@ -168,7 +171,7 @@
     {
       "id": "research-image-analysis",
       "pack_id": "research-images",
-      "pack_version": "0.2.0",
+      "pack_version": "0.3.0",
       "layer": "workflow",
       "path": "packs/workflows/research-images/skills/research-image-analysis",
       "quality_status": "needs-substantive-work",
@@ -180,7 +183,7 @@
     {
       "id": "database-lookup",
       "pack_id": "structured-data-analysis",
-      "pack_version": "0.2.0",
+      "pack_version": "0.3.0",
       "layer": "workflow",
       "path": "packs/workflows/structured-data-analysis/skills/database-lookup",
       "quality_status": "needs-representative-testing",
@@ -192,7 +195,7 @@
     {
       "id": "exploratory-data-analysis",
       "pack_id": "structured-data-analysis",
-      "pack_version": "0.2.0",
+      "pack_version": "0.3.0",
       "layer": "workflow",
       "path": "packs/workflows/structured-data-analysis/skills/exploratory-data-analysis",
       "quality_status": "needs-representative-testing",
@@ -204,7 +207,7 @@
     {
       "id": "systematic-review",
       "pack_id": "systematic-review",
-      "pack_version": "0.2.0",
+      "pack_version": "0.3.0",
       "layer": "workflow",
       "path": "packs/workflows/systematic-review/skills/systematic-review",
       "quality_status": "needs-substantive-work",
@@ -216,7 +219,7 @@
     {
       "id": "scientific-visualization",
       "pack_id": "quantitative-sciences",
-      "pack_version": "0.4.0",
+      "pack_version": "0.5.0",
       "layer": "domain",
       "path": "packs/domains/quantitative-sciences/skills/scientific-visualization",
       "quality_status": "needs-representative-testing",
@@ -228,7 +231,7 @@
     {
       "id": "statistical-analysis",
       "pack_id": "quantitative-sciences",
-      "pack_version": "0.4.0",
+      "pack_version": "0.5.0",
       "layer": "domain",
       "path": "packs/domains/quantitative-sciences/skills/statistical-analysis",
       "quality_status": "needs-representative-testing",
@@ -240,7 +243,7 @@
     {
       "id": "statistical-power",
       "pack_id": "quantitative-sciences",
-      "pack_version": "0.4.0",
+      "pack_version": "0.5.0",
       "layer": "domain",
       "path": "packs/domains/quantitative-sciences/skills/statistical-power",
       "quality_status": "needs-representative-testing",
@@ -252,7 +255,7 @@
     {
       "id": "uncertainty-and-units",
       "pack_id": "quantitative-sciences",
-      "pack_version": "0.4.0",
+      "pack_version": "0.5.0",
       "layer": "domain",
       "path": "packs/domains/quantitative-sciences/skills/uncertainty-and-units",
       "quality_status": "needs-representative-testing",

@@ -64,6 +64,10 @@ REQUIRED_REPO_FILES = [
     "scripts/test_onboarding_experiment.py",
     "scripts/validate_semantic_oracle.py",
     "scripts/test_semantic_oracle.py",
+    "scripts/onboarding_driver.py",
+    "scripts/run_post_install_probes.py",
+    "scripts/test_onboarding_driver.py",
+    "scripts/test_post_install_probes.py",
     "catalog/foundation-skills.json",
     "catalog/foundation-core.json",
     "catalog/open-source-skill-candidates.json",
@@ -73,6 +77,7 @@ REQUIRED_REPO_FILES = [
     "catalog/openai-plugin-audit.json",
     "catalog/l0-l2-stack.json",
     "catalog/onboarding-semantic-oracle.json",
+    "catalog/post-install-probes.json",
     "schemas/plugin.schema.json",
     "schemas/codex-plugin.schema.json",
     "schemas/codex-marketplace.schema.json",
@@ -111,6 +116,7 @@ REQUIRED_REPO_FILES = [
     "schemas/experiment-adjudication.schema.json",
     "schemas/experiment-review.schema.json",
     "schemas/onboarding-semantic-oracle.schema.json",
+    "schemas/post-install-probes.schema.json",
     "tests/acceptance/onboarding-terra-10.scenarios.ru.json",
     "tests/fixtures/experiment/citation-probe-input.bib",
     "tests/fixtures/experiment/citation-probe-expected.bib",
@@ -361,14 +367,18 @@ def check_foundation_core() -> None:
     capability_count = sum(len(item.get("capabilities", [])) for item in skills)
     if data.get("capability_count") != capability_count:
         fail("foundation-core.json: capability_count does not match indexed capability mappings")
-    pack_ids = set(data.get("foundation_pack_ids", []))
+    library_pack_ids = set(data.get("library_pack_ids", []))
+    pack_ids = set(data.get("mandatory_pack_ids", []))
     declared = set()
     for pack_path in PACKS.glob("*/*/pack.json"):
         pack = load_json(pack_path)
         if pack and pack.get("foundation"):
             declared.add(pack["id"])
     if pack_ids != declared:
-        fail(f"foundation-core.json: foundation pack set differs from pack declarations: {sorted(pack_ids)} != {sorted(declared)}")
+        fail(f"foundation-core.json: mandatory pack set differs from pack declarations: {sorted(pack_ids)} != {sorted(declared)}")
+    indexed_pack_ids = {item.get("pack_id") for item in skills}
+    if library_pack_ids != indexed_pack_ids:
+        fail(f"foundation-core.json: library pack set differs from indexed skills: {sorted(library_pack_ids)} != {sorted(indexed_pack_ids)}")
     runtime_path = PACKS / "core" / "evidence-lab-core" / "catalog" / "foundation-core.json"
     if runtime_path.exists() and runtime_path.read_text(encoding="utf-8") != path.read_text(encoding="utf-8"):
         fail("runtime foundation-core.json differs from the canonical index")
@@ -395,6 +405,20 @@ def check_open_source_skill_candidates() -> None:
         expected_tree = f"{row.get('repository_url')}/tree/{row.get('commit')}/{row.get('skill_path')}"
         if row.get("skill_url") != expected_tree:
             fail(f"open-source-skill-candidates.json: {row.get('id')} skill URL is not pinned to its exact path")
+
+
+def check_post_install_probes() -> None:
+    path = ROOT / "catalog" / "post-install-probes.json"
+    data = load_json(path)
+    if data is None:
+        return
+    validate(data, "post-install-probes.schema.json", "post-install-probes.json")
+    result = subprocess.run(
+        [sys.executable, "scripts/test_post_install_probes.py"],
+        cwd=ROOT, capture_output=True, text=True,
+    )
+    if result.returncode:
+        fail(result.stderr.strip() or result.stdout.strip() or "post-install probe contract failed")
 
 
 def check_generated_reports() -> None:
@@ -669,6 +693,7 @@ def main() -> int:
     check_marketplaces()
     check_external_plugin_registry()
     check_open_source_skill_candidates()
+    check_post_install_probes()
     check_foundation_skills()
     check_foundation_core()
     check_generated_reports()

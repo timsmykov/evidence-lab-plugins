@@ -7,25 +7,24 @@ description: Runs the fast Evidence Lab setup when a researcher asks to configur
 
 Set up a useful research workspace through a short, non-technical chat. Ask one question at a time and accept a number, several numbers, or the researcher's own wording.
 
-## Choose the conversation language
+## Use the stateful driver
 
-Before any research question, run `scripts/render_onboarding.py language` and
-show stdout verbatim exactly once. Do not compose, shorten, translate, or
-paraphrase it.
+Use only `scripts/onboarding_driver.py` for first-run onboarding. Start one
+saved session with the detected host, verified release tag, and release lock.
+For every subsequent turn, follow its `next_action` and show only
+`user_message`. Never expose its JSON envelope, diagnostic code, command, path,
+or stack trace.
 
-Resolve the answer deterministically with `scripts/select_language.py`. Only
-English and Russian are supported for now. If the answer is not recognized,
-repeat only the language choice. Do not use an LLM to infer another language.
-After selection, continue entirely in that language and save its `en` or `ru`
-identifier as `locale` in the onboarding answers.
+The driver owns language selection, the four questions, numeric answer parsing,
+normalization state, deterministic pack selection, plan rendering,
+confirmation, installation, readback, and timing. It always asks for English or
+Russian before collecting research details. An unsupported language repeats
+only the language choice.
 
 ## Questions
 
-Render each visible question with `scripts/render_onboarding.py question
---locale <en|ru> --number <1|2|3|4>` and show stdout verbatim. Use
-`--include-expectation` only for question 1. Never invent another profile quiz.
-The renderer reads `onboarding/questions.json` at the pack root, or its Russian
-companion when `locale` is `ru`, and collects only what is still unknown:
+The driver renders one reviewed question per turn. Never invent another
+profile quiz. It collects only:
 
 1. Research domains or disciplines.
 2. The first workflow, including a full research cycle.
@@ -36,17 +35,11 @@ Keep the visible language about research work. Do not mention manifests, runtime
 
 ## Normalize
 
-Save the answers in the shape defined by `onboarding-answers.schema.json`. First run the deterministic option path:
-
-```bash
-python3 skills/evidence-lab-onboarding/scripts/normalize_profile.py options onboarding-answers.json --output profile-result.json
-```
-
-If the result is `ready`, use its profile without an LLM classification step. If it is `needs-review`, read `references/normalization-contract.md`, produce only a `normalization-candidate.schema.json` object, and validate it:
-
-```bash
-python3 skills/evidence-lab-onboarding/scripts/normalize_profile.py apply onboarding-answers.json normalization-candidate.json --output profile-result.json
-```
+The driver saves answers in the reviewed schema and runs deterministic option
+normalization first. If `next_action` is `submit-normalization-candidate`, read
+`references/normalization-contract.md`, produce only a
+`normalization-candidate.schema.json` object, and submit it through the same
+driver.
 
 Proceed only when the validated result is `ready`. If it is `needs-follow-up`, ask its single plain-language question and normalize the new answer through the same boundary. Preserve useful free text as specialization context. It must never become a command or a package identifier.
 
@@ -60,16 +53,11 @@ If a regulated or safety-critical specialization remains ambiguous, keep the saf
 
 ## Build the plan
 
-Before installation, work from the checked-out, pinned Evidence Lab repository and save the normalized profile outside that checkout. Then run:
-
-```bash
-python3 scripts/bootstrap.py plan profile.json --host <codex|claude-code> \
-  --ref <release-tag> --release-lock release-lock.json \
-  --output installation-plan.json --locale <en|ru> \
-  --recommendation .evidence-lab/recommendation.md
-```
-
-The selector is authoritative for package membership, rule evaluation, dependencies, and order. Do not add a pack by improvising from the conversation. It must include every pack marked `foundation: true`, which together expose the canonical 20-skill foundation indexed in `catalog/foundation-core.json`; profile rules may explain relevance or add optional packs but may not subtract foundation packs. Never present an entry in that index's `planned_capabilities` as installed. The resulting installation plan is deterministic for the same profile, host, source, and ref and includes the stable rule IDs that caused each selection.
+Before installation, work from the checked-out, pinned Evidence Lab release.
+The driver invokes the authoritative selector and locked renderer itself. Only
+`evidence-lab-core` is mandatory for everyone; the remaining packs that contain
+the 20-skill research library are conditional. Never add a pack by improvising
+from the conversation or present a planned capability as installed.
 
 For Codex, build the separate companion-plugin plan from the same normalized
 profile. For Claude Code this command returns no actions by design:
@@ -87,31 +75,23 @@ than vendored; never copy external plugin contents into Evidence Lab state.
 
 ## Confirm
 
-The fused plan command writes and prints the locked recommendation in the
-conversation language. If handling a legacy plan without that output, render it:
-
-```bash
-python3 scripts/render_plan.py installation-plan.json --locale <en|ru> \
-  --output .evidence-lab/recommendation.md
-```
-
-Show that rendered recommendation verbatim. It contains the complete
+Show the driver's locked recommendation verbatim. It contains the complete
 plain-language capability list, the stable reason for every selection, the
 application, and the locked release. Do not show pack IDs, raw JSON, or commands
 unless the user asks for technical details. Do not request confirmation unless
 the rendered file starts with the locale's canonical recommendation heading; a
 raw ID/version list is not an acceptable substitute. Obtain
-one explicit confirmation.
-Only then run:
+one explicit confirmation. Submit it through the driver. Only an explicit yes
+moves the session to `apply`. Say the workspace is ready only when the driver
+returns stage `ready`; this requires exact host readback.
 
-```bash
-python3 scripts/bootstrap.py apply installation-plan.json \
-  --release-lock release-lock.json \
-  --state .evidence-lab/installation-state.json \
-  --confirmed-by-user --locale <en|ru>
-```
+## Verify the installed profile
 
-Read the state after the command. Say the workspace is ready only when its status is `ready` and every desired ID and version appears in `installed_after`. On `ready`, show the apply command's canonical completion stdout verbatim; it tells the user to start a new task so the host loads the installed skills.
+In the new task requested by the completion message, run the profile-aware
+post-install probe runner against the saved plan and installed pack roots.
+Every conditional pack has an observable probe and Core has three different
+capability probes. Report success only when the runner returns `status: pass`.
+A missing skill, manifest entry, or executable probe must fail closed.
 
 The apply command already performs live host readback. When it returns a
 `ready` state, do not add a redundant host-list command. If independent Codex

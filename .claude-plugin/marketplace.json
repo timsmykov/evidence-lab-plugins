@@ -8,7 +8,7 @@
     {
       "name": "evidence-lab-core",
       "description": "Agent-first research foundations, fast researcher onboarding, personal skill creation, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
-      "version": "0.15.3",
+      "version": "0.16.0",
       "author": {
         "name": "Evidence Lab"
       },
@@ -41,7 +41,7 @@
     {
       "name": "quantitative-sciences",
       "description": "Statistical analysis, power and sample-size planning, uncertainty and units, and publication-grade scientific visualization for quantitative research.",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "author": {
         "name": "Evidence Lab"
       },
@@ -70,7 +70,7 @@
     {
       "name": "document-evidence",
       "description": "Reproducible conversion of supported research documents into inspectable Markdown without installing database retrieval or dataset analysis tools.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": {
         "name": "Evidence Lab"
       },
@@ -109,7 +109,7 @@
     {
       "name": "literature-publication",
       "description": "Literature synthesis, evidence-bounded academic writing, editable research diagrams, and manuscript review without installing study-design procedures.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": {
         "name": "Evidence Lab"
       },
@@ -138,7 +138,7 @@
     {
       "name": "qualitative-research",
       "description": "Traceable qualitative-text analysis using an explicit codebook, coded excerpts, reflexive notes, disagreements, and evidence-bounded thematic synthesis.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": {
         "name": "Evidence Lab"
       },
@@ -151,7 +151,7 @@
     {
       "name": "research-design",
       "description": "Testable hypothesis development and reproducible experimental or observational study design without unrelated literature or manuscript tooling.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": {
         "name": "Evidence Lab"
       },
@@ -165,7 +165,7 @@
     {
       "name": "research-images",
       "description": "Research-image inspection with explicit source identity, transformation history, measurement definitions, exclusions, and interpretation boundaries.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": {
         "name": "Evidence Lab"
       },
@@ -178,7 +178,7 @@
     {
       "name": "structured-data-analysis",
       "description": "Reproducible public-database retrieval and exploratory analysis for tables and datasets without unrelated document-conversion tooling.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": {
         "name": "Evidence Lab"
       },
@@ -192,7 +192,7 @@
     {
       "name": "systematic-review",
       "description": "Reproducible systematic-search and screening workflow with explicit eligibility criteria, stable record deduplication, and an auditable decision trail.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "author": {
         "name": "Evidence Lab"
       },

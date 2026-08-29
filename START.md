@@ -21,7 +21,7 @@ commands, plugin manifests, marketplaces, schemas, or Git.
 
 3. Choose English or Russian, then answer four short research questions. A
    number, several numbers, or a personal answer are all valid.
-4. Review the universal research foundation and any profile-specific additions,
+4. Review the small mandatory Core and the profile-specific research packs,
    then answer yes only if the complete recommendation looks right.
 5. When setup is complete, open a new task and begin with the actual research
    goal.

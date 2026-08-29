@@ -1,5 +1,10 @@
 # Changelog — Quantitative Sciences
 
+## [0.5.0] — 2026-08-29
+
+### Changed
+- Made the pack profile-selected instead of universally installed and added deterministic quantitative coverage for life-science systematic reviews.
+
 ## [0.4.0] — 2026-08-27
 
 ### Changed

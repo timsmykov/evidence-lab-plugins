@@ -1,13 +1,13 @@
 {
   "id": "quantitative-sciences",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "layer": "domain",
   "display_name": "Quantitative Sciences",
   "description": "Statistical analysis, power and sample-size planning, uncertainty and units, and publication-grade scientific visualization for quantitative research.",
   "category": "Research",
   "author": {"name": "Evidence Lab"},
   "license": "MIT",
-  "foundation": true,
+  "foundation": false,
   "capabilities": ["statistical-analysis", "statistical-power", "uncertainty-and-units", "scientific-visualization"],
   "selection": {
     "always": false,
@@ -17,6 +17,12 @@
         "priority": 300,
         "when": {"any": {"methods": ["statistics", "code", "formulas", "mathematical-models"]}},
         "reason": "The stated methods require quantitative analysis or mathematical checks."
+      },
+      {
+        "id": "life-science-systematic-review",
+        "priority": 250,
+        "when": {"all": {"domains": ["life-sciences"], "stages": ["systematic-review"]}},
+        "reason": "A life-science systematic review may require quantitative synthesis and uncertainty checks."
       }
     ]
   },

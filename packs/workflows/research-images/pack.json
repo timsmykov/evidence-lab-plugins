@@ -1,7 +1,7 @@
 {
-  "id": "research-images", "version": "0.2.0", "layer": "workflow", "display_name": "Research Images",
+  "id": "research-images", "version": "0.3.0", "layer": "workflow", "display_name": "Research Images",
   "description": "Research-image inspection with explicit source identity, transformation history, measurement definitions, exclusions, and interpretation boundaries.",
-  "category": "Research", "author": {"name": "Evidence Lab"}, "license": "MIT", "foundation": true,
+  "category": "Research", "author": {"name": "Evidence Lab"}, "license": "MIT", "foundation": false,
   "capabilities": ["research-image-analysis"],
   "selection": {"always": false, "rules": [{"id": "research-image-material", "priority": 300, "when": {"any": {"materials": ["images"]}}, "reason": "Research images need provenance and transformation-aware inspection."}]},
   "dependencies": ["evidence-lab-core"], "conflicts": [], "runtimes": ["claude-code", "codex"],

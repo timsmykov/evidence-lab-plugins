@@ -1,5 +1,14 @@
 # Changelog — Evidence Lab Core
 
+## [0.16.0] — 2026-08-29
+
+### Added
+- One stateful bilingual onboarding driver with explicit confirmation, bounded free-text normalization, localized progress messages, and timing telemetry.
+- A profile-aware post-install probe contract for the selected skill packs.
+
+### Changed
+- Only Core is now mandatory; the remaining 20-skill research library is selected by deterministic profile rules.
+
 ## [0.15.3] — 2026-08-28
 
 ### Fixed

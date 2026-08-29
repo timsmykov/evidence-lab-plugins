@@ -1,7 +1,7 @@
 {
-  "id": "qualitative-research", "version": "0.2.0", "layer": "workflow", "display_name": "Qualitative Research",
+  "id": "qualitative-research", "version": "0.3.0", "layer": "workflow", "display_name": "Qualitative Research",
   "description": "Traceable qualitative-text analysis using an explicit codebook, coded excerpts, reflexive notes, disagreements, and evidence-bounded thematic synthesis.",
-  "category": "Research", "author": {"name": "Evidence Lab"}, "license": "MIT", "foundation": true,
+  "category": "Research", "author": {"name": "Evidence Lab"}, "license": "MIT", "foundation": false,
   "capabilities": ["qualitative-analysis"],
   "selection": {"always": false, "rules": [{"id": "qualitative-material", "priority": 300, "when": {"any": {"materials": ["qualitative-text"]}}, "reason": "Qualitative text requires a codebook and traceable coding rather than tabular EDA."}]},
   "dependencies": ["evidence-lab-core"], "conflicts": [], "runtimes": ["claude-code", "codex"],

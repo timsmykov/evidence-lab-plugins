@@ -55,12 +55,11 @@ controlled researcher-profile vocabulary and deterministic matching semantics.
 Each pack owns reviewed selection rules with stable IDs; LLM free-text handling
 can only propose vocabulary values before deterministic validation.
 
-The frozen foundation is indexed in
+The bounded research library is indexed in
 [`catalog/foundation-core.json`](catalog/foundation-core.json). It currently
 contains 20 physical skills, representing 21 implemented top-level
-capabilities across nine packs. Every profile receives those packs; onboarding
-answers determine relevance and optional additions, not whether the universal
-foundation is present. Six further capabilities remain explicitly `planned`
+capabilities across nine packs. Every profile receives only the mandatory Core;
+the other library packs are selected by reviewed profile rules. Six further capabilities remain explicitly `planned`
 and are not presented as installed.
 
 For an existing installation, the same bootstrap builds an exact reconciliation diff. Additions and updates use the first approval, existing extras are retained by default, and removal requires a second approval. Every apply is guarded by the live installed-state digest and records a pre-change snapshot for recovery.
