@@ -59,18 +59,26 @@ The driver invokes the authoritative selector and locked renderer itself. Only
 the 20-skill research library are conditional. Never add a pack by improvising
 from the conversation or present a planned capability as installed.
 
-For Codex, build the separate companion-plugin plan from the same normalized
-profile. For Claude Code this command returns no actions by design:
+For Codex, inventory installed plugins, standalone skills, and supported local
+applications before building the companion-plugin plan from the same normalized
+profile. For Claude Code the selector returns no actions by design:
 
 ```bash
+python3 packs/core/evidence-lab-core/skills/evidence-lab-onboarding/scripts/inventory_host.py \
+  --output host-inventory.json
 python3 packs/core/evidence-lab-core/skills/evidence-lab-onboarding/scripts/select_external_plugins.py \
-  profile.json --host <codex|claude-code> --output companion-plugin-plan.json
+  profile.json --host <codex|claude-code> --inventory host-inventory.json \
+  --output companion-plugin-plan.json
 ```
 
-Do not turn a `candidate`, `explicit-opt-in`, app, or hybrid into a silent
-installation. Omit explicit opt-ins unless the researcher named them. Present
-`offer-connection` as a separate Codex Plugins step and verify that Codex can
-use the component afterward. The reviewed registry is version-observed rather
+The recommendation must show one combined diff: already installed plugins are
+retained without reinstalling, missing approved marketplace plugins are added
+after the same confirmation, installed-but-disabled plugins are activated rather
+than reinstalled, missing UI/share plugins require activation, and explicit
+opt-ins remain absent unless the researcher named them. Re-read the
+live host immediately before apply; if the approved companion scope changed,
+rebuild and reconfirm instead of applying a stale plan. Never remove unrelated
+plugins or standalone skills. The reviewed registry is version-observed rather
 than vendored; never copy external plugin contents into Evidence Lab state.
 
 ## Confirm
@@ -93,8 +101,12 @@ Every conditional pack has an observable probe and Core has three different
 capability probes. Report success only when the runner returns `status: pass`.
 A missing skill, manifest entry, or executable probe must fail closed.
 
-The apply command already performs live host readback. When it returns a
-`ready` state, do not add a redundant host-list command. If independent Codex
+The apply command performs live readback for Evidence Lab packs and companion
+plugins. A required share/UI plugin keeps the driver in
+`awaiting-companion-activation`; use the product's plugin activation flow and
+then the driver's `verify-companions` action. Do not call the workspace ready
+until that readback passes. When it returns a `ready` state, do not add a
+redundant host-list command. If independent Codex
 diagnostics are needed after a non-ready result, the supported command is
 `codex plugin list --json` (singular `plugin`), never `codex plugins list`.
 

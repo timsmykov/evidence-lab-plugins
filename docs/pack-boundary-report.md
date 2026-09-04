@@ -9,7 +9,7 @@ Core capabilities are treated as the mandatory baseline and are not counted as o
 
 - Scenarios: **18**
 - Missing required capability occurrences: **0**
-- Over-installed optional-pack capability occurrences: **13**
+- Over-installed optional-pack capability occurrences: **20**
 
 ## Scenario matrix
 
@@ -19,15 +19,15 @@ Core capabilities are treated as the mandatory baseline and are not counted as o
 | `general-paper-lookup` | `evidence-lab-core` | — | — |
 | `pdf-evidence-extraction` | `evidence-lab-core`, `document-evidence` | — | — |
 | `structured-data-analysis` | `evidence-lab-core`, `structured-data-analysis` | — | — |
-| `mathematical-model-review` | `evidence-lab-core`, `literature-publication`, `quantitative-sciences` | — | `academic-writing`, `literature-review`, `research-diagrams`, `scientific-visualization` |
-| `full-cycle-quantitative-paper` | `evidence-lab-core`, `document-evidence`, `literature-publication`, `research-design`, `structured-data-analysis`, `quantitative-sciences`, `data-and-pdf`, `full-research-cycle` | — | — |
-| `literature-review-only` | `evidence-lab-core`, `literature-publication` | — | `research-diagrams` |
-| `full-cycle-pdf-only` | `evidence-lab-core`, `document-evidence`, `literature-publication`, `research-design`, `full-research-cycle` | — | — |
-| `publication-preparation-only` | `evidence-lab-core`, `literature-publication` | — | — |
+| `mathematical-model-review` | `evidence-lab-core`, `literature-publication`, `quantitative-sciences` | — | `academic-writing`, `latex-and-venue-formatting`, `literature-review`, `research-diagrams`, `scientific-visualization` |
+| `full-cycle-quantitative-paper` | `evidence-lab-core`, `document-evidence`, `literature-publication`, `research-design`, `structured-data-analysis`, `quantitative-sciences`, `data-and-pdf`, `full-research-cycle` | — | `latex-and-venue-formatting` |
+| `literature-review-only` | `evidence-lab-core`, `literature-publication` | — | `latex-and-venue-formatting`, `research-diagrams` |
+| `full-cycle-pdf-only` | `evidence-lab-core`, `document-evidence`, `literature-publication`, `research-design`, `full-research-cycle` | — | `latex-and-venue-formatting` |
+| `publication-preparation-only` | `evidence-lab-core`, `literature-publication` | — | `latex-and-venue-formatting` |
 | `publication-monitoring-life-sciences` | `evidence-lab-core`, `publication-monitoring` | — | — |
 | `publication-monitoring-physics` | `evidence-lab-core`, `publication-monitoring` | — | — |
-| `systematic-review-life-sciences` | `evidence-lab-core`, `document-evidence`, `literature-publication`, `structured-data-analysis`, `quantitative-sciences`, `systematic-review` | — | `database-lookup`, `research-diagrams`, `scientific-visualization`, `statistical-power`, `uncertainty-and-units` |
-| `systematic-review-social-sciences` | `evidence-lab-core`, `document-evidence`, `literature-publication`, `structured-data-analysis`, `systematic-review` | — | `database-lookup`, `exploratory-data-analysis`, `research-diagrams` |
+| `systematic-review-life-sciences` | `evidence-lab-core`, `document-evidence`, `literature-publication`, `structured-data-analysis`, `quantitative-sciences`, `systematic-review` | — | `database-lookup`, `latex-and-venue-formatting`, `research-diagrams`, `scientific-visualization`, `statistical-power`, `uncertainty-and-units` |
+| `systematic-review-social-sciences` | `evidence-lab-core`, `document-evidence`, `literature-publication`, `structured-data-analysis`, `systematic-review` | — | `database-lookup`, `exploratory-data-analysis`, `latex-and-venue-formatting`, `research-diagrams` |
 | `qualitative-social-analysis` | `evidence-lab-core`, `qualitative-research` | — | — |
 | `qualitative-humanities-analysis` | `evidence-lab-core`, `qualitative-research` | — | — |
 | `research-images-engineering` | `evidence-lab-core`, `research-images` | — | — |

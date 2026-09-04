@@ -38,7 +38,7 @@ class PostInstallProbeTests(unittest.TestCase):
         self.assertEqual(len(rows), len({row["capability"] for row in rows}))
 
     def test_representative_profile_runs_selected_pack_probes(self) -> None:
-        selected = ["evidence-lab-core", "document-evidence", "literature-publication", "qualitative-research"]
+        selected = ["evidence-lab-core", "document-evidence", "qualitative-research", "evidence-lab-research"]
         result = probes.run_plan(self.plan(selected), self.registry, self.catalog, {}, ROOT)
         self.assertEqual("pass", result["status"], result)
         self.assertEqual(selected, [row["pack_id"] for row in result["packs"]])

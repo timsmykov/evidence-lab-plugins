@@ -9,18 +9,24 @@
     "schema_version": {"const": 1},
     "host": {"enum": ["codex", "claude-code"]},
     "reason": {"type": "string", "minLength": 10},
+    "inventory_digest": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
     "actions": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["plugin_id", "display_name", "action", "install_mode", "credential_mode", "reason"],
+        "required": ["plugin_id", "display_name", "action", "install_mode", "credential_mode", "selector", "required", "installed_version", "overlapping_skills", "share_url", "reason"],
         "additionalProperties": false,
         "properties": {
           "plugin_id": {"type": "string", "minLength": 8},
           "display_name": {"type": "string", "minLength": 2},
-          "action": {"enum": ["install-after-confirmation", "recommend-after-validation", "offer-opt-in", "offer-connection", "withhold-pending-benchmark"]},
+          "action": {"enum": ["retain-installed", "install-after-confirmation", "activate-after-confirmation", "offer-activation", "recommend-after-validation", "offer-opt-in", "offer-connection", "withhold-missing-prerequisite", "withhold-pending-benchmark"]},
           "install_mode": {"enum": ["already-present", "marketplace", "plugins-ui"]},
           "credential_mode": {"enum": ["none", "local-app", "account-connection", "mixed", "unknown"]},
+          "selector": {"type": ["string", "null"], "minLength": 4},
+          "required": {"type": "boolean"},
+          "installed_version": {"type": ["string", "null"]},
+          "overlapping_skills": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+          "share_url": {"type": ["string", "null"], "format": "uri"},
           "reason": {"type": "string", "minLength": 40}
         }
       }

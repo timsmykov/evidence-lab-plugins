@@ -62,6 +62,7 @@ def inventory() -> dict:
             "dependencies": pack["dependencies"],
             "skills": skills,
             "reference_only": reference_only,
+            "distribution_bundle": pack.get("distribution_bundle", False),
         })
     return {"schema_version": 1, "packs": rows}
 
@@ -72,8 +73,10 @@ def cell(values: list[str]) -> str:
 
 def render(data: dict) -> str:
     working = [row for row in data["packs"] if not row["reference_only"]]
+    implementation = [row for row in working if not row["distribution_bundle"]]
+    bundles = [row for row in working if row["distribution_bundle"]]
     reference = [row for row in data["packs"] if row["reference_only"]]
-    skills = [skill for row in working for skill in row["skills"]]
+    skills = [skill for row in implementation for skill in row["skills"]]
     roles = {role: sum(skill["role"] == role for skill in skills) for role in ("research", "onboarding", "skill-authoring", "compatibility-router")}
     quality = {
         state: sum(skill["quality_status"] == state for skill in skills)
@@ -91,9 +94,9 @@ def render(data: dict) -> str:
         "",
         "## Summary",
         "",
-        f"- Working packs: **{len(working)}**; reference-only packs: **{len(reference)}**.",
+        f"- Implementation packs: **{len(implementation)}**; one-install distribution bundles: **{len(bundles)}**; reference-only packs: **{len(reference)}**.",
         f"- Working skills: **{len(skills)}** — {roles['research']} research skills, {roles['onboarding']} onboarding skill, {roles['skill-authoring']} personal skill-authoring skill, and {roles['compatibility-router']} compatibility routers.",
-        f"- Lifecycle: **{sum(row['status'] == 'draft' for row in working)} of {len(working)} working packs are `draft`**.",
+        f"- Lifecycle: **{sum(row['status'] == 'draft' for row in working)} of {len(working)} published packs are `draft`**.",
         f"- Trigger eval files present: **{sum(skill['has_eval'] for skill in skills)} of {len(skills)}**.",
         f"- Explicit quality states: **{quality['needs-substantive-work']} need substantive work**, **{quality['needs-representative-testing']} need representative testing**, **{quality['review-ready']} review-ready**, **{quality['production']} production**, and **{quality['support-only']} support-only**.",
         "",
@@ -131,7 +134,7 @@ def render(data: dict) -> str:
         "| Pack | Skill | Role | SKILL.md lines | Scripts | References | Trigger eval | Quality status |",
         "|---|---|---|---:|---:|---:|---|---|",
     ])
-    for row in working:
+    for row in implementation:
         for skill in row["skills"]:
             lines.append(
                 f"| `{row['id']}` | `{skill['name']}` | `{skill['role']}` | {skill['lines']} | "
@@ -146,6 +149,7 @@ def render(data: dict) -> str:
         "- **Highest content-development priority:** skills explicitly marked `needs-substantive-work`, currently life-science protocols, publication monitoring, qualitative analysis, research-image analysis, and systematic review. Their exact work items live in `meta.json`.",
         "- **Host-independent skill creation:** `personal-skill-authoring` is part of mandatory Core. Native Codex or Claude authoring tools may accelerate it, but bootstrap does not assume that an optional host plugin is installed.",
         "- **Compatibility only:** `data-and-pdf-router` and `full-research-cycle-router` carry no independent research method; their packs compose focused dependencies.",
+        "- **Onboarding-free install:** `evidence-lab-research` is a distribution-only bundle of the canonical skills. It deliberately excludes `evidence-lab-onboarding` and compatibility routers.",
         "",
         "## Deterministic installation path",
         "",

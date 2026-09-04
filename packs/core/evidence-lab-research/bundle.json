@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "exclude_skills": ["evidence-lab-onboarding"],
+  "exclude_quality_statuses": ["reference-only", "support-only"],
+  "exclude_pack_statuses": ["reference", "deprecated"],
+  "license_sources": {
+    "K-Dense-MIT.txt": "packs/core/evidence-lab-core/LICENSES/K-Dense-MIT.txt",
+    "Apache-2.0.txt": "packs/workflows/literature-publication/LICENSES/Apache-2.0.txt",
+    "Appautomaton-MIT.txt": "packs/workflows/literature-publication/LICENSES/Appautomaton-MIT.txt",
+    "Mathbox-MIT.txt": "packs/workflows/literature-publication/LICENSES/Mathbox-MIT.txt",
+    "Optimize-LaTeX-Tables-MIT.txt": "packs/workflows/literature-publication/LICENSES/Optimize-LaTeX-Tables-MIT.txt"
+  }
+}

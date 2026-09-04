@@ -1,0 +1,28 @@
+{
+  "name": "evidence-lab-research",
+  "description": "One-install Evidence Lab research skill library for Codex and Claude Code, without onboarding, profile collection, or automatic configuration.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Evidence Lab"
+  },
+  "keywords": [
+    "evidence-lab-research-library"
+  ],
+  "homepage": "https://github.com/timsmykov/evidence-lab-plugins",
+  "repository": "https://github.com/timsmykov/evidence-lab-plugins",
+  "license": "MIT AND Apache-2.0",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Evidence Lab Research Skills",
+    "shortDescription": "Install the complete Evidence Lab skill library.",
+    "longDescription": "Loads every published Evidence Lab research and personal-authoring skill as one plugin, while leaving onboarding and profile-based configuration optional.",
+    "developerName": "Evidence Lab",
+    "category": "Research",
+    "capabilities": [
+      "Research",
+      "Write",
+      "Analyze"
+    ],
+    "defaultPrompt": "Help me choose and apply the appropriate Evidence Lab research method."
+  }
+}

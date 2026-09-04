@@ -1,0 +1,37 @@
+[
+  {
+    "query": "Turn these research notes into a structured Markdown report with a Mermaid flowchart.",
+    "should_trigger": true
+  },
+  {
+    "query": "Create a versionable text diagram of this study workflow.",
+    "should_trigger": true
+  },
+  {
+    "query": "Write a Markdown decision record and include the process as Mermaid.",
+    "should_trigger": true
+  },
+  {
+    "query": "Document this research pipeline using Markdown and a sequence diagram.",
+    "should_trigger": true
+  },
+  {
+    "query": "Produce a text-first project document with a reproducible architecture diagram.",
+    "should_trigger": true
+  },
+  {
+    "query": "Create a publication-quality statistical figure from this dataset.",
+    "should_trigger": false,
+    "note": "Handled by scientific-visualization."
+  },
+  {
+    "query": "Rewrite this essay to improve voice and rhythm.",
+    "should_trigger": false,
+    "note": "Handled by writing-skill."
+  },
+  {
+    "query": "Convert these Office files into plain Markdown for extraction.",
+    "should_trigger": false,
+    "note": "Handled by markitdown."
+  }
+]

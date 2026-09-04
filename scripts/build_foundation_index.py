@@ -46,6 +46,8 @@ def build() -> dict:
         pack_dir = meta_path.parent
         pack = load(pack_dir / "pack.json")
         meta = load(meta_path)
+        if pack.get("distribution_bundle", False):
+            continue
         for item in meta.get("skills", []):
             name = item["name"]
             if name in owners:

@@ -1,107 +1,117 @@
-# Agent-first architecture
+# Evidence Lab plugin architecture
 
-## Normative direction
+This page explains how the user-facing plugin, canonical skill sources, optional onboarding, and host adapters relate. Start with [Getting started](getting-started.md) if you only want to install the library.
 
-Evidence Lab is defined by its researcher experience and five product layers, not by Claude Code or Codex packaging. Host formats are adapters generated from one semantic source.
+## Two independent user paths
 
-## Units
+### Direct library install
 
-**Skill** is one repeatable procedure with its local scripts, references, assets, and routing evals.
+```text
+GitHub marketplace
+  -> evidence-lab-research
+  -> 24 physical, byte-checked skill copies
+  -> Codex or Claude Code loads them in a new task
+```
 
-**Pack** is the unit of selection, installation, versioning, provenance, and review. A pack belongs to `core`, `workflow`, `domain`, or `local`.
+This is the default path. It has no plugin dependencies and contains no onboarding, profile collection, companion-plugin selection, or automatic configuration.
 
-**Researcher profile** records normalized domains, workflows, materials, stages, and methods. It is user-owned state, not repository content.
-
-**Selection plan** records exact pack IDs, versions, layers, and reasons before installation.
-
-**Host adapter** exposes the same pack to Claude Code or Codex without changing its scientific meaning.
-
-## Data flow
+### Optional personalized install
 
 ```text
 chat onboarding
-  -> normalized profile
+  -> normalized researcher profile
   -> deterministic selector
-  -> mandatory Core + profile-selected packs from the 20-skill library
-  -> reviewed selection plan
-  -> Codex companion-plugin plan (Codex only)
-  -> native host confirmation
-  -> installation readback
+  -> reviewed focused-pack plan
+  -> explicit confirmation
+  -> installation and exact host readback
 ```
 
-Free text may help normalize a profile. It never becomes an executable package name or installation command.
+This path lives in `evidence-lab-core`. It is an optional installation module, not a dependency of `evidence-lab-research`.
 
-The optional Codex companion-plugin plan is built from
-`catalog/external-plugin-candidates.json`. It is a separate trust boundary:
-portable Evidence Lab packs are selected first, then reviewed Codex-only
-components are matched against the same normalized profile. Skills-only
-plugins may become installable only after an Evidence Lab promotion gate.
-Directory apps and hybrids always remain a visible connection step and require
-post-connection readback. Claude Code receives no Codex directory actions.
-Components marked `explicit-opt-in` stay out of the visible plan unless the
-researcher names them or a future reviewed detector supplies the equivalent
-explicit signal; a broad domain or `papers` answer is not enough.
+## Core concepts
 
-Open-source skill examples discovered during capability research live in
-`catalog/open-source-skill-candidates.json`. That registry contains immutable
-upstream paths, license evidence, capability mappings, and promotion work. Its
-entries are source-only (`bundled: false`): they do not enter generated
-adapters, bootstrap selection, or release snapshots until a separate reviewed
-import preserves attribution and passes representative Codex and Claude tests.
+**Skill:** one repeatable procedure with its scripts, references, templates, and routing evals.
 
-Selection Policy owns the allowed profile vocabulary, matching semantics, and
-ordering contract. Reviewed rules in each `pack.json` select packs. The LLM may
-suggest normalized values for free text, but it cannot select a pack directly.
-`any` matches one value across declared fields, `all` requires a match in every
-declared field, `contains_all` requires every listed value within a field, and
-`none` excludes a match.
+**Focused pack:** the canonical unit of skill ownership, versioning, provenance, review, and profile-based selection. A focused pack belongs to `core`, `workflow`, `domain`, or `local`.
 
-`catalog/foundation-core.json` is the canonical generated inventory of the
-bounded researcher capability library. It maps 21 implemented capabilities to 20
-unique physical skill directories, records their owning packs, quality state,
-and content hashes, and lists six planned gaps separately. Packs marked
-Only packs marked `foundation: true` are installed for every validated profile.
-The remaining library packs are added by reviewed profile rules. A planned capability enters bootstrap only
-after it has a reviewed physical skill and is regenerated into this index.
+**Distribution bundle:** an installation surface that mirrors canonical skills without becoming their source of truth. `evidence-lab-research` is the all-in-one distribution bundle.
 
-For an existing workspace, selection feeds a reconciliation plan instead of a clean-install plan. The plan hashes live installed readback, separates add/update/retain/remove-candidate groups, and keeps extras by default. Additions and updates share one approval; removal requires a second approval. The state records the old release ref and exact pre-change pack snapshot so a failed or interrupted run can be inspected and restored without claiming success before exact readback.
+**Researcher profile:** normalized domains, workflows, materials, stages, and methods used only by optional onboarding. It is user-owned state.
 
-## Repository flow
+**Host adapter:** a generated Claude Code or Codex manifest exposing the same pack identity and skill tree.
+
+## Canonical source and generated copies
 
 ```text
-pack.json + shared skills + meta.json
-  -> build_foundation_index.py + build_adapters.py
-  -> Claude manifest and marketplace
-  -> Codex manifest and marketplace
-  -> Core runtime catalog
+focused pack/pack.json + meta.json + skills/
+              │
+              ├── build_foundation_index.py -> capability and readiness index
+              ├── build_adapters.py         -> host manifests and marketplaces
+              └── build_research_bundle.py  -> all-in-one physical skill copies
 ```
 
-Generated artifacts are committed so repository marketplaces work directly, but CI rejects drift from `pack.json`.
+Focused packs remain canonical. The all-in-one plugin contains physical copies because a clean Codex local-marketplace test showed that cross-plugin directory symlinks could install as empty directories. `build_research_bundle.py --check` compares paths, contents, and executable bits so generated copies cannot drift silently.
 
-## Current decomposition
+Generated artifacts are committed so GitHub marketplaces work directly. Repository verification rejects stale adapters, catalogues, indexes, or skill copies.
 
-- Evidence Lab Core: onboarding, selection, installation lifecycle, paper lookup, citations, critical thinking.
-- Research Design and Literature Publication: focused study-design and manuscript workflows.
-- Document Evidence and Structured Data Analysis: focused document conversion and dataset/database workflows.
-- Quantitative Sciences and Life Sciences: discipline-specific methods and checks.
-- Full Research Cycle and Data and PDF: compatibility aggregates that depend on the focused packs.
-- Publication Monitoring, Systematic Review, Qualitative Research, and Research Images: reviewed draft additions awaiting representative real-task evidence.
+## Pack decomposition
 
-Further splits or additions must be justified by tested user routes rather than by a desire to mirror a taxonomy.
+| Pack | Responsibility |
+|---|---|
+| `evidence-lab-research` | One-install distribution of all 24 user-facing skills, without onboarding |
+| `evidence-lab-core` | Optional onboarding, selection, installation lifecycle, and universal research foundations |
+| `research-design` | Hypothesis generation and experimental design |
+| `literature-publication` | Literature review, writing, peer review, diagrams, and LaTeX venue compliance |
+| `document-evidence` | Document normalization |
+| `structured-data-analysis` | Database retrieval and exploratory data analysis |
+| `quantitative-sciences` | Statistical analysis, power, units, uncertainty, and scientific visualization |
+| `life-sciences` | Life-science protocol and metadata checks |
+| Focused workflow packs | Publication monitoring, systematic review, qualitative analysis, research-image analysis, and meeting capture |
+| Compatibility packs | Legacy combined routes; not copied into the all-in-one library as user-facing skills |
+
+The [skill catalogue](skills.md) links every user-facing skill to its canonical focused-pack source.
+
+## Optional onboarding trust boundary
+
+Free text may help normalize a researcher profile. It never becomes an executable package name or installation command. Selection rules in `pack.json` operate only on validated vocabulary and stable rule IDs.
+
+The Codex companion-plugin plan is a second trust boundary. It is built from `catalog/external-plugin-candidates.json` only after portable Evidence Lab packs have been selected. Directory apps and hybrids remain visible connection steps, and every planned installation or activation requires exact readback. Claude Code receives no Codex directory actions.
+
+For an existing workspace, onboarding builds a reconciliation plan rather than silently changing the installation. Additions and updates share one approval, extras are retained by default, and removal requires separate approval. A changed profile, release, or installed snapshot invalidates an unexecuted plan.
+
+## Readiness model
+
+Three different claims must not be collapsed:
+
+1. **Installable:** the host receives the expected plugin files and discovers the skills.
+2. **Mechanically verified:** schemas, generated artifacts, routing evals, and deterministic checks pass.
+3. **Scientifically accepted:** representative real-task runs and independent review support the procedure's quality status.
+
+The all-in-one plugin has passed the first two gates locally in Codex and Claude Code. Individual skills still carry their own review status; see [Skill-pack readiness](skill-pack-readiness.md).
+
+## Release model
+
+Each focused plugin uses SemVer. Public Evidence Lab distribution uses immutable `release-YYYY.MM.N` Git tags plus a generated `release-lock.json` GitHub Release asset. The lock binds the source commit, catalogue hash, and exact version, content hash, supported host, and license for each published pack.
+
+A branch, fork, or untagged commit is source code, not a supported release. See [Release process](release-process.md).
 
 ## Invariants
 
-- Shared skills are authored once.
-- Every adapter exposes the same ID, version, description, author, license, and skill tree.
-- Dependencies are resolved before a plan is shown.
-- A changed profile, release ref, or installed snapshot invalidates an unexecuted reconcile plan.
-- Reconciliation never removes an extra pack without a separate confirmation.
-- Partial installation must not be recorded as ready.
-- Every indexed research-library skill is owned by exactly one pack and is
-  present in both the canonical and Core runtime indexes with the same hash.
-- A runtime is not supported until its adapter and representative behavior pass.
-- Provenance, licensing, deterministic scripts, and negative routing evals survive every split.
+- Every user-facing skill has exactly one canonical focused-pack owner.
+- The all-in-one plugin has no dependencies and excludes onboarding and compatibility routers.
+- Generated skill copies match their canonical sources byte for byte, including executable permissions.
+- Claude Code and Codex adapters preserve pack identity, version, description, author, license, and component paths.
+- Free-text onboarding cannot choose executable package identifiers.
+- Reconciliation does not remove extras without separate confirmation.
+- Partial installation is never recorded as ready.
+- Planned capabilities are not presented as installed.
+- A runtime is supported only after adapter, installed-copy, and representative behavior checks pass.
+- Provenance, licensing, privacy, and negative routing evals survive every move or split.
 
-## Deferred
+## Related documentation
 
-Marketplace verification and application-specific graphical presentation remain distribution work. Hermes, ChatGPT-specific packaging, a graphical onboarding UI, silent installation, and runtime generation of new skills are outside the current Claude Code and Codex scope. The GitHub-first MVP already includes an app-first chat entrypoint, localized deterministic recommendations, explicit installation plans, state, readback, idempotent retry, and bounded rollback.
+- [Getting started](getting-started.md)
+- [Skill catalogue](skills.md)
+- [Authoring skills and packs](authoring.md)
+- [Review checklist](review-checklist.md)
+- [Release process](release-process.md)

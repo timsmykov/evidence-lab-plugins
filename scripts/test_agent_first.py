@@ -92,10 +92,10 @@ def check_frozen_foundation() -> None:
     policy = load(POLICY_PATH)
     validate(catalog, "pack-catalog.schema.json")
     validate(foundation, "foundation-core.schema.json")
-    if foundation["physical_skill_count"] != 20:
-        raise AssertionError("frozen foundation must index exactly 20 current physical skills")
-    if len(foundation["planned_capabilities"]) != 6:
-        raise AssertionError("frozen foundation must retain exactly six planned capabilities")
+    if foundation["physical_skill_count"] != 21:
+        raise AssertionError("frozen foundation must index exactly 21 current physical skills")
+    if len(foundation["planned_capabilities"]) != 5:
+        raise AssertionError("frozen foundation must retain exactly five planned capabilities")
     declared_packs = [pack["id"] for pack in catalog["packs"] if pack["foundation"]]
     if set(declared_packs) != set(foundation["mandatory_pack_ids"]):
         raise AssertionError("runtime catalog mandatory packs differ from the frozen skill index")
@@ -225,7 +225,8 @@ def check_policy_boundaries() -> None:
         raise AssertionError("selector output is not deterministic")
 
     bad_rule_catalog = json.loads(json.dumps(catalog))
-    bad_rule_catalog["packs"][1]["selection"]["rules"][0]["id"] = "required-foundation"
+    pack_with_rule = next(pack for pack in bad_rule_catalog["packs"] if pack["selection"]["rules"])
+    pack_with_rule["selection"]["rules"][0]["id"] = "required-foundation"
     try:
         selector.select(base, bad_rule_catalog, policy)
     except ValueError as exc:
@@ -322,9 +323,10 @@ def check_plan_copy() -> None:
     validate(english, "onboarding-plan-copy.schema.json")
     validate(russian, "onboarding-plan-copy.schema.json")
 
-    expected_packs = {pack["id"] for pack in catalog["packs"]}
+    onboarding_packs = [pack for pack in catalog["packs"] if not pack.get("distribution_bundle", False)]
+    expected_packs = {pack["id"] for pack in onboarding_packs}
     expected_rules = {"required-foundation"}
-    for pack in catalog["packs"]:
+    for pack in onboarding_packs:
         expected_rules.update(rule["id"] for rule in pack["selection"]["rules"])
 
     for label, copy in (("English", english), ("Russian", russian)):

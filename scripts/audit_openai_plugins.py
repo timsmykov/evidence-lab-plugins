@@ -23,7 +23,7 @@ RESEARCH_CANDIDATES = {
     "Mixpanel Headless", "PaperDock", "Patent Connector", "Precise Special Functions",
     "Readwise", "Scholar Gateway", "Scholar Sidekick", "SciSpace", "Scite",
     "Sider Scholar", "Strive PDF Generator", "Transkriptor", "Undermind", "Wolfram",
-    "Zotero",
+    "Zotero", "Biological Sequence & Alignment Viewer", "Molecular Structure Viewer", "Slide Viewer",
 }
 RESEARCH_TERMS = {
     "academic", "analysis", "article", "citation", "clinical", "computation",
@@ -32,6 +32,18 @@ RESEARCH_TERMS = {
     "research", "science", "scientific", "scholar", "statistics", "transcri",
 }
 SKILL_BUNDLE_OVERRIDES = {
+    "Adaptyv Bio": {
+        "dependency_model": "external-protein-experiment-platform",
+        "provider_access": "external-account-required",
+        "bootstrap_decision": "exclude-from-researcher-default",
+        "reason": "The bundle manages experiments through the Adaptyv Bio API, so it is not a zero-account onboarding component.",
+    },
+    "Biological Sequence & Alignment Viewer": {
+        "dependency_model": "local-scientific-viewer-runtime",
+        "provider_access": "no-provider-account-observed",
+        "bootstrap_decision": "explicit-domain-opt-in-after-benchmark",
+        "reason": "Self-contained viewer surface for sequence and alignment inspection; useful only for matching life-science profiles.",
+    },
     "Life Science Research": {
         "dependency_model": "public-endpoints-and-local-runtime",
         "provider_access": "no-provider-account-observed",
@@ -43,6 +55,36 @@ SKILL_BUNDLE_OVERRIDES = {
         "provider_access": "no-provider-account-observed",
         "bootstrap_decision": "explicit-domain-opt-in",
         "reason": "Useful only for sequencing and omics workflows; dependency preflight is mandatory.",
+    },
+    "Life Sciences Databases": {
+        "dependency_model": "public-life-science-database-endpoints",
+        "provider_access": "no-provider-account-observed",
+        "bootstrap_decision": "candidate-after-behavior-benchmark",
+        "reason": "Broad public-database query bundle; profile selection and endpoint behavior still need a bounded benchmark.",
+    },
+    "Life Sciences Literature": {
+        "dependency_model": "public-literature-and-open-access-endpoints",
+        "provider_access": "no-provider-account-observed",
+        "bootstrap_decision": "candidate-after-behavior-benchmark",
+        "reason": "Biomedical literature retrieval over public and open-access sources; benchmark against Evidence Lab literature workflows before defaulting it.",
+    },
+    "Molecular Structure Viewer": {
+        "dependency_model": "local-scientific-viewer-runtime",
+        "provider_access": "no-provider-account-observed",
+        "bootstrap_decision": "explicit-domain-opt-in-after-benchmark",
+        "reason": "Self-contained molecular visualization surface for matching structural-biology profiles.",
+    },
+    "NGS Analysis Workbench": {
+        "dependency_model": "local-sequencing-analysis-toolchain",
+        "provider_access": "no-provider-account-observed",
+        "bootstrap_decision": "explicit-domain-opt-in-after-benchmark",
+        "reason": "Specialized sequencing analysis bundle; dependency preflight and representative-file benchmark are mandatory.",
+    },
+    "Slide Viewer": {
+        "dependency_model": "local-scientific-viewer-runtime",
+        "provider_access": "no-provider-account-observed",
+        "bootstrap_decision": "explicit-domain-opt-in-after-benchmark",
+        "reason": "Specialized whole-slide and spatial-data viewer for matching pathology profiles.",
     },
     "Zotero": {
         "dependency_model": "local-zotero-desktop",
@@ -262,13 +304,37 @@ def validate_data(data: dict) -> list[str]:
     return failures
 
 
+def reclassify_existing(data: dict) -> dict:
+    """Refresh policy fields without changing the captured marketplace snapshot."""
+    for collection in ("target_inventory", "all_skills_only_plugins", "reviewed_candidates"):
+        for row in data.get(collection, []):
+            override = SKILL_BUNDLE_OVERRIDES.get(row.get("display_name"))
+            if override and row.get("component_type") == "skills-only":
+                row.update(override)
+    return data
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("snapshot", type=Path, nargs="?")
     parser.add_argument("--report", type=Path, default=DEFAULT_REPORT)
     parser.add_argument("--data", type=Path, default=DEFAULT_DATA)
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--reclassify-existing", action="store_true")
     args = parser.parse_args()
+    if args.reclassify_existing:
+        if not args.data.exists():
+            print(f"FAIL: missing audit data: {args.data.relative_to(ROOT)}", file=sys.stderr)
+            return 1
+        data = reclassify_existing(json.loads(args.data.read_text(encoding="utf-8")))
+        failures = validate_data(data)
+        if failures:
+            print("FAIL: " + "; ".join(failures), file=sys.stderr)
+            return 1
+        args.data.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        args.report.write_text(render(data), encoding="utf-8")
+        print(f"reclassified {len(data['all_skills_only_plugins'])} skill-only entries")
+        return 0
     if args.check:
         if not args.data.exists():
             print(f"FAIL: missing audit data: {args.data.relative_to(ROOT)}", file=sys.stderr)

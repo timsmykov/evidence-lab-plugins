@@ -1,6 +1,9 @@
-# Evidence Lab Core
+# Evidence Lab Core — optional onboarding
 
-The universal Evidence Lab foundation. It runs the short researcher onboarding, creates an explainable pack plan, finds and validates papers and citations, and audits scientific claims.
+The optional Evidence Lab personalization and foundation plugin. It runs the
+short researcher onboarding and creates an explainable pack plan. Users who
+want the complete skill library without onboarding should install the separate
+`evidence-lab-research` plugin instead.
 
 The host-neutral contract is `pack.json`. Claude Code and Codex manifests are generated from it and load the same `skills/` directory.
 

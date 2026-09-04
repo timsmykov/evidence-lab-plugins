@@ -8,7 +8,7 @@
     {
       "name": "evidence-lab-core",
       "description": "Agent-first research foundations, fast researcher onboarding, personal skill creation, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
-      "version": "0.16.0",
+      "version": "0.17.0",
       "author": {
         "name": "Evidence Lab"
       },
@@ -23,6 +23,19 @@
         "paper-lookup",
         "citation-management",
         "critical-thinking"
+      ]
+    },
+    {
+      "name": "evidence-lab-research",
+      "description": "One-install Evidence Lab research skill library for Codex and Claude Code, without onboarding, profile collection, or automatic configuration.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Evidence Lab"
+      },
+      "source": "./packs/core/evidence-lab-research",
+      "category": "research",
+      "keywords": [
+        "evidence-lab-research-library"
       ]
     },
     {
@@ -108,8 +121,8 @@
     },
     {
       "name": "literature-publication",
-      "description": "Literature synthesis, evidence-bounded academic writing, editable research diagrams, and manuscript review without installing study-design procedures.",
-      "version": "0.3.0",
+      "description": "Literature synthesis, evidence-bounded academic writing, editable research diagrams, manuscript review, and source-backed LaTeX venue formatting without installing study-design procedures.",
+      "version": "0.4.0",
       "author": {
         "name": "Evidence Lab"
       },
@@ -119,7 +132,8 @@
         "literature-review",
         "academic-writing",
         "peer-review",
-        "research-diagrams"
+        "research-diagrams",
+        "latex-and-venue-formatting"
       ]
     },
     {

@@ -1,0 +1,244 @@
+{
+  "status": "draft",
+  "category": "research",
+  "risk_level": "team_safe",
+  "owner": "Tim",
+  "reviewer": "Tim",
+  "provenance": {
+    "origin": "Distribution-only bundle of canonical Evidence Lab research skills; onboarding remains in the separate evidence-lab-core plugin.",
+    "evidence": [
+      "packs/core/evidence-lab-research/bundle.json",
+      "docs/skill-pack-readiness.md"
+    ],
+    "added_at": "2026-09-04"
+  },
+  "skills": [
+    {
+      "name": "citation-management",
+      "summary": "Finds, verifies, deduplicates, and formats scholarly citation metadata and BibTeX.",
+      "quality_status": "needs-representative-testing",
+      "deterministic_parts": [
+        "scripts/validate_citations.py",
+        "scripts/format_bibtex.py"
+      ]
+    },
+    {
+      "name": "paper-lookup",
+      "summary": "Searches scholarly APIs and returns deduplicated paper records, identifiers, provenance, and available full text.",
+      "quality_status": "needs-representative-testing",
+      "deterministic_parts": [
+        "scripts/paginate.py",
+        "scripts/jats_to_text.py",
+        "scripts/openalex_abstract.py"
+      ]
+    },
+    {
+      "name": "personal-skill-authoring",
+      "summary": "Turns a researcher's recurring workflow into a small, portable, validated personal skill.",
+      "quality_status": "needs-representative-testing",
+      "deterministic_parts": [
+        "scripts/scaffold_personal_skill.py",
+        "scripts/validate_personal_skill.py"
+      ]
+    },
+    {
+      "name": "scientific-critical-thinking",
+      "summary": "Audits claims, assumptions, causal language, bias, confounding, and evidence quality.",
+      "quality_status": "needs-representative-testing",
+      "deterministic_parts": []
+    },
+    {
+      "name": "life-science-protocols",
+      "summary": "Validates that life-science protocol identity, controls, bias, safety, and reporting context are explicitly recorded.",
+      "quality_status": "needs-substantive-work",
+      "development_notes": [
+        "Expand the short generic procedure with representative protocol families, reporting standards, and independent life-science review."
+      ],
+      "deterministic_parts": [
+        "scripts/validate_protocol_record.py"
+      ]
+    },
+    {
+      "name": "scientific-visualization",
+      "summary": "Designs and audits truthful, accessible, publication-oriented scientific figures and export settings.",
+      "quality_status": "needs-representative-testing",
+      "deterministic_parts": [
+        "scripts/palette_audit.py",
+        "scripts/figure_export.py",
+        "scripts/image_metadata.py"
+      ]
+    },
+    {
+      "name": "statistical-analysis",
+      "summary": "Produces a confirmed analysis plan, diagnostics, effect sizes, uncertainty, and bounded statistical reporting.",
+      "quality_status": "needs-representative-testing",
+      "deterministic_parts": [
+        "scripts/assumption_checks.py"
+      ]
+    },
+    {
+      "name": "statistical-power",
+      "summary": "Calculates power, sample size, sensitivity, or minimum detectable effects from explicit assumptions.",
+      "quality_status": "needs-representative-testing",
+      "deterministic_parts": [
+        "scripts/power.py",
+        "scripts/simulate_power.py"
+      ]
+    },
+    {
+      "name": "uncertainty-and-units",
+      "summary": "Checks units, performs conversions, propagates uncertainty, and formats results with an audit trail.",
+      "quality_status": "needs-representative-testing",
+      "deterministic_parts": [
+        "scripts/audit_units.py",
+        "scripts/convert_units.py",
+        "scripts/propagate_uncertainty.py"
+      ]
+    },
+    {
+      "name": "markitdown",
+      "summary": "Converts supported local documents and selected sources to normalized Markdown for analysis and indexing.",
+      "quality_status": "needs-representative-testing",
+      "deterministic_parts": [
+        "scripts/batch_convert.py",
+        "scripts/convert_literature.py",
+        "scripts/inspect_installation.py"
+      ]
+    },
+    {
+      "name": "evidence-lab-meeting-capture",
+      "summary": "Turns Evidence Lab meeting sources into reviewed summaries and verified records in the canonical Notion meeting database.",
+      "quality_status": "needs-representative-testing",
+      "development_notes": [
+        "Run the workflow on a new external meeting transcript and obtain independent editorial review before promotion to production."
+      ],
+      "deterministic_parts": [
+        "scripts/validate_meeting_record.py"
+      ]
+    },
+    {
+      "name": "literature-review",
+      "summary": "Produces a documented review protocol, screening trail, evidence table, synthesis, and verified bibliography.",
+      "quality_status": "needs-representative-testing",
+      "deterministic_parts": [
+        "scripts/search_databases.py",
+        "scripts/verify_citations.py",
+        "scripts/generate_pdf.py"
+      ]
+    },
+    {
+      "name": "latex-and-venue-formatting",
+      "summary": "Builds, repairs, compiles, and audits LaTeX manuscripts against current source-backed venue requirements.",
+      "quality_status": "needs-representative-testing",
+      "deterministic_parts": [
+        "scripts/validate_submission.py",
+        "scripts/compile_project.py"
+      ]
+    },
+    {
+      "name": "markdown-mermaid-writing",
+      "summary": "Creates versionable structural diagrams and consistent Markdown layouts using Mermaid and focused style rules.",
+      "quality_status": "needs-representative-testing",
+      "deterministic_parts": []
+    },
+    {
+      "name": "peer-review",
+      "summary": "Builds an evidence-bounded manuscript assessment with claim, method, statistics, ethics, and reproducibility checks.",
+      "quality_status": "needs-representative-testing",
+      "deterministic_parts": [
+        "scripts/generate_review_scaffold.py",
+        "scripts/validate_claim_evidence.py",
+        "scripts/lint_review.py"
+      ]
+    },
+    {
+      "name": "writing-skill",
+      "summary": "Routes evidence-bounded Russian or English writing by genre, including an academic and scientific mode.",
+      "quality_status": "needs-representative-testing",
+      "deterministic_parts": []
+    },
+    {
+      "name": "publication-monitoring",
+      "summary": "Maintains a bounded query, stable checkpoint, deduplicated publication state, and source-linked update digest.",
+      "quality_status": "needs-substantive-work",
+      "development_notes": [
+        "Expand the compact procedure with source-specific update semantics, failure recovery, and representative longitudinal tests."
+      ],
+      "deterministic_parts": [
+        "scripts/update_monitor_state.py"
+      ]
+    },
+    {
+      "name": "qualitative-analysis",
+      "summary": "Produces a validated codebook, traceable coded excerpts, reflexive notes, and evidence-bounded themes.",
+      "quality_status": "needs-substantive-work",
+      "development_notes": [
+        "Expand the compact procedure with major qualitative approaches, reflexivity guidance, saturation limits, and representative reviewed examples."
+      ],
+      "deterministic_parts": [
+        "scripts/validate_codebook.py"
+      ]
+    },
+    {
+      "name": "experimental-design",
+      "summary": "Produces an interpretable study design, randomization or blocking plan, and reproducible layout.",
+      "quality_status": "needs-representative-testing",
+      "deterministic_parts": [
+        "scripts/doe_designs.py",
+        "scripts/randomization.py"
+      ]
+    },
+    {
+      "name": "hypothesis-generation",
+      "summary": "Turns observations into testable hypotheses, rivals, predictions, measurements, and preregistration artefacts.",
+      "quality_status": "needs-representative-testing",
+      "deterministic_parts": [
+        "scripts/validate_hypothesis_schema.py",
+        "scripts/validate_prediction_matrix.py",
+        "scripts/generate_preregistration_scaffold.py"
+      ]
+    },
+    {
+      "name": "research-image-analysis",
+      "summary": "Produces a provenance record for research images, transformations, measurements, exclusions, and interpretation limits.",
+      "quality_status": "needs-substantive-work",
+      "development_notes": [
+        "Expand the compact procedure with modality boundaries, manipulation checks, measurement uncertainty, and representative image workflows."
+      ],
+      "deterministic_parts": [
+        "scripts/validate_image_provenance.py"
+      ]
+    },
+    {
+      "name": "database-lookup",
+      "summary": "Retrieves facts reproducibly from documented public database APIs with explicit filters and provenance.",
+      "quality_status": "needs-representative-testing",
+      "deterministic_parts": []
+    },
+    {
+      "name": "exploratory-data-analysis",
+      "summary": "Profiles supported local research data and reports quality, missingness, leakage, and sensitivity diagnostics.",
+      "quality_status": "needs-representative-testing",
+      "deterministic_parts": [
+        "scripts/eda_analyzer.py",
+        "scripts/tabular_profile.py",
+        "scripts/missingness_leakage_audit.py"
+      ]
+    },
+    {
+      "name": "systematic-review",
+      "summary": "Builds a protocol-driven search, stable deduplication, screening decisions, and auditable review flow.",
+      "quality_status": "needs-substantive-work",
+      "development_notes": [
+        "Expand the compact procedure with protocol standards, database-specific strategies, dual screening, bias appraisal, and representative review tests."
+      ],
+      "deterministic_parts": [
+        "scripts/deduplicate_records.py"
+      ]
+    }
+  ],
+  "portable_to": [
+    "claude",
+    "codex"
+  ]
+}

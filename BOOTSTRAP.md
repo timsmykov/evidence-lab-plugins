@@ -1,6 +1,8 @@
 # Evidence Lab bootstrap contract
 
-Use this file only before Evidence Lab is installed. The user should not need terminal commands or plugin-format knowledge.
+Use this file only for the optional personalized installation flow before
+Evidence Lab is installed. It is not required to install or use the
+`evidence-lab-research` all-in-one skill plugin.
 
 The app-first entrypoint is [`START.md`](START.md), with a Russian companion in
 [`START.ru.md`](START.ru.md). When the user arrives through either file, keep

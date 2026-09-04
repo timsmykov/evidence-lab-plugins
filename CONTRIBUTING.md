@@ -32,6 +32,8 @@ python3 scripts/new_pack.py <name> --layer <core|workflow|domain|local> --skill 
 Fill in `SKILL.md`, `meta.json` (especially `provenance`), the eval set and, where there are deterministic steps, `scripts/`. Before opening the pull request:
 
 ```bash
+python3 scripts/build_skill_docs.py --check
+python3 scripts/build_research_bundle.py --check
 python3 scripts/build_adapters.py --check
 python3 scripts/test_agent_first.py
 python3 scripts/test_bootstrap.py
@@ -44,6 +46,17 @@ python3 scripts/verify_repo.py
 gitleaks dir . --redact --no-banner
 gitleaks git . --log-opts="--all" --redact --no-banner
 ```
+
+If a user-facing skill is added, removed, renamed, or materially changes its
+output, update `catalog/skill-docs.json` and regenerate `docs/skills.md`:
+
+```bash
+python3 scripts/build_skill_docs.py
+```
+
+The generated catalogue must link to the canonical focused-pack `SKILL.md`, not
+the copied directory inside `evidence-lab-research`. Update the getting-started
+guide or documentation home when the install flow or public navigation changes.
 
 ## 3. Review
 

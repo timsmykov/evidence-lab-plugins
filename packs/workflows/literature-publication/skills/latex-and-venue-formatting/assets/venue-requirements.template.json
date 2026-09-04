@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "target": {
+    "venue": "",
+    "year_or_cycle": "",
+    "track": "",
+    "document_type": "",
+    "stage": "initial-submission",
+    "authoring_format": "latex"
+  },
+  "official_sources": [
+    {
+      "title": "",
+      "url": "https://example.org/official-author-instructions",
+      "checked_at": "YYYY-MM-DD",
+      "supports": []
+    }
+  ],
+  "template": {
+    "status": "official",
+    "source_url": "https://example.org/official-template",
+    "version_or_checksum": "",
+    "license_or_terms_checked": false,
+    "modified": false
+  },
+  "constraints": {
+    "max_content_pages": null,
+    "content_pages": null,
+    "anonymity_required": false,
+    "strict_layout_warnings": true,
+    "required_sections": [],
+    "forbidden_packages": [],
+    "required_files": [],
+    "bibliography_system": "",
+    "source_package_required": null,
+    "pdf_required": true
+  },
+  "manual_checks": {
+    "page_scope_confirmed": false,
+    "template_integrity_confirmed": false,
+    "anonymity_reviewed": false,
+    "all_pdf_pages_inspected": false,
+    "submission_portal_previewed": false
+  },
+  "notes": []
+}

@@ -1,14 +1,14 @@
 # Codex researcher plugin marketplace audit
 
-Snapshot fetched at `2026-08-27T10:59:31.573949222Z`; SHA-256 `f75688ef6b9fd668c4670d4438a3f90542d7fad41723c384e120db3e3acddbe3`.
+Snapshot fetched at `2026-08-31T11:54:38.767836828Z`; SHA-256 `eeb90d6c8990edc7235a095eeafc930346137529dd13c50225202b38e0b42d02`.
 This is a complete catalog screen, not a claim that every external service has been behavior-tested.
 
 ## What was audited
 
-- All directory records: **3045**; active, listed, installable records: **2717**.
-- Whole active catalog: **2444 app-only**, **244 hybrid**, **29 skills-only**.
-- Complete researcher-facing category inventory: **281** entries across Education & Research, Data & Analytics, and Scientific Research.
-- In those categories: **247 app-only**, **29 hybrid**, **5 skills-only**.
+- All directory records: **3205**; active, listed, installable records: **2818**.
+- Whole active catalog: **2520 app-only**, **261 hybrid**, **37 skills-only**.
+- Complete researcher-facing category inventory: **303** entries across Education & Research, Data & Analytics, and Scientific Research.
+- In those categories: **259 app-only**, **32 hybrid**, **12 skills-only**.
 - Exact `Tectonic` matches: **0**; names containing `LaTeX`: **0**.
 
 The Install button is not evidence of zero cost or zero setup. App-only and hybrid entries connect an external service. A skills-only entry can still require an account, local software, a heavy toolchain, or paid jobs.
@@ -21,7 +21,14 @@ The Install button is not evidence of zero cost or zero setup. App-only and hybr
 | Life Science Research | Education & Research | 50 | `no-provider-account-observed` / `public-endpoints-and-local-runtime` | `candidate-after-behavior-benchmark` |
 | Life Sciences NGS Analysis | Education & Research | 18 | `no-provider-account-observed` / `heavy-local-bioinformatics-toolchain` | `explicit-domain-opt-in` |
 | Zotero | Education & Research | 1 | `local-application-required` / `local-zotero-desktop` | `explicit-tool-opt-in` |
+| Adaptyv Bio | Scientific Research | 4 | `external-account-required` / `external-protein-experiment-platform` | `exclude-from-researcher-default` |
+| Biological Sequence & Alignment Viewer | Scientific Research | 1 | `no-provider-account-observed` / `local-scientific-viewer-runtime` | `explicit-domain-opt-in-after-benchmark` |
 | Boltz | Scientific Research | 8 | `external-account-and-spend-confirmation-required` / `boltz-cli-auth-and-paid-jobs` | `explicit-domain-opt-in-after-benchmark` |
+| Life Sciences Databases | Scientific Research | 44 | `no-provider-account-observed` / `public-life-science-database-endpoints` | `candidate-after-behavior-benchmark` |
+| Life Sciences Literature | Scientific Research | 3 | `no-provider-account-observed` / `public-literature-and-open-access-endpoints` | `candidate-after-behavior-benchmark` |
+| Molecular Structure Viewer | Scientific Research | 1 | `no-provider-account-observed` / `local-scientific-viewer-runtime` | `explicit-domain-opt-in-after-benchmark` |
+| NGS Analysis Workbench | Scientific Research | 5 | `no-provider-account-observed` / `local-sequencing-analysis-toolchain` | `explicit-domain-opt-in-after-benchmark` |
+| Slide Viewer | Scientific Research | 1 | `no-provider-account-observed` / `local-scientific-viewer-runtime` | `explicit-domain-opt-in-after-benchmark` |
 
 ## Bootstrap policy
 
@@ -41,6 +48,7 @@ The Install button is not evidence of zero cost or zero setup. App-only and hybr
 | alphaXiv | Education & Research | `app-only` | `external-service-terms-unverified` | `connection-candidate-after-benchmark` |
 | Amass | Education & Research | `app-only` | `external-service-terms-unverified` | `connection-candidate-after-benchmark` |
 | Article Galaxy | Education & Research | `app-only` | `external-service-terms-unverified` | `connection-candidate-after-benchmark` |
+| Biological Sequence & Alignment Viewer | Scientific Research | `skills-only` | `no-provider-account-observed` | `explicit-domain-opt-in-after-benchmark` |
 | BioRender | Creativity | `app-only` | `external-service-terms-unverified` | `connection-candidate-after-benchmark` |
 | Boltz | Scientific Research | `skills-only` | `external-account-and-spend-confirmation-required` | `explicit-domain-opt-in-after-benchmark` |
 | Build Web Data Visualization | Developer Tools | `skills-only` | `no-provider-account-observed` | `optional-output-format-opt-in` |
@@ -55,6 +63,7 @@ The Install button is not evidence of zero cost or zero setup. App-only and hybr
 | Life Sciences NGS Analysis | Education & Research | `skills-only` | `no-provider-account-observed` | `explicit-domain-opt-in` |
 | Midpage Legal Research | Education & Research | `hybrid` | `external-service-terms-unverified` | `connection-candidate-after-benchmark` |
 | Mixpanel Headless | Data & Analytics | `skills-only` | `external-account-required` | `exclude-from-researcher-default` |
+| Molecular Structure Viewer | Scientific Research | `skills-only` | `no-provider-account-observed` | `explicit-domain-opt-in-after-benchmark` |
 | PaperDock | Education & Research | `app-only` | `external-service-terms-unverified` | `connection-candidate-after-benchmark` |
 | Patent Connector | Education & Research | `app-only` | `external-service-terms-unverified` | `connection-candidate-after-benchmark` |
 | Precise Special Functions | Education & Research | `app-only` | `external-service-terms-unverified` | `connection-candidate-after-benchmark` |
@@ -64,6 +73,7 @@ The Install button is not evidence of zero cost or zero setup. App-only and hybr
 | SciSpace | Education & Research | `app-only` | `external-service-terms-unverified` | `connection-candidate-after-benchmark` |
 | Scite | Education & Research | `app-only` | `external-service-terms-unverified` | `connection-candidate-after-benchmark` |
 | Sider Scholar | Education & Research | `app-only` | `external-service-terms-unverified` | `connection-candidate-after-benchmark` |
+| Slide Viewer | Scientific Research | `skills-only` | `no-provider-account-observed` | `explicit-domain-opt-in-after-benchmark` |
 | Strive PDF Generator | Education & Research | `app-only` | `external-service-terms-unverified` | `connection-candidate-after-benchmark` |
 | Transkriptor | Education & Research | `app-only` | `external-service-terms-unverified` | `connection-candidate-after-benchmark` |
 | Undermind | Scientific Research | `app-only` | `external-service-terms-unverified` | `connection-candidate-after-benchmark` |
@@ -90,6 +100,8 @@ Every active entry in the three target categories appears below. `catalog-screen
 | Category | Plugin | Developer | Type | Skills | Apps | Screen decision |
 |---|---|---|---|---:|---:|---|
 | Data & Analytics | AIDA Platform | Vibezz | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
+| Data & Analytics | AirOps | Rivington Labs, Inc. dba AirOps | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
+| Data & Analytics | AiTrillion | Aitrillion | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | Alation | http://alation.com/ | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | Alizé | Alizé | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | Allium | Allium Labs Inc. | `hybrid` | 6 | 1 | `manual-review-if-profile-matches` |
@@ -99,6 +111,7 @@ Every active entry in the three target categories appears below. `catalog-screen
 | Data & Analytics | Atlan | Atlan | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | august | Fermat Commerce | `hybrid` | 9 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | Aurora | Consilio, LLC | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
+| Data & Analytics | AWS Data Analytics | Amazon Web Services | `hybrid` | 9 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | Azadea One | HYVE LABS LLC | `app-only` | 0 | 1 | `not-bootstrap-priority` |
 | Data & Analytics | BencinaMCP | Kemeny Studio | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | BigGeo AI | BigGeo Globle Inc. | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
@@ -123,6 +136,7 @@ Every active entry in the three target categories appears below. `catalog-screen
 | Data & Analytics | Damoov Telematics | Damoov | `hybrid` | 3 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | Data Analytics | OpenAI | `hybrid` | 15 | 20 | `connection-candidate-after-benchmark` |
 | Data & Analytics | DataAssist-IO | Absolute TechTeam | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
+| Data & Analytics | Datadog Experiments | Datadog Inc | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | Dataslayer | Dataslayer | `hybrid` | 7 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | Deepnote | Deepnote, inc. | `hybrid` | 5 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | DMAP AI | AgriMetSoft LLC | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
@@ -150,6 +164,7 @@ Every active entry in the three target categories appears below. `catalog-screen
 | Data & Analytics | Kindora | Justin Richard Steele | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | KrystalView | Krystal Unity Pty Ltd | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | Landstack | Thovex Ltd | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
+| Data & Analytics | Lead Recorder | Lead Recorder | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | Leo - Running Coach | NICOLAS AGUER | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | Lytical | Lytical, Inc. | `app-only` | 0 | 1 | `not-bootstrap-priority` |
 | Data & Analytics | Master Metrics | Master Metrics LLC | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
@@ -164,6 +179,7 @@ Every active entry in the three target categories appears below. `catalog-screen
 | Data & Analytics | Padel Analyst | Ferran Figueredo | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | PagePulse | Page Pulse, LLC | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | Parcelle Cadastre | 2803 MEDIA | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
+| Data & Analytics | Peec AI | Peec AI | `app-only` | 0 | 1 | `not-bootstrap-priority` |
 | Data & Analytics | Polar Analytics | Polar Analytics, Inc. | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | PolicyNote | FiscalNote | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | Porter Metrics | Porter Metrics | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
@@ -178,6 +194,7 @@ Every active entry in the three target categories appears below. `catalog-screen
 | Data & Analytics | Recall Scout | SIMON MAN SHIH | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | Refiner | Refiner SASU | `app-only` | 0 | 1 | `not-bootstrap-priority` |
 | Data & Analytics | Remedy Legal | LISTO LABS | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
+| Data & Analytics | Repuso | OnClick Solutions Ltd | `app-only` | 0 | 1 | `not-bootstrap-priority` |
 | Data & Analytics | Reverse Contact | Reverse Contact | `app-only` | 0 | 1 | `not-bootstrap-priority` |
 | Data & Analytics | SEO Programático | ESTEBAN ROBERTO ALEART SALAS | `app-only` | 0 | 1 | `not-bootstrap-priority` |
 | Data & Analytics | Serpstat | Serpstat | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
@@ -186,8 +203,8 @@ Every active entry in the three target categories appears below. `catalog-screen
 | Data & Analytics | Sixtyfour Intelligence | SixtyFourAI | `hybrid` | 1 | 1 | `not-bootstrap-priority` |
 | Data & Analytics | SkyWatch | SkyWatch Space Applications Inc. | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | Sleekplan | Sleekplan GmbH | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
-| Data & Analytics | Sometrend | VAIV Company | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | Sometrend | VAIV Company Inc. | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
+| Data & Analytics | Sometrend | VAIV Company | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | StatsHawk | EdgeHawk | `hybrid` | 2 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | Steep | Steep Analytics | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Data & Analytics | Subtext | Fullstory | `hybrid` | 6 | 1 | `manual-review-if-profile-matches` |
@@ -270,7 +287,7 @@ Every active entry in the three target categories appears below. `catalog-screen
 | Education & Research | Emona | Emona | `app-only` | 0 | 1 | `not-bootstrap-priority` |
 | Education & Research | ETT | ETT Education & Technology Group | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Education & Research | Examen Civique | Maison Logiciels | `app-only` | 0 | 1 | `not-bootstrap-priority` |
-| Education & Research | Explain Video Generator | Scrimba AS | `app-only` | 0 | 1 | `not-bootstrap-priority` |
+| Education & Research | Explain Video Generator | Scrimba AS | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Education & Research | Flashcards Space | nicksmind.com | `app-only` | 0 | 1 | `not-bootstrap-priority` |
 | Education & Research | getMindmap | The Faculty Club SLU | `app-only` | 0 | 1 | `not-bootstrap-priority` |
 | Education & Research | Glossarize | Widget | `app-only` | 0 | 1 | `not-bootstrap-priority` |
@@ -294,6 +311,7 @@ Every active entry in the three target categories appears below. `catalog-screen
 | Education & Research | Linked Word | GEORG M ZIMMER | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Education & Research | Lune | Tony | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Education & Research | Lurna | Lurna | `app-only` | 0 | 1 | `not-bootstrap-priority` |
+| Education & Research | Mantic | Mantic Technologies | `app-only` | 0 | 1 | `not-bootstrap-priority` |
 | Education & Research | MedStats | Jonas Becker | `app-only` | 0 | 1 | `not-bootstrap-priority` |
 | Education & Research | MentorCruise | MentorCruise Inc | `app-only` | 0 | 1 | `not-bootstrap-priority` |
 | Education & Research | MetaMetrics® Lexile Analyzer | MetaMetrics Inc. | `app-only` | 0 | 1 | `not-bootstrap-priority` |
@@ -303,6 +321,7 @@ Every active entry in the three target categories appears below. `catalog-screen
 | Education & Research | MSDS Chain | LAgentBot Pte. Ltd. | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Education & Research | Music Block | OLEKSII SHEVCHENKO | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Education & Research | Mynawoo AI Language Tutor | Alireza Saligheh | `hybrid` | 1 | 1 | `not-bootstrap-priority` |
+| Education & Research | NoBrainner | Adenilson Ribeiro | `app-only` | 0 | 1 | `not-bootstrap-priority` |
 | Education & Research | NYCU Library | National Yang Ming Chiao Tung University Library | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Education & Research | Nylon | Nylon | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Education & Research | Omphalis | Voxiven, LLC | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
@@ -312,6 +331,7 @@ Every active entry in the three target categories appears below. `catalog-screen
 | Education & Research | Particl Market Research | Particl | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Education & Research | Patent Connector | Funktionslust GmbH | `app-only` | 0 | 1 | `connection-candidate-after-benchmark` |
 | Education & Research | Pencil Spaces | Pencil Learning Technologies | `app-only` | 0 | 1 | `not-bootstrap-priority` |
+| Education & Research | PhysioKeys | Physiokeys | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Education & Research | PokeBot.ai Career Coach | PokeBot | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Education & Research | Powers Index | KP Powers | `app-only` | 0 | 1 | `not-bootstrap-priority` |
 | Education & Research | Precise Special Functions | Assaf Lanir | `app-only` | 0 | 1 | `connection-candidate-after-benchmark` |
@@ -337,6 +357,7 @@ Every active entry in the three target categories appears below. `catalog-screen
 | Education & Research | Sider Scholar | Sider AI | `app-only` | 0 | 1 | `connection-candidate-after-benchmark` |
 | Education & Research | SimpleFeed News & Video MCP | SimpleFeed, Inc. | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Education & Research | Skarim! | Dima Bokov | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
+| Education & Research | Skillsail | Skillsail GmbH | `hybrid` | 1 | 1 | `not-bootstrap-priority` |
 | Education & Research | SkinKnowledgeBase | Fulcrai Labs | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Education & Research | Spanish Law Research | Alex Pervezentsev | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Education & Research | Special Education Law | Special Education Law, LLC | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
@@ -352,6 +373,7 @@ Every active entry in the three target categories appears below. `catalog-screen
 | Education & Research | Tarteel | Tarteel, Inc. | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Education & Research | Taxiger Doc | JORIS CIMPAKA-KAPETA | `app-only` | 0 | 1 | `not-bootstrap-priority` |
 | Education & Research | The Economist - Graphs | The Economist | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
+| Education & Research | Time Machine | ILKER KAVAS | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Education & Research | Transkriptor | tor.app | `app-only` | 0 | 1 | `connection-candidate-after-benchmark` |
 | Education & Research | Trivana Study — Quiz My Notes | Rerato Technologies | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Education & Research | TriviaQuiz | Veblab | `app-only` | 0 | 1 | `not-bootstrap-priority` |
@@ -366,8 +388,18 @@ Every active entry in the three target categories appears below. `catalog-screen
 | Education & Research | أرشيف الإسلام | MOHAMED HESHAM RAGEB | `app-only` | 0 | 1 | `manual-review-if-profile-matches` |
 | Education & Research | 受験王 | 株式会社アスターリンク | `app-only` | 0 | 1 | `not-bootstrap-priority` |
 | Education & Research | 상식이 | https://dean.kr | `app-only` | 0 | 1 | `not-bootstrap-priority` |
+| Scientific Research | Adaptyv Bio | OpenAI | `skills-only` | 4 | 0 | `exclude-from-researcher-default` |
+| Scientific Research | Biological Sequence & Alignment Viewer | OpenAI | `skills-only` | 1 | 0 | `explicit-domain-opt-in-after-benchmark` |
 | Scientific Research | Boltz | Boltz | `skills-only` | 8 | 0 | `explicit-domain-opt-in-after-benchmark` |
 | Scientific Research | Inductive Bio | Inductive Bio | `hybrid` | 3 | 1 | `not-bootstrap-priority` |
+| Scientific Research | Life Sciences Databases | OpenAI | `skills-only` | 44 | 0 | `candidate-after-behavior-benchmark` |
+| Scientific Research | Life Sciences Literature | OpenAI | `skills-only` | 3 | 0 | `candidate-after-behavior-benchmark` |
+| Scientific Research | Molecular Structure Viewer | OpenAI | `skills-only` | 1 | 0 | `explicit-domain-opt-in-after-benchmark` |
+| Scientific Research | NGS Analysis Workbench | OpenAI | `skills-only` | 5 | 0 | `explicit-domain-opt-in-after-benchmark` |
+| Scientific Research | Proto | BRIAN LANCE HIE | `app-only` | 0 | 1 | `not-bootstrap-priority` |
+| Scientific Research | Rosalind Workbench | OpenAI | `app-only` | 0 | 0 | `manual-review-if-profile-matches` |
+| Scientific Research | Rowan | Rowan Scientific Corporation | `hybrid` | 1 | 1 | `manual-review-if-profile-matches` |
+| Scientific Research | Slide Viewer | OpenAI | `skills-only` | 1 | 0 | `explicit-domain-opt-in-after-benchmark` |
 | Scientific Research | Tamarind Bio | Tamarind Bio | `hybrid` | 14 | 1 | `manual-review-if-profile-matches` |
 | Scientific Research | Undermind | Undermind AI, Inc. | `app-only` | 0 | 1 | `connection-candidate-after-benchmark` |
 

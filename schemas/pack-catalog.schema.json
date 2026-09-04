@@ -15,7 +15,7 @@
         "required": [
           "id", "version", "layer", "display_name", "description",
           "capabilities", "selection", "dependencies", "conflicts",
-          "runtimes", "foundation", "skills"
+          "runtimes", "foundation", "distribution_bundle", "skills"
         ],
         "additionalProperties": false,
         "properties": {
@@ -30,6 +30,7 @@
           "conflicts": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
           "runtimes": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"enum": ["claude-code", "codex"]}},
           "foundation": {"type": "boolean"},
+          "distribution_bundle": {"type": "boolean"},
           "skills": {
             "type": "array",
             "minItems": 1,

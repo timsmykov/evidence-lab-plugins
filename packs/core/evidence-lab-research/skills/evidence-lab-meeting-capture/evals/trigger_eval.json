@@ -1,0 +1,14 @@
+[
+  {"query": "Summarize this Evidence Lab call and save the note in our Notion meeting register.", "should_trigger": true},
+  {"query": "Turn this Evidence Lab transcript into structured minutes and file the page in the canonical database.", "should_trigger": true},
+  {"query": "Document today's Evidence Lab course-planning meeting, including decisions and open questions.", "should_trigger": true},
+  {"query": "Create a meeting note from these rough Evidence Lab notes and make sure it appears in the meeting database.", "should_trigger": true},
+  {"query": "We already have an Evidence Lab summary; normalize it and move it into the proper register.", "should_trigger": true},
+  {"query": "Capture this Evidence Lab consulting discussion and preserve the source link and participants.", "should_trigger": true},
+  {"query": "Prepare a decision record for this Evidence Lab product call and verify the stored Notion row.", "should_trigger": true},
+  {"query": "File yesterday's Evidence Lab team call so it is searchable by date and project.", "should_trigger": true},
+  {"query": "Transcribe this audio file but do not summarize or save it anywhere.", "should_trigger": false, "note": "transcription only"},
+  {"query": "Summarize my unrelated client meeting in a local Markdown file.", "should_trigger": false, "note": "outside Evidence Lab and Notion registry"},
+  {"query": "Create a task on the Evidence Lab board from this one-line idea.", "should_trigger": false, "note": "belongs to task intake"},
+  {"query": "Write the RUDN course module described in these notes.", "should_trigger": false, "note": "course authoring, not meeting capture"}
+]

@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "locale": "en",
+  "heading": "Codex working plugins",
+  "intro": "The same onboarding will keep existing plugins and add only the missing tools selected for your work:",
+  "states": {
+    "retain-installed": "Already available — keep without reinstalling.",
+    "install-after-confirmation": "Missing — install after the same confirmation.",
+    "activate-after-confirmation": "Missing — activation in the Codex plugin interface is required before this capability is ready.",
+    "offer-activation": "Optional — offer activation without blocking the rest of setup.",
+    "offer-opt-in": "Optional specialist tool — install only after an explicit request.",
+    "withhold-missing-prerequisite": "Not selected because its required local application was not detected.",
+    "recommend-after-validation": "Recommendation pending a representative validation run.",
+    "offer-connection": "Optional external connection requiring separate consent.",
+    "withhold-pending-benchmark": "Not selected until its dependencies and behavior are benchmarked."
+  },
+  "audit": "Inventory: {plugins} installed plugins and {skills} standalone skills. Existing items are retained; unrelated items are not removed.",
+  "pending": "Plugin installation or activation has not started yet."
+}

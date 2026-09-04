@@ -1,0 +1,37 @@
+[
+  {
+    "query": "Rewrite this research discussion in clear academic English without changing the claims.",
+    "should_trigger": true
+  },
+  {
+    "query": "Turn these supplied notes and sources into a structured report draft.",
+    "should_trigger": true
+  },
+  {
+    "query": "Polish this Russian professional text while preserving the author voice and terminology.",
+    "should_trigger": true
+  },
+  {
+    "query": "Audit this manuscript section for register, unsupported claims, and translationese.",
+    "should_trigger": true
+  },
+  {
+    "query": "Create two genuinely different versions of this evidence-bounded introduction.",
+    "should_trigger": true
+  },
+  {
+    "query": "Find and screen the literature needed for a systematic review.",
+    "should_trigger": false,
+    "note": "Handled by literature-review."
+  },
+  {
+    "query": "Validate the metadata and DOI for every item in this bibliography.",
+    "should_trigger": false,
+    "note": "Handled by citation-management."
+  },
+  {
+    "query": "Review whether this manuscript method and statistical analysis are scientifically sound.",
+    "should_trigger": false,
+    "note": "Handled by peer-review."
+  }
+]

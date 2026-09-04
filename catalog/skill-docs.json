@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "groups": [
+    {
+      "id": "find-and-review",
+      "title": "Find and review evidence",
+      "description": "Discover publications, verify references, monitor new work, and build auditable evidence reviews."
+    },
+    {
+      "id": "plan-research",
+      "title": "Plan research",
+      "description": "Challenge claims, formulate hypotheses, choose a study design, and justify sample size before collecting data."
+    },
+    {
+      "id": "analyze-evidence",
+      "title": "Analyze data and evidence",
+      "description": "Retrieve structured records and analyze quantitative, qualitative, image, and life-science material with traceable decisions."
+    },
+    {
+      "id": "communicate-results",
+      "title": "Communicate results",
+      "description": "Create figures, diagrams, manuscripts, reviews, and venue-ready LaTeX without losing the evidence trail."
+    },
+    {
+      "id": "prepare-and-extend",
+      "title": "Prepare sources and extend the workspace",
+      "description": "Normalize source files, capture Evidence Lab meetings, and turn a recurring personal workflow into a portable skill."
+    }
+  ],
+  "skills": [
+    {
+      "id": "paper-lookup",
+      "group": "find-and-review",
+      "use_when": "You need papers, preprints, identifiers, citation links, or open-access copies from scholarly databases.",
+      "produces": "A source-linked paper list with identifiers, metadata, and retrieval provenance."
+    },
+    {
+      "id": "citation-management",
+      "group": "find-and-review",
+      "use_when": "You need to verify citation metadata, resolve a DOI, repair references, or create BibTeX.",
+      "produces": "Verified citation records and normalized BibTeX entries."
+    },
+    {
+      "id": "literature-review",
+      "group": "find-and-review",
+      "use_when": "You are planning or conducting a narrative, rapid, scoping, or structured literature review.",
+      "produces": "A review protocol, search and screening record, evidence table, appraisal, and synthesis."
+    },
+    {
+      "id": "systematic-review",
+      "group": "find-and-review",
+      "use_when": "Your review requires explicit eligibility criteria, reproducible searches, deduplication, and auditable screening decisions.",
+      "produces": "A systematic-search record, deduplicated study set, and screening ledger with decision reasons."
+    },
+    {
+      "id": "publication-monitoring",
+      "group": "find-and-review",
+      "use_when": "You want a repeatable alert or update scan for new publications rather than a one-time search.",
+      "produces": "A documented monitoring query, stable deduplication keys, and source-linked update digest."
+    },
+    {
+      "id": "scientific-critical-thinking",
+      "group": "plan-research",
+      "use_when": "You need to challenge a scientific claim, causal statement, assumption, bias, confounder, or evidence grade.",
+      "produces": "A structured claim and evidence audit with assumptions, alternatives, and unresolved gaps."
+    },
+    {
+      "id": "hypothesis-generation",
+      "group": "plan-research",
+      "use_when": "You need to turn observations into testable questions, rival hypotheses, predictions, and measurements.",
+      "produces": "An evidence-bounded hypothesis matrix and preregistration-ready analysis outline."
+    },
+    {
+      "id": "experimental-design",
+      "group": "plan-research",
+      "use_when": "You are choosing controls, randomization, blocking, treatment combinations, or another design before data collection.",
+      "produces": "A study design specification with allocation logic, controls, estimands, and validity checks."
+    },
+    {
+      "id": "statistical-power",
+      "group": "plan-research",
+      "use_when": "You need sample size, minimum detectable effect, power curves, or a defensible power justification.",
+      "produces": "A reproducible power calculation or simulation with assumptions and sensitivity analysis."
+    },
+    {
+      "id": "database-lookup",
+      "group": "analyze-evidence",
+      "use_when": "A fact or record must be retrieved reproducibly from a named public database API.",
+      "produces": "A documented API query with filters, pagination, returned records, and provenance."
+    },
+    {
+      "id": "exploratory-data-analysis",
+      "group": "analyze-evidence",
+      "use_when": "You need to profile supported research files, inspect missingness, leakage, outliers, or transformation sensitivity.",
+      "produces": "A bounded data-quality and exploratory-analysis report with reproducible summaries."
+    },
+    {
+      "id": "statistical-analysis",
+      "group": "analyze-evidence",
+      "use_when": "You need to choose and run statistical tests, check assumptions, estimate effects, or report results.",
+      "produces": "An analysis plan, calculations, diagnostics, effect sizes, and reporting-ready results."
+    },
+    {
+      "id": "qualitative-analysis",
+      "group": "analyze-evidence",
+      "use_when": "You need traceable coding and thematic synthesis of interviews, field notes, open responses, or text corpora.",
+      "produces": "A codebook, coded excerpts, reflexive notes, disagreements, negative cases, and themes."
+    },
+    {
+      "id": "uncertainty-and-units",
+      "group": "analyze-evidence",
+      "use_when": "Calculations require unit checking, uncertainty propagation, measurement budgets, or significant-figure review.",
+      "produces": "Dimensionally checked calculations and a transparent uncertainty budget or propagation record."
+    },
+    {
+      "id": "research-image-analysis",
+      "group": "analyze-evidence",
+      "use_when": "You are inspecting microscopy, experimental photographs, scans, or instrument images as research evidence.",
+      "produces": "A provenance-aware image inspection record with transformations, measurements, exclusions, and limits."
+    },
+    {
+      "id": "life-science-protocols",
+      "group": "analyze-evidence",
+      "use_when": "A study or image workflow needs biological controls, protocol checks, acquisition metadata, or biosafety boundaries.",
+      "produces": "A life-science protocol and reporting checklist with missing controls and metadata gaps."
+    },
+    {
+      "id": "scientific-visualization",
+      "group": "communicate-results",
+      "use_when": "You need to design or audit a truthful, accessible, publication-ready data figure.",
+      "produces": "A figure specification or generated chart with uncertainty, accessibility, metadata, and export checks."
+    },
+    {
+      "id": "markdown-mermaid-writing",
+      "group": "communicate-results",
+      "use_when": "You need a versionable workflow, timeline, concept map, architecture, or screening diagram.",
+      "produces": "Editable Mermaid source embedded in consistently structured Markdown."
+    },
+    {
+      "id": "writing-skill",
+      "group": "communicate-results",
+      "use_when": "You need to draft, rewrite, shorten, expand, translate, or polish evidence-bounded prose.",
+      "produces": "A new or revised text with explicit audience, voice, evidence, and uncertainty boundaries."
+    },
+    {
+      "id": "peer-review",
+      "group": "communicate-results",
+      "use_when": "You are reviewing an authorized manuscript, protocol, preprint, proposal, or revision response.",
+      "produces": "A structured, evidence-bounded review with prioritized findings and actionable revision requests."
+    },
+    {
+      "id": "latex-and-venue-formatting",
+      "group": "communicate-results",
+      "use_when": "A manuscript must compile and comply with current journal, conference, repository, or funder requirements.",
+      "produces": "Compile-ready LaTeX sources, diagnostics, a compliance report, and submission package checks."
+    },
+    {
+      "id": "markitdown",
+      "group": "prepare-and-extend",
+      "use_when": "PDF, Office, data, archive, audio, or supported web material must become normalized Markdown.",
+      "produces": "Markdown suitable for inspection, search, evidence extraction, or downstream analysis."
+    },
+    {
+      "id": "evidence-lab-meeting-capture",
+      "group": "prepare-and-extend",
+      "use_when": "An Evidence Lab transcript or rough meeting note must become a source-bounded project record.",
+      "produces": "A structured meeting summary ready for the canonical Evidence Lab meeting register."
+    },
+    {
+      "id": "personal-skill-authoring",
+      "group": "prepare-and-extend",
+      "use_when": "A researcher wants to turn a repeated personal workflow into a reusable Codex or Claude Code skill.",
+      "produces": "A small portable skill with a clear trigger, procedure, boundaries, tests, and validation result."
+    }
+  ]
+}

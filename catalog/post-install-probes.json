@@ -2,6 +2,34 @@
   "schema_version": 1,
   "timeout_seconds": 30,
   "packs": [
+    {"pack_id": "evidence-lab-research", "pack_path": "packs/core/evidence-lab-research", "probes": [
+      {"id": "research-bundle-completeness", "skill_id": "personal-skill-authoring", "capability": "evidence-lab-research-library", "required_paths": [
+        "skills/citation-management/SKILL.md",
+        "skills/database-lookup/SKILL.md",
+        "skills/evidence-lab-meeting-capture/SKILL.md",
+        "skills/experimental-design/SKILL.md",
+        "skills/exploratory-data-analysis/SKILL.md",
+        "skills/hypothesis-generation/SKILL.md",
+        "skills/latex-and-venue-formatting/SKILL.md",
+        "skills/life-science-protocols/SKILL.md",
+        "skills/literature-review/SKILL.md",
+        "skills/markdown-mermaid-writing/SKILL.md",
+        "skills/markitdown/SKILL.md",
+        "skills/paper-lookup/SKILL.md",
+        "skills/peer-review/SKILL.md",
+        "skills/personal-skill-authoring/SKILL.md",
+        "skills/publication-monitoring/SKILL.md",
+        "skills/qualitative-analysis/SKILL.md",
+        "skills/research-image-analysis/SKILL.md",
+        "skills/scientific-critical-thinking/SKILL.md",
+        "skills/scientific-visualization/SKILL.md",
+        "skills/statistical-analysis/SKILL.md",
+        "skills/statistical-power/SKILL.md",
+        "skills/systematic-review/SKILL.md",
+        "skills/uncertainty-and-units/SKILL.md",
+        "skills/writing-skill/SKILL.md"
+      ]}
+    ]},
     {"pack_id": "evidence-lab-core", "pack_path": "packs/core/evidence-lab-core", "probes": [
       {"id": "core-citations", "skill_id": "citation-management", "capability": "citation-management", "required_paths": ["skills/citation-management/SKILL.md", "skills/citation-management/scripts/format_bibtex.py"], "command": ["{python}", "skills/citation-management/scripts/format_bibtex.py", "--help"]},
       {"id": "core-paper-lookup", "skill_id": "paper-lookup", "capability": "paper-lookup", "required_paths": ["skills/paper-lookup/SKILL.md", "skills/paper-lookup/scripts/paginate.py"], "command": ["{python}", "skills/paper-lookup/scripts/paginate.py", "--help"]},
@@ -13,7 +41,7 @@
     {"pack_id": "document-evidence", "pack_path": "packs/workflows/document-evidence", "probes": [{"id": "document-conversion", "skill_id": "markitdown", "capability": "document-conversion", "required_paths": ["skills/markitdown/SKILL.md", "skills/markitdown/scripts/inspect_installation.py"], "command": ["{python}", "skills/markitdown/scripts/inspect_installation.py", "--help"]}]},
     {"pack_id": "evidence-lab-meeting-capture", "pack_path": "packs/workflows/evidence-lab-meeting-capture", "probes": [{"id": "meeting-record", "skill_id": "evidence-lab-meeting-capture", "capability": "evidence-lab-meeting-capture", "required_paths": ["skills/evidence-lab-meeting-capture/SKILL.md", "skills/evidence-lab-meeting-capture/scripts/validate_meeting_record.py"], "command": ["{python}", "skills/evidence-lab-meeting-capture/scripts/validate_meeting_record.py", "--help"]}]},
     {"pack_id": "full-research-cycle", "pack_path": "packs/workflows/full-research-cycle", "probes": [{"id": "full-cycle-router", "skill_id": "full-research-cycle-router", "capability": "full-research-cycle-compatibility", "required_paths": ["skills/full-research-cycle-router/SKILL.md"]}]},
-    {"pack_id": "literature-publication", "pack_path": "packs/workflows/literature-publication", "probes": [{"id": "peer-review", "skill_id": "peer-review", "capability": "peer-review", "required_paths": ["skills/peer-review/SKILL.md", "skills/peer-review/scripts/lint_review.py"], "command": ["{python}", "skills/peer-review/scripts/lint_review.py", "--help"]}]},
+    {"pack_id": "literature-publication", "pack_path": "packs/workflows/literature-publication", "probes": [{"id": "latex-venue-validation", "skill_id": "latex-and-venue-formatting", "capability": "latex-and-venue-formatting", "required_paths": ["skills/latex-and-venue-formatting/SKILL.md", "skills/latex-and-venue-formatting/scripts/validate_submission.py"], "command": ["{python}", "skills/latex-and-venue-formatting/scripts/validate_submission.py", "--check-deps"]}]},
     {"pack_id": "publication-monitoring", "pack_path": "packs/workflows/publication-monitoring", "probes": [{"id": "publication-monitor", "skill_id": "publication-monitoring", "capability": "publication-monitoring", "required_paths": ["skills/publication-monitoring/SKILL.md", "skills/publication-monitoring/scripts/update_monitor_state.py"], "command": ["{python}", "skills/publication-monitoring/scripts/update_monitor_state.py", "--help"]}]},
     {"pack_id": "qualitative-research", "pack_path": "packs/workflows/qualitative-research", "probes": [{"id": "qualitative-codebook", "skill_id": "qualitative-analysis", "capability": "qualitative-analysis", "required_paths": ["skills/qualitative-analysis/SKILL.md", "skills/qualitative-analysis/scripts/validate_codebook.py"], "command": ["{python}", "skills/qualitative-analysis/scripts/validate_codebook.py", "--help"]}]},
     {"pack_id": "research-design", "pack_path": "packs/workflows/research-design", "probes": [{"id": "hypothesis-schema", "skill_id": "hypothesis-generation", "capability": "hypothesis-generation", "required_paths": ["skills/hypothesis-generation/SKILL.md", "skills/hypothesis-generation/scripts/validate_hypothesis_schema.py"], "command": ["{python}", "skills/hypothesis-generation/scripts/validate_hypothesis_schema.py", "--help"]}]},

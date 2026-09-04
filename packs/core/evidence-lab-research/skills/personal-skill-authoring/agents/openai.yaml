@@ -1,0 +1,4 @@
+interface:
+  display_name: "Personal Skill Authoring"
+  short_description: "Create a personal skill for a repeated research task"
+  default_prompt: "Help me turn a repeated research workflow into a reusable personal skill."

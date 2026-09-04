@@ -11,11 +11,15 @@ reviewed change — do not delete the check.
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 import sys
 from pathlib import Path
 from urllib.parse import unquote
+
+sys.dont_write_bytecode = True
+PYTHON_ENV = {**os.environ, "PYTHONDONTWRITEBYTECODE": "1"}
 
 try:
     from jsonschema import Draft202012Validator
@@ -44,8 +48,11 @@ REQUIRED_REPO_FILES = [
     ".gitleaks.toml",
     ".claude-plugin/marketplace.json",
     ".agents/plugins/marketplace.json",
+    "docs/README.md",
     "docs/architecture.md",
     "docs/authoring.md",
+    "docs/getting-started.md",
+    "docs/skills.md",
     "docs/review-checklist.md",
     "docs/sanitization-policy.md",
     "docs/release-process.md",
@@ -68,6 +75,8 @@ REQUIRED_REPO_FILES = [
     "scripts/run_post_install_probes.py",
     "scripts/test_onboarding_driver.py",
     "scripts/test_post_install_probes.py",
+    "scripts/build_research_bundle.py",
+    "scripts/build_skill_docs.py",
     "catalog/foundation-skills.json",
     "catalog/foundation-core.json",
     "catalog/open-source-skill-candidates.json",
@@ -78,6 +87,7 @@ REQUIRED_REPO_FILES = [
     "catalog/l0-l2-stack.json",
     "catalog/onboarding-semantic-oracle.json",
     "catalog/post-install-probes.json",
+    "catalog/skill-docs.json",
     "schemas/plugin.schema.json",
     "schemas/codex-plugin.schema.json",
     "schemas/codex-marketplace.schema.json",
@@ -117,6 +127,7 @@ REQUIRED_REPO_FILES = [
     "schemas/experiment-review.schema.json",
     "schemas/onboarding-semantic-oracle.schema.json",
     "schemas/post-install-probes.schema.json",
+    "schemas/skill-docs.schema.json",
     "tests/acceptance/onboarding-terra-10.scenarios.ru.json",
     "tests/fixtures/experiment/citation-probe-input.bib",
     "tests/fixtures/experiment/citation-probe-expected.bib",
@@ -236,11 +247,18 @@ def check_repo_files() -> None:
         if scenarios is not None:
             validate(scenarios, "experiment-scenario-bundle.schema.json", str(scenarios_path.relative_to(ROOT)))
 
+    skill_docs_path = ROOT / "catalog" / "skill-docs.json"
+    if skill_docs_path.exists():
+        skill_docs = load_json(skill_docs_path)
+        if skill_docs is not None:
+            validate(skill_docs, "skill-docs.schema.json", str(skill_docs_path.relative_to(ROOT)))
+
     oracle_validator = ROOT / "scripts/validate_semantic_oracle.py"
     if oracle_validator.exists():
         result = subprocess.run(
             [sys.executable, str(oracle_validator)],
             cwd=ROOT,
+            env=PYTHON_ENV,
             text=True,
             capture_output=True,
             check=False,
@@ -301,6 +319,8 @@ def check_external_plugin_registry() -> None:
             fail("external-plugin-candidates.json: snapshot hash does not match the catalog audit")
         observed = {row.get("id"): row for row in audit.get("reviewed_candidates", [])}
         for plugin in data.get("plugins", []):
+            if plugin.get("audit_scope") != "remote-listed":
+                continue
             row = observed.get(plugin.get("id"))
             if row is None:
                 fail(f"external-plugin-candidates.json: {plugin.get('display_name')} is absent from audited candidates")
@@ -310,7 +330,7 @@ def check_external_plugin_registry() -> None:
     for plugin in data.get("plugins", []):
         if plugin.get("component_type") in {"directory-app", "hybrid"} and plugin.get("selection", {}).get("automatic"):
             fail(f"external-plugin-candidates.json: {plugin.get('display_name')} cannot silently select an app connection")
-        if plugin.get("policy") != "approved-baseline" and plugin.get("selection", {}).get("automatic"):
+        if plugin.get("policy") not in {"approved-baseline", "required-when-selected", "recommended-when-selected"} and plugin.get("selection", {}).get("automatic"):
             fail(f"external-plugin-candidates.json: {plugin.get('display_name')} cannot be automatic before baseline approval")
 
 
@@ -415,7 +435,7 @@ def check_post_install_probes() -> None:
     validate(data, "post-install-probes.schema.json", "post-install-probes.json")
     result = subprocess.run(
         [sys.executable, "scripts/test_post_install_probes.py"],
-        cwd=ROOT, capture_output=True, text=True,
+        cwd=ROOT, env=PYTHON_ENV, capture_output=True, text=True,
     )
     if result.returncode:
         fail(result.stderr.strip() or result.stdout.strip() or "post-install probe contract failed")
@@ -423,12 +443,14 @@ def check_post_install_probes() -> None:
 
 def check_generated_reports() -> None:
     for command, label in (
+        ([sys.executable, "scripts/build_skill_docs.py", "--check"], "user-facing skill catalogue"),
+        ([sys.executable, "scripts/build_research_bundle.py", "--check"], "onboarding-free research bundle"),
         ([sys.executable, "scripts/build_foundation_index.py", "--check"], "foundation core index"),
         ([sys.executable, "scripts/audit_skill_packs.py", "--check"], "skill-pack readiness report"),
         ([sys.executable, "scripts/audit_openai_plugins.py", "--check"], "OpenAI plugin audit report"),
         ([sys.executable, "scripts/test_openai_plugin_audit.py"], "OpenAI plugin audit regression tests"),
     ):
-        result = subprocess.run(command, cwd=ROOT, capture_output=True, text=True)
+        result = subprocess.run(command, cwd=ROOT, env=PYTHON_ENV, capture_output=True, text=True)
         if result.returncode:
             fail(result.stderr.strip() or result.stdout.strip() or f"{label} is stale")
 

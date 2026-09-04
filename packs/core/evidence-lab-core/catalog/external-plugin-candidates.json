@@ -1,137 +1,129 @@
 {
   "schema_version": 1,
-  "observed_at": "2026-08-27T10:59:31.573949222Z",
+  "observed_at": "2026-08-31T11:54:38.767836828Z",
   "source": {
     "kind": "openai-codex-plugin-directory",
-    "documentation": "https://learn.chatgpt.com/docs/plugins",
-    "snapshot_sha256": "f75688ef6b9fd668c4670d4438a3f90542d7fad41723c384e120db3e3acddbe3"
+    "documentation": "https://help.openai.com/en/articles/20001256-plugins-in-codex",
+    "snapshot_sha256": "eeb90d6c8990edc7235a095eeafc930346137529dd13c50225202b38e0b42d02"
   },
   "plugins": [
     {
-      "id": "plugins~Plugin_7113e6f705948191bad2d24c30465361",
-      "display_name": "Life Science Research",
-      "developer": "OpenAI",
-      "observed_version": "1.0.3",
-      "hosts": ["codex"],
-      "component_type": "skills-only",
-      "credential_mode": "none",
-      "install_mode": "plugins-ui",
-      "policy": "candidate",
-      "capabilities": ["life-science-database-retrieval", "bioinformatics-retrieval", "clinical-literature-retrieval"],
-      "selection": {"automatic": false, "signals": {"domains": ["life-sciences"]}},
-      "rationale": "Fifty OpenAI-authored life-science skills complement Evidence Lab protocol and bias checks without duplicating their boundary.",
-      "verification": {
-        "status": "behavior-tested",
-        "required_before_default": ["Run representative genetics, protein, and clinical retrieval tasks", "Review provenance and failure behavior with an independent life-science reviewer"]
-      }
+      "id": "pdf@openai-primary-runtime", "display_name": "PDF", "developer": "OpenAI", "observed_version": "26.709.11516",
+      "hosts": ["codex"], "audit_scope": "runtime-local", "component_type": "runtime-builtin", "credential_mode": "none", "install_mode": "marketplace",
+      "marketplace": "openai-primary-runtime", "plugin_name": "pdf", "aliases": ["pdf@openai-primary-runtime", "pdf"],
+      "policy": "approved-baseline", "capabilities": ["pdf-runtime"],
+      "selection": {"automatic": true, "match": "all", "signals": {}},
+      "rationale": "Every Evidence Lab workspace needs local PDF reading, rendering, inspection, extraction, and verification.",
+      "verification": {"status": "production-accepted", "required_before_default": ["Read back the installed plugin and run a bounded local PDF probe."]}
     },
     {
-      "id": "Plugin_271fcfe114788191b30908b85bd9ade6",
-      "display_name": "Life Sciences NGS Analysis",
-      "developer": "OpenAI",
-      "observed_version": "1.0.3",
-      "hosts": ["codex"],
-      "component_type": "skills-only",
-      "credential_mode": "none",
-      "install_mode": "plugins-ui",
-      "policy": "explicit-opt-in",
-      "capabilities": ["ngs-analysis", "rna-seq-analysis", "single-cell-analysis"],
-      "selection": {"automatic": false, "signals": {"domains": ["life-sciences"]}},
-      "rationale": "The bundle is valuable for explicit sequencing workflows but its heavy local toolchain and mixed maturity make a broad life-science default unsafe.",
-      "verification": {
-        "status": "behavior-tested",
-        "required_before_default": ["Add an onboarding signal for sequencing and omics work", "Pass isolated tests for every execution lane and dependency preflight"]
-      }
+      "id": "documents@openai-primary-runtime", "display_name": "Documents", "developer": "OpenAI", "observed_version": "26.709.11516",
+      "hosts": ["codex"], "audit_scope": "runtime-local", "component_type": "runtime-builtin", "credential_mode": "none", "install_mode": "marketplace",
+      "marketplace": "openai-primary-runtime", "plugin_name": "documents", "aliases": ["documents@openai-primary-runtime", "documents"],
+      "policy": "approved-baseline", "capabilities": ["document-runtime"],
+      "selection": {"automatic": true, "match": "all", "signals": {}},
+      "rationale": "Every Evidence Lab workspace needs local document creation, inspection, rendering, and verification.",
+      "verification": {"status": "production-accepted", "required_before_default": ["Read back the installed plugin and run a bounded local document probe."]}
     },
     {
-      "id": "Plugin_a572ec6bf27481919ce6fa6e5651eb7b",
-      "display_name": "Zotero",
-      "developer": "OpenAI",
-      "observed_version": "0.1.2",
-      "hosts": ["codex"],
-      "component_type": "skills-only",
-      "credential_mode": "local-app",
-      "install_mode": "plugins-ui",
-      "policy": "explicit-opt-in",
-      "capabilities": ["zotero-library", "bibtex-export", "local-citation-library"],
-      "selection": {"automatic": false, "signals": {"materials": ["papers"]}},
-      "rationale": "Zotero adds local library operations while Evidence Lab retains portable citation validation; it is useful only when Zotero Desktop is present or requested.",
-      "verification": {
-        "status": "structure-validated",
-        "required_before_default": ["Detect Zotero Desktop without changing local settings", "Test read, export, and approved import against an isolated library"]
-      }
+      "id": "spreadsheets@openai-primary-runtime", "display_name": "Spreadsheets", "developer": "OpenAI", "observed_version": "26.709.11516",
+      "hosts": ["codex"], "audit_scope": "runtime-local", "component_type": "runtime-builtin", "credential_mode": "none", "install_mode": "marketplace",
+      "marketplace": "openai-primary-runtime", "plugin_name": "spreadsheets", "aliases": ["spreadsheets@openai-primary-runtime", "spreadsheets"],
+      "policy": "approved-baseline", "capabilities": ["spreadsheet-runtime"],
+      "selection": {"automatic": true, "match": "all", "signals": {}},
+      "rationale": "Every Evidence Lab workspace needs a local tabular-file runtime for XLSX, CSV, and TSV work.",
+      "verification": {"status": "production-accepted", "required_before_default": ["Read back the installed plugin and run a bounded local spreadsheet probe."]}
     },
     {
-      "id": "Plugin_40dab999fe9c8191bbc2f550371692fc",
-      "display_name": "Build Web Data Visualization",
-      "developer": "OpenAI",
-      "observed_version": "0.1.21",
-      "hosts": ["codex"],
-      "component_type": "skills-only",
-      "credential_mode": "none",
-      "install_mode": "plugins-ui",
-      "policy": "explicit-opt-in",
-      "capabilities": ["interactive-data-visualization", "web-dashboards", "data-storytelling"],
-      "selection": {"automatic": false, "signals": {"workflows": ["analyze-data"], "materials": ["tables", "datasets"]}},
-      "rationale": "The bundle covers interactive and browser-native visualization while Evidence Lab scientific visualization remains focused on publication figures.",
-      "verification": {
-        "status": "structure-validated",
-        "required_before_default": ["Add an onboarding choice for interactive outputs", "Benchmark accessibility, source traceability, and export behavior"]
-      }
+      "id": "presentations@openai-primary-runtime", "display_name": "Presentations", "developer": "OpenAI", "observed_version": "26.709.11516",
+      "hosts": ["codex"], "audit_scope": "runtime-local", "component_type": "runtime-builtin", "credential_mode": "none", "install_mode": "marketplace",
+      "marketplace": "openai-primary-runtime", "plugin_name": "presentations", "aliases": ["presentations@openai-primary-runtime", "presentations"],
+      "policy": "approved-baseline", "capabilities": ["presentation-runtime"],
+      "selection": {"automatic": true, "match": "all", "signals": {}},
+      "rationale": "Researchers routinely need a local presentation runtime for talks, defenses, teaching, and conference materials.",
+      "verification": {"status": "production-accepted", "required_before_default": ["Read back the installed plugin and run a bounded local presentation probe."]}
     },
     {
-      "id": "Plugin_fc9843a6fb34819195d6c7802398a8a7",
-      "display_name": "Data Analytics",
-      "developer": "OpenAI",
-      "observed_version": "0.2.8-13ceeea1f599",
-      "hosts": ["codex"],
-      "component_type": "hybrid",
-      "credential_mode": "mixed",
-      "install_mode": "plugins-ui",
-      "policy": "benchmark-required",
-      "capabilities": ["connected-data-analysis", "analytics-app-routing"],
-      "selection": {"automatic": false, "signals": {"workflows": ["analyze-data"], "materials": ["tables", "datasets"]}},
-      "rationale": "The hybrid contains useful skills but also twenty app dependencies, so it cannot be presented as a zero-setup replacement for portable data analysis.",
-      "verification": {
-        "status": "catalog-only",
-        "required_before_default": ["Map every required app and connection interstitial", "Benchmark overlap and failure modes against Evidence Lab structured-data analysis"]
-      }
+      "id": "latex@openai-bundled", "display_name": "LaTeX Format", "developer": "OpenAI", "observed_version": "share-unresolved",
+      "hosts": ["codex"], "audit_scope": "share-link", "component_type": "skills-only", "credential_mode": "none", "install_mode": "plugins-ui",
+      "plugin_name": "latex", "aliases": ["latex@openai-bundled", "latex", "latex format"],
+      "share_url": "https://chatgpt.com/plugins/share/latex@openai-bundled", "policy": "required-when-selected",
+      "capabilities": ["latex-rendering", "latex-compilation"],
+      "selection": {"automatic": true, "match": "any", "signals": {"workflows": ["prepare-publication", "full-research-cycle"], "stages": ["writing"], "methods": ["formulas", "mathematical-models"]}},
+      "rationale": "Publication and mathematical-writing profiles need an actual LaTeX compile and render backend, not only formatting instructions.",
+      "verification": {"status": "catalog-only", "required_before_default": ["Resolve the shared bundle, read back installation, and compile a minimal LaTeX document."]}
     },
     {
-      "id": "plugin_asdk_app_69fe0bf66c8481919c513d799406436e",
-      "display_name": "Wolfram",
-      "developer": "Wolfram Research",
-      "observed_version": "3.0.0",
-      "hosts": ["codex"],
-      "component_type": "directory-app",
-      "credential_mode": "account-connection",
-      "install_mode": "plugins-ui",
-      "policy": "candidate",
-      "capabilities": ["symbolic-computation", "computational-knowledge", "equation-solving"],
-      "selection": {"automatic": false, "signals": {"domains": ["mathematics", "statistics", "physics", "engineering"], "methods": ["formulas", "mathematical-models"]}},
-      "rationale": "Wolfram is a strong quantitative companion, but it is an external app connection rather than a bundled Evidence Lab skill and requires separate consent.",
-      "verification": {
-        "status": "catalog-only",
-        "required_before_default": ["Test the Codex connection and disconnect flow", "Benchmark equations, units, provenance, and graceful failure on representative tasks"]
-      }
+      "id": "Plugin_a572ec6bf27481919ce6fa6e5651eb7b", "display_name": "Zotero", "developer": "OpenAI", "observed_version": "0.1.2",
+      "hosts": ["codex"], "audit_scope": "remote-listed", "component_type": "skills-only", "credential_mode": "local-app", "install_mode": "marketplace",
+      "marketplace": "openai-curated", "plugin_name": "zotero", "aliases": ["zotero@openai-curated", "zotero"], "requires_local_app": "zotero",
+      "policy": "recommended-when-selected", "capabilities": ["zotero-library", "bibtex-export", "local-citation-library"],
+      "selection": {"automatic": true, "match": "any", "signals": {"materials": ["papers"]}},
+      "rationale": "When Zotero Desktop is already available, its local library, BibTeX, and citation operations should be activated during the same onboarding.",
+      "verification": {"status": "structure-validated", "required_before_default": ["Detect Zotero Desktop, read back plugin installation, and test a read-only local-library query."]}
     },
     {
-      "id": "plugin_connector_691e3de0d2708191a6476a7b36e38779",
-      "display_name": "BioRender",
-      "developer": "BioRender",
-      "observed_version": "2.0.0",
-      "hosts": ["codex"],
-      "component_type": "directory-app",
-      "credential_mode": "account-connection",
-      "install_mode": "plugins-ui",
-      "policy": "candidate",
-      "capabilities": ["life-science-illustration", "scientific-diagrams"],
-      "selection": {"automatic": false, "signals": {"domains": ["life-sciences"], "materials": ["images"]}},
-      "rationale": "BioRender can complement image analysis with scientific illustration, but it is a separately connected service and must not be silently installed.",
-      "verification": {
-        "status": "catalog-only",
-        "required_before_default": ["Test consent, account requirements, and export ownership", "Benchmark diagram accuracy and editable output on representative life-science tasks"]
-      }
+      "id": "Plugin_40dab999fe9c8191bbc2f550371692fc", "display_name": "Build Web Data Visualization", "developer": "OpenAI", "observed_version": "0.1.21",
+      "hosts": ["codex"], "audit_scope": "remote-listed", "component_type": "skills-only", "credential_mode": "none", "install_mode": "marketplace",
+      "marketplace": "openai-curated", "plugin_name": "build-web-data-visualization", "aliases": ["build-web-data-visualization@openai-curated", "build-web-data-visualization"],
+      "policy": "recommended-when-selected", "capabilities": ["interactive-data-visualization", "web-dashboards", "data-storytelling"],
+      "selection": {"automatic": true, "match": "any", "signals": {"domains": ["statistics"], "workflows": ["analyze-data", "collect-and-compare-data"], "materials": ["tables", "datasets"]}},
+      "rationale": "Data-oriented researchers benefit from an implementation and export backend for interactive, accessible, and uncertainty-aware visualization.",
+      "verification": {"status": "behavior-tested", "required_before_default": ["Read back plugin installation and render one accessible source-traceable visualization."]}
+    },
+    {
+      "id": "plugins~Plugin_7113e6f705948191bad2d24c30465361", "display_name": "Life Science Research", "developer": "OpenAI", "observed_version": "1.0.3",
+      "hosts": ["codex"], "audit_scope": "remote-listed", "component_type": "skills-only", "credential_mode": "none", "install_mode": "marketplace",
+      "marketplace": "openai-curated", "plugin_name": "life-science-research", "aliases": ["life-science-research@openai-curated", "life-science-research"],
+      "policy": "recommended-when-selected", "capabilities": ["life-science-database-retrieval", "bioinformatics-retrieval", "clinical-literature-retrieval"],
+      "selection": {"automatic": true, "match": "any", "signals": {"domains": ["life-sciences"]}},
+      "rationale": "Life-science profiles should receive working public-database clients together with Evidence Lab protocol and evidence-quality checks.",
+      "verification": {"status": "behavior-tested", "required_before_default": ["Read back plugin installation and run bounded public NCBI and ClinicalTrials.gov probes."]}
+    },
+    {
+      "id": "plugins_6a9174204a0481918ca3798d69d2e227", "display_name": "Mathbox", "developer": "Najib Idrissi-Kaïtouni", "observed_version": "2.0.0",
+      "hosts": ["codex"], "audit_scope": "remote-unlisted", "component_type": "skills-only", "credential_mode": "none", "install_mode": "plugins-ui",
+      "plugin_name": "mathbox", "aliases": ["mathbox", "mathbox@mathbox"], "policy": "recommended-when-selected",
+      "capabilities": ["mathematical-proof-audit", "mathematical-research-workflows"],
+      "selection": {"automatic": true, "match": "any", "signals": {"domains": ["mathematics"]}},
+      "rationale": "Pure-mathematics profiles benefit from bounded proof, literature, computation, and manuscript-integration workflows.",
+      "verification": {"status": "structure-validated", "required_before_default": ["Resolve the unlisted package, read back installation, and run its routing and proof-audit probes."]}
+    },
+    {
+      "id": "Plugin_271fcfe114788191b30908b85bd9ade6", "display_name": "Life Sciences NGS Analysis", "developer": "OpenAI", "observed_version": "1.0.3",
+      "hosts": ["codex"], "audit_scope": "remote-listed", "component_type": "skills-only", "credential_mode": "none", "install_mode": "marketplace",
+      "marketplace": "openai-curated", "plugin_name": "ngs-analysis", "aliases": ["ngs-analysis@openai-curated", "ngs-analysis"],
+      "policy": "explicit-opt-in", "capabilities": ["ngs-analysis", "rna-seq-analysis", "single-cell-analysis"],
+      "selection": {"automatic": false, "match": "any", "signals": {"domains": ["life-sciences"]}},
+      "rationale": "Sequencing workflows need a dedicated dependency preflight and should be installed only after the researcher explicitly confirms NGS work.",
+      "verification": {"status": "behavior-tested", "required_before_default": ["Run dependency preflight and isolated probes for the selected sequencing execution lane."]}
+    },
+    {
+      "id": "Plugin_ff18fc908d98819197fb21beeb779684", "display_name": "Biological Sequence & Alignment Viewer", "developer": "OpenAI", "observed_version": "0.1.43",
+      "hosts": ["codex"], "audit_scope": "remote-listed", "component_type": "skills-only", "credential_mode": "none", "install_mode": "plugins-ui",
+      "plugin_name": "sequence-viewer", "aliases": ["sequence-viewer", "biological sequence viewer"], "policy": "explicit-opt-in",
+      "capabilities": ["biological-sequence-viewing", "alignment-viewing"],
+      "selection": {"automatic": false, "match": "any", "signals": {"domains": ["life-sciences"]}},
+      "rationale": "Sequence and alignment viewing is useful only for researchers who explicitly work with biological sequence formats.",
+      "verification": {"status": "catalog-only", "required_before_default": ["Read back installation and open a bounded local FASTA and alignment fixture."]}
+    },
+    {
+      "id": "Plugin_915f0ebef1348191bdb283c643ee98ec", "display_name": "Molecular Structure Viewer", "developer": "OpenAI", "observed_version": "0.1.80",
+      "hosts": ["codex"], "audit_scope": "remote-listed", "component_type": "skills-only", "credential_mode": "none", "install_mode": "plugins-ui",
+      "plugin_name": "structure-viewer", "aliases": ["structure-viewer", "molecular structure viewer"], "policy": "explicit-opt-in",
+      "capabilities": ["molecular-structure-viewing"],
+      "selection": {"automatic": false, "match": "any", "signals": {"domains": ["life-sciences"]}},
+      "rationale": "Molecular structure viewing is a specialist capability and should be activated only for relevant structural workflows.",
+      "verification": {"status": "catalog-only", "required_before_default": ["Read back installation and open a bounded local PDB and mmCIF fixture."]}
+    },
+    {
+      "id": "Plugin_d09a94adbc2c81919d637e7d5cd51b63", "display_name": "Slide Viewer", "developer": "OpenAI", "observed_version": "0.1.56",
+      "hosts": ["codex"], "audit_scope": "remote-listed", "component_type": "skills-only", "credential_mode": "none", "install_mode": "plugins-ui",
+      "plugin_name": "slide-viewer", "aliases": ["slide-viewer", "slide viewer"], "policy": "explicit-opt-in",
+      "capabilities": ["whole-slide-viewing", "spatial-omics-viewing"],
+      "selection": {"automatic": false, "match": "all", "signals": {"domains": ["life-sciences"], "materials": ["images"]}},
+      "rationale": "Whole-slide microscopy and spatial-omics viewing should be activated only for an explicit pathology or microscopy workflow.",
+      "verification": {"status": "catalog-only", "required_before_default": ["Read back installation and open a bounded non-sensitive slide fixture."]}
     }
   ]
 }

@@ -3,7 +3,7 @@
   "$id": "evidence-lab-plugins/schemas/onboarding-chat-copy.schema.json",
   "title": "Evidence Lab onboarding chat copy",
   "type": "object",
-  "required": ["schema_version", "locale", "expectation", "question_heading", "footer", "normalizing", "confirmation_retry", "installing", "declined", "installation_failed", "completion"],
+  "required": ["schema_version", "locale", "expectation", "question_heading", "footer", "normalizing", "confirmation_retry", "installing", "declined", "installation_failed", "companion_plan_stale", "companion_installation_failed", "companion_activation_required", "completion"],
   "additionalProperties": false,
   "properties": {
     "schema_version": {"const": 1},
@@ -16,6 +16,9 @@
     "installing": {"type": "string", "minLength": 50},
     "declined": {"type": "string", "minLength": 30},
     "installation_failed": {"type": "string", "minLength": 50},
+    "companion_plan_stale": {"type": "string", "minLength": 50},
+    "companion_installation_failed": {"type": "string", "minLength": 50},
+    "companion_activation_required": {"type": "string", "minLength": 50, "pattern": "\\{plugins\\}"},
     "completion": {"type": "string", "minLength": 80}
   }
 }
