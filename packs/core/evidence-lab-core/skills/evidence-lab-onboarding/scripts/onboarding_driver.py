@@ -16,6 +16,9 @@ from bootstrap import apply_plan, load_object, make_plan, release_identity, rend
 from normalize_profile import apply_candidate, normalize_options
 from render_onboarding import language_message, question_message
 from select_language import select_language
+from inventory_host import collect_inventory
+from manage_companion_plugins import apply_plan as apply_companion_plan, verify_plan as verify_companion_plan
+from select_external_plugins import select as select_external_plugins
 
 
 HERE = Path(__file__).resolve()
@@ -54,7 +57,7 @@ def load_session(path: Path) -> dict:
     session = load_object(path)
     if session.get("schema_version") != 1 or session.get("stage") not in {
         "language", "questions", "needs-normalization", "awaiting-confirmation",
-        "confirmed", "applying", "ready", "declined", "failed",
+        "confirmed", "applying", "awaiting-companion-activation", "ready", "declined", "failed",
     }:
         raise DriverError("INVALID_SESSION", "The onboarding session is invalid.")
     return session
@@ -135,6 +138,20 @@ def build_installation_plan(session: dict, session_path: Path, profile: dict) ->
     recommendation_path = session_path.parent / "recommendation.md"
     write_json_atomic(plan_path, plan)
     rendered = render_recommendation(plan, session["locale"], recommendation_path)
+    if session["host"] == "codex":
+        inventory = collect_inventory()
+        registry = load_object(PACK_ROOT / "catalog" / "external-plugin-candidates.json")
+        companion_plan = select_external_plugins(profile, registry, "codex", inventory=inventory)
+        inventory_path = session_path.parent / "host-inventory.json"
+        companion_path = session_path.parent / "companion-plugin-plan.json"
+        write_json_atomic(inventory_path, inventory)
+        write_json_atomic(companion_path, companion_plan)
+        from render_companion_plan import render as render_companions
+
+        rendered = rendered.rstrip() + "\n\n" + render_companions(companion_plan, inventory, session["locale"])
+        recommendation_path.write_text(rendered, encoding="utf-8")
+        session["inventory_path"] = str(inventory_path)
+        session["companion_plan_path"] = str(companion_path)
     session["profile"] = profile
     session["plan_path"] = str(plan_path)
     session["recommendation_path"] = str(recommendation_path)
@@ -310,6 +327,54 @@ def command_apply(args: argparse.Namespace) -> tuple[dict, dict]:
         message = copy(session["locale"])["installation_failed"]
         next_action = "inspect-or-recover"
         code = "INSTALLATION_FAILED"
+    elif session["host"] == "codex" and session.get("companion_plan_path"):
+        previous = load_object(Path(session["companion_plan_path"]))
+        inventory = collect_inventory()
+        registry = load_object(PACK_ROOT / "catalog" / "external-plugin-candidates.json")
+        refreshed = select_external_plugins(session["profile"], registry, "codex", inventory=inventory)
+        approved = {"retain-installed", "install-after-confirmation", "activate-after-confirmation"}
+        previous_scope = {row["plugin_id"] for row in previous["actions"] if row["action"] in approved}
+        refreshed_scope = {row["plugin_id"] for row in refreshed["actions"] if row["action"] in approved}
+        if previous_scope != refreshed_scope:
+            session["stage"] = "failed"
+            session["error"] = {"code": "COMPANION_PLAN_STALE"}
+            record_step(session, "companion-apply", started, "failed", "COMPANION_PLAN_STALE")
+            message = copy(session["locale"])["companion_plan_stale"]
+            next_action = "rebuild-plan"
+            code = "COMPANION_PLAN_STALE"
+        else:
+            write_json_atomic(Path(session["inventory_path"]), inventory)
+            write_json_atomic(Path(session["companion_plan_path"]), refreshed)
+            companion_state = apply_companion_plan(refreshed, inventory)
+            companion_state_path = args.session.parent / "companion-plugin-state.json"
+            write_json_atomic(companion_state_path, companion_state)
+            session["companion_state_path"] = str(companion_state_path)
+            if companion_state["status"] == "failed":
+                session["stage"] = "failed"
+                session["error"] = {"code": "COMPANION_INSTALLATION_FAILED"}
+                record_step(session, "companion-apply", started, "failed", "COMPANION_INSTALLATION_FAILED")
+                message = copy(session["locale"])["companion_installation_failed"]
+                next_action = "inspect-or-recover"
+                code = "COMPANION_INSTALLATION_FAILED"
+            elif companion_state["status"] == "awaiting-activation":
+                session["stage"] = "awaiting-companion-activation"
+                session["installation_state_path"] = str(state_path)
+                session["error"] = None
+                record_step(session, "companion-apply", started, "pending")
+                names = ", ".join(companion_state["pending_activation"])
+                message = copy(session["locale"])["companion_activation_required"].format(plugins=names)
+                next_action = "activate-companion-plugins"
+                code = None
+            else:
+                from bootstrap import render_completion
+
+                session["stage"] = "ready"
+                session["installation_state_path"] = str(state_path)
+                session["error"] = None
+                record_step(session, "apply", started, "completed")
+                message = render_completion(session["locale"])
+                next_action = "open-new-task-and-run-probes"
+                code = None
     else:
         from bootstrap import render_completion
 
@@ -322,6 +387,30 @@ def command_apply(args: argparse.Namespace) -> tuple[dict, dict]:
         code = None
     write_json_atomic(args.session, session)
     return session, envelope(session, message, next_action, code=code)
+
+
+def command_verify_companions(args: argparse.Namespace) -> tuple[dict, dict]:
+    session = load_session(args.session)
+    if session["stage"] != "awaiting-companion-activation":
+        raise DriverError("COMPANION_ACTIVATION_NOT_PENDING", "No companion activation is pending.")
+    started = time.monotonic()
+    inventory = collect_inventory()
+    result = verify_companion_plan(load_object(Path(session["companion_plan_path"])), inventory)
+    write_json_atomic(Path(session["inventory_path"]), inventory)
+    if result["status"] != "ready":
+        record_step(session, "companion-verification", started, "pending")
+        names = ", ".join(result["missing"])
+        message = copy(session["locale"])["companion_activation_required"].format(plugins=names)
+        next_action = "activate-companion-plugins"
+    else:
+        from bootstrap import render_completion
+
+        session["stage"] = "ready"
+        record_step(session, "companion-verification", started, "completed")
+        message = render_completion(session["locale"])
+        next_action = "open-new-task-and-run-probes"
+    write_json_atomic(args.session, session)
+    return session, envelope(session, message, next_action)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -344,6 +433,8 @@ def build_parser() -> argparse.ArgumentParser:
     normalize.add_argument("--candidate", type=Path, required=True)
     apply = sub.add_parser("apply")
     apply.add_argument("--session", type=Path, required=True)
+    verify_companions = sub.add_parser("verify-companions")
+    verify_companions.add_argument("--session", type=Path, required=True)
     status = sub.add_parser("status")
     status.add_argument("--session", type=Path, required=True)
     return parser
@@ -364,6 +455,8 @@ def main() -> int:
             session, result = command_confirm(args)
         elif args.command == "apply":
             session, result = command_apply(args)
+        elif args.command == "verify-companions":
+            session, result = command_verify_companions(args)
         else:
             session = load_session(args.session)
             result = envelope(session, "", "none")

@@ -6,8 +6,8 @@
     "packs/*/*/meta.json",
     "packs/*/*/skills/*"
   ],
-  "capability_count": 21,
-  "physical_skill_count": 20,
+  "capability_count": 22,
+  "physical_skill_count": 21,
   "library_pack_ids": [
     "evidence-lab-core",
     "document-evidence",
@@ -26,7 +26,7 @@
     {
       "id": "citation-management",
       "pack_id": "evidence-lab-core",
-      "pack_version": "0.16.0",
+      "pack_version": "0.17.0",
       "layer": "core",
       "path": "packs/core/evidence-lab-core/skills/citation-management",
       "quality_status": "needs-representative-testing",
@@ -38,7 +38,7 @@
     {
       "id": "paper-lookup",
       "pack_id": "evidence-lab-core",
-      "pack_version": "0.16.0",
+      "pack_version": "0.17.0",
       "layer": "core",
       "path": "packs/core/evidence-lab-core/skills/paper-lookup",
       "quality_status": "needs-representative-testing",
@@ -50,7 +50,7 @@
     {
       "id": "personal-skill-authoring",
       "pack_id": "evidence-lab-core",
-      "pack_version": "0.16.0",
+      "pack_version": "0.17.0",
       "layer": "core",
       "path": "packs/core/evidence-lab-core/skills/personal-skill-authoring",
       "quality_status": "needs-representative-testing",
@@ -62,7 +62,7 @@
     {
       "id": "scientific-critical-thinking",
       "pack_id": "evidence-lab-core",
-      "pack_version": "0.16.0",
+      "pack_version": "0.17.0",
       "layer": "core",
       "path": "packs/core/evidence-lab-core/skills/scientific-critical-thinking",
       "quality_status": "needs-representative-testing",
@@ -84,9 +84,21 @@
       "content_sha256": "14ba1fc4d706a44d83b4b6cd553ac5368c9ad959eccb7dba83800e4a6923e43c"
     },
     {
+      "id": "latex-and-venue-formatting",
+      "pack_id": "literature-publication",
+      "pack_version": "0.4.0",
+      "layer": "workflow",
+      "path": "packs/workflows/literature-publication/skills/latex-and-venue-formatting",
+      "quality_status": "needs-representative-testing",
+      "capabilities": [
+        "latex-and-venue-formatting"
+      ],
+      "content_sha256": "949b10b00bcb0ec291d3e98efe62ea7ebcddb05199d25e73ce15d30d38535951"
+    },
+    {
       "id": "literature-review",
       "pack_id": "literature-publication",
-      "pack_version": "0.3.0",
+      "pack_version": "0.4.0",
       "layer": "workflow",
       "path": "packs/workflows/literature-publication/skills/literature-review",
       "quality_status": "needs-representative-testing",
@@ -98,7 +110,7 @@
     {
       "id": "markdown-mermaid-writing",
       "pack_id": "literature-publication",
-      "pack_version": "0.3.0",
+      "pack_version": "0.4.0",
       "layer": "workflow",
       "path": "packs/workflows/literature-publication/skills/markdown-mermaid-writing",
       "quality_status": "needs-representative-testing",
@@ -110,7 +122,7 @@
     {
       "id": "peer-review",
       "pack_id": "literature-publication",
-      "pack_version": "0.3.0",
+      "pack_version": "0.4.0",
       "layer": "workflow",
       "path": "packs/workflows/literature-publication/skills/peer-review",
       "quality_status": "needs-representative-testing",
@@ -122,7 +134,7 @@
     {
       "id": "writing-skill",
       "pack_id": "literature-publication",
-      "pack_version": "0.3.0",
+      "pack_version": "0.4.0",
       "layer": "workflow",
       "path": "packs/workflows/literature-publication/skills/writing-skill",
       "quality_status": "needs-representative-testing",
@@ -281,15 +293,6 @@
       "rationale": "Extracts claim-linked passages, tables, figures, and page provenance from source documents.",
       "upstream_candidate_ids": [
         "wentor-pdf-extraction-guide"
-      ]
-    },
-    {
-      "id": "latex-and-venue-formatting",
-      "priority": "P0",
-      "rationale": "Builds and validates LaTeX manuscripts, equations, references, and venue constraints.",
-      "upstream_candidate_ids": [
-        "k-dense-venue-templates",
-        "appautomaton-arxiv-paper-writer"
       ]
     },
     {

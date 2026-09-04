@@ -1,0 +1,37 @@
+[
+  {
+    "query": "Design the experiment and randomize these samples across treatment groups and batches.",
+    "should_trigger": true
+  },
+  {
+    "query": "How should I block this study to avoid confounding by plate and run order?",
+    "should_trigger": true
+  },
+  {
+    "query": "Create a factorial DOE for these six factors before we collect data.",
+    "should_trigger": true
+  },
+  {
+    "query": "Plan a crossover study with allocation, controls, and experimental units.",
+    "should_trigger": true
+  },
+  {
+    "query": "I need a reproducible randomization schedule for this pre-registered experiment.",
+    "should_trigger": true
+  },
+  {
+    "query": "Calculate the sample size needed for a two-group comparison.",
+    "should_trigger": false,
+    "note": "Handled by statistical-power."
+  },
+  {
+    "query": "Analyze the data from an experiment that has already finished.",
+    "should_trigger": false,
+    "note": "Handled by statistical-analysis."
+  },
+  {
+    "query": "Generate candidate explanations for this unexpected observation.",
+    "should_trigger": false,
+    "note": "Handled by hypothesis-generation."
+  }
+]

@@ -34,7 +34,13 @@ def load_selector():
 
 def analyze(matrix: dict, catalog: dict, policy: dict) -> dict:
     selector = load_selector()
-    packs = {pack["id"]: pack for pack in catalog["packs"]}
+    # Distribution bundles are installation surfaces, not independently selected
+    # method boundaries, so they do not participate in onboarding scenarios.
+    packs = {
+        pack["id"]: pack
+        for pack in catalog["packs"]
+        if not pack.get("distribution_bundle", False)
+    }
     baseline = matrix["baseline_pack"]
     baseline_capabilities = set(packs[baseline]["capabilities"])
     rows = []

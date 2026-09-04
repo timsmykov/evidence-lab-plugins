@@ -15,7 +15,7 @@
       },
       "capabilities": {
         "required": ["academic-writing", "citation-management", "critical-thinking", "document-conversion", "literature-review", "paper-lookup", "peer-review", "screening-and-deduplication", "statistical-analysis", "systematic-search"],
-        "allowed": ["companion-plugin-planning", "database-lookup", "exploratory-data-analysis", "installation-lifecycle", "life-science-protocols", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams", "scientific-visualization", "statistical-power", "uncertainty-and-units"],
+        "allowed": ["companion-plugin-planning", "database-lookup", "exploratory-data-analysis", "installation-lifecycle", "latex-and-venue-formatting", "life-science-protocols", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams", "scientific-visualization", "statistical-power", "uncertainty-and-units"],
         "forbidden": ["data-and-pdf-compatibility", "evidence-lab-meeting-capture", "full-research-cycle-compatibility", "hypothesis-generation", "publication-monitoring", "qualitative-analysis", "research-image-analysis", "study-design"]
       }
     },
@@ -29,7 +29,7 @@
       },
       "capabilities": {
         "required": ["academic-writing", "citation-management", "critical-thinking", "database-lookup", "exploratory-data-analysis", "paper-lookup", "peer-review", "scientific-visualization", "statistical-analysis", "uncertainty-and-units"],
-        "allowed": ["companion-plugin-planning", "hypothesis-generation", "installation-lifecycle", "literature-review", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams", "statistical-power", "study-design"],
+        "allowed": ["companion-plugin-planning", "hypothesis-generation", "installation-lifecycle", "latex-and-venue-formatting", "literature-review", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams", "statistical-power", "study-design"],
         "forbidden": ["data-and-pdf-compatibility", "document-conversion", "evidence-lab-meeting-capture", "full-research-cycle-compatibility", "life-science-protocols", "publication-monitoring", "qualitative-analysis", "research-image-analysis", "screening-and-deduplication", "systematic-search"]
       }
     },
@@ -43,7 +43,7 @@
       },
       "capabilities": {
         "required": ["academic-writing", "citation-management", "critical-thinking", "document-conversion", "literature-review", "paper-lookup", "peer-review", "qualitative-analysis"],
-        "allowed": ["companion-plugin-planning", "installation-lifecycle", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams"],
+        "allowed": ["companion-plugin-planning", "installation-lifecycle", "latex-and-venue-formatting", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams"],
         "forbidden": ["data-and-pdf-compatibility", "database-lookup", "evidence-lab-meeting-capture", "exploratory-data-analysis", "full-research-cycle-compatibility", "hypothesis-generation", "life-science-protocols", "publication-monitoring", "research-image-analysis", "scientific-visualization", "screening-and-deduplication", "statistical-analysis", "statistical-power", "study-design", "systematic-search", "uncertainty-and-units"]
       }
     },
@@ -57,7 +57,7 @@
       },
       "capabilities": {
         "required": ["academic-writing", "citation-management", "critical-thinking", "database-lookup", "document-conversion", "exploratory-data-analysis", "full-research-cycle-compatibility", "hypothesis-generation", "literature-review", "paper-lookup", "peer-review", "research-diagrams", "research-image-analysis", "scientific-visualization", "statistical-analysis", "statistical-power", "study-design", "uncertainty-and-units"],
-        "allowed": ["companion-plugin-planning", "data-and-pdf-compatibility", "installation-lifecycle", "onboarding", "pack-selection", "personal-skill-authoring"],
+        "allowed": ["companion-plugin-planning", "data-and-pdf-compatibility", "installation-lifecycle", "latex-and-venue-formatting", "onboarding", "pack-selection", "personal-skill-authoring"],
         "forbidden": ["evidence-lab-meeting-capture", "life-science-protocols", "publication-monitoring", "qualitative-analysis", "screening-and-deduplication", "systematic-search"]
       }
     },
@@ -71,7 +71,7 @@
       },
       "capabilities": {
         "required": ["academic-writing", "citation-management", "critical-thinking", "database-lookup", "document-conversion", "exploratory-data-analysis", "hypothesis-generation", "literature-review", "paper-lookup", "peer-review", "publication-monitoring", "research-image-analysis", "scientific-visualization", "statistical-analysis", "study-design", "uncertainty-and-units"],
-        "allowed": ["companion-plugin-planning", "data-and-pdf-compatibility", "installation-lifecycle", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams", "statistical-power"],
+        "allowed": ["companion-plugin-planning", "data-and-pdf-compatibility", "installation-lifecycle", "latex-and-venue-formatting", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams", "statistical-power"],
         "forbidden": ["evidence-lab-meeting-capture", "full-research-cycle-compatibility", "life-science-protocols", "qualitative-analysis", "screening-and-deduplication", "systematic-search"]
       }
     },
@@ -85,7 +85,7 @@
       },
       "capabilities": {
         "required": ["academic-writing", "citation-management", "critical-thinking", "document-conversion", "literature-review", "paper-lookup", "peer-review", "uncertainty-and-units"],
-        "allowed": ["companion-plugin-planning", "installation-lifecycle", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams", "scientific-visualization", "statistical-analysis", "statistical-power"],
+        "allowed": ["companion-plugin-planning", "installation-lifecycle", "latex-and-venue-formatting", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams", "scientific-visualization", "statistical-analysis", "statistical-power"],
         "forbidden": ["data-and-pdf-compatibility", "database-lookup", "evidence-lab-meeting-capture", "exploratory-data-analysis", "full-research-cycle-compatibility", "hypothesis-generation", "life-science-protocols", "publication-monitoring", "qualitative-analysis", "research-image-analysis", "screening-and-deduplication", "study-design", "systematic-search"]
       }
     },
@@ -99,7 +99,7 @@
       },
       "capabilities": {
         "required": ["citation-management", "critical-thinking", "document-conversion", "hypothesis-generation", "literature-review", "paper-lookup", "peer-review", "qualitative-analysis", "study-design"],
-        "allowed": ["academic-writing", "companion-plugin-planning", "database-lookup", "exploratory-data-analysis", "installation-lifecycle", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams", "scientific-visualization", "statistical-analysis", "statistical-power", "uncertainty-and-units"],
+        "allowed": ["academic-writing", "companion-plugin-planning", "database-lookup", "exploratory-data-analysis", "installation-lifecycle", "latex-and-venue-formatting", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams", "scientific-visualization", "statistical-analysis", "statistical-power", "uncertainty-and-units"],
         "forbidden": ["data-and-pdf-compatibility", "evidence-lab-meeting-capture", "full-research-cycle-compatibility", "life-science-protocols", "publication-monitoring", "research-image-analysis", "screening-and-deduplication", "systematic-search"]
       }
     },
@@ -113,7 +113,7 @@
       },
       "capabilities": {
         "required": ["academic-writing", "citation-management", "critical-thinking", "database-lookup", "document-conversion", "exploratory-data-analysis", "literature-review", "paper-lookup", "research-image-analysis", "scientific-visualization", "statistical-analysis", "uncertainty-and-units"],
-        "allowed": ["companion-plugin-planning", "data-and-pdf-compatibility", "hypothesis-generation", "installation-lifecycle", "life-science-protocols", "onboarding", "pack-selection", "peer-review", "personal-skill-authoring", "research-diagrams", "statistical-power", "study-design"],
+        "allowed": ["companion-plugin-planning", "data-and-pdf-compatibility", "hypothesis-generation", "installation-lifecycle", "latex-and-venue-formatting", "life-science-protocols", "onboarding", "pack-selection", "peer-review", "personal-skill-authoring", "research-diagrams", "statistical-power", "study-design"],
         "forbidden": ["evidence-lab-meeting-capture", "full-research-cycle-compatibility", "publication-monitoring", "qualitative-analysis", "screening-and-deduplication", "systematic-search"]
       }
     },
@@ -127,7 +127,7 @@
       },
       "capabilities": {
         "required": ["citation-management", "critical-thinking", "document-conversion", "hypothesis-generation", "paper-lookup", "statistical-power", "study-design", "uncertainty-and-units"],
-        "allowed": ["academic-writing", "companion-plugin-planning", "database-lookup", "exploratory-data-analysis", "installation-lifecycle", "literature-review", "onboarding", "pack-selection", "peer-review", "personal-skill-authoring", "research-diagrams", "research-image-analysis", "scientific-visualization", "statistical-analysis"],
+        "allowed": ["academic-writing", "companion-plugin-planning", "database-lookup", "exploratory-data-analysis", "installation-lifecycle", "latex-and-venue-formatting", "literature-review", "onboarding", "pack-selection", "peer-review", "personal-skill-authoring", "research-diagrams", "research-image-analysis", "scientific-visualization", "statistical-analysis"],
         "forbidden": ["data-and-pdf-compatibility", "evidence-lab-meeting-capture", "full-research-cycle-compatibility", "life-science-protocols", "publication-monitoring", "qualitative-analysis", "screening-and-deduplication", "systematic-search"]
       }
     },
@@ -141,7 +141,7 @@
       },
       "capabilities": {
         "required": ["academic-writing", "citation-management", "critical-thinking", "document-conversion", "literature-review", "paper-lookup", "peer-review", "qualitative-analysis", "research-image-analysis"],
-        "allowed": ["companion-plugin-planning", "database-lookup", "exploratory-data-analysis", "installation-lifecycle", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams"],
+        "allowed": ["companion-plugin-planning", "database-lookup", "exploratory-data-analysis", "installation-lifecycle", "latex-and-venue-formatting", "onboarding", "pack-selection", "personal-skill-authoring", "research-diagrams"],
         "forbidden": ["data-and-pdf-compatibility", "evidence-lab-meeting-capture", "full-research-cycle-compatibility", "hypothesis-generation", "life-science-protocols", "publication-monitoring", "scientific-visualization", "screening-and-deduplication", "statistical-analysis", "statistical-power", "study-design", "systematic-search", "uncertainty-and-units"]
       }
     }

@@ -10,6 +10,7 @@ condition = "AND"
 regexTarget = "line"
 paths = [
   '''(^|/)packs/workflows/structured-data-analysis/skills/database-lookup/references/noaa\.md$''',
+  '''(^|/)packs/core/evidence-lab-research/skills/database-lookup/references/noaa\.md$''',
   '''(^|/)plugins/research-core/skills/database-lookup/references/noaa\.md$''',
 ]
 regexes = ['''curl -H "Token: YOUR_TOKEN"''']

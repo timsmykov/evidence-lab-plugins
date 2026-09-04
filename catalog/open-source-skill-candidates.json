@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "audited_at": "2026-08-27",
+  "audited_at": "2026-08-31",
   "policy": "These records are pinned, licensed upstream examples for study and possible adaptation. They are not bundled, installable, approved for bootstrap, or permission to copy without preserving attribution and completing the listed promotion work.",
   "candidates": [
     {
@@ -18,6 +18,38 @@
       "rationale": "The strongest exact-skill candidate: venue scaffolds, bounded local helpers, focused tests, active maintenance, and a clean MIT license.",
       "risks": ["Venue rules change and must be rechecked against current official instructions."],
       "required_before_import": ["Review every bundled template and license notice.", "Run upstream tests and add Codex and Claude behavior evaluations."]
+    },
+    {
+      "id": "mathbox-latex-workflows",
+      "repository": "nidrissi/mathbox",
+      "repository_url": "https://github.com/nidrissi/mathbox",
+      "commit": "48dc15bb1e664abe12f235bad19a09c3836eda87",
+      "skill_path": "skills",
+      "skill_url": "https://github.com/nidrissi/mathbox/tree/48dc15bb1e664abe12f235bad19a09c3836eda87/skills",
+      "license": "MIT",
+      "license_url": "https://github.com/nidrissi/mathbox/blob/48dc15bb1e664abe12f235bad19a09c3836eda87/LICENSE",
+      "capabilities": ["latex-and-venue-formatting"],
+      "disposition": "adapt-candidate",
+      "bundled": false,
+      "rationale": "A portable Codex and Claude marketplace skill bundle with unusually careful boundaries for conservative mathematical proofreading and authoritative manuscript integration.",
+      "risks": ["The source workflows are mathematics-specific and do not implement venue discovery, template selection, or deterministic PDF compliance."],
+      "required_before_import": ["Adapt only the proofreading and manuscript-integration boundaries.", "Add venue-neutral routing cases and keep proof validation outside formatting."]
+    },
+    {
+      "id": "optimize-latex-tables",
+      "repository": "Miaopingyi/optimize-latex-tables-skill",
+      "repository_url": "https://github.com/Miaopingyi/optimize-latex-tables-skill",
+      "commit": "5cf4ab7ccee5d2360843b5d4a462cfb0186816e4",
+      "skill_path": "SKILL.md",
+      "skill_url": "https://github.com/Miaopingyi/optimize-latex-tables-skill/tree/5cf4ab7ccee5d2360843b5d4a462cfb0186816e4/SKILL.md",
+      "license": "MIT",
+      "license_url": "https://github.com/Miaopingyi/optimize-latex-tables-skill/blob/5cf4ab7ccee5d2360843b5d4a462cfb0186816e4/LICENSE",
+      "capabilities": ["latex-and-venue-formatting"],
+      "disposition": "adapt-candidate",
+      "bundled": false,
+      "rationale": "A focused Codex skill with data-preserving table generation, target-template detection, explicit comparison rules, deterministic validation, and optional Tectonic previews.",
+      "risks": ["The repository is young and its full table pipeline is larger than the portable foundation needs.", "Automatic highlighting can alter a scientific claim when metric direction or comparison scope is ambiguous."],
+      "required_before_import": ["Keep metric direction and comparison groups explicit.", "Adapt the preservation and quality gates without importing presentation-only assets by default."]
     },
     {
       "id": "orchestra-research-manager",

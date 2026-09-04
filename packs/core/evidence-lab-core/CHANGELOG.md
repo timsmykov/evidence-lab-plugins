@@ -1,5 +1,15 @@
 # Changelog — Evidence Lab Core
 
+## [0.17.0] — 2026-09-04
+
+### Added
+- Companion-plugin inventory, deterministic planning, and explicit apply/remove commands with exact post-change readback.
+- Separate localized onboarding copy for optional companion plugins, keeping plugin management independent from the research skill pack.
+
+### Changed
+- Onboarding now treats companion plugins as an optional module rather than a prerequisite for installing and using Evidence Lab skills.
+- External-plugin selection and host inventory fail closed when the installed state cannot be verified.
+
 ## [0.16.0] — 2026-08-29
 
 ### Added

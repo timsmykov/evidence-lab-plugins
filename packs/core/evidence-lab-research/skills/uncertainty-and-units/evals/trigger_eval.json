@@ -1,0 +1,37 @@
+[
+  {
+    "query": "Propagate the measurement uncertainties through this calculation.",
+    "should_trigger": true
+  },
+  {
+    "query": "Check that these equations and reported units are dimensionally consistent.",
+    "should_trigger": true
+  },
+  {
+    "query": "Convert these scientific units while preserving significant figures and uncertainty.",
+    "should_trigger": true
+  },
+  {
+    "query": "Build an uncertainty budget for this reported result.",
+    "should_trigger": true
+  },
+  {
+    "query": "Audit whether this numerical result is physically plausible at the stated scale.",
+    "should_trigger": true
+  },
+  {
+    "query": "Run a hypothesis test and report confidence intervals for group differences.",
+    "should_trigger": false,
+    "note": "Handled by statistical-analysis."
+  },
+  {
+    "query": "Estimate the sample size required for the planned experiment.",
+    "should_trigger": false,
+    "note": "Handled by statistical-power."
+  },
+  {
+    "query": "Create a polished chart from these measurements.",
+    "should_trigger": false,
+    "note": "Handled by scientific-visualization."
+  }
+]

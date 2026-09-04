@@ -56,7 +56,11 @@ def main() -> int:
         if row["missing_capabilities"] != scenario["expected_missing_capabilities"]:
             raise AssertionError(f"{row['id']}: missing-capability drift: {row['missing_capabilities']}")
 
-    pack_ids = {pack["id"] for pack in catalog["packs"]}
+    pack_ids = {
+        pack["id"]
+        for pack in catalog["packs"]
+        if not pack.get("distribution_bundle", False)
+    }
     decision_ids = {decision["pack_id"] for decision in decisions["current_pack_decisions"]}
     addition_ids = {addition["pack_id"] for addition in decisions["prioritized_additions"]}
     covered_ids = decision_ids | addition_ids

@@ -25,8 +25,10 @@ class ResearchMarketplaceAuditTests(unittest.TestCase):
             if row["component_type"] == "skills-only"
         }
         self.assertEqual(set(bundles), {
-            "Boltz", "Life Science Research", "Life Sciences NGS Analysis",
-            "Mixpanel Headless", "Zotero",
+            "Adaptyv Bio", "Biological Sequence & Alignment Viewer", "Boltz",
+            "Life Science Research", "Life Sciences Databases", "Life Sciences Literature",
+            "Life Sciences NGS Analysis", "Mixpanel Headless", "Molecular Structure Viewer",
+            "NGS Analysis Workbench", "Slide Viewer", "Zotero",
         })
         for row in bundles.values():
             self.assertNotIn(row["provider_access"], {"requires-bundle-review", "external-service-terms-unverified"})

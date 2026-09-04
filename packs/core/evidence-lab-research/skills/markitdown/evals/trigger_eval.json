@@ -1,0 +1,37 @@
+[
+  {
+    "query": "Convert these Office and HTML research files into normalized Markdown.",
+    "should_trigger": true
+  },
+  {
+    "query": "Batch-convert this mixed document folder to Markdown for downstream analysis.",
+    "should_trigger": true
+  },
+  {
+    "query": "Inspect the MarkItDown installation and convert the supplied file locally.",
+    "should_trigger": true
+  },
+  {
+    "query": "Extract readable Markdown from this DOCX without rewriting its content.",
+    "should_trigger": true
+  },
+  {
+    "query": "Prepare a Markdown corpus from these supported source documents.",
+    "should_trigger": true
+  },
+  {
+    "query": "Write a new research report in Markdown with diagrams.",
+    "should_trigger": false,
+    "note": "Handled by markdown-mermaid-writing."
+  },
+  {
+    "query": "Rewrite the prose from this document in a clearer style.",
+    "should_trigger": false,
+    "note": "Handled by writing-skill."
+  },
+  {
+    "query": "Search for papers and retrieve their open-access full text.",
+    "should_trigger": false,
+    "note": "Handled by paper-lookup."
+  }
+]

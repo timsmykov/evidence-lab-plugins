@@ -1,5 +1,14 @@
 # Changelog — Literature and Publication
 
+## [0.4.0] — 2026-08-31
+
+### Added
+- Added the portable `latex-and-venue-formatting` skill with official-source currency gates, conservative mathematical proofreading, table-integrity guidance, local compilation, and deterministic source/PDF validation.
+- Added pinned MIT provenance for Mathbox, Optimize LaTeX Tables, and the arXiv Paper Writer alongside the existing K-Dense source.
+
+### Changed
+- Kept venue-formatting requests inside the existing `prepare-publication` workflow route instead of expanding the controlled onboarding vocabulary.
+
 ## [0.3.0] — 2026-08-29
 
 ### Changed

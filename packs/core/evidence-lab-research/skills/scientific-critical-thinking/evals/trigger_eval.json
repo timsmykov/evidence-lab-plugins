@@ -1,0 +1,37 @@
+[
+  {
+    "query": "Audit this scientific claim for assumptions, bias, and alternative explanations.",
+    "should_trigger": true
+  },
+  {
+    "query": "Map the evidence strength and logical gaps in this research argument.",
+    "should_trigger": true
+  },
+  {
+    "query": "Check whether this conclusion exceeds what the study design can support.",
+    "should_trigger": true
+  },
+  {
+    "query": "Identify confounding, fallacies, and uncertainty in this scientific reasoning.",
+    "should_trigger": true
+  },
+  {
+    "query": "Critically evaluate the causal story without rewriting the manuscript.",
+    "should_trigger": true
+  },
+  {
+    "query": "Create candidate hypotheses and predictions from this observation.",
+    "should_trigger": false,
+    "note": "Handled by hypothesis-generation."
+  },
+  {
+    "query": "Write formal reviewer comments for a submitted manuscript.",
+    "should_trigger": false,
+    "note": "Handled by peer-review."
+  },
+  {
+    "query": "Rewrite this argument so it reads more clearly.",
+    "should_trigger": false,
+    "note": "Handled by writing-skill."
+  }
+]

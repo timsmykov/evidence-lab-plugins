@@ -3,7 +3,7 @@
   "packs": [
     {
       "id": "evidence-lab-core",
-      "version": "0.16.0",
+      "version": "0.17.0",
       "layer": "core",
       "display_name": "Evidence Lab Core",
       "description": "Agent-first research foundations, fast researcher onboarding, personal skill creation, reproducible pack selection, source verification, citation handling, and scientific critical thinking.",
@@ -28,6 +28,7 @@
         "codex"
       ],
       "foundation": true,
+      "distribution_bundle": false,
       "skills": [
         {
           "id": "citation-management",
@@ -48,6 +49,126 @@
         {
           "id": "scientific-critical-thinking",
           "quality_status": "needs-representative-testing"
+        }
+      ]
+    },
+    {
+      "id": "evidence-lab-research",
+      "version": "0.1.0",
+      "layer": "core",
+      "display_name": "Evidence Lab Research Skills",
+      "description": "One-install Evidence Lab research skill library for Codex and Claude Code, without onboarding, profile collection, or automatic configuration.",
+      "capabilities": [
+        "evidence-lab-research-library"
+      ],
+      "selection": {
+        "always": false,
+        "rules": []
+      },
+      "dependencies": [],
+      "conflicts": [],
+      "runtimes": [
+        "claude-code",
+        "codex"
+      ],
+      "foundation": false,
+      "distribution_bundle": true,
+      "skills": [
+        {
+          "id": "citation-management",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "paper-lookup",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "personal-skill-authoring",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "scientific-critical-thinking",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "life-science-protocols",
+          "quality_status": "needs-substantive-work"
+        },
+        {
+          "id": "scientific-visualization",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "statistical-analysis",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "statistical-power",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "uncertainty-and-units",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "markitdown",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "evidence-lab-meeting-capture",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "literature-review",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "latex-and-venue-formatting",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "markdown-mermaid-writing",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "peer-review",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "writing-skill",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "publication-monitoring",
+          "quality_status": "needs-substantive-work"
+        },
+        {
+          "id": "qualitative-analysis",
+          "quality_status": "needs-substantive-work"
+        },
+        {
+          "id": "experimental-design",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "hypothesis-generation",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "research-image-analysis",
+          "quality_status": "needs-substantive-work"
+        },
+        {
+          "id": "database-lookup",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "exploratory-data-analysis",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "systematic-review",
+          "quality_status": "needs-substantive-work"
         }
       ]
     },
@@ -104,6 +225,7 @@
         "codex"
       ],
       "foundation": false,
+      "distribution_bundle": false,
       "skills": [
         {
           "id": "life-science-protocols",
@@ -167,6 +289,7 @@
         "codex"
       ],
       "foundation": false,
+      "distribution_bundle": false,
       "skills": [
         {
           "id": "scientific-visualization",
@@ -246,6 +369,7 @@
         "codex"
       ],
       "foundation": false,
+      "distribution_bundle": false,
       "skills": [
         {
           "id": "data-and-pdf-router",
@@ -288,6 +412,7 @@
         "codex"
       ],
       "foundation": false,
+      "distribution_bundle": false,
       "skills": [
         {
           "id": "markitdown",
@@ -330,6 +455,7 @@
         "codex"
       ],
       "foundation": false,
+      "distribution_bundle": false,
       "skills": [
         {
           "id": "evidence-lab-meeting-capture",
@@ -373,6 +499,7 @@
         "codex"
       ],
       "foundation": false,
+      "distribution_bundle": false,
       "skills": [
         {
           "id": "full-research-cycle-router",
@@ -382,15 +509,16 @@
     },
     {
       "id": "literature-publication",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "layer": "workflow",
       "display_name": "Literature and Publication",
-      "description": "Literature synthesis, evidence-bounded academic writing, editable research diagrams, and manuscript review without installing study-design procedures.",
+      "description": "Literature synthesis, evidence-bounded academic writing, editable research diagrams, manuscript review, and source-backed LaTeX venue formatting without installing study-design procedures.",
       "capabilities": [
         "literature-review",
         "academic-writing",
         "peer-review",
-        "research-diagrams"
+        "research-diagrams",
+        "latex-and-venue-formatting"
       ],
       "selection": {
         "always": false,
@@ -407,7 +535,7 @@
                 ]
               }
             },
-            "reason": "The requested workflow needs literature synthesis, publication writing, or manuscript review."
+            "reason": "The requested workflow needs literature synthesis, publication writing, manuscript review, or venue-controlled formatting."
           },
           {
             "id": "literature-publication-writing",
@@ -432,9 +560,14 @@
         "codex"
       ],
       "foundation": false,
+      "distribution_bundle": false,
       "skills": [
         {
           "id": "literature-review",
+          "quality_status": "needs-representative-testing"
+        },
+        {
+          "id": "latex-and-venue-formatting",
           "quality_status": "needs-representative-testing"
         },
         {
@@ -486,6 +619,7 @@
         "codex"
       ],
       "foundation": false,
+      "distribution_bundle": false,
       "skills": [
         {
           "id": "publication-monitoring",
@@ -528,6 +662,7 @@
         "codex"
       ],
       "foundation": false,
+      "distribution_bundle": false,
       "skills": [
         {
           "id": "qualitative-analysis",
@@ -572,6 +707,7 @@
         "codex"
       ],
       "foundation": false,
+      "distribution_bundle": false,
       "skills": [
         {
           "id": "experimental-design",
@@ -618,6 +754,7 @@
         "codex"
       ],
       "foundation": false,
+      "distribution_bundle": false,
       "skills": [
         {
           "id": "research-image-analysis",
@@ -677,6 +814,7 @@
         "codex"
       ],
       "foundation": false,
+      "distribution_bundle": false,
       "skills": [
         {
           "id": "database-lookup",
@@ -725,6 +863,7 @@
         "codex"
       ],
       "foundation": false,
+      "distribution_bundle": false,
       "skills": [
         {
           "id": "systematic-review",

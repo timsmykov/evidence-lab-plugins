@@ -1,0 +1,14 @@
+[
+  {"query": "Сделай конспект созвона Evidence Lab и сохрани его в нашей базе встреч в Notion.", "should_trigger": true},
+  {"query": "Преврати эту расшифровку Evidence Lab в структурированный протокол и положи страницу в каноническую БД.", "should_trigger": true},
+  {"query": "Зафиксируй сегодняшний созвон по курсу Evidence Lab: решения, вопросы и следующие действия.", "should_trigger": true},
+  {"query": "Собери конспект из этих заметок Evidence Lab и убедись, что он появился в реестре созвонов.", "should_trigger": true},
+  {"query": "У нас уже есть конспект Evidence Lab, перенеси его в правильную базу и заполни свойства.", "should_trigger": true},
+  {"query": "Оформи обсуждение консультации Evidence Lab и сохрани источник и участников.", "should_trigger": true},
+  {"query": "Подготовь протокол продуктового созвона Evidence Lab и проверь строку после записи.", "should_trigger": true},
+  {"query": "Закинь вчерашний командный созвон Evidence Lab в реестр, чтобы он искался по дате и проекту.", "should_trigger": true},
+  {"query": "Только расшифруй аудио, конспект и сохранение не нужны.", "should_trigger": false, "note": "только транскрипция"},
+  {"query": "Сделай конспект посторонней клиентской встречи в локальном Markdown.", "should_trigger": false, "note": "не Evidence Lab и не реестр Notion"},
+  {"query": "Создай задачу на доске Evidence Lab из этой короткой мысли.", "should_trigger": false, "note": "маршрут task-intake"},
+  {"query": "Напиши модуль курса РУДН по этим заметкам.", "should_trigger": false, "note": "создание курса, а не конспекта"}
+]

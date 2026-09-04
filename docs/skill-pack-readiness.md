@@ -4,17 +4,17 @@ Generated deterministically by `python3 scripts/audit_skill_packs.py`.
 
 ## Summary
 
-- Working packs: **14**; reference-only packs: **2**.
-- Working skills: **26** — 22 research skills, 1 onboarding skill, 1 personal skill-authoring skill, and 2 compatibility routers.
-- Lifecycle: **14 of 14 working packs are `draft`**.
-- Trigger eval files present: **26 of 26**.
-- Explicit quality states: **5 need substantive work**, **19 need representative testing**, **0 review-ready**, **0 production**, and **2 support-only**.
+- Implementation packs: **14**; one-install distribution bundles: **1**; reference-only packs: **2**.
+- Working skills: **27** — 23 research skills, 1 onboarding skill, 1 personal skill-authoring skill, and 2 compatibility routers.
+- Lifecycle: **15 of 15 published packs are `draft`**.
+- Trigger eval files present: **27 of 27**.
+- Explicit quality states: **5 need substantive work**, **20 need representative testing**, **0 review-ready**, **0 production**, and **2 support-only**.
 
 `draft` does not mean that the package is un-installable. It means scientific/content acceptance is incomplete even when repository, selection, release, and bootstrap checks pass.
 
 ## Foundation target
 
-The bounded cross-disciplinary target contains **27 skills**: **6 planned**, **3 implemented but needing substantive work**, and **18 implemented but needing representative testing**.
+The bounded cross-disciplinary target contains **27 skills**: **5 planned**, **3 implemented but needing substantive work**, and **19 implemented but needing representative testing**.
 
 This is the capability library from which deterministic onboarding selects a researcher's setup; it is not a requirement to install all 27 skills for every user. Personal skill authoring is mandatory through Core, while domain and workflow add-ons remain conditional.
 
@@ -43,7 +43,7 @@ This is the capability library from which deterministic onboarding selects a res
 | P1 | `research-diagrams` | `communication` | `markdown-mermaid-writing` | `implemented-needs-representative-testing` |
 | P0 | `academic-writing` | `publication` | `writing-skill` | `implemented-needs-representative-testing` |
 | P0 | `peer-review` | `publication` | `peer-review` | `implemented-needs-representative-testing` |
-| P0 | `latex-and-venue-formatting` | `publication` | — | `planned` |
+| P0 | `latex-and-venue-formatting` | `publication` | `latex-and-venue-formatting` | `implemented-needs-representative-testing` |
 | P0 | `reproducible-computation` | `reproducibility` | — | `planned` |
 | P1 | `research-data-management` | `reproducibility` | — | `planned` |
 | P1 | `research-log-and-decision-trail` | `reproducibility` | — | `planned` |
@@ -52,14 +52,15 @@ This is the capability library from which deterministic onboarding selects a res
 
 | Pack | Layer | Version | Skills | Capabilities | Selection | Status |
 |---|---|---:|---:|---|---|---|
-| `evidence-lab-core` | `core` | `0.16.0` | 5 | `onboarding`, `pack-selection`, `companion-plugin-planning`, `installation-lifecycle`, `personal-skill-authoring`, `paper-lookup`, `citation-management`, `critical-thinking` | always | `draft` |
+| `evidence-lab-core` | `core` | `0.17.0` | 5 | `onboarding`, `pack-selection`, `companion-plugin-planning`, `installation-lifecycle`, `personal-skill-authoring`, `paper-lookup`, `citation-management`, `critical-thinking` | always | `draft` |
+| `evidence-lab-research` | `core` | `0.1.0` | 24 | `evidence-lab-research-library` | — | `draft` |
 | `life-sciences` | `domain` | `0.1.2` | 1 | `life-science-protocols` | `life-science-planning`, `life-science-images` | `draft` |
 | `quantitative-sciences` | `domain` | `0.5.0` | 4 | `statistical-analysis`, `statistical-power`, `uncertainty-and-units`, `scientific-visualization` | `quantitative-method`, `life-science-systematic-review` | `draft` |
 | `data-and-pdf` | `workflow` | `1.0.2` | 1 | `data-and-pdf-compatibility` | `data-and-pdf-full-cycle-datasets`, `data-and-pdf-full-cycle-tables` | `draft` |
 | `document-evidence` | `workflow` | `0.3.0` | 1 | `document-conversion` | `document-evidence-material` | `draft` |
 | `evidence-lab-meeting-capture` | `workflow` | `0.1.0` | 1 | `evidence-lab-meeting-capture` | `evidence-lab-meeting-capture-workflow` | `draft` |
 | `full-research-cycle` | `workflow` | `1.0.2` | 1 | `full-research-cycle-compatibility` | `full-cycle-workflow` | `draft` |
-| `literature-publication` | `workflow` | `0.3.0` | 4 | `literature-review`, `academic-writing`, `peer-review`, `research-diagrams` | `literature-publication-workflow`, `literature-publication-writing` | `draft` |
+| `literature-publication` | `workflow` | `0.4.0` | 5 | `literature-review`, `academic-writing`, `peer-review`, `research-diagrams`, `latex-and-venue-formatting` | `literature-publication-workflow`, `literature-publication-writing` | `draft` |
 | `publication-monitoring` | `workflow` | `0.1.2` | 1 | `publication-monitoring` | `publication-monitoring-workflow` | `draft` |
 | `qualitative-research` | `workflow` | `0.3.0` | 1 | `qualitative-analysis` | `qualitative-material` | `draft` |
 | `research-design` | `workflow` | `0.3.0` | 2 | `hypothesis-generation`, `study-design` | `research-design-workflow` | `draft` |
@@ -72,7 +73,7 @@ This is the capability library from which deterministic onboarding selects a res
 | Pack | Skill | Role | SKILL.md lines | Scripts | References | Trigger eval | Quality status |
 |---|---|---|---:|---:|---:|---|---|
 | `evidence-lab-core` | `citation-management` | `research` | 328 | 8 | 10 | yes | `needs-representative-testing` |
-| `evidence-lab-core` | `evidence-lab-onboarding` | `onboarding` | 131 | 7 | 1 | yes | `needs-representative-testing` |
+| `evidence-lab-core` | `evidence-lab-onboarding` | `onboarding` | 143 | 10 | 1 | yes | `needs-representative-testing` |
 | `evidence-lab-core` | `paper-lookup` | `research` | 262 | 5 | 11 | yes | `needs-representative-testing` |
 | `evidence-lab-core` | `personal-skill-authoring` | `skill-authoring` | 102 | 2 | 1 | yes | `needs-representative-testing` |
 | `evidence-lab-core` | `scientific-critical-thinking` | `research` | 165 | 0 | 7 | yes | `needs-representative-testing` |
@@ -85,6 +86,7 @@ This is the capability library from which deterministic onboarding selects a res
 | `document-evidence` | `markitdown` | `research` | 263 | 3 | 7 | yes | `needs-representative-testing` |
 | `evidence-lab-meeting-capture` | `evidence-lab-meeting-capture` | `research` | 68 | 1 | 1 | yes | `needs-representative-testing` |
 | `full-research-cycle` | `full-research-cycle-router` | `compatibility-router` | 10 | 0 | 0 | yes | `support-only` |
+| `literature-publication` | `latex-and-venue-formatting` | `research` | 83 | 2 | 4 | yes | `needs-representative-testing` |
 | `literature-publication` | `literature-review` | `research` | 187 | 3 | 5 | yes | `needs-representative-testing` |
 | `literature-publication` | `markdown-mermaid-writing` | `research` | 278 | 0 | 2 | yes | `needs-representative-testing` |
 | `literature-publication` | `peer-review` | `research` | 287 | 8 | 6 | yes | `needs-representative-testing` |
@@ -105,6 +107,7 @@ This is the capability library from which deterministic onboarding selects a res
 - **Highest content-development priority:** skills explicitly marked `needs-substantive-work`, currently life-science protocols, publication monitoring, qualitative analysis, research-image analysis, and systematic review. Their exact work items live in `meta.json`.
 - **Host-independent skill creation:** `personal-skill-authoring` is part of mandatory Core. Native Codex or Claude authoring tools may accelerate it, but bootstrap does not assume that an optional host plugin is installed.
 - **Compatibility only:** `data-and-pdf-router` and `full-research-cycle-router` carry no independent research method; their packs compose focused dependencies.
+- **Onboarding-free install:** `evidence-lab-research` is a distribution-only bundle of the canonical skills. It deliberately excludes `evidence-lab-onboarding` and compatibility routers.
 
 ## Deterministic installation path
 

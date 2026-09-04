@@ -9,5 +9,8 @@
   "installing": "Thank you. I am installing the approved research capabilities and will verify them before saying the workspace is ready.",
   "declined": "Nothing was installed. You can restart setup whenever you want.",
   "installation_failed": "Setup could not be completed safely. Nothing will be described as ready until the installed state is verified.",
+  "companion_plan_stale": "The installed Codex tools changed after the recommendation. I will rebuild the plan before changing anything else.",
+  "companion_installation_failed": "One of the selected Codex working plugins could not be installed or read back. Existing tools were preserved.",
+  "companion_activation_required": "Evidence Lab packs are installed, but these required Codex plugins still need activation: {plugins}. Activate them in Plugins, then I will verify them without reinstalling anything.",
   "completion": "Evidence Lab is ready. Open a new task so the application can load the new research capabilities. Start that task with what you actually want to work on; you will not need to repeat setup."
 }

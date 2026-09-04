@@ -23,6 +23,10 @@
       "type": "boolean",
       "description": "True only when every bootstrap installation must include this pack as part of the frozen researcher foundation."
     },
+    "distribution_bundle": {
+      "type": "boolean",
+      "description": "True for a one-install plugin that links to canonical skills owned by other packs and is not itself a second implementation."
+    },
     "capabilities": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
     "selection": {"$ref": "#/$defs/selection"},
     "dependencies": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},

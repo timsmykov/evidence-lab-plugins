@@ -56,6 +56,8 @@ def pack_index(catalog: Mapping[str, object]) -> dict[str, set[str]]:
     for raw in packs:
         if not isinstance(raw, dict) or not isinstance(raw.get("id"), str):
             raise OracleError("pack catalog contains an invalid pack")
+        if raw.get("distribution_bundle", False):
+            continue
         capabilities = raw.get("capabilities")
         if not isinstance(capabilities, list) or not all(isinstance(item, str) for item in capabilities):
             raise OracleError(f"pack {raw['id']} has invalid capabilities")

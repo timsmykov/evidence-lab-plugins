@@ -1,0 +1,10 @@
+[
+  {"query": "Build a reproducible systematic search and screening workflow.", "should_trigger": true},
+  {"query": "Deduplicate these database exports and preserve a review audit trail.", "should_trigger": true},
+  {"query": "Screen titles and abstracts against these eligibility criteria.", "should_trigger": true},
+  {"query": "Create a traceable record flow for my scoping review.", "should_trigger": true},
+  {"query": "Document exclusions and protocol amendments for this evidence review.", "should_trigger": true},
+  {"query": "Summarize these five papers informally.", "should_trigger": false},
+  {"query": "Monitor new publications every month.", "should_trigger": false},
+  {"query": "Review whether this manuscript is publishable.", "should_trigger": false}
+]

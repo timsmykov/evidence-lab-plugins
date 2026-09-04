@@ -1,0 +1,54 @@
+[
+  {
+    "query": "Format this LaTeX manuscript for the ICML main track and verify the current page and anonymity rules.",
+    "should_trigger": true
+  },
+  {
+    "query": "Migrate my existing paper into the journal's official LaTeX template without changing its scientific claims.",
+    "should_trigger": true
+  },
+  {
+    "query": "Compile this .tex project, fix undefined references and overfull boxes, and inspect the final PDF.",
+    "should_trigger": true
+  },
+  {
+    "query": "Audit this camera-ready source archive against the conference author instructions and required files.",
+    "should_trigger": true
+  },
+  {
+    "query": "Proofread this theorem-heavy LaTeX chapter while preserving every mathematical token unless a typo is uniquely forced.",
+    "should_trigger": true
+  },
+  {
+    "query": "Fit this results table into a two-column LaTeX template and prove that none of the CSV values changed.",
+    "should_trigger": true
+  },
+  {
+    "query": "Check whether author names or PDF metadata leak identity in this double-blind submission.",
+    "should_trigger": true
+  },
+  {
+    "query": "Validate BibTeX integration, citation keys, page count, embedded fonts, and required sections before submission.",
+    "should_trigger": true
+  },
+  {
+    "query": "Write a polished academic introduction from these notes without touching LaTeX formatting.",
+    "should_trigger": false,
+    "note": "Handled by writing-skill because no LaTeX or venue constraint is requested."
+  },
+  {
+    "query": "Find and verify papers for my bibliography, then export clean BibTeX.",
+    "should_trigger": false,
+    "note": "Handled by citation-management and paper-lookup."
+  },
+  {
+    "query": "Review the methods and statistics of this manuscript and write reviewer comments.",
+    "should_trigger": false,
+    "note": "Handled by peer-review unless a LaTeX or venue-format audit is also requested."
+  },
+  {
+    "query": "Create a Word document using our institutional DOCX template.",
+    "should_trigger": false,
+    "note": "This skill is for LaTeX and venue-controlled submission artifacts, not DOCX authoring."
+  }
+]
