@@ -20,6 +20,15 @@ This repository implements the Evidence Lab agent-first research stack. The prod
 
 Use `core`, `workflow`, `domain`, or `local`. A host is not a layer. Do not create separate Claude and Codex copies of a skill.
 
+## Catalog and runtime surface
+
+- Design from the catalog down: first compare names, descriptions, triggers, ownership, and overlap; open a skill body only after routing selects it.
+- Keep the default install intentionally small. Specialized workflow and domain packs are explicit additions, not dependencies of every task.
+- One capability has one preferred route. When a skill or MCP duplicates a stronger built-in or connector route, keep the better route in the default profile and make the other opt-in or archive it.
+- A skill description must identify both its positive trigger and important near-misses without requiring the body to disambiguate it.
+- Declare only MCP dependencies that the skill actually calls. Verify initialization and one representative read before claiming a route is available.
+- Test catalog routing separately from skill execution and model quality. Model-specific benchmarks belong in versioned experiment contracts, not always-loaded instructions.
+
 ## Normal workflow
 
 ```bash
@@ -37,6 +46,7 @@ python3 scripts/verify_repo.py
 ## Quality rules
 
 - Every skill has at least eight routing cases and at least three negative near-misses.
+- When changing the default profile, measure catalog size and run the existing duplicate-name and required-dependency checks.
 - Deterministic outputs belong in scripts.
 - Material research choices require a researcher confirmation point.
 - `pack.json`, manifests, catalog, and actual skill directories must agree.
