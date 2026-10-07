@@ -8,6 +8,10 @@ If the shared contract is unavailable, follow this repository's source and priva
 
 This repository implements the Evidence Lab agent-first research stack. The product architecture and user flow are normative; do not reshape them around one host's current plugin format.
 
+## Relationship to the consulting offer
+
+The shared Evidence Lab contract owns the Veracto ontology. Skills, packs, and plugins in this repository are reusable capabilities and distribution artifacts; their existence does not make a proprietary platform or compulsory software purchase part of Veracto's AI evaluation and implementation service. Client segments, learning levels, host adapters, and pack layers are different dimensions. Do not redefine the consulting offer from a host or package format.
+
 ## Source of truth
 
 - `packs/<layer>/<id>/pack.json` defines identity, version, layer, selection signals, dependencies, capabilities, and supported hosts.

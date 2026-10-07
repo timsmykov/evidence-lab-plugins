@@ -1,8 +1,14 @@
 # Evidence Lab Research Skills
 
-Evidence Lab is an open-source library of research procedures for Codex and Claude Code. Install one plugin, describe the research task in normal language, and let the host choose the relevant skill.
+This repository contains Evidence Lab's open-source library of research procedures for Codex and Claude Code. Install one plugin, describe the research task in normal language, and let the host choose the relevant skill.
 
 The library covers literature discovery, study design, data analysis, scientific writing, peer review, visualization, and reproducible research operations. It helps a researcher run a method and check the result; it does not replace subject expertise or make unsupported scientific decisions.
+
+## Relationship to Veracto
+
+Evidence Lab owns methodology and quality standards; Veracto is its consulting practice for evaluating AI solutions and implementing AI in real work. Organisations, individual researchers, and research teams/laboratories are equally prioritised clients. This research library is a reusable technical resource with its own installation and readiness boundaries. It does not define the consulting audience, require a plugin purchase or installation, or make a chosen stack the consulting product.
+
+The [shared ontology](https://github.com/timsmykov/evidence-lab/blob/main/AGENTS.md#veracto-product-ontology-and-offer-canon) owns those meanings; [evidence-lab-methodology](https://github.com/timsmykov/evidence-lab-methodology) owns consulting methodology source.
 
 ## Start here
 

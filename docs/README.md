@@ -2,6 +2,10 @@
 
 Use this page as the documentation home. Guides are grouped by what you are trying to accomplish, not by the repository directory that stores them.
 
+## Documentation boundary
+
+This is the documentation home for the research-skill library, not the consulting-methodology or offer home. Read the [project scope](../README.md#relationship-to-veracto) for its relationship to Veracto. Installation and skill readiness do not establish consulting or scientific acceptance. Historical audit records below retain their dates and evidence boundaries and do not override current manifests, readiness metadata, or the shared ontology.
+
 ## For researchers
 
 | What you want to do | Read |
